@@ -8,6 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 
 /* ============================================================
@@ -21,6 +22,7 @@
   --gold:        #f1c40f;
   --red:         #ee5337;
   --green:       #22c55e;
+  --green-light: #DCFCE7;
   --bg:          #F8FAFC; 
   --surface:     #ffffff;
   --surface2:    #f1f5f9;
@@ -51,6 +53,7 @@
   --surface2:  #362e24;
   --text:      #fdf8f5;
   --text-muted:#d1bfae;
+  --green-light: rgba(34,197,94,0.14);
   --border:    rgba(245,158,11,0.2);
   --verb-glow: rgba(245, 158, 11, 0.15);
   --shadow-sm: 0 4px 15px rgba(0,0,0,0.3);
@@ -186,7 +189,10 @@ body{font-family:var(--font-ui);background:var(--bg);color:var(--text);overflow-
 .login-sub{font-size:1rem;color:var(--text-muted);margin-bottom:25px;}
 .login-input{width:100%;padding:15px 20px;border:2px solid var(--border);border-radius:var(--radius);font-size:1.2rem;font-family:var(--font-ui);font-weight:700;text-align:center;outline:none;background:var(--surface2);color:var(--text);margin-bottom:15px;transition:all var(--transition);}
 .login-input:focus{border-color:var(--verb);box-shadow:0 0 0 4px var(--verb-l);}
+.login-helper{font-size:0.95rem;color:var(--text-muted);font-weight:700;line-height:1.5;margin:-4px 0 18px;}
+.login-success{color:var(--green);font-size:0.95rem;font-weight:900;direction:ltr;margin-bottom:15px;min-height:20px;}
 .login-error{color:var(--red);font-size:0.9rem;font-weight:700;direction:ltr;margin-bottom:15px;min-height:20px;}
+.login-meta{margin-top:18px;font-size:0.82rem;color:var(--text-muted);font-weight:700;direction:ltr;opacity:0.8;}
 .btn-primary{width:100%;padding:15px;background:linear-gradient(135deg,var(--verb),var(--verb-d));color:#fff;border:none;border-radius:var(--radius);font-size:1.2rem;font-family:var(--font-ui);font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:12px;transition:all var(--transition);box-shadow:0 10px 20px var(--verb-glow);}
 .btn-primary:hover{transform:translateY(-4px);box-shadow:0 15px 30px var(--verb-glow);}
 
@@ -2193,6 +2199,32 @@ body.nav-open {
   max-width: 110px; overflow: hidden; text-overflow: ellipsis;
 }
 .nav-chip i { font-size: 0.78rem; flex-shrink: 0; }
+.nav-account-wrap{position:relative;}
+.nav-account-btn{
+  height:40px;max-width:230px;padding:0 12px;border-radius:999px;border:1px solid var(--border);
+  background:var(--surface);color:var(--text);display:flex;align-items:center;gap:8px;
+  font-family:'Tajawal',sans-serif;font-size:0.86rem;font-weight:900;cursor:pointer;
+  box-shadow:var(--shadow-sm);transition:transform var(--transition),border-color var(--transition),box-shadow var(--transition);
+}
+.nav-account-btn:hover{transform:translateY(-2px);border-color:var(--verb);box-shadow:var(--shadow);}
+.nav-account-email{display:block;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;direction:ltr;text-align:left;}
+.nav-account-menu{
+  display:none;position:absolute;top:calc(100% + 10px);left:0;width:min(310px,90vw);
+  background:var(--surface);border:1px solid var(--border);border-radius:18px;
+  box-shadow:var(--shadow-lg);padding:14px;z-index:999999;direction:rtl;
+}
+.nav-account-menu.open{display:block;animation:dropIn 0.18s ease;}
+.account-email{direction:ltr;text-align:left;font-weight:900;color:var(--text);font-size:0.95rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:4px;}
+.account-label{font-size:0.78rem;color:var(--text-muted);font-weight:900;margin:10px 0 7px;}
+.account-code-row{display:flex;gap:8px;align-items:center;}
+.account-input{min-width:0;flex:1;height:40px;border:1.5px solid var(--border);border-radius:12px;background:var(--surface2);color:var(--text);padding:0 12px;font-family:var(--font-ui);font-weight:900;direction:ltr;}
+.account-save-btn,.account-logout-btn{
+  height:40px;border:none;border-radius:12px;font-family:var(--font-ui);font-weight:900;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:8px;transition:transform var(--transition),box-shadow var(--transition);
+}
+.account-save-btn{padding:0 14px;background:linear-gradient(135deg,var(--verb),var(--verb-d));color:#fff;}
+.account-logout-btn{width:100%;margin-top:12px;background:var(--surface2);color:var(--red);border:1px solid rgba(238,83,55,0.25);}
+.account-save-btn:hover,.account-logout-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-sm);}
 
 /* ── 7. ICON BUTTONS ────────────────────────────────────── */
 .nav-icon-btn {
@@ -2396,6 +2428,9 @@ body.nav-open.tabs-visible {
 @media (max-width: 767px) {
   #bottom-tab-bar      { display: flex !important; }
   .nav-chip-student    { display: none; }          /* too cramped */
+  .nav-account-email   { display: none; }
+  .nav-account-btn     { width: 40px; padding: 0; justify-content: center; }
+  .nav-account-menu    { left: 0; }
   #nav-breadcrumb      { display: none; }          /* replaced by tab context */
   #app-nav             { height: 52px; padding: 0 10px; }
   body.nav-open        { padding-top: 52px !important; }
@@ -2458,6 +2493,23 @@ body.nav-open.tabs-visible {
       <span id="nav-student-name">—</span>
       <span id="studentName" style="display:none;">—</span>
     </div>
+    <div class="nav-account-wrap">
+      <button class="nav-account-btn" onclick="_toggleAccountMenu(event)" aria-label="Account">
+        <i class="fas fa-user-circle" aria-hidden="true"></i>
+        <span class="nav-account-email" id="nav-account-email">—</span>
+        <i class="fas fa-chevron-down" aria-hidden="true"></i>
+      </button>
+      <div class="nav-account-menu" id="nav-account-menu" aria-label="Account menu">
+        <div class="account-label">Signed in as</div>
+        <div class="account-email" id="account-menu-email">—</div>
+        <div class="account-label">Student code / كود الطالب</div>
+        <div class="account-code-row">
+          <input class="account-input" id="studentCodeNavInput" type="text" placeholder="Optional" onkeydown="if(event.key==='Enter') updateStudentCode()">
+          <button class="account-save-btn" onclick="updateStudentCode()"><i class="fas fa-check"></i> Save</button>
+        </div>
+        <button class="account-logout-btn" onclick="logoutStudent()"><i class="fas fa-right-from-bracket"></i> Logout</button>
+      </div>
+    </div>
     <button class="nav-icon-btn" onclick="toggleTheme()" aria-label="Toggle theme">
       <i id="theme-icon" class="fas fa-moon" aria-hidden="true"></i>
     </button>
@@ -2497,9 +2549,12 @@ body.nav-open.tabs-visible {
     <div class="login-logo">🧪</div>
     <div class="login-title">THE VERB LAB</div>
     <div style="font-size:1.3rem;color:var(--text-muted);margin-bottom:35px;font-weight:900;">مختبر الأفعال</div>
+    <div class="login-helper">Enter your email and we will send a secure sign-in link.</div>
+    <div class="login-success" id="loginSuccess"></div>
     <div class="login-error" id="loginError"></div>
-    <input type="text" id="studentCodeInput" class="login-input" placeholder="Student Code (e.g. 123)" onkeydown="if(event.key==='Enter') loginStudent()">
-    <button class="btn-primary" onclick="loginStudent()">Enter Lab <i class="fas fa-arrow-right"></i></button>
+    <input type="email" id="studentEmailInput" class="login-input" placeholder="student@example.com" autocomplete="email" inputmode="email" onkeydown="if(event.key==='Enter') loginStudent()">
+    <button class="btn-primary" id="loginButton" onclick="loginStudent()">Send Magic Link <i class="fas fa-paper-plane"></i></button>
+    <div class="login-meta">Powered by Supabase Auth</div>
   </div>
 </div>
 
@@ -3432,7 +3487,15 @@ const VERBS_DB = {
 const VERB_KEYS = Object.keys(VERBS_DB);
 
 /* ── STATE & PROGRESS ────────────────────────────────────────── */
+const SUPABASE_URL = 'https://oxknepxwnsgsphhklplm.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_YYDRjNE2GUdRpQqFfA5LEg_eIVrx_0X';
+const SUPABASE_PROFILE_TABLE = 'verb_lab_profiles';
+
 let studentCode = '';
+let studentEmail = '';
+let currentUser = null;
+let supabaseClient = null;
+let _progressSaveTimer = null;
 let playerProgress = { unlocked: ['v1'], stars: 0, completed: [] };
 let activeVerb = '';
 
@@ -3497,7 +3560,39 @@ function toggleTheme() {
 }
 
 /* ── CORE FLOW ───────────────────────────────────────────────── */
-function saveProgress() { try { localStorage.setItem('verblab_'+studentCode, JSON.stringify(playerProgress)); } catch(e){} }
+function getSupabaseClient() {
+  if (supabaseClient) return supabaseClient;
+  if (!window.supabase || !SUPABASE_ANON_KEY || SUPABASE_ANON_KEY.includes('PASTE_')) return null;
+  supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  return supabaseClient;
+}
+function getProgressKey() {
+  return 'verblab_' + (currentUser?.id || studentEmail || studentCode || 'guest');
+}
+function saveProgress() {
+  try { localStorage.setItem(getProgressKey(), JSON.stringify(playerProgress)); } catch(e){}
+  scheduleRemoteProgressSave();
+}
+function scheduleRemoteProgressSave() {
+  if (!currentUser || !getSupabaseClient()) return;
+  clearTimeout(_progressSaveTimer);
+  _progressSaveTimer = setTimeout(saveProgressRemote, 700);
+}
+async function saveProgressRemote() {
+  const client = getSupabaseClient();
+  if (!client || !currentUser) return;
+  try {
+    await client.from(SUPABASE_PROFILE_TABLE).upsert({
+      user_id: currentUser.id,
+      email: currentUser.email,
+      student_code: studentCode || null,
+      progress: normalizeProgress(playerProgress),
+      updated_at: new Date().toISOString()
+    }, { onConflict: 'user_id' });
+  } catch(e) {
+    console.warn('Remote progress save failed', e);
+  }
+}
 function normalizeProgress(progress) {
   const clean = progress && typeof progress === 'object' ? progress : {};
   const validKeys = new Set(VERB_KEYS);
@@ -3516,27 +3611,138 @@ function normalizeProgress(progress) {
     achievements: Array.isArray(clean.achievements) ? clean.achievements : []
   };
 }
-function loginStudent() {
-  const code = (document.getElementById('studentCodeInput').value || '').trim();
-  if (!code) { document.getElementById('loginError').textContent = 'Please enter your student code.'; return; }
-  studentCode = code;
-  window.studentCode = code;
+function setLoginMessage(type, text) {
+  const err = document.getElementById('loginError');
+  const ok = document.getElementById('loginSuccess');
+  if (err) err.textContent = type === 'error' ? text : '';
+  if (ok) ok.textContent = type === 'success' ? text : '';
+}
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+async function loginStudent() {
+  const email = (document.getElementById('studentEmailInput')?.value || '').trim().toLowerCase();
+  if (!email) { setLoginMessage('error', 'Please enter your email.'); return false; }
+  if (!isValidEmail(email)) { setLoginMessage('error', 'Please enter a valid email address.'); return false; }
+  const client = getSupabaseClient();
+  if (!client) {
+    setLoginMessage('error', 'Supabase anon key is missing. Paste it into SUPABASE_ANON_KEY in this file.');
+    return false;
+  }
+  const btn = document.getElementById('loginButton');
+  if (btn) { btn.disabled = true; btn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>'; }
+  const { error } = await client.auth.signInWithOtp({
+    email,
+    options: { emailRedirectTo: window.location.origin + window.location.pathname }
+  });
+  if (btn) { btn.disabled = false; btn.innerHTML = 'Send Magic Link <i class="fas fa-paper-plane"></i>'; }
+  if (error) {
+    setLoginMessage('error', error.message || 'Could not send sign-in link.');
+    return false;
+  }
+  setLoginMessage('success', 'Check your email for the secure sign-in link.');
+  return false;
+}
+async function completeLoginSession(user) {
+  currentUser = user;
+  studentEmail = (user.email || '').toLowerCase();
+  window.studentEmail = studentEmail;
   try {
-    const saved = localStorage.getItem('verblab_'+studentCode);
+    const saved = localStorage.getItem(getProgressKey());
     if (saved) playerProgress = JSON.parse(saved);
   } catch(e){}
+
+  const client = getSupabaseClient();
+  if (client) {
+    try {
+      const { data, error } = await client
+        .from(SUPABASE_PROFILE_TABLE)
+        .select('student_code, progress')
+        .eq('user_id', user.id)
+        .maybeSingle();
+      if (!error && data) {
+        studentCode = data.student_code || '';
+        window.studentCode = studentCode;
+        if (data.progress) playerProgress = data.progress;
+      } else if (!data) {
+        await saveProgressRemote();
+      }
+    } catch(e) {
+      console.warn('Remote profile load failed', e);
+    }
+  }
+
   playerProgress = normalizeProgress(playerProgress);
-  document.getElementById('studentName').textContent = 'Student ' + code;
+  updateAccountUi();
+  document.getElementById('studentName').textContent = studentCode ? 'Student ' + studentCode : studentEmail;
   document.getElementById('starsCount').textContent = playerProgress.stars;
   document.getElementById('login-overlay').style.display = 'none';
   document.getElementById('home-screen').style.display = 'block';
-  if (typeof _navInit === 'function') _navInit(code);
+  if (typeof _navInit === 'function') _navInit(studentEmail);
   if (typeof _navOnScreen === 'function') _navOnScreen('home-screen');
   const oldBackBtn = document.getElementById('main-back-btn');
   if (oldBackBtn) oldBackBtn.style.display = 'block';
   
   try { const t = localStorage.getItem('verblab_theme'); if(t){ document.body.setAttribute('data-theme', t); document.getElementById('theme-icon').className=t==='dark'?'fas fa-sun':'fas fa-moon';} } catch(e){}
   renderMap();
+  saveProgress();
+  return true;
+}
+async function restoreAuthSession() {
+  const client = getSupabaseClient();
+  try { const t = localStorage.getItem('verblab_theme'); if(t){ document.body.setAttribute('data-theme', t); document.getElementById('theme-icon').className=t==='dark'?'fas fa-sun':'fas fa-moon';} } catch(e){}
+  if (!client) return;
+  const { data } = await client.auth.getSession();
+  if (data?.session?.user) await completeLoginSession(data.session.user);
+  client.auth.onAuthStateChange(function(event, session) {
+    if ((event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') && session?.user) {
+      completeLoginSession(session.user);
+    }
+  });
+}
+function updateAccountUi() {
+  const label = studentCode ? studentCode : studentEmail;
+  const emailEls = ['nav-account-email', 'account-menu-email'];
+  emailEls.forEach(id => { const el = document.getElementById(id); if (el) el.textContent = studentEmail || '—'; });
+  const navName = document.getElementById('nav-student-name');
+  const tabName = document.getElementById('tab-name');
+  const codeInput = document.getElementById('studentCodeNavInput');
+  if (navName) navName.textContent = label || '—';
+  if (tabName) tabName.textContent = studentCode ? studentCode : 'أنا';
+  if (codeInput) codeInput.value = studentCode || '';
+}
+async function updateStudentCode() {
+  studentCode = (document.getElementById('studentCodeNavInput')?.value || '').trim();
+  window.studentCode = studentCode;
+  updateAccountUi();
+  saveProgress();
+  showToast(studentCode ? 'Student code saved' : 'Student code cleared');
+}
+async function logoutStudent() {
+  await saveProgressRemote();
+  const client = getSupabaseClient();
+  if (client) await client.auth.signOut();
+  currentUser = null;
+  studentEmail = '';
+  studentCode = '';
+  window.studentEmail = '';
+  window.studentCode = '';
+  playerProgress = { unlocked: ['v1'], stars: 0, completed: [] };
+  document.getElementById('home-screen').style.display = 'none';
+  const verbScreen = document.getElementById('verb-screen');
+  if (verbScreen) verbScreen.style.display = 'none';
+  document.getElementById('login-overlay').style.display = 'flex';
+  document.body.classList.remove('nav-open', 'tabs-visible');
+  const nav = document.getElementById('app-nav');
+  if (nav) nav.classList.remove('nav-visible');
+  const menu = document.getElementById('nav-account-menu');
+  if (menu) menu.classList.remove('open');
+  setLoginMessage('success', 'You have signed out.');
+}
+function _toggleAccountMenu(e) {
+  if (e) e.stopPropagation();
+  const menu = document.getElementById('nav-account-menu');
+  if (menu) menu.classList.toggle('open');
 }
 
 
@@ -6210,11 +6416,13 @@ window._tabMe = function() {
 (function patchLogin() {
   var _origLogin = window.loginStudent;
   if (typeof _origLogin === 'function') {
-    window.loginStudent = function() {
-      _origLogin.apply(this, arguments);
+    window.loginStudent = async function() {
+      var didEnter = await _origLogin.apply(this, arguments);
+      if (!didEnter) return false;
       document.body.classList.add('nav-open');
       var tabMeName = document.getElementById('tab-me-name');
       if (tabMeName && window.studentCode) tabMeName.textContent = window.studentCode;
+      return true;
     };
   }
 })();
@@ -6418,7 +6626,10 @@ window._tabMe = function() {
   };
   window._tabProgress = function() { _setActiveTab('tab-progress'); };
   window._tabTools    = function() { _openMobileDrawer(); };
-  window._tabMe       = function() { _setActiveTab('tab-me'); };
+  window._tabMe       = function() {
+    _setActiveTab('tab-me');
+    if (typeof _toggleAccountMenu === 'function') _toggleAccountMenu();
+  };
 
   /* ── Patch loginStudent ── */
   var _loginPatched = false;
@@ -6427,11 +6638,13 @@ window._tabMe = function() {
     if (typeof window.loginStudent !== 'function') { setTimeout(_patchLogin, 300); return; }
     _loginPatched = true;
     var _origLogin = window.loginStudent;
-    window.loginStudent = function() {
-      _origLogin.apply(this, arguments);
-      var sc = window.studentCode || '';
-      _navInit(sc);
+    window.loginStudent = async function() {
+      var didEnter = await _origLogin.apply(this, arguments);
+      if (!didEnter) return false;
+      var label = window.studentEmail || window.studentCode || '';
+      _navInit(label);
       _navOnScreen('home-screen');
+      return true;
     };
   }
   _patchLogin();
@@ -6488,6 +6701,15 @@ window._tabMe = function() {
   }
 
 })();
+
+document.addEventListener('click', function(e) {
+  var menu = document.getElementById('nav-account-menu');
+  var wrap = document.querySelector('.nav-account-wrap');
+  if (menu && wrap && !wrap.contains(e.target)) menu.classList.remove('open');
+});
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof restoreAuthSession === 'function') restoreAuthSession();
+});
 
 </script>
 </body>
