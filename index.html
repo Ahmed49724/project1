@@ -12,6 +12,8 @@
 
   <!-- ── Phaser (محرك اللعبة) ─────────────────────────────── -->
   <script src="https://cdn.jsdelivr.net/npm/phaser@3.90.0/dist/phaser.min.js"></script>
+  <!-- ── Supabase (online student progress storage) ────────── -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <!-- ── Lottie (للاحتفالات) ─────────────────────────────── -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
 
@@ -4872,6 +4874,9 @@ body.nav-open.tabs-visible {
       <button class="nav-icon-btn" onclick="toggleTheme()" aria-label="تبديل المظهر" title="Toggle theme">
         <i id="theme-icon" class="fas fa-moon" aria-hidden="true"></i>
       </button>
+      <button class="nav-icon-btn" onclick="logoutStudent()" aria-label="تسجيل الخروج" title="Log out">
+        <i class="fas fa-right-from-bracket" aria-hidden="true"></i>
+      </button>
       <div class="nav-tools-wrap">
         <button class="nav-icon-btn" onclick="_navToolsBtn(event)" aria-label="الأدوات التعليمية" aria-expanded="false" aria-haspopup="true" id="nav-tools-trigger">
           <i class="fas fa-th-large" aria-hidden="true"></i>
@@ -7982,6 +7987,67 @@ let playerProgress = {
 };
 let activeLetterKey = ''; // الحرف المفتوح حالياً
 
+const SUPABASE_URL = 'https://oxknepxwnsgsphhklplm.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_YYDRjNE2GUdRpQqFfA5LEg_eIVrx_0X';
+const SUPABASE_PROGRESS_TABLE = 'student_progress';
+const DEFAULT_PLAYER_PROGRESS = { unlocked: ['أ'], stars: 0, completed: [] };
+const supabaseClient = window.supabase
+  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+  : null;
+
+function normalizeProgress(progress) {
+  const source = progress && typeof progress === 'object' ? progress : {};
+  return {
+    unlocked: Array.isArray(source.unlocked) && source.unlocked.length ? source.unlocked : ['أ'],
+    stars: Number.isFinite(Number(source.stars)) ? Number(source.stars) : 0,
+    completed: Array.isArray(source.completed) ? source.completed : [],
+  };
+}
+
+function loadLocalProgress(code) {
+  try {
+    const saved = localStorage.getItem('jami3_' + code);
+    return saved ? normalizeProgress(JSON.parse(saved)) : normalizeProgress(DEFAULT_PLAYER_PROGRESS);
+  } catch (e) {
+    return normalizeProgress(DEFAULT_PLAYER_PROGRESS);
+  }
+}
+
+function saveLocalProgress(code, progress) {
+  if (!code) return;
+  try {
+    localStorage.setItem('jami3_' + code, JSON.stringify(normalizeProgress(progress)));
+  } catch (e) {
+    // localStorage ممتلئ أو محجوب — نكتفي بالتخزين السحابي عند الإمكان
+  }
+}
+
+async function loadProgressOnline(code) {
+  if (!supabaseClient || !code) return null;
+  const { data, error } = await supabaseClient
+    .from(SUPABASE_PROGRESS_TABLE)
+    .select('progress')
+    .eq('student_code', code)
+    .maybeSingle();
+
+  if (error) throw error;
+  return data && data.progress ? normalizeProgress(data.progress) : null;
+}
+
+async function saveProgressOnline() {
+  if (!supabaseClient || !studentCode) return false;
+  const payload = {
+    student_code: studentCode,
+    progress: normalizeProgress(playerProgress),
+  };
+  const { error } = await supabaseClient
+    .from(SUPABASE_PROGRESS_TABLE)
+    .upsert(payload, { onConflict: 'student_code' });
+
+  if (error) throw error;
+  return true;
+}
+
 /* ----------------------------------------------------------
    2. Phaser — الكائن المركزي للعبة
    يُعرَّف هنا كـ let عادي حتى يمكن تعيينه وتغييره من ui.js
@@ -8130,10 +8196,9 @@ function playConnectSound() {
 
 /**
  * loginStudent — تسجيل دخول الطالب
- * حالياً: يقبل أي رمز ويحمّل تقدمه من localStorage
- * مستقبلاً: يمكن استبداله بـ API call حقيقية
+ * يقبل أي رمز ويحمل تقدم الطالب من Supabase مع نسخة احتياطية محلية.
  */
-function loginStudent() {
+async function loginStudent() {
   const input = document.getElementById('studentCodeInput');
   const errorEl = document.getElementById('loginError');
   const code = (input?.value || '').trim();
@@ -8141,27 +8206,32 @@ function loginStudent() {
   // التحقق من وجود الرمز
   if (!code) {
     if (errorEl) errorEl.textContent = 'Please enter your student code.';
-    return;
+    return false;
   }
 
-  // ✅ قبول أي رمز غير فارغ — يمكن تغيير هذا لقاعدة بيانات حقيقية
-  studentCode = code;
+  if (errorEl) errorEl.textContent = 'Loading your progress...';
 
-  // تحميل التقدم المحفوظ إذا وُجد
+  // قبول أي رمز غير فارغ وربطه بمفتاح الطالب في التخزين السحابي
+  studentCode = code;
+  window.studentCode = code;
+
+  // تحميل التقدم السحابي أولاً، ثم استخدام النسخة المحلية عند تعذر الاتصال
   try {
-    const saved = localStorage.getItem('jami3_' + studentCode);
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      // دمج آمن — نحافظ على البنية الأساسية
-      playerProgress = {
-        unlocked:  parsed.unlocked  || ['أ'],
-        stars:     parsed.stars     || 0,
-        completed: parsed.completed || [],
-      };
+    const onlineProgress = await loadProgressOnline(studentCode);
+    if (onlineProgress) {
+      playerProgress = onlineProgress;
+      saveLocalProgress(studentCode, playerProgress);
+    } else {
+      playerProgress = loadLocalProgress(studentCode);
+      saveLocalProgress(studentCode, playerProgress);
+      saveProgressOnline().catch(function(e) {
+        console.warn('Supabase initial save failed:', e);
+      });
     }
   } catch (e) {
-    // إذا كان localStorage تالفاً، نبدأ من جديد
-    playerProgress = { unlocked: ['أ'], stars: 0, completed: [] };
+    console.warn('Supabase load failed, using local progress:', e);
+    playerProgress = loadLocalProgress(studentCode);
+    if (errorEl) errorEl.textContent = 'Online storage unavailable. Using local backup for now.';
   }
 
   // إظهار اسم الطالب في الشريط العلوي
@@ -8173,12 +8243,44 @@ function loginStudent() {
   const dashboard    = document.getElementById('dashboard-screen');
   const topBar       = document.getElementById('app-nav');
 
+  if (errorEl && !errorEl.textContent.includes('unavailable')) errorEl.textContent = '';
   if (loginOverlay) loginOverlay.style.display = 'none';
   if (dashboard)    { dashboard.style.display = 'block'; _pushRoute('#dashboard'); }
-  if (typeof _navInit === 'function') setTimeout(function(){ _navInit(window.studentCode || ''); }, 50);
+  if (typeof _navInit === 'function') setTimeout(function(){ _navInit(studentCode || ''); }, 50);
 
   updateStarsUI();
   initApp();
+  return true;
+}
+
+/**
+ * logoutStudent — يحفظ آخر تقدم، ثم يرجع إلى شاشة الدخول.
+ */
+function logoutStudent() {
+  if (studentCode) saveProgress();
+
+  studentCode = '';
+  window.studentCode = '';
+
+  const loginOverlay = document.getElementById('login-overlay');
+  const input = document.getElementById('studentCodeInput');
+  const errorEl = document.getElementById('loginError');
+  const nav = document.getElementById('app-nav');
+  const tabs = document.getElementById('bottom-tab-bar');
+  const sectionNav = document.getElementById('section-nav');
+
+  document.querySelectorAll('[id$="-screen"]').forEach(function(screen) {
+    screen.style.display = 'none';
+  });
+
+  if (nav) nav.classList.remove('nav-visible');
+  if (tabs) tabs.style.display = '';
+  if (sectionNav) sectionNav.classList.remove('visible');
+  document.body.classList.remove('nav-open', 'tabs-visible');
+  if (loginOverlay) loginOverlay.style.display = 'flex';
+  if (input) input.value = '';
+  if (errorEl) errorEl.textContent = '';
+  if (history && history.replaceState) history.replaceState(null, '', location.pathname);
 }
 
 /* ----------------------------------------------------------
@@ -8190,11 +8292,10 @@ function loginStudent() {
  * يُستدعى بعد كل تغيير في النجوم أو الإنجازات
  */
 function saveProgress() {
-  try {
-    localStorage.setItem('jami3_' + studentCode, JSON.stringify(playerProgress));
-  } catch (e) {
-    // localStorage ممتلئ أو محجوب — نتجاهل بصمت
-  }
+  saveLocalProgress(studentCode, playerProgress);
+  saveProgressOnline().catch(function(e) {
+    console.warn('Supabase save failed:', e);
+  });
   updateStarsUI();
   updateHomeProgress();
 }
@@ -16242,10 +16343,14 @@ window._tabMe = function() {
   var _origLogin = window.loginStudent;
   if (typeof _origLogin === 'function') {
     window.loginStudent = function() {
-      _origLogin.apply(this, arguments);
-      document.body.classList.add('nav-open');
-      var tabMeName = document.getElementById('tab-me-name');
-      if (tabMeName && window.studentCode) tabMeName.textContent = window.studentCode;
+      var result = _origLogin.apply(this, arguments);
+      return Promise.resolve(result).then(function(ok) {
+        if (ok === false || !window.studentCode) return ok;
+        document.body.classList.add('nav-open');
+        var tabMeName = document.getElementById('tab-me-name');
+        if (tabMeName && window.studentCode) tabMeName.textContent = window.studentCode;
+        return ok;
+      });
     };
   }
 })();
@@ -16448,10 +16553,14 @@ window._tabMe = function() {
     _loginPatched = true;
     var _origLogin = window.loginStudent;
     window.loginStudent = function() {
-      _origLogin.apply(this, arguments);
-      var sc = window.studentCode || '';
-      _navInit(sc);
-      _navOnScreen('dashboard-screen');
+      var result = _origLogin.apply(this, arguments);
+      return Promise.resolve(result).then(function(ok) {
+        if (ok === false || !window.studentCode) return ok;
+        var sc = window.studentCode || '';
+        _navInit(sc);
+        _navOnScreen('dashboard-screen');
+        return ok;
+      });
     };
   }
   _patchLogin();
