@@ -1,0 +1,18 @@
+node_modules/
+dist/
+.vite/
+.env
+.env.*
+*.log
+
+# Local scratch files created while repairing legacy scripts.
+execute.cjs
+execute.js
+extract-db.cjs
+fix-main-regex.cjs
+fix-main.js
+patch-html.cjs
+patch-html.js
+refactor.js
+search.js
+tags.txt
