@@ -4972,10 +4972,13 @@ function openMaddLevel(mod) {
   window.activeAdvancedLevel = 'madd';
 
   // ── العنوان والوصف ────────────────────────────────────
-  const titleEl = document.getElementById('madd-title');
-  if (titleEl) titleEl.innerHTML = `<span class="section-badge">1</span> ${mod.title} — ${mod.subtitle}`;
+  const titleEl = document.getElementById('madd-title') || document.getElementById('madd-title-text');
+  if (titleEl) {
+    if (titleEl.id === 'madd-title-text') titleEl.textContent = `${mod.title} — ${mod.subtitle}`;
+    else titleEl.innerHTML = `<span class="section-badge">1</span> ${mod.title} — ${mod.subtitle}`;
+  }
 
-  const descEl = document.getElementById('madd-desc');
+  const descEl = document.getElementById('madd-desc') || document.getElementById('madd-motor-section');
   if (descEl) descEl.innerHTML = `
     Drag the Long Vowel (<strong>${mod.char}</strong>) to the left car,
     then drag its matching Short Engine (<strong>${mod.mark}</strong>) to the right car!<br>

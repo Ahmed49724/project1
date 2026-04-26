@@ -1,0 +1,60 @@
+<h2>Strategic Blueprint: Where Do We Start?</h2>
+<p class="subtitle">The full platform is too large to build in one pass. Pick the first product slice we should turn into a concrete design spec.</p>
+
+<div class="cards">
+  <div class="card" data-choice="student-mvp" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mock-nav">Student | Quest Map | Lesson | Reward</div>
+      <div class="mockup-body">
+        <div class="placeholder">Bilingual Explorer map</div>
+        <div style="display:flex;gap:10px;margin-top:12px">
+          <button class="mock-button">Arabic Lesson</button>
+          <button class="mock-button">English Lesson</button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A. Student Learning MVP</h3>
+      <p>Focus on the learner journey: login via parent/student code, daily quest map, immersive lessons, progress, rewards, and RTL/LTR behavior.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="parent-auth" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mock-nav">Parent | Children | Approval | Reports</div>
+      <div class="mockup-body">
+        <div class="placeholder">Multi-child overview</div>
+        <div style="display:flex;gap:10px;margin-top:12px">
+          <button class="mock-button">Approve Course</button>
+          <button class="mock-button">Weekly Digest</button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B. Parent + Secure Auth MVP</h3>
+      <p>Focus on parent-owned accounts, child sub-accounts, consent, roles, safe student access, and the parent dashboard.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="teacher-ops" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mock-nav">Teacher | Builder | Grading | Live</div>
+      <div class="mockup-body">
+        <div class="placeholder">Command center</div>
+        <div style="display:flex;gap:10px;margin-top:12px">
+          <button class="mock-button">Upload Lesson</button>
+          <button class="mock-button">Grade Queue</button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C. Teacher Command Center MVP</h3>
+      <p>Focus on content upload, assignment builder, grading workflow, live class scheduling, and teacher productivity.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>My Recommendation</h3>
+  <p>Start with <strong>B. Parent + Secure Auth MVP</strong>, because every student, teacher, payment, consent, and progress feature depends on a clean account model. Then build the Student MVP on top of it.</p>
+</div>
