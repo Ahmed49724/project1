@@ -144,11 +144,11 @@
     },
     'ت': {
       shapes: ['تـ','ـتـ','ـت','ت'],
-      jollyStory: 'Tamer is playing table tennis, and the ball makes a light tapping sound.',
+      jollyStory: 'A crocodile snaps its teeth — t-t-t — as it waits silently in the water for its prey.',
       jollyAction: 'Smile widely and touch your upper teeth with your tongue.',
       jollyRawSound: 't - t - t<br><span style="font-size:1rem;font-weight:normal;color:#7f8c8d;">(Like the "t" in "tap")</span>',
       jollyArabic: false, storyIcon: '🐊',
-      storyText: 'تِمْسَاحٌ ضَخْمٌ يَتَرَبَّصُ بِفَرِيسَتِهِ',
+      storyText: 'تِمْسَاحٌ كَبِيرٌ يَنْتَظِرُ فَرِيسَتَهُ',
       cardWords: ['بَتَتَ','أَتَبَ','تَبَتَ','تَأَبَ','بَأَتَ'],
       splitWords: ['تَبَ','بَتَ','أَتَ','تَأَ','تَتَ','بَتَ','أَتَ','تَأَ','تَبَ'],
       xoWords: ['بَتَتَ','أَتَبَ','تَبَتَ','تَأَبَ','بَأَتَ','تَبَ','بَتَ','أَتَ','تَأَ'],
@@ -460,7 +460,7 @@
     },
     'ظ': {
       shapes: ['ظـ','ـظـ','ـظ','ظ'],
-      jollyStory: 'A giant, heavy beetle is buzzing slowly with its large wings.',
+      jollyStory: 'Dhafir carefully keeps his important letter safe inside a heavy envelope.',
       jollyAction: 'Put your tongue between your teeth (like ذ), but drop your jaw back to make it heavy.',
       jollyRawSound: 'TH - TH - TH<br><span style="font-size:1rem;font-weight:normal;color:#7f8c8d;">(A deep, heavy buzzing "TH")</span>',
       jollyArabic: true, storyIcon: '✉️',
