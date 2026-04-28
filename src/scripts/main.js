@@ -9028,6 +9028,9 @@ function _patchAlefFinalPage(key) {
 
   function _buildBreakModal() {
     if (document.getElementById('break-modal')) return;
+    const saved = _loadPomoSettings() || {};
+    const sMin = saved.sessionMin || 15;
+    const bMin = saved.breakMin   || 1;
     const m = document.createElement('div');
     m.id = 'break-modal';
     m.innerHTML = `
@@ -9051,21 +9054,30 @@ function _patchAlefFinalPage(key) {
           <span>min</span>
           <button class="break-custom-go" onclick="window._startBreakCustom()">Go!</button>
         </div>
+        <div class="break-custom break-custom-pomo">
+          <label>🍅 Pomodoro:</label>
+          <input type="number" id="pomo-session-min" min="1" max="120" value="${sMin}" title="Study session minutes" />
+          <span>+</span>
+          <input type="number" id="pomo-break-min" min="1" max="30" value="${bMin}" title="Break minutes" />
+          <span>min</span>
+          <button class="break-custom-go" onclick="window._startPomodoro()">Go!</button>
+        </div>
       </div>
     `;
     m.onclick = _closeBreakMenu;
     document.body.appendChild(m);
 
-    // Each preset launches a Pomodoro: that duration as the study session,
-    // followed by a 1-minute break, auto-looping until manually stopped.
+    // Quick-break presets: single one-shot break, no loop.
     m.querySelectorAll('.break-preset').forEach(btn => {
-      btn.onclick = () => _startPomoFromPreset(parseInt(btn.dataset.min));
+      btn.onclick = () => _startBreak(parseInt(btn.dataset.min), 'break');
     });
   }
 
-  function _startPomoFromPreset(sessionMin) {
-    if (!sessionMin || sessionMin < 1) return;
-    const breakMin = 1;  // fixed short break between sessions
+  function _startPomodoro() {
+    const sIn = document.getElementById('pomo-session-min');
+    const bIn = document.getElementById('pomo-break-min');
+    const sessionMin = Math.max(1, Math.min(120, parseInt(sIn && sIn.value) || 15));
+    const breakMin   = Math.max(1, Math.min(30,  parseInt(bIn && bIn.value) || 1));
     _breakState.pomoConfig = { sessionMin, breakMin, autoLoop: true };
     _savePomoSettings({ sessionMin, breakMin, autoLoop: true });
     _startBreak(sessionMin, 'pomo-session');
@@ -9192,7 +9204,7 @@ function _patchAlefFinalPage(key) {
     if (!input) return;
     const val = parseInt(input.value);
     if (isNaN(val) || val < 1) return;
-    _startPomoFromPreset(Math.min(val, 120));
+    _startBreak(Math.min(val, 120), 'break');
   }
 
   function _renderFabPomo() {
@@ -9397,6 +9409,7 @@ function _patchAlefFinalPage(key) {
   window._cancelBreak = _cancelBreak;
   window._startBreakCustom = _startBreakCustom;
   window._closeBreakMenu = _closeBreakMenu;
+  window._startPomodoro = _startPomodoro;
 
   // Initialize on load
   document.addEventListener('DOMContentLoaded', () => {

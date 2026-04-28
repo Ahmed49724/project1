@@ -3346,6 +3346,21 @@ html.has-phaser-fs #reading-check-btns {
    🍅 POMODORO — integrated into Break FAB + Break Modal
    ============================================================ */
 
+/* Pomodoro custom row — same shape as .break-custom, red-tinted */
+.break-custom-pomo {
+  margin-top: 10px;
+  background: #fef2f2 !important;
+  border: 1.5px dashed #fecaca;
+}
+.break-custom-pomo label { color: #b91c1c !important; }
+.break-custom-pomo input:focus { border-color: #ef4444 !important; }
+.break-custom-pomo .break-custom-go {
+  background: linear-gradient(135deg, #ef4444, #b91c1c) !important;
+}
+.break-custom-pomo .break-custom-go:hover {
+  box-shadow: 0 6px 14px rgba(239, 68, 68, 0.35) !important;
+}
+
 /* Circular timer (used in break countdown overlay) */
 .circle-timer {
   position: relative;
