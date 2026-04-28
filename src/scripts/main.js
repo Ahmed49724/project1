@@ -8927,22 +8927,45 @@ function _patchAlefFinalPage(key) {
    → motivational chime when time's up
 ============================================================ */
 (function initBreakTimer() {
+  const POMO_KEY = 'pomodoro_v1';
   let _breakState = {
     running: false,
     endTime: 0,
     tickInterval: null,
+    phase: 'break',          // 'break' (regular) | 'pomo-session' | 'pomo-break'
+    pomoConfig: null,        // { sessionMin, breakMin, autoLoop } when pomodoro is active; null otherwise
   };
+
+  function _loadPomoSettings() {
+    try {
+      const raw = localStorage.getItem(POMO_KEY);
+      if (!raw) return null;
+      return JSON.parse(raw);
+    } catch (e) { return null; }
+  }
+  function _savePomoSettings(cfg) {
+    try { localStorage.setItem(POMO_KEY, JSON.stringify(cfg)); } catch (e) {}
+  }
 
   function _buildBreakBtn() {
     if (document.getElementById('break-fab')) return;
     const fab = document.createElement('button');
     fab.id = 'break-fab';
-    // Container for rotating Lottie animations
-    fab.innerHTML = '<div class="break-fab-lottie" id="break-fab-lottie"></div>';
+    // Container for rotating Lottie animations + pomodoro display (only one shows at a time)
+    fab.innerHTML = '<div class="break-fab-lottie" id="break-fab-lottie"></div>' +
+                    '<div class="pomo-fab-content"><span class="pomo-fab-icon" id="pomo-fab-icon">📚</span><span class="pomo-fab-time" id="pomo-fab-time">--:--</span></div>';
     fab.title = 'Take a break — خذ استراحة';
-    fab.onclick = _openBreakMenu;
+    fab.onclick = _onFabClick;
     document.body.appendChild(fab);
     _startBreakFabRotation();
+  }
+
+  function _onFabClick() {
+    if (_breakState.pomoConfig) {
+      _togglePomoPopover();
+    } else {
+      _openBreakMenu();
+    }
   }
 
   // Rotate Lottie animations on the break FAB
@@ -8996,6 +9019,10 @@ function _patchAlefFinalPage(key) {
 
   function _buildBreakModal() {
     if (document.getElementById('break-modal')) return;
+    const saved = _loadPomoSettings() || {};
+    const sMin = saved.sessionMin || 15;
+    const bMin = saved.breakMin || 1;
+    const loop = saved.autoLoop !== false;
     const m = document.createElement('div');
     m.id = 'break-modal';
     m.innerHTML = `
@@ -9004,7 +9031,7 @@ function _patchAlefFinalPage(key) {
           <i class="fas fa-times"></i>
         </button>
         <div class="break-modal-title">⏸️ Take a Break — وقت استراحة</div>
-        <div class="break-modal-sub">How many minutes? — كم دقيقة؟</div>
+        <div class="break-modal-sub">Quick Break — استراحة سريعة</div>
         <div class="break-preset-grid">
           <button class="break-preset" data-min="1">1<span>min</span></button>
           <button class="break-preset" data-min="2">2<span>min</span></button>
@@ -9019,6 +9046,32 @@ function _patchAlefFinalPage(key) {
           <span>min</span>
           <button class="break-custom-go" onclick="window._startBreakCustom()">Go!</button>
         </div>
+
+        <div class="break-modal-divider"></div>
+        <div class="pomo-section-title">🍅 Pomodoro — جلسة دراسة + استراحة تلقائية</div>
+        <div class="pomo-config">
+          <label class="pomo-config-row">
+            <span>📚 Session — جلسة دراسة</span>
+            <span class="pomo-config-input">
+              <input type="number" id="pomo-session-min" value="${sMin}" min="1" max="120" inputmode="numeric" />
+              <span class="pomo-config-unit">min</span>
+            </span>
+          </label>
+          <label class="pomo-config-row">
+            <span>☕ Break — استراحة</span>
+            <span class="pomo-config-input">
+              <input type="number" id="pomo-break-min" value="${bMin}" min="1" max="30" inputmode="numeric" />
+              <span class="pomo-config-unit">min</span>
+            </span>
+          </label>
+          <label class="pomo-config-row pomo-config-checkbox">
+            <input type="checkbox" id="pomo-loop-toggle" ${loop ? 'checked' : ''} />
+            <span>🔁 Auto-loop — تكرار تلقائي</span>
+          </label>
+        </div>
+        <button class="pomo-start-btn" onclick="window._startPomodoro()">
+          <i class="fas fa-play"></i> Start Pomodoro — ابدأ
+        </button>
       </div>
     `;
     m.onclick = _closeBreakMenu;
@@ -9026,7 +9079,7 @@ function _patchAlefFinalPage(key) {
 
     // Wire up presets
     m.querySelectorAll('.break-preset').forEach(btn => {
-      btn.onclick = () => _startBreak(parseInt(btn.dataset.min));
+      btn.onclick = () => _startBreak(parseInt(btn.dataset.min), 'break');
     });
   }
 
@@ -9112,24 +9165,30 @@ function _patchAlefFinalPage(key) {
     }
   }
 
-  function _startBreak(minutes) {
+  function _startBreak(minutes, phase) {
     if (!minutes || minutes < 1) return;
     _closeBreakMenu();
-    _buildBreakCountdown();
+    phase = phase || 'break';
+    _breakState.phase = phase;
 
     _breakState.running = true;
     _breakState.endTime = Date.now() + minutes * 60 * 1000;
 
-    const cd = document.getElementById('break-countdown');
-    if (cd) cd.classList.add('show');
+    if (phase === 'break') {
+      // Regular break: full overlay
+      _buildBreakCountdown();
+      const cd = document.getElementById('break-countdown');
+      if (cd) cd.classList.add('show');
+      _cdLottieIdx = 0;
+      _startCountdownLottieRotation();
+    } else {
+      // Pomodoro phase: pill on FAB, no fullscreen overlay
+      _renderFabPomo();
+    }
 
     _updateCountdown();
     clearInterval(_breakState.tickInterval);
     _breakState.tickInterval = setInterval(_updateCountdown, 500);
-
-    // Start Lottie rotation in countdown screen
-    _cdLottieIdx = 0;
-    _startCountdownLottieRotation();
 
     try { playMatchPro && playMatchPro(); } catch(e) {}
   }
@@ -9139,33 +9198,134 @@ function _patchAlefFinalPage(key) {
     if (!input) return;
     const val = parseInt(input.value);
     if (isNaN(val) || val < 1) return;
-    _startBreak(Math.min(val, 120));
+    _startBreak(Math.min(val, 120), 'break');
+  }
+
+  function _startPomodoro() {
+    const sIn = document.getElementById('pomo-session-min');
+    const bIn = document.getElementById('pomo-break-min');
+    const lIn = document.getElementById('pomo-loop-toggle');
+    const sessionMin = Math.max(1, Math.min(120, parseInt(sIn && sIn.value) || 15));
+    const breakMin   = Math.max(1, Math.min(30,  parseInt(bIn && bIn.value) || 1));
+    const autoLoop   = !!(lIn && lIn.checked);
+    _breakState.pomoConfig = { sessionMin, breakMin, autoLoop };
+    _savePomoSettings({ sessionMin, breakMin, autoLoop });
+    _startBreak(sessionMin, 'pomo-session');
+  }
+
+  function _renderFabPomo() {
+    const fab = document.getElementById('break-fab');
+    if (!fab) return;
+    fab.classList.add('pomo-active');
+    fab.classList.remove('pomo-phase-session', 'pomo-phase-break', 'pomo-paused');
+    if (_breakState.phase === 'pomo-session') fab.classList.add('pomo-phase-session');
+    else if (_breakState.phase === 'pomo-break') fab.classList.add('pomo-phase-break');
+    const icon = document.getElementById('pomo-fab-icon');
+    if (icon) icon.textContent = (_breakState.phase === 'pomo-break') ? '☕' : '📚';
+    _updatePomoFabTime();
+  }
+
+  function _updatePomoFabTime() {
+    const el = document.getElementById('pomo-fab-time');
+    if (!el) return;
+    const remaining = Math.max(0, _breakState.endTime - Date.now());
+    const totalSec = Math.ceil(remaining / 1000);
+    const m = Math.floor(totalSec / 60);
+    const s = totalSec % 60;
+    el.textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+  }
+
+  function _clearFabPomo() {
+    const fab = document.getElementById('break-fab');
+    if (!fab) return;
+    fab.classList.remove('pomo-active', 'pomo-phase-session', 'pomo-phase-break', 'pomo-paused');
+  }
+
+  function _togglePomoPopover() {
+    let pop = document.getElementById('pomo-popover');
+    if (!pop) {
+      pop = document.createElement('div');
+      pop.id = 'pomo-popover';
+      pop.className = 'pomo-popover';
+      pop.innerHTML = `
+        <div class="pomo-popover-title" id="pomo-pop-title">📚 Session</div>
+        <button class="pomo-pop-btn pomo-pop-stop" id="pomo-pop-stop"><i class="fas fa-stop"></i> Stop Pomodoro — إيقاف</button>
+      `;
+      document.body.appendChild(pop);
+      pop.querySelector('#pomo-pop-stop').onclick = () => { _stopPomodoro(); };
+    }
+    const titleEl = pop.querySelector('#pomo-pop-title');
+    if (titleEl) {
+      titleEl.textContent = (_breakState.phase === 'pomo-break')
+        ? '☕ Break — استراحة'
+        : '📚 Session — جلسة دراسة';
+    }
+    pop.classList.toggle('show');
+    if (pop.classList.contains('show')) {
+      const dismiss = (e) => {
+        if (!pop.contains(e.target) && e.target.id !== 'break-fab' && !document.getElementById('break-fab').contains(e.target)) {
+          pop.classList.remove('show');
+          document.removeEventListener('click', dismiss);
+        }
+      };
+      setTimeout(() => document.addEventListener('click', dismiss), 0);
+    }
+  }
+
+  function _stopPomodoro() {
+    _breakState.pomoConfig = null;
+    _breakState.running = false;
+    _breakState.phase = 'break';
+    clearInterval(_breakState.tickInterval);
+    _clearFabPomo();
+    const pop = document.getElementById('pomo-popover');
+    if (pop) pop.classList.remove('show');
+    const cd = document.getElementById('break-countdown');
+    if (cd) cd.classList.remove('show');
+    _stopCountdownLottie();
   }
 
   function _updateCountdown() {
     if (!_breakState.running) return;
     const remaining = _breakState.endTime - Date.now();
-    const el = document.getElementById('break-cd-time');
-    if (!el) return;
 
     if (remaining <= 0) {
-      el.textContent = '00:00';
       _onBreakEnd();
       return;
     }
     const totalSec = Math.ceil(remaining / 1000);
     const mins = Math.floor(totalSec / 60);
     const secs = totalSec % 60;
-    el.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    const formatted = String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
 
-    // Tick sound every second (last 10 seconds)
-    if (totalSec <= 10 && totalSec > 0) {
-      const lastTicked = el.dataset.lastTick;
-      if (lastTicked !== String(totalSec)) {
-        el.dataset.lastTick = String(totalSec);
-        try { playToneEnhanced(1200, 'triangle', 0.08, 0.08); } catch(e){}
-        el.classList.add('tick-pulse');
-        setTimeout(() => el.classList.remove('tick-pulse'), 400);
+    if (_breakState.phase === 'break') {
+      // Update full overlay
+      const el = document.getElementById('break-cd-time');
+      if (el) {
+        el.textContent = formatted;
+        if (totalSec <= 10 && totalSec > 0) {
+          const lastTicked = el.dataset.lastTick;
+          if (lastTicked !== String(totalSec)) {
+            el.dataset.lastTick = String(totalSec);
+            try { playToneEnhanced(1200, 'triangle', 0.08, 0.08); } catch(e){}
+            el.classList.add('tick-pulse');
+            setTimeout(() => el.classList.remove('tick-pulse'), 400);
+          }
+        }
+      }
+    } else {
+      // Pomodoro: update FAB pill
+      _updatePomoFabTime();
+      // Last-10s tick on the FAB time element
+      if (totalSec <= 10 && totalSec > 0) {
+        const fab = document.getElementById('break-fab');
+        if (fab) {
+          const lastTicked = fab.dataset.lastTick;
+          if (lastTicked !== String(totalSec)) {
+            fab.dataset.lastTick = String(totalSec);
+            try { playToneEnhanced(1200, 'triangle', 0.08, 0.08); } catch(e){}
+          }
+        }
       }
     }
   }
@@ -9181,10 +9341,45 @@ function _patchAlefFinalPage(key) {
   function _onBreakEnd() {
     _breakState.running = false;
     clearInterval(_breakState.tickInterval);
+    const finishedPhase = _breakState.phase;
 
-    // Motivational chime
+    if (finishedPhase === 'pomo-session') {
+      // Session done → start Break automatically
+      try {
+        playToneEnhanced(880, 'triangle', 0.4, 0.16);
+        setTimeout(() => playToneEnhanced(1100, 'triangle', 0.4, 0.16), 250);
+        setTimeout(() => playToneEnhanced(1320, 'triangle', 0.4, 0.16), 500);
+      } catch (e) {}
+      try { window._pomoShowFlash && window._pomoShowFlash('☕', 'Time for a Break!', 'وقت الاستراحة!'); } catch (e) {}
+      const cfg = _breakState.pomoConfig;
+      if (cfg) {
+        setTimeout(() => _startBreak(cfg.breakMin, 'pomo-break'), 600);
+      } else {
+        _clearFabPomo();
+      }
+      return;
+    }
+
+    if (finishedPhase === 'pomo-break') {
+      const cfg = _breakState.pomoConfig;
+      try {
+        playToneEnhanced(660, 'triangle', 0.4, 0.16);
+        setTimeout(() => playToneEnhanced(880, 'triangle', 0.4, 0.16), 250);
+        setTimeout(() => playToneEnhanced(990, 'triangle', 0.4, 0.16), 500);
+      } catch (e) {}
+      if (cfg && cfg.autoLoop) {
+        try { window._pomoShowFlash && window._pomoShowFlash('📚', 'Back to Learning!', 'عودة للدراسة!'); } catch (e) {}
+        setTimeout(() => _startBreak(cfg.sessionMin, 'pomo-session'), 600);
+      } else {
+        // No loop: end pomodoro session
+        try { window._pomoShowFlash && window._pomoShowFlash('🎉', 'Pomodoro Done!', 'انتهت الجلسة!'); } catch (e) {}
+        _stopPomodoro();
+      }
+      return;
+    }
+
+    // Regular break end (existing behavior)
     try {
-      // Rising melody: C-E-G-C octave
       playToneEnhanced(523.25, 'sine', 0.3, 0.22);
       setTimeout(() => playToneEnhanced(659.25, 'sine', 0.3, 0.22), 180);
       setTimeout(() => playToneEnhanced(783.99, 'sine', 0.3, 0.22), 360);
@@ -9193,12 +9388,10 @@ function _patchAlefFinalPage(key) {
         playToneEnhanced(1318.51, 'triangle', 0.4, 0.2);
         playToneEnhanced(1567.98, 'triangle', 0.4, 0.18);
       }, 800);
-      // Sparkle
       setTimeout(() => playToneEnhanced(2093, 'sine', 0.2, 0.1), 1200);
       setTimeout(() => playToneEnhanced(2637, 'sine', 0.2, 0.1), 1350);
     } catch(e) {}
 
-    // Victory-style announcement
     try {
       showVictory('🎉', "Break's over! Ready to learn? — انتهت الاستراحة! هيا نتعلم!");
     } catch(e) {}
@@ -9212,6 +9405,7 @@ function _patchAlefFinalPage(key) {
   window._cancelBreak = _cancelBreak;
   window._startBreakCustom = _startBreakCustom;
   window._closeBreakMenu = _closeBreakMenu;
+  window._startPomodoro = _startPomodoro;
 
   // Initialize on load
   document.addEventListener('DOMContentLoaded', () => {
@@ -11703,187 +11897,9 @@ window._tabMe = function() {
 })();
 
 
-/* ============================================================
-   🍅 POMODORO TIMER
-   - Teacher sets session/break minutes; auto-loops if enabled
-   - Ticks every 250ms for smooth display; emits transition flash
-   - Persists settings + running state to localStorage so refresh
-     during a session keeps the countdown honest
-   ============================================================ */
-(function pomodoroTimer() {
-  const STORAGE_KEY = 'pomodoro_v1';
-
-  /** mode: 'idle' | 'session' | 'break' | 'paused-session' | 'paused-break' */
-  const state = {
-    mode: 'idle',
-    endsAt: 0,        // ms timestamp when current phase ends (when running)
-    remainingMs: 0,   // ms remaining when paused
-    sessionMs: 15 * 60 * 1000,
-    breakMs: 1 * 60 * 1000,
-    autoLoop: true,
-    tickId: 0,
-  };
-
-  function $(id) { return document.getElementById(id); }
-  function widget() { return $('pomodoro-widget'); }
-  function fmt(ms) {
-    const total = Math.max(0, Math.ceil(ms / 1000));
-    const m = Math.floor(total / 60);
-    const s = total % 60;
-    return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
-  }
-
-  function loadSettings() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return;
-      const o = JSON.parse(raw);
-      if (typeof o.sessionMin === 'number') state.sessionMs = o.sessionMin * 60 * 1000;
-      if (typeof o.breakMin === 'number')   state.breakMs   = o.breakMin   * 60 * 1000;
-      if (typeof o.autoLoop === 'boolean')  state.autoLoop  = o.autoLoop;
-    } catch (e) {}
-  }
-
-  function saveSettings() {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        sessionMin: Math.round(state.sessionMs / 60000),
-        breakMin:   Math.round(state.breakMs   / 60000),
-        autoLoop:   state.autoLoop,
-      }));
-    } catch (e) {}
-  }
-
-  function applySettingsFromInputs() {
-    const sIn = $('pomo-session-min');
-    const bIn = $('pomo-break-min');
-    const lIn = $('pomo-loop-toggle');
-    if (sIn) state.sessionMs = (Math.max(1, Math.min(120, parseInt(sIn.value) || 15))) * 60 * 1000;
-    if (bIn) state.breakMs   = (Math.max(1, Math.min(30,  parseInt(bIn.value) || 1)))  * 60 * 1000;
-    if (lIn) state.autoLoop  = !!lIn.checked;
-    saveSettings();
-  }
-
-  function syncInputsFromState() {
-    const sIn = $('pomo-session-min');
-    const bIn = $('pomo-break-min');
-    const lIn = $('pomo-loop-toggle');
-    if (sIn) sIn.value = String(Math.round(state.sessionMs / 60000));
-    if (bIn) bIn.value = String(Math.round(state.breakMs   / 60000));
-    if (lIn) lIn.checked = state.autoLoop;
-  }
-
-  function setBadgeMode(mode) {
-    const w = widget();
-    if (!w) return;
-    if (mode === 'paused-session' || mode === 'paused-break') {
-      w.dataset.state = 'paused';
-    } else {
-      w.dataset.state = mode;
-    }
-  }
-
-  function updateDisplay() {
-    let total, remaining;
-    if (state.mode === 'idle') {
-      total = state.sessionMs;
-      remaining = state.sessionMs;
-    } else if (state.mode === 'session') {
-      total = state.sessionMs;
-      remaining = state.endsAt - Date.now();
-    } else if (state.mode === 'break') {
-      total = state.breakMs;
-      remaining = state.endsAt - Date.now();
-    } else if (state.mode === 'paused-session') {
-      total = state.sessionMs;
-      remaining = state.remainingMs;
-    } else if (state.mode === 'paused-break') {
-      total = state.breakMs;
-      remaining = state.remainingMs;
-    }
-    remaining = Math.max(0, remaining);
-
-    const time = fmt(remaining);
-    const pillTime = $('pomo-pill-time');
-    const bigTime  = $('pomo-time-big');
-    const fill     = $('pomo-progress-fill');
-    const badge    = $('pomo-state-badge');
-    const startBtn = $('pomo-start-btn');
-    const startLabel = $('pomo-start-label');
-
-    if (pillTime) pillTime.textContent = time;
-    if (bigTime)  bigTime.textContent  = time;
-    if (fill && total > 0) {
-      const pct = ((total - remaining) / total) * 100;
-      fill.style.width = pct + '%';
-    }
-
-    if (badge) {
-      if      (state.mode === 'idle')           badge.textContent = '⏰ Ready — جاهز';
-      else if (state.mode === 'session')        badge.textContent = '📚 Session — جلسة دراسة';
-      else if (state.mode === 'break')          badge.textContent = '☕ Break — استراحة';
-      else if (state.mode === 'paused-session') badge.textContent = '⏸ Paused (Session) — متوقف';
-      else if (state.mode === 'paused-break')   badge.textContent = '⏸ Paused (Break) — متوقف';
-    }
-
-    if (startBtn && startLabel) {
-      const running = (state.mode === 'session' || state.mode === 'break');
-      startLabel.textContent = running ? 'Pause' : 'Start';
-      startBtn.querySelector('i').className = running ? 'fas fa-pause' : 'fas fa-play';
-    }
-  }
-
-  function startTick() {
-    stopTick();
-    state.tickId = setInterval(() => {
-      const now = Date.now();
-      if (state.mode === 'session' || state.mode === 'break') {
-        if (now >= state.endsAt) {
-          handleEndOfPhase();
-          return;
-        }
-        updateDisplay();
-      }
-    }, 250);
-  }
-
-  function stopTick() {
-    if (state.tickId) { clearInterval(state.tickId); state.tickId = 0; }
-  }
-
-  function handleEndOfPhase() {
-    const finished = state.mode;
-    stopTick();
-    try { playToneEnhanced && playToneEnhanced(finished === 'session' ? 880 : 660, 'triangle', 0.4, 0.16); } catch (e) {}
-    setTimeout(() => { try { playToneEnhanced && playToneEnhanced(finished === 'session' ? 1100 : 880, 'triangle', 0.4, 0.16); } catch (e) {} }, 250);
-    setTimeout(() => { try { playToneEnhanced && playToneEnhanced(finished === 'session' ? 1320 : 990, 'triangle', 0.4, 0.16); } catch (e) {} }, 500);
-
-    if (finished === 'session') {
-      showFlash('☕', 'Time for a Break!', 'وقت الاستراحة!');
-      if (state.autoLoop) {
-        state.mode = 'break';
-        state.endsAt = Date.now() + state.breakMs;
-        setBadgeMode('break');
-        startTick();
-      } else {
-        state.mode = 'idle';
-        setBadgeMode('idle');
-      }
-    } else if (finished === 'break') {
-      showFlash('📚', 'Back to Learning!', 'عودة للدراسة!');
-      if (state.autoLoop) {
-        state.mode = 'session';
-        state.endsAt = Date.now() + state.sessionMs;
-        setBadgeMode('session');
-        startTick();
-      } else {
-        state.mode = 'idle';
-        setBadgeMode('idle');
-      }
-    }
-    updateDisplay();
-  }
-
+/* Shared flash overlay used by Pomodoro phase transitions inside Break Timer.
+   Reused via window._pomoShowFlash. */
+(function pomodoroFlash() {
   function showFlash(icon, titleEn, titleAr) {
     let overlay = document.querySelector('.pomo-flash-overlay');
     if (!overlay) {
@@ -11904,78 +11920,5 @@ window._tabMe = function() {
     try { fireConfetti && fireConfetti(); } catch (e) {}
     setTimeout(() => overlay.classList.remove('is-visible'), 2400);
   }
-
-  // Public controls
-  window.pomodoroToggleExpand = function() {
-    const w = widget();
-    if (!w) return;
-    w.classList.toggle('pomo-collapsed');
-    if (!w.classList.contains('pomo-collapsed')) syncInputsFromState();
-  };
-
-  window.pomodoroStartPause = function() {
-    applySettingsFromInputs();
-    if (state.mode === 'idle') {
-      state.mode = 'session';
-      state.endsAt = Date.now() + state.sessionMs;
-      setBadgeMode('session');
-      startTick();
-    } else if (state.mode === 'session' || state.mode === 'break') {
-      // Pause
-      state.remainingMs = Math.max(0, state.endsAt - Date.now());
-      state.mode = state.mode === 'session' ? 'paused-session' : 'paused-break';
-      setBadgeMode(state.mode);
-      stopTick();
-    } else if (state.mode === 'paused-session') {
-      state.mode = 'session';
-      state.endsAt = Date.now() + state.remainingMs;
-      setBadgeMode('session');
-      startTick();
-    } else if (state.mode === 'paused-break') {
-      state.mode = 'break';
-      state.endsAt = Date.now() + state.remainingMs;
-      setBadgeMode('break');
-      startTick();
-    }
-    updateDisplay();
-  };
-
-  window.pomodoroReset = function() {
-    stopTick();
-    applySettingsFromInputs();
-    state.mode = 'idle';
-    state.endsAt = 0;
-    state.remainingMs = 0;
-    setBadgeMode('idle');
-    updateDisplay();
-  };
-
-  // Wire up settings change listeners
-  function wireSettings() {
-    ['pomo-session-min', 'pomo-break-min'].forEach(id => {
-      const el = $(id);
-      if (!el) return;
-      el.addEventListener('change', () => {
-        applySettingsFromInputs();
-        if (state.mode === 'idle') updateDisplay();
-      });
-    });
-    const loop = $('pomo-loop-toggle');
-    if (loop) loop.addEventListener('change', () => { applySettingsFromInputs(); });
-
-    // Click outside panel to collapse
-    document.addEventListener('click', (e) => {
-      const w = widget();
-      if (!w || w.classList.contains('pomo-collapsed')) return;
-      if (!w.contains(e.target)) w.classList.add('pomo-collapsed');
-    });
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    loadSettings();
-    syncInputsFromState();
-    setBadgeMode('idle');
-    updateDisplay();
-    wireSettings();
-  });
+  window._pomoShowFlash = showFlash;
 })();
