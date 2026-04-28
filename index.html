@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
@@ -50,9 +50,8 @@
 
     <!-- Start slot (RTL = right side): Back + Breadcrumb -->
     <div class="nav-start">
-      <button id="nav-back-btn" onclick="backToDashboard()" aria-label="القائمة الرئيسية">
+      <button id="nav-back-btn" onclick="history.back()" aria-label="رجوع">
         <i class="fas fa-chevron-right" aria-hidden="true"></i>
-        <span>رجوع</span>
       </button>
       <nav id="nav-breadcrumb" aria-label="Breadcrumb">
         <span class="bc-crumb active">جامع</span>
@@ -77,6 +76,9 @@
         <span id="nav-student-name">—</span>
         <span id="studentName" style="display:none;">—</span>
       </div>
+      <button class="nav-icon-btn" onclick="goHome()" aria-label="الرئيسية" title="الرئيسية">
+        <i class="fas fa-home" aria-hidden="true"></i>
+      </button>
       <button class="nav-icon-btn" onclick="toggleTheme()" aria-label="تبديل المظهر" title="Toggle theme">
         <i id="theme-icon" class="fas fa-moon" aria-hidden="true"></i>
       </button>
@@ -114,8 +116,12 @@
       <i class="fas fa-chevron-right" aria-hidden="true"></i>
     </button>
     <div id="sec-dots" aria-label="Sections"></div>
-    <div class="sec-label" dir="ltr">
-      <span id="navSectionLabel">Section 1 / 11</span>
+    <div class="sec-label sec-label-wrap" dir="ltr">
+      <button class="sec-label-btn" id="navSectionLabel" onclick="_toggleSectionMenu()" aria-haspopup="true" aria-expanded="false">
+        <span id="navSectionText">Section 1 / 11</span>
+        <i class="fas fa-chevron-down sec-label-chevron" aria-hidden="true"></i>
+      </button>
+      <div id="sec-sections-menu" class="sec-sections-menu" role="menu"></div>
     </div>
     <button class="sec-arrow" id="sec-next" onclick="_navSection(1)" aria-label="القسم التالي">
       <i class="fas fa-chevron-left" aria-hidden="true"></i>
@@ -327,30 +333,32 @@
   ================================================================ -->
   <div id="login-overlay">
     <div class="login-card">
-      <div class="login-logo"><img src="logo-optimized.png" alt="Jamea Logo" decoding="async"></div>
-      <div class="login-title">JAMEA PLATFORM</div>
-      <div class="login-sub" data-i18n="enter_student_code">Sign in with Google, email, or student code to begin</div>
-      <div class="login-error" id="loginError"></div>
-      <div class="login-mode-toggle" role="group" aria-label="Choose login type">
-        <button type="button" class="login-mode-btn" data-login-mode-btn="student" onclick="selectLoginMode('student')">
-          <i class="fas fa-child"></i> Student
+      <div class="login-card-inner">
+        <div class="login-logo"><img src="logo-optimized.png" alt="Jamea Logo" decoding="async"></div>
+        <div class="login-title">JAMEA PLATFORM</div>
+        <div class="login-sub" data-i18n="enter_student_code">سجل الدخول بجوجل أو البريد أو كود الطالب للبدء</div>
+        <div class="login-error" id="loginError"></div>
+        <div class="login-mode-toggle" role="group" aria-label="Choose login type">
+          <button type="button" class="login-mode-btn active" data-login-mode-btn="student" onclick="selectLoginMode('student')">
+            <i class="fas fa-child"></i> Student
+          </button>
+          <button type="button" class="login-mode-btn" data-login-mode-btn="parent" onclick="selectLoginMode('parent')">
+            <i class="fas fa-user-shield"></i> Parent
+          </button>
+        </div>
+        <button class="btn-primary login-google-btn" onclick="loginWithGoogle()" type="button">
+          <i class="fab fa-google"></i> Continue with Google
         </button>
-        <button type="button" class="login-mode-btn" data-login-mode-btn="parent" onclick="selectLoginMode('parent')">
-          <i class="fas fa-user-shield"></i> Parent
+        <div class="login-divider"><span>or</span></div>
+        <input type="text" id="studentCodeInput" class="login-input" placeholder="البريد الإلكتروني أو كود الطالب" data-i18n="student_code_placeholder"
+               onkeydown="if(event.key==='Enter') loginStudent()">
+        <button class="btn-primary" id="loginPrimaryAction" onclick="loginStudent()" data-i18n="start_learning">
+          <i class="fas fa-rocket"></i> ابدأ التعلم
+        </button>
+        <button class="btn-secondary login-lang-btn" onclick="toggleLanguage()" type="button">
+          <i class="fas fa-language"></i> <span data-i18n="lang_toggle">عربي / English</span>
         </button>
       </div>
-      <button class="btn-primary login-google-btn" onclick="loginWithGoogle()" type="button">
-        <i class="fab fa-google"></i> Continue with Google
-      </button>
-      <div class="login-divider"><span>or</span></div>
-      <input type="text" id="studentCodeInput" class="login-input" placeholder="Student code" data-i18n="student_code_placeholder"
-             onkeydown="if(event.key==='Enter') loginStudent()">
-      <button class="btn-primary" id="loginPrimaryAction" onclick="loginStudent()" data-i18n="start_learning">
-        Start Learning <i class="fas fa-rocket"></i>
-      </button>
-      <button class="btn-secondary login-lang-btn" onclick="toggleLanguage()" type="button">
-        <i class="fas fa-language"></i> <span data-i18n="lang_toggle">عربي / English</span>
-      </button>
     </div>
   </div>
 
@@ -624,10 +632,16 @@
       <!-- 🧠 Memory Game -->
       <div class="step-section" data-section="6.75">
         <div class="section-head-row">
-          <div class="section-heading" style="margin-bottom:0;">
-            <span class="section-badge">🧠</span> Memory Game — Match the pairs!
+          <div style="display:flex;gap:8px;align-items:center;">
+            <button class="btn-secondary" style="padding:9px 12px;" onclick="_navSection(-1)" title="السابق"><i class="fas fa-arrow-left"></i></button>
+            <button class="btn-secondary" style="padding:9px 12px;" onclick="goHome()" title="الرئيسية"><i class="fas fa-home"></i></button>
+            <div class="section-heading" style="margin-bottom:0;">
+              <span class="section-badge">🧠</span> Memory Game — Match the pairs!
+            </div>
           </div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+            <label class="mem-timer-pill"><i class="fas fa-eye pill-icon"></i><span class="pill-label">Peek</span><input type="text" inputmode="numeric" pattern="[0-9]*" id="memory-peek-time" value="4" min="1" max="30" dir="ltr" lang="en"><span class="pill-unit">s</span></label>
+            <label class="mem-timer-pill"><i class="fas fa-hourglass-half pill-icon"></i><span class="pill-label">Play</span><input type="text" inputmode="numeric" pattern="[0-9]*" id="memory-play-time" value="120" min="10" max="600" dir="ltr" lang="en"><span class="pill-unit">s</span></label>
             <button class="btn-secondary" id="memory-peek-btn" onclick="memoryPeek()">
               <i class="fas fa-eye"></i> Peek (4s)
             </button>
@@ -639,7 +653,13 @@
         <div style="font-family:'Tajawal',sans-serif;font-size:0.95rem;color:var(--text-muted);text-align:center;margin-bottom:15px;">
           Find the matching pairs and read each word aloud! — اعثر على الأزواج المتطابقة!
         </div>
-        <div class="memory-grid" id="memory-grid"></div>
+        <div class="mem-game-area">
+          <div class="sand-timer-container" id="memory-sand-timer">
+            <div class="sand-timer-fill" id="memory-sand-fill"></div>
+            <div class="sand-timer-label" id="memory-sand-label"></div>
+          </div>
+          <div class="memory-grid" id="memory-grid"></div>
+        </div>
       </div>
 
 
@@ -686,7 +706,7 @@
                 <i class="fas fa-stopwatch"></i> Custom — مخصص:
               </div>
               <div class="sr-custom-controls">
-                <input type="number" id="sr-custom-input" min="1" max="30" step="0.5" value="3" />
+                <input type="text" inputmode="numeric" pattern="[0-9]*" id="sr-custom-input" min="1" max="30" step="0.5" value="3" />
                 <span class="sr-custom-unit">sec</span>
                 <button class="sr-custom-go" onclick="speedReadStartCustom()">
                   <i class="fas fa-play"></i> Start!
@@ -885,42 +905,51 @@
 
       <!-- Letter selectors (outside fullscreen sections so they persist across nav) -->
       <div class="step-section" data-section="sukoon-selectors" style="min-height:auto;">
-        <div class="section-heading"><span class="section-badge">1</span> Sukoon — السكون</div>
-        <div class="motors-box" style="border-left-color:var(--text-muted);">
-          The Sukoon means the letter is with broken motor and must be joined with the letter before it!<br>
-          <span style="font-weight:bold;color:var(--text-muted);">السكون يعني وقوف الصوت، ولا يُنطق الحرف الساكن إلا متصلاً بالحرف المتحرك الذي قبله كصوت واحد!</span>
+        <div class="section-heading sukoon-section-title"><span class="section-badge">1</span> السكون — Sukoon</div>
+        <div class="sukoon-intro-card">
+          <button class="sukoon-intro-symbol" onclick="sukoonIntroPlaySymbol(this)" aria-label="استمع للسكون">بْ</button>
+          <div class="sukoon-intro-body">
+            <div class="sukoon-intro-rule-ar">السكون (ْ) علامة فوق الحرف تعني: لا حركة له — لا فتحة ولا ضمة ولا كسرة</div>
+            <div class="sukoon-intro-rule-en">Sukoon (ْ) is a mark above a letter. It means the letter has no vowel: no fatha, damma, or kasra.</div>
+            <div class="sukoon-intro-rule-ar">الحرف الساكن لا يُنطق وحده — يُنطق متصلاً بالحرف المتحرك الذي قبله كصوت واحد</div>
+            <div class="sukoon-intro-rule-en">A letter with sukoon is not read alone. It joins the previous voweled letter and both are read as one sound unit.</div>
+            <div class="sukoon-intro-words" id="sukoon-intro-words">
+              <button class="sukoon-intro-word" onclick="sukoonIntroPlay(this)" data-pos="1" data-tone="500">بَيْتُ</button>
+              <button class="sukoon-intro-word" onclick="sukoonIntroPlay(this)" data-pos="1" data-tone="540">شَمْسُ</button>
+              <button class="sukoon-intro-word" onclick="sukoonIntroPlay(this)" data-pos="1" data-tone="580">قَلْبُ</button>
+              <button class="sukoon-intro-word" onclick="sukoonIntroPlay(this)" data-pos="1" data-tone="620">مَكْتَبُ</button>
+              <button class="sukoon-intro-word" onclick="sukoonIntroPlay(this)" data-pos="1" data-tone="660">أَحْمَدُ</button>
+              <button class="sukoon-intro-word" onclick="sukoonIntroPlay(this)" data-pos="1" data-tone="700">فَصْلُ</button>
+              <button class="sukoon-intro-play-all" onclick="sukoonIntroPlayAll()" aria-label="Play all words"><i class="fas fa-play"></i> اسمعها كلها</button>
+            </div>
+          </div>
         </div>
+
+        <!-- 🎯 Spot the Sukoon — تحدي اكتشاف السكون -->
+        <div id="sukoon-spot-container"></div>
+
         <div style="display:flex;gap:20px;margin-bottom:15px;flex-wrap:wrap;direction:rtl;">
           <div style="flex:1;min-width:250px;">
-            <label style="font-family:'Tajawal',sans-serif;font-size:15px;font-weight:900;color:var(--text-muted);">1. الحرف المتحرك (الأول):</label>
+            <label style="font-family:'Tajawal',sans-serif;font-size:15px;font-weight:900;color:var(--text-muted);">1. الحرف المتحرك (الأول) — First voweled letter:</label>
             <div class="madd-letter-selector" id="sukoon-front-selector" style="margin-bottom:0;padding-top:10px;"></div>
           </div>
           <div style="flex:1;min-width:250px;">
-            <label style="font-family:'Tajawal',sans-serif;font-size:15px;font-weight:900;color:var(--text-muted);">2. الحرف الساكن (الثاني):</label>
+            <label style="font-family:'Tajawal',sans-serif;font-size:15px;font-weight:900;color:var(--text-muted);">2. الحرف الساكن (الثاني) — Second sukoon letter:</label>
             <div class="madd-letter-selector" id="sukoon-back-selector" style="margin-bottom:0;padding-top:10px;"></div>
           </div>
         </div>
       </div>
 
-      <!-- 2-motors: Motor Definition (separated from Phaser section for fullscreen clarity) -->
-      <div class="step-section" data-section="sukoon-2-motors">
-        <div class="section-heading"><span class="section-badge">2</span> Discover the Motors — اكتشف الموتورات</div>
-        <div class="motors-box" id="sukoon-motor-section">
-          <strong>Sukoon (ْ)</strong> = a letter with <em>no motor</em>. The child reads it attached to the previous short-motored letter as a single sound unit.<br>
-          <span style="font-weight:bold;color:var(--text-muted);">حرف ساكن = حرف بدون حركة — يُقرأ مع الحرف المتحرك قبله كصوت واحد مدمج.</span>
-        </div>
-      </div>
-
       <!-- 2: Phaser Game -->
       <div class="step-section" data-section="sukoon-2">
-        <div class="section-heading"><span class="section-badge">3</span> 🚗 Start the Car — شغل محرك السيارة!</div>
+        <div class="section-heading"><span class="section-badge">2</span> 🚗 Start the Car — شغل محرك السيارة!</div>
         <div id="sukoon-game-container" style="width:100%;aspect-ratio:1000/600;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-lg);border:3px solid var(--text-muted);"></div>
       </div>
 
       <!-- 3: Syllables -->
       <div class="step-section" data-section="sukoon-3">
         <div class="section-head-row">
-          <div class="section-heading" style="margin-bottom:0;"><span class="section-badge">4</span> 🧩 Connect The Sukoon Syllables — وصّل مقاطع السكون</div>
+          <div class="section-heading" style="margin-bottom:0;"><span class="section-badge">3</span> 🧩 Connect The Sukoon Syllables — وصّل مقاطع السكون</div>
           <button class="btn-secondary" onclick="initLevelPuzzleXO('sukoon-syllables')"><i class="fas fa-rotate-right"></i> Restart XO</button>
         </div>
         <div class="puzzle-xo-header">
@@ -930,10 +959,29 @@
         <div class="two-letter-grid" id="ui-sukoon-syllables"></div>
       </div>
 
-      <!-- 4: Words -->
+      <!-- 4-cards: Three-piece Sukoon Word Puzzle (mirrors letter section 4) -->
+      <div class="step-section" data-section="sukoon-4-cards">
+        <div class="section-head-row">
+          <div class="section-heading" style="margin-bottom:0;"><span class="section-badge">4</span> 🧩 Read Sukoon Words — اقرأ كلمات السكون!</div>
+          <button class="btn-secondary" onclick="initLevelPuzzleXO('sukoon-cards')"><i class="fas fa-rotate-right"></i> Restart XO</button>
+        </div>
+        <div class="puzzle-xo-header">
+          <div class="puzzle-xo-status">Turn: <span id="sukoon-card-turn" class="turn-x">❌ X</span></div>
+          <div class="puzzle-xo-hint">Click a word, read it, claim it! — اضغط كلمة واقرأها!</div>
+        </div>
+        <div class="cards-grid" id="ui-sukoon-cards-container"></div>
+      </div>
+
+      <!-- 5: Sukoon Patterns (mirrors letter section 5 / shapes) -->
+      <div class="step-section" data-section="sukoon-5">
+        <div class="section-heading"><span class="section-badge">5</span> Sukoon Patterns — أنماط السكون في الكلمات</div>
+        <div id="ui-sukoon-patterns"></div>
+      </div>
+
+      <!-- 6: Words (split words XO — mirrors letter section 6) -->
       <div class="step-section" data-section="sukoon-4">
         <div class="section-head-row">
-          <div class="section-heading" style="margin-bottom:0;"><span class="section-badge">5</span> 🧩 Read Connected Sukoon Words — اقرأ كلمات السكون</div>
+          <div class="section-heading" style="margin-bottom:0;"><span class="section-badge">6</span> 🧩 Read Connected Sukoon Words — اقرأ كلمات السكون</div>
           <button class="btn-secondary" onclick="initLevelPuzzleXO('sukoon-words')"><i class="fas fa-rotate-right"></i> Restart XO</button>
         </div>
         <div class="puzzle-xo-header">
@@ -971,10 +1019,16 @@
       <!-- 🧠 Memory Game -->
       <div class="step-section" data-section="sukoon-memory">
         <div class="section-head-row">
-          <div class="section-heading" style="margin-bottom:0;">
-            <span class="section-badge">🧠</span> Memory Game — Match the pairs!
+          <div style="display:flex;gap:8px;align-items:center;">
+            <button class="btn-secondary" style="padding:9px 12px;" onclick="_navSection(-1)" title="السابق"><i class="fas fa-arrow-left"></i></button>
+            <button class="btn-secondary" style="padding:9px 12px;" onclick="goHome()" title="الرئيسية"><i class="fas fa-home"></i></button>
+            <div class="section-heading" style="margin-bottom:0;">
+              <span class="section-badge">🧠</span> Memory Game — Match the pairs!
+            </div>
           </div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+            <label class="mem-timer-pill"><i class="fas fa-eye pill-icon"></i><span class="pill-label">Peek</span><input type="text" inputmode="numeric" pattern="[0-9]*" id="sukoon-peek-time" value="4" min="1" max="30" dir="ltr" lang="en"><span class="pill-unit">s</span></label>
+            <label class="mem-timer-pill"><i class="fas fa-hourglass-half pill-icon"></i><span class="pill-label">Play</span><input type="text" inputmode="numeric" pattern="[0-9]*" id="sukoon-play-time" value="120" min="10" max="600" dir="ltr" lang="en"><span class="pill-unit">s</span></label>
             <button class="btn-secondary" id="sukoon-memory-peek-btn" onclick="memoryPeek('sukoon')">
               <i class="fas fa-eye"></i> Peek (4s)
             </button>
@@ -986,7 +1040,13 @@
         <div style="font-family:'Tajawal',sans-serif;font-size:0.95rem;color:var(--text-muted);text-align:center;margin-bottom:15px;">
           Find the matching pairs and read each word aloud! — اعثر على الأزواج المتطابقة!
         </div>
-        <div class="memory-grid" id="sukoon-memory-grid"></div>
+        <div class="mem-game-area">
+          <div class="sand-timer-container" id="sukoon-sand-timer">
+            <div class="sand-timer-fill" id="sukoon-sand-fill"></div>
+            <div class="sand-timer-label" id="sukoon-sand-label"></div>
+          </div>
+          <div class="memory-grid" id="sukoon-memory-grid"></div>
+        </div>
       </div>
 
       <!-- ⚡ Speed Reading -->
@@ -1030,7 +1090,7 @@
                 <i class="fas fa-stopwatch"></i> Custom — مخصص:
               </div>
               <div class="sr-custom-controls">
-                <input type="number" id="sukoon-sr-custom-input" min="1" max="30" step="0.5" value="3" />
+                <input type="text" inputmode="numeric" pattern="[0-9]*" id="sukoon-sr-custom-input" min="1" max="30" step="0.5" value="3" />
                 <span class="sr-custom-unit">sec</span>
                 <button class="sr-custom-go" onclick="speedReadStartCustom('sukoon')">
                   <i class="fas fa-play"></i> Start!
@@ -1158,6 +1218,13 @@
       <!-- 🕌 Quran -->
       <div class="step-section" data-section="sukoon-quran"><div class="section-heading"><span class="section-badge">12</span> 🕌 Find Sukoon in Quran — استخرج السكون من القرآن</div><div class="mushaf-box"><div class="interactive-words" id="ui-sukoon-quran-text"></div><div class="hunt-progress" id="sukoon_quran-progress">Progress: 0 / 0</div></div></div>
 
+      <!-- 🔍 Detective Quest — لعبة محقق العلامات -->
+      <div class="step-section" data-section="sukoon-detective">
+        <div class="section-heading"><span class="section-badge">🔍</span> Detective Quest — تحدي محقق السكون</div>
+        <div class="det-header-title">ميّز السكون عن الحركات الأخرى — 3 موجات!</div>
+        <div id="sukoon-det-container"></div>
+      </div>
+
       <div class="step-section" style="min-height:auto;padding-top:20px;border-bottom:none;"><button class="next-level-btn" onclick="goHome();playVictorySound();fireConfetti();" style="flex-direction:column;gap:5px;"><span>أحسنت! العودة للقائمة <i class="fas fa-home"></i></span><span style="font-size:1rem;font-weight:normal;letter-spacing:normal;">Great Job! Back to Menu</span></button></div>
     </div>
   </div>
@@ -1250,10 +1317,16 @@
       <!-- 🧠 Memory Game -->
       <div class="step-section" data-section="madd-memory">
         <div class="section-head-row">
-          <div class="section-heading" style="margin-bottom:0;">
-            <span class="section-badge">🧠</span> Memory Game — Match the pairs!
+          <div style="display:flex;gap:8px;align-items:center;">
+            <button class="btn-secondary" style="padding:9px 12px;" onclick="_navSection(-1)" title="السابق"><i class="fas fa-arrow-left"></i></button>
+            <button class="btn-secondary" style="padding:9px 12px;" onclick="goHome()" title="الرئيسية"><i class="fas fa-home"></i></button>
+            <div class="section-heading" style="margin-bottom:0;">
+              <span class="section-badge">🧠</span> Memory Game — Match the pairs!
+            </div>
           </div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+            <label class="mem-timer-pill"><i class="fas fa-eye pill-icon"></i><span class="pill-label">Peek</span><input type="text" inputmode="numeric" pattern="[0-9]*" id="madd-peek-time" value="4" min="1" max="30" dir="ltr" lang="en"><span class="pill-unit">s</span></label>
+            <label class="mem-timer-pill"><i class="fas fa-hourglass-half pill-icon"></i><span class="pill-label">Play</span><input type="text" inputmode="numeric" pattern="[0-9]*" id="madd-play-time" value="120" min="10" max="600" dir="ltr" lang="en"><span class="pill-unit">s</span></label>
             <button class="btn-secondary" id="madd-memory-peek-btn" onclick="memoryPeek('madd')">
               <i class="fas fa-eye"></i> Peek (4s)
             </button>
@@ -1265,7 +1338,13 @@
         <div style="font-family:'Tajawal',sans-serif;font-size:0.95rem;color:var(--text-muted);text-align:center;margin-bottom:15px;">
           Find the matching pairs and read each word aloud! — اعثر على الأزواج المتطابقة!
         </div>
-        <div class="memory-grid" id="madd-memory-grid"></div>
+        <div class="mem-game-area">
+          <div class="sand-timer-container" id="madd-sand-timer">
+            <div class="sand-timer-fill" id="madd-sand-fill"></div>
+            <div class="sand-timer-label" id="madd-sand-label"></div>
+          </div>
+          <div class="memory-grid" id="madd-memory-grid"></div>
+        </div>
       </div>
 
       <!-- ⚡ Speed Reading -->
@@ -1309,7 +1388,7 @@
                 <i class="fas fa-stopwatch"></i> Custom — مخصص:
               </div>
               <div class="sr-custom-controls">
-                <input type="number" id="madd-sr-custom-input" min="1" max="30" step="0.5" value="3" />
+                <input type="text" inputmode="numeric" pattern="[0-9]*" id="madd-sr-custom-input" min="1" max="30" step="0.5" value="3" />
                 <span class="sr-custom-unit">sec</span>
                 <button class="sr-custom-go" onclick="speedReadStartCustom('madd')">
                   <i class="fas fa-play"></i> Start!
@@ -1529,10 +1608,16 @@
       <!-- 🧠 Memory Game -->
       <div class="step-section" data-section="shadda-memory">
         <div class="section-head-row">
-          <div class="section-heading" style="margin-bottom:0;">
-            <span class="section-badge">🧠</span> Memory Game — Match the pairs!
+          <div style="display:flex;gap:8px;align-items:center;">
+            <button class="btn-secondary" style="padding:9px 12px;" onclick="_navSection(-1)" title="السابق"><i class="fas fa-arrow-left"></i></button>
+            <button class="btn-secondary" style="padding:9px 12px;" onclick="goHome()" title="الرئيسية"><i class="fas fa-home"></i></button>
+            <div class="section-heading" style="margin-bottom:0;">
+              <span class="section-badge">🧠</span> Memory Game — Match the pairs!
+            </div>
           </div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+            <label class="mem-timer-pill"><i class="fas fa-eye pill-icon"></i><span class="pill-label">Peek</span><input type="text" inputmode="numeric" pattern="[0-9]*" id="shadda-peek-time" value="4" min="1" max="30" dir="ltr" lang="en"><span class="pill-unit">s</span></label>
+            <label class="mem-timer-pill"><i class="fas fa-hourglass-half pill-icon"></i><span class="pill-label">Play</span><input type="text" inputmode="numeric" pattern="[0-9]*" id="shadda-play-time" value="120" min="10" max="600" dir="ltr" lang="en"><span class="pill-unit">s</span></label>
             <button class="btn-secondary" id="shadda-memory-peek-btn" onclick="memoryPeek('shadda')">
               <i class="fas fa-eye"></i> Peek (4s)
             </button>
@@ -1544,7 +1629,13 @@
         <div style="font-family:'Tajawal',sans-serif;font-size:0.95rem;color:var(--text-muted);text-align:center;margin-bottom:15px;">
           Find the matching pairs and read each word aloud! — اعثر على الأزواج المتطابقة!
         </div>
-        <div class="memory-grid" id="shadda-memory-grid"></div>
+        <div class="mem-game-area">
+          <div class="sand-timer-container" id="shadda-sand-timer">
+            <div class="sand-timer-fill" id="shadda-sand-fill"></div>
+            <div class="sand-timer-label" id="shadda-sand-label"></div>
+          </div>
+          <div class="memory-grid" id="shadda-memory-grid"></div>
+        </div>
       </div>
 
       <!-- ⚡ Speed Reading -->
@@ -1588,7 +1679,7 @@
                 <i class="fas fa-stopwatch"></i> Custom — مخصص:
               </div>
               <div class="sr-custom-controls">
-                <input type="number" id="shadda-sr-custom-input" min="1" max="30" step="0.5" value="3" />
+                <input type="text" inputmode="numeric" pattern="[0-9]*" id="shadda-sr-custom-input" min="1" max="30" step="0.5" value="3" />
                 <span class="sr-custom-unit">sec</span>
                 <button class="sr-custom-go" onclick="speedReadStartCustom('shadda')">
                   <i class="fas fa-play"></i> Start!
@@ -1808,10 +1899,16 @@
       <!-- 🧠 Memory Game -->
       <div class="step-section" data-section="tanween-memory">
         <div class="section-head-row">
-          <div class="section-heading" style="margin-bottom:0;">
-            <span class="section-badge">🧠</span> Memory Game — Match the pairs!
+          <div style="display:flex;gap:8px;align-items:center;">
+            <button class="btn-secondary" style="padding:9px 12px;" onclick="_navSection(-1)" title="السابق"><i class="fas fa-arrow-left"></i></button>
+            <button class="btn-secondary" style="padding:9px 12px;" onclick="goHome()" title="الرئيسية"><i class="fas fa-home"></i></button>
+            <div class="section-heading" style="margin-bottom:0;">
+              <span class="section-badge">🧠</span> Memory Game — Match the pairs!
+            </div>
           </div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+            <label class="mem-timer-pill"><i class="fas fa-eye pill-icon"></i><span class="pill-label">Peek</span><input type="text" inputmode="numeric" pattern="[0-9]*" id="tanween-peek-time" value="4" min="1" max="30" dir="ltr" lang="en"><span class="pill-unit">s</span></label>
+            <label class="mem-timer-pill"><i class="fas fa-hourglass-half pill-icon"></i><span class="pill-label">Play</span><input type="text" inputmode="numeric" pattern="[0-9]*" id="tanween-play-time" value="120" min="10" max="600" dir="ltr" lang="en"><span class="pill-unit">s</span></label>
             <button class="btn-secondary" id="tanween-memory-peek-btn" onclick="memoryPeek('tanween')">
               <i class="fas fa-eye"></i> Peek (4s)
             </button>
@@ -1823,7 +1920,13 @@
         <div style="font-family:'Tajawal',sans-serif;font-size:0.95rem;color:var(--text-muted);text-align:center;margin-bottom:15px;">
           Find the matching pairs and read each word aloud! — اعثر على الأزواج المتطابقة!
         </div>
-        <div class="memory-grid" id="tanween-memory-grid"></div>
+        <div class="mem-game-area">
+          <div class="sand-timer-container" id="tanween-sand-timer">
+            <div class="sand-timer-fill" id="tanween-sand-fill"></div>
+            <div class="sand-timer-label" id="tanween-sand-label"></div>
+          </div>
+          <div class="memory-grid" id="tanween-memory-grid"></div>
+        </div>
       </div>
 
       <!-- ⚡ Speed Reading -->
@@ -1867,7 +1970,7 @@
                 <i class="fas fa-stopwatch"></i> Custom — مخصص:
               </div>
               <div class="sr-custom-controls">
-                <input type="number" id="tanween-sr-custom-input" min="1" max="30" step="0.5" value="3" />
+                <input type="text" inputmode="numeric" pattern="[0-9]*" id="tanween-sr-custom-input" min="1" max="30" step="0.5" value="3" />
                 <span class="sr-custom-unit">sec</span>
                 <button class="sr-custom-go" onclick="speedReadStartCustom('tanween')">
                   <i class="fas fa-play"></i> Start!

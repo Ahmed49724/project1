@@ -4341,14 +4341,27 @@ let currentTanweenLetter = 'ب';
 // بيانات ألعاب المفقود لكل مستوى
 const SUKOON_DATA = {
   missing: [
-    { display: 'مَكْـ<span class="missing-gap"></span>ـبٌ', correct: 0, opts: ['تَ', 'تْ', 'تُ'] },
-    { display: 'يَقْـ<span class="missing-gap"></span>َأُ', correct: 0, opts: ['ر', 'رْ', 'رِ'] },
-    { display: 'مَسْـ<span class="missing-gap"></span>ـدٌ', correct: 2, opts: ['جَ', 'جْ', 'جِ'] },
-    { display: 'فَصْـ<span class="missing-gap"></span>ٌ',  correct: 0, opts: ['ل', 'لْ', 'لِ'] },
+    { display: 'مَكْـ<span class="missing-gap"></span>ـبُ',  correct: 0, opts: ['تَ', 'تْ', 'تُ'] },
+    { display: 'يَقْـ<span class="missing-gap"></span>َأُ',  correct: 0, opts: ['رْ', 'رَ', 'رِ'] },
+    { display: 'مَسْـ<span class="missing-gap"></span>ـدُ',  correct: 2, opts: ['جَ', 'جْ', 'جِ'] },
+    { display: 'فَصْـ<span class="missing-gap"></span>',    correct: 0, opts: ['لُ', 'لْ', 'لِ'] },
+    { display: 'قَلْـ<span class="missing-gap"></span>',    correct: 1, opts: ['بَ', 'بُ', 'بِ'] },
+    { display: 'نَهْـ<span class="missing-gap"></span>',    correct: 0, opts: ['رُ', 'رْ', 'رِ'] },
   ],
-  wordBank: ['بَيْتٌ','مَكْتَبٌ','شَمْسٌ','فَصْلٌ','نَمْلٌ','ثَلْجٌ','بَحْرٌ','كَلْبٌ','أَهْلٌ','نَهْرٌ','يَقْرَأُ','مَسْجِدٌ','نَلْعَبُ','تَكْتُبُ','مَلْعَبٌ'],
-  xoWords:   ['يَقْرَأُ','مَكْتَبٌ','مَسْجِدٌ','يَذْهَبُ','أَحْمَدُ','فَصْلٌ','نَلْعَبُ','تَكْتُبُ','مَلْعَبٌ'],
-  storyText: 'ذَهَبَ أَحْمَدُ إِلَى مَكْتَبٍ قَرِيبٍ. رَأَى شَمْسًا، ثُمَّ جَلَسَ فِي فَصْلٍ هَادِئٍ، وَقَرَأَ كَلِمَاتٍ فِيهَا سُكُونٌ مِثْلَ بَيْتٍ وَنَهْرٍ.',
+  cards: [
+    { l1: 'بَ', l2: 'يْ', l3: 'تُ' },
+    { l1: 'شَ', l2: 'مْ', l3: 'سُ' },
+    { l1: 'قَ', l2: 'لْ', l3: 'بُ' },
+    { l1: 'نَ', l2: 'هْ', l3: 'رُ' },
+    { l1: 'كَ', l2: 'لْ', l3: 'بُ' },
+    { l1: 'بَ', l2: 'حْ', l3: 'رُ' },
+    { l1: 'فَ', l2: 'صْ', l3: 'لُ' },
+    { l1: 'نَ', l2: 'مْ', l3: 'لُ' },
+    { l1: 'ثَ', l2: 'لْ', l3: 'جُ' },
+  ],
+  wordBank: ['بَيْتُ','مَكْتَبُ','شَمْسُ','فَصْلُ','نَمْلُ','ثَلْجُ','بَحْرُ','كَلْبُ','أَهْلُ','نَهْرُ','يَقْرَأُ','مَسْجِدُ','نَلْعَبُ','تَكْتُبُ','مَلْعَبُ'],
+  xoWords:   ['يَقْرَأُ','مَكْتَبُ','مَسْجِدُ','يَذْهَبُ','أَحْمَدُ','فَصْلُ','نَلْعَبُ','تَكْتُبُ','مَلْعَبُ'],
+  storyText: 'ذَهَبَ أَحْمَدُ إِلَى مَكْتَبٍ قَرِيبٍ. رَأَى شَمْسًا، ثُمَّ جَلَسَ فِي فَصْلٍ هَادِئٍ، وَقَرَأَ كَلِمَاتٍ فِيهَا سُكُونٌ مِثْلُ بَيْتٍ وَنَهْرٍ وَقَلْبٍ وَشَمْسٍ وَمَكْتَبٍ.',
   quranText: '﴿ أَلَمْ نَشْرَحْ لَكَ صَدْرَكَ ۝ وَوَضَعْنَا عَنكَ وِزْرَكَ ۝ الَّذِي أَنقَضَ ظَهْرَكَ ﴾',
 };
 
@@ -4366,7 +4379,7 @@ const SUKOON_DATA = {
    ════════════════════════════════════════════════════════════ */
 const ADVANCED_LEVELS_DB = {
   sukoon: {
-    words: ['بَيْتٌ', 'مَكْتَبٌ', 'شَمْسٌ', 'فَصْلٌ', 'نَمْلٌ', 'ثَلْجٌ', 'بَحْرٌ', 'كَلْبٌ', 'أَهْلٌ', 'نَهْرٌ'],
+    words: ['بَيْتُ', 'مَكْتَبُ', 'شَمْسُ', 'فَصْلُ', 'نَمْلُ', 'ثَلْجُ', 'بَحْرُ', 'كَلْبُ', 'أَهْلُ', 'نَهْرُ'],
   },
   madd: {
     words: ['بَابٌ', 'سُورٌ', 'تِينٌ', 'قَالَ', 'يَقُولُ', 'قِيلَ', 'دَارٌ', 'حُوتٌ', 'رِيحٌ', 'عِيدٌ'],
@@ -4936,6 +4949,23 @@ function openSukoonLevel(front = null, back = null) {
     </div>`;
   }).join('');
 
+  // ── البطاقات الثلاثية ─────────────────────────────────
+  const cardsEl = document.getElementById('ui-sukoon-cards-container');
+  if (cardsEl) {
+    cardsEl.innerHTML = SUKOON_DATA.cards.map(c => {
+      const cut1 = RAFISA.some(r => (c.l1||'').includes(r));
+      const cut2 = RAFISA.some(r => (c.l2||'').includes(r));
+      const p1Class = 'piece no-nub '  + (cut1 ? 'no-hole' : '');
+      const p2Class = 'piece '         + (cut1 ? 'no-nub ' : '') + (cut2 ? 'no-hole' : '');
+      const p3Class = 'piece no-hole ' + (cut2 ? 'no-nub' : '');
+      return `<div class="puzzle-wrap" onmouseenter="playTone(450,'sine',0.1,0.02)">
+        <div class="${p1Class}">${c.l1}</div>
+        <div class="${p2Class}">${c.l2}</div>
+        <div class="${p3Class}">${c.l3}</div>
+      </div>`;
+    }).join('');
+  }
+
   // ── الألعاب الفرعية ───────────────────────────────────
   window.activeAdvancedLevel = 'sukoon';
   setAdvancedLevelWords('sukoon', SUKOON_DATA.wordBank);
@@ -4946,17 +4976,1015 @@ function openSukoonLevel(front = null, back = null) {
 
   // ── New mini-games using ADVANCED_LEVELS_DB.sukoon.words ──
   try { initLevelPuzzleXO('sukoon-syllables'); } catch (e) { console.warn('levelXO(sukoon-syllables):', e); }
+  try { initLevelPuzzleXO('sukoon-cards'); }     catch (e) { console.warn('levelXO(sukoon-cards):', e); }
   try { initLevelPuzzleXO('sukoon-words'); }     catch (e) { console.warn('levelXO(sukoon-words):', e); }
-  try { renderWheel(null, 'sukoon'); }          catch (e) { console.warn('wheel(sukoon):', e); }
-  try { initMemoryGame(null, 'sukoon'); }       catch (e) { console.warn('memory(sukoon):', e); }
-  try { speedReadRestart('sukoon'); }           catch (e) { console.warn('speedRead(sukoon):', e); }
-  try { trickyCupsRestart('sukoon'); }          catch (e) { console.warn('trickyCups(sukoon):', e); }
+  try { renderWheel(null, 'sukoon'); }           catch (e) { console.warn('wheel(sukoon):', e); }
+  try { initMemoryGame(null, 'sukoon'); }        catch (e) { console.warn('memory(sukoon):', e); }
+  try { speedReadRestart('sukoon'); }            catch (e) { console.warn('speedRead(sukoon):', e); }
+  try { trickyCupsRestart('sukoon'); }           catch (e) { console.warn('trickyCups(sukoon):', e); }
+  try { renderSukoonSpot(); }                    catch (e) { console.warn('sukoonSpot:', e); }
+  try { renderSukoonPatterns(); }                catch (e) { console.warn('sukoonPatterns:', e); }
+  try { renderSukoonDetective(); }               catch (e) { console.warn('sukoonDetective:', e); }
 
   // ── Phaser ────────────────────────────────────────────
   _launchPhaser('sukoon-game-container', [SukoonScene], 600);
   _showScreen('sukoon-screen');
 }
 
+
+/* ============================================================
+   SUKOON: Patterns + Detective sections
+   ============================================================ */
+/* ============================================================
+   📦 SORT THE WORDS — رتّب الكلمات (Sukoon Patterns game)
+   3 zones: words ending in damma / fatha / kasra
+   Click a word, click the zone → if right, lock in; if wrong, shake
+   ============================================================ */
+
+const SWS_POOL_BY_CAT = {
+  damma: ['بَيْتُ','شَمْسُ','قَلْبُ','نَهْرُ','مَكْتَبُ','أَحْمَدُ','فَصْلُ','يَكْتُبُ','مَلْعَبُ','بَحْرُ','كَلْبُ','مَسْجِدُ'],
+  fatha: ['بَيْتَ','شَمْسَ','قَلْبَ','نَهْرَ','مَكْتَبَ','فَصْلَ','بَحْرَ','كَلْبَ','مَلْعَبَ'],
+  kasra: ['بَيْتِ','شَمْسِ','قَلْبِ','نَهْرِ','مَكْتَبِ','فَصْلِ','بَحْرِ','كَلْبِ','مَلْعَبِ'],
+};
+
+const SWS_ZONES = [
+  { key: 'damma', label: 'ينتهي بضمة',  labelEn: 'Final Damma',  mark: 'ـُ', accent: '#3b82f6', accentLight: '#dbeafe' },
+  { key: 'fatha', label: 'ينتهي بفتحة', labelEn: 'Final Fatha',  mark: 'ـَ', accent: '#f59e0b', accentLight: '#fef3c7' },
+  { key: 'kasra', label: 'ينتهي بكسرة', labelEn: 'Final Kasra',  mark: 'ـِ', accent: '#10b981', accentLight: '#d1fae5' },
+];
+
+const SWS_TOTAL = 6; // 2 per category
+
+const _swsState = {
+  words: [],                                       // [{id, word, cat, status: 'pool'|'placed'}]
+  zones: { damma: [], fatha: [], kasra: [] },     // arrays of placed word ids
+  selected: null,
+  placed: 0,
+  mistakes: 0,
+  locked: false,
+};
+
+function _swsResetState() {
+  _swsState.words = [];
+  _swsState.zones = { damma: [], fatha: [], kasra: [] };
+  _swsState.selected = null;
+  _swsState.placed = 0;
+  _swsState.mistakes = 0;
+  _swsState.locked = false;
+}
+
+function _swsShuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function renderSukoonPatterns() {
+  const el = document.getElementById('ui-sukoon-patterns');
+  if (!el) return;
+
+  el.innerHTML = `
+    <div class="rule-card" style="direction:rtl;text-align:right;flex-direction:column;gap:10px;margin-bottom:16px;">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <span class="rule-icon" style="font-size:1.6rem;width:42px;height:42px;background:var(--green-xlight);color:var(--green);">ْ</span>
+        <span style="font-family:'Tajawal',sans-serif;font-size:0.98rem;font-weight:700;color:var(--text);">كل الكلمات هنا فيها سكون داخل الكلمة — ركّز على آخر حرف!</span>
+      </div>
+    </div>
+
+    <div class="sws-wrap">
+      <div class="sws-header">
+        <div class="sws-title">📦 Sort the Words — رتّب الكلمات</div>
+        <div class="sws-stats">
+          <span class="sws-stat-pill sws-stat-score">⭐ <span id="sws-score">0</span>/${SWS_TOTAL}</span>
+          <span class="sws-stat-pill sws-stat-best">🏆 Best: <span id="sws-best-score">0</span>/${SWS_TOTAL}</span>
+        </div>
+      </div>
+
+      <!-- Playing -->
+      <div class="sws-playing" id="sws-playing">
+        <div class="sws-prompt">اضغط كلمة ثم اضغط الصندوق الذي ينتهي بنفس الحركة</div>
+
+        <div class="sws-zones" id="sws-zones">
+          ${SWS_ZONES.map(z => `
+            <div class="sws-zone" data-cat="${z.key}" onclick="swsDropToZone('${z.key}')" style="--zone-accent:${z.accent};--zone-accent-light:${z.accentLight};">
+              <div class="sws-zone-head">
+                <div class="sws-zone-mark">${z.mark}</div>
+                <div class="sws-zone-label">${z.label}</div>
+                <div class="sws-zone-label-en">${z.labelEn}</div>
+              </div>
+              <div class="sws-zone-slots" id="sws-zone-${z.key}"></div>
+              <div class="sws-zone-count"><span id="sws-zone-count-${z.key}">0</span>/2</div>
+            </div>`).join('')}
+        </div>
+
+        <div class="sws-pool-label">الكلمات — اضغط واحدة</div>
+        <div class="sws-pool" id="sws-pool"></div>
+      </div>
+
+      <!-- Results -->
+      <div class="sws-results" id="sws-results" style="display:none;">
+        <div class="sws-result-icon" id="sws-result-icon">🎉</div>
+        <div class="sws-result-title" id="sws-result-title">Sorted!</div>
+        <div class="sws-result-stats">
+          <div class="sws-stat">
+            <div class="sws-stat-label">SCORE</div>
+            <div class="sws-stat-value">⭐ <span id="sws-final-score">0</span>/${SWS_TOTAL}</div>
+          </div>
+          <div class="sws-stat">
+            <div class="sws-stat-label">MISTAKES</div>
+            <div class="sws-stat-value">❌ <span id="sws-final-mistakes">0</span></div>
+          </div>
+        </div>
+        <button class="sws-restart-btn" onclick="swsStart()">
+          <i class="fas fa-rotate-right"></i> Try Again — مرة أخرى
+        </button>
+      </div>
+    </div>`;
+
+  _swsUpdateBest();
+  swsStart();
+}
+
+function swsStart() {
+  _swsResetState();
+
+  // Pick 2 from each category
+  let id = 0;
+  const picks = [];
+  ['damma', 'fatha', 'kasra'].forEach(cat => {
+    const chosen = _swsShuffle(SWS_POOL_BY_CAT[cat]).slice(0, 2);
+    chosen.forEach(word => {
+      picks.push({ id: id++, word, cat, status: 'pool' });
+    });
+  });
+  _swsState.words = _swsShuffle(picks);
+
+  document.getElementById('sws-results').style.display = 'none';
+  document.getElementById('sws-playing').style.display = 'flex';
+
+  _swsRenderPool();
+  _swsRenderZones();
+  _swsUpdateScoreHud();
+}
+
+function _swsRenderPool() {
+  const pool = document.getElementById('sws-pool');
+  if (!pool) return;
+  const remaining = _swsState.words.filter(w => w.status === 'pool');
+  if (remaining.length === 0) {
+    pool.innerHTML = '<div class="sws-pool-empty">✓ كل الكلمات في صناديقها!</div>';
+    return;
+  }
+  pool.innerHTML = remaining.map(w => `
+    <button class="sws-word${_swsState.selected === w.id ? ' is-selected' : ''}" data-id="${w.id}" onclick="swsSelectWord(${w.id})">
+      ${w.word}
+    </button>`).join('');
+}
+
+function _swsRenderZones() {
+  SWS_ZONES.forEach(z => {
+    const slotEl  = document.getElementById('sws-zone-' + z.key);
+    const countEl = document.getElementById('sws-zone-count-' + z.key);
+    if (!slotEl) return;
+    const placedIds = _swsState.zones[z.key];
+    const placedWords = placedIds.map(id => _swsState.words.find(w => w.id === id)).filter(Boolean);
+    slotEl.innerHTML = placedWords.map(w =>
+      `<div class="sws-placed-word">${w.word}</div>`
+    ).join('');
+    if (countEl) countEl.textContent = placedIds.length;
+  });
+}
+
+function _swsUpdateScoreHud() {
+  const sc = document.getElementById('sws-score');
+  if (sc) sc.textContent = _swsState.placed;
+}
+
+function swsSelectWord(id) {
+  if (_swsState.locked) return;
+  const word = _swsState.words.find(w => w.id === id);
+  if (!word || word.status !== 'pool') return;
+  _swsState.selected = (_swsState.selected === id) ? null : id;
+  _swsRenderPool();
+  // Highlight zones to invite drop
+  document.querySelectorAll('.sws-zone').forEach(z => {
+    z.classList.toggle('is-targetable', _swsState.selected !== null);
+  });
+}
+
+function swsDropToZone(zoneKey) {
+  if (_swsState.locked) return;
+  if (_swsState.selected === null) return;
+  const word = _swsState.words.find(w => w.id === _swsState.selected);
+  if (!word) return;
+  const zoneEl = document.querySelector(`.sws-zone[data-cat="${zoneKey}"]`);
+  if (!zoneEl) return;
+
+  if (word.cat === zoneKey) {
+    // Correct
+    word.status = 'placed';
+    _swsState.zones[zoneKey].push(word.id);
+    _swsState.placed++;
+    _swsState.selected = null;
+    try { playMatchPro && playMatchPro(); } catch (e) {}
+    zoneEl.classList.add('is-correct-flash');
+    setTimeout(() => zoneEl.classList.remove('is-correct-flash'), 500);
+    _swsRenderPool();
+    _swsRenderZones();
+    _swsUpdateScoreHud();
+    document.querySelectorAll('.sws-zone').forEach(z => z.classList.remove('is-targetable'));
+    if (_swsState.placed >= SWS_TOTAL) {
+      _swsState.locked = true;
+      setTimeout(() => _swsShowResults(), 600);
+    }
+  } else {
+    // Wrong — shake zone, count mistake
+    _swsState.mistakes++;
+    try { playErrorPro && playErrorPro(); } catch (e) {}
+    zoneEl.classList.add('is-wrong-shake');
+    setTimeout(() => zoneEl.classList.remove('is-wrong-shake'), 500);
+  }
+}
+
+function _swsShowResults() {
+  document.getElementById('sws-playing').style.display = 'none';
+  const res = document.getElementById('sws-results');
+  if (res) res.style.display = 'flex';
+
+  const score = _swsState.placed;
+  const mistakes = _swsState.mistakes;
+
+  document.getElementById('sws-final-score').textContent    = score;
+  document.getElementById('sws-final-mistakes').textContent = mistakes;
+
+  let icon, title;
+  if (mistakes === 0) {
+    icon = '🏆'; title = 'Flawless! — بدون أخطاء!';
+  } else if (mistakes <= 2) {
+    icon = '🎉'; title = 'Excellent! — رائع!';
+  } else if (mistakes <= 5) {
+    icon = '👍'; title = 'Good Job! — أحسنت!';
+  } else {
+    icon = '💪'; title = 'Keep Trying! — حاول مرة أخرى!';
+  }
+  document.getElementById('sws-result-icon').textContent  = icon;
+  document.getElementById('sws-result-title').textContent = title;
+
+  // Save best (best = lowest mistake count for full sort; we save score)
+  try {
+    const prevBest    = parseInt(localStorage.getItem('sws_best_score') || '0');
+    const prevMisLow  = parseInt(localStorage.getItem('sws_best_mistakes') || '999');
+    if (score > prevBest) localStorage.setItem('sws_best_score', String(score));
+    if (mistakes < prevMisLow && score === SWS_TOTAL) {
+      localStorage.setItem('sws_best_mistakes', String(mistakes));
+    }
+  } catch (e) {}
+  _swsUpdateBest();
+
+  // Reward
+  try {
+    if (mistakes === 0) {
+      addStars(8);
+      fireConfetti && fireConfetti();
+    } else if (mistakes <= 2) {
+      addStars(4);
+    } else if (score === SWS_TOTAL) {
+      addStars(2);
+    }
+  } catch (e) {}
+}
+
+function _swsUpdateBest() {
+  const el = document.getElementById('sws-best-score');
+  if (!el) return;
+  try {
+    el.textContent = parseInt(localStorage.getItem('sws_best_score') || '0');
+  } catch (e) { el.textContent = '0'; }
+}
+
+/* ============================================================
+   🔍 DETECTIVE QUEST — لعبة محقق العلامات (3 موجات)
+   Wave 1: Identify the mark on a styled letter (5 rounds)
+   Wave 2: Count the sukoons in a word (5 rounds)
+   Wave 3: 20s time-attack — tap only sukoon words
+   ============================================================ */
+
+const DQ_MARK_REF = [
+  { sym: 'بَ', name: 'فتحة', nameEn: 'Fatha',  desc: 'شرطة فوق الحرف — صوت (a)',     color: '#3b82f6' },
+  { sym: 'بُ', name: 'ضمة',  nameEn: 'Damma',  desc: 'واو صغيرة فوق الحرف — صوت (u)', color: '#f59e0b' },
+  { sym: 'بِ', name: 'كسرة', nameEn: 'Kasra',  desc: 'شرطة تحت الحرف — صوت (i)',     color: '#10b981' },
+  { sym: 'بّ', name: 'شدة',  nameEn: 'Shadda', desc: 'رأس ش فوق الحرف — تضعيف',       color: '#8b5cf6' },
+  { sym: 'بْ', name: 'سكون', nameEn: 'Sukoon', desc: 'دائرة صغيرة — لا حركة',         color: '#047857', isTarget: true },
+];
+
+// Pool for Wave 1: each letter+mark with the correct mark name
+const DQ_W1_POOL = [
+  { sym: 'تَ', mark: 'فتحة' }, { sym: 'بُ', mark: 'ضمة' }, { sym: 'مِ', mark: 'كسرة' },
+  { sym: 'دّ', mark: 'شدة' },  { sym: 'كْ', mark: 'سكون' }, { sym: 'سَ', mark: 'فتحة' },
+  { sym: 'رُ', mark: 'ضمة' },  { sym: 'لِ', mark: 'كسرة' }, { sym: 'نّ', mark: 'شدة' },
+  { sym: 'هْ', mark: 'سكون' }, { sym: 'فَ', mark: 'فتحة' }, { sym: 'جُ', mark: 'ضمة' },
+  { sym: 'حِ', mark: 'كسرة' }, { sym: 'شّ', mark: 'شدة' },  { sym: 'بْ', mark: 'سكون' },
+  { sym: 'يْ', mark: 'سكون' }, { sym: 'ذَ', mark: 'فتحة' }, { sym: 'وُ', mark: 'ضمة' },
+  { sym: 'قِ', mark: 'كسرة' }, { sym: 'مّ', mark: 'شدة' },  { sym: 'تْ', mark: 'سكون' },
+];
+
+// Pool for Wave 2: words paired with their sukoon count
+const DQ_W2_POOL = [
+  { word: 'كَتَبَ',     count: 0 },
+  { word: 'ذَهَبَ',     count: 0 },
+  { word: 'فَعَلَ',     count: 0 },
+  { word: 'بَيْتُ',     count: 1 },
+  { word: 'شَمْسُ',     count: 1 },
+  { word: 'قَلْبُ',     count: 1 },
+  { word: 'نَهْرُ',     count: 1 },
+  { word: 'مَكْتَبُ',   count: 1 },
+  { word: 'أَحْمَدُ',   count: 1 },
+  { word: 'مَلْعَبُ',   count: 1 },
+  { word: 'فَصْلُ',     count: 1 },
+  { word: 'يَكْتُبُ',   count: 1 },
+  { word: 'مُسْتَشْفَى', count: 2 },
+  { word: 'يَسْتَخْرِجُ', count: 2 },
+  { word: 'مَلْعَبُكُمْ', count: 2 },
+  { word: 'يَسْتَغْفِرُ', count: 2 },
+];
+
+// Pool for Wave 3: hasSukoon flag (target = words with sukoon)
+const DQ_W3_POOL = [
+  { word: 'بَيْتُ',  hasSukoon: true  },
+  { word: 'شَمْسُ',  hasSukoon: true  },
+  { word: 'قَلْبُ',  hasSukoon: true  },
+  { word: 'نَهْرُ',  hasSukoon: true  },
+  { word: 'مَكْتَبُ', hasSukoon: true  },
+  { word: 'أَحْمَدُ', hasSukoon: true  },
+  { word: 'مَلْعَبُ', hasSukoon: true  },
+  { word: 'فَصْلُ',  hasSukoon: true  },
+  { word: 'يَكْتُبُ', hasSukoon: true  },
+  { word: 'كَتَبَ',  hasSukoon: false },
+  { word: 'ذَهَبَ',  hasSukoon: false },
+  { word: 'فَعَلَ',  hasSukoon: false },
+  { word: 'لَعِبَ',  hasSukoon: false },
+  { word: 'سَمِعَ',  hasSukoon: false },
+  { word: 'يَفْعَلُ', hasSukoon: true  },
+  { word: 'وَلَدَ',   hasSukoon: false },
+];
+
+const DQ_TOTAL = 15; // 5 + 5 + 5 max points
+const DQ_W3_DURATION_MS = 20000;
+
+const _dqState = {
+  wave: 0,
+  score: 0,
+  w1Idx: 0, w1Words: [],
+  w2Idx: 0, w2Words: [],
+  w3Words: [], w3FoundIds: new Set(), w3MissedIds: new Set(),
+  w3Timer: null, w3Deadline: 0, w3RafId: 0,
+  locked: false,
+};
+
+function _dqResetState() {
+  _dqState.wave = 0;
+  _dqState.score = 0;
+  _dqState.w1Idx = 0; _dqState.w1Words = [];
+  _dqState.w2Idx = 0; _dqState.w2Words = [];
+  _dqState.w3Words = []; _dqState.w3FoundIds = new Set(); _dqState.w3MissedIds = new Set();
+  _dqState.locked = false;
+  if (_dqState.w3Timer)  { clearTimeout(_dqState.w3Timer);  _dqState.w3Timer  = null; }
+  if (_dqState.w3RafId)  { cancelAnimationFrame(_dqState.w3RafId); _dqState.w3RafId = 0; }
+}
+
+function _dqShuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function renderSukoonDetective() {
+  const el = document.getElementById('sukoon-det-container');
+  if (!el) return;
+
+  const marksHtml = DQ_MARK_REF.map(m => `
+    <div class="dq-mark-card${m.isTarget ? ' is-target' : ''}">
+      <div class="dq-mark-sym" style="color:${m.color};">${m.sym}</div>
+      <div class="dq-mark-name">${m.name}</div>
+      <div class="dq-mark-name-en">${m.nameEn}</div>
+      <div class="dq-mark-desc">${m.desc}</div>
+    </div>`).join('');
+
+  el.innerHTML = `
+    <div class="dq-marks-ref">${marksHtml}</div>
+
+    <div class="dq-wrap">
+      <!-- Start screen -->
+      <div class="dq-start" id="dq-start">
+        <div class="dq-start-icon">🔍</div>
+        <div class="dq-start-title">Detective Quest</div>
+        <div class="dq-start-sub">3 تحديات لاكتشاف السكون!</div>
+        <ul class="dq-waves-list">
+          <li><span class="dq-wave-num">1</span> <span>Identify the Mark — حدد العلامة <em>(5 جولات)</em></span></li>
+          <li><span class="dq-wave-num">2</span> <span>Count Sukoons — عدّ السكونات <em>(5 جولات)</em></span></li>
+          <li><span class="dq-wave-num">3</span> <span>Time Hunt — صيد بالوقت <em>(20 ثانية)</em></span></li>
+        </ul>
+        <button class="dq-start-btn" onclick="dqStart()">
+          <i class="fas fa-play"></i> Start Quest — ابدأ التحدي!
+        </button>
+        <div class="dq-best">🏆 Best: <span id="dq-best-score">0</span>/${DQ_TOTAL}</div>
+      </div>
+
+      <!-- Playing screen -->
+      <div class="dq-playing" id="dq-playing" style="display:none;">
+        <div class="dq-hud">
+          <div class="dq-hud-item">
+            <div class="dq-hud-label">WAVE</div>
+            <div class="dq-hud-value"><span id="dq-wave-num">1</span>/3</div>
+          </div>
+          <div class="dq-hud-item dq-hud-score">
+            <div class="dq-hud-label">SCORE</div>
+            <div class="dq-hud-value">⭐ <span id="dq-score">0</span></div>
+          </div>
+          <div class="dq-hud-item dq-hud-progress">
+            <div class="dq-hud-label" id="dq-progress-label">PROGRESS</div>
+            <div class="dq-hud-value" id="dq-progress">0/5</div>
+          </div>
+        </div>
+        <div class="dq-stage" id="dq-stage"></div>
+      </div>
+
+      <!-- Results screen -->
+      <div class="dq-results" id="dq-results" style="display:none;">
+        <div class="dq-result-icon" id="dq-result-icon">🎉</div>
+        <div class="dq-result-title" id="dq-result-title">Detective!</div>
+        <div class="dq-result-score">
+          <span id="dq-final-score">0</span><span class="dq-result-divider">/</span>${DQ_TOTAL}
+        </div>
+        <div class="dq-result-sub" id="dq-result-sub">marks identified</div>
+        <div class="dq-result-actions">
+          <button class="dq-restart-btn" onclick="dqRestart()">
+            <i class="fas fa-rotate-right"></i> Try Again — مرة أخرى
+          </button>
+        </div>
+      </div>
+    </div>`;
+
+  _dqUpdateBest();
+}
+
+function dqStart() {
+  _dqResetState();
+  _dqState.wave = 1;
+  _dqState.w1Words = _dqShuffle(DQ_W1_POOL).slice(0, 5);
+  _dqState.w2Words = _dqShuffle(DQ_W2_POOL).slice(0, 5);
+
+  document.getElementById('dq-start').style.display    = 'none';
+  document.getElementById('dq-results').style.display  = 'none';
+  document.getElementById('dq-playing').style.display  = 'flex';
+
+  _dqRenderHud();
+  _dqRenderWave1();
+}
+
+function _dqRenderHud() {
+  const w = _dqState.wave;
+  const waveEl  = document.getElementById('dq-wave-num');
+  const scoreEl = document.getElementById('dq-score');
+  const progEl  = document.getElementById('dq-progress');
+  const progLab = document.getElementById('dq-progress-label');
+  if (waveEl)  waveEl.textContent  = w;
+  if (scoreEl) scoreEl.textContent = _dqState.score;
+  if (!progEl || !progLab) return;
+  if (w === 1) {
+    progLab.textContent = 'ROUND';
+    progEl.textContent  = `${_dqState.w1Idx + 1}/5`;
+  } else if (w === 2) {
+    progLab.textContent = 'ROUND';
+    progEl.textContent  = `${_dqState.w2Idx + 1}/5`;
+  } else if (w === 3) {
+    progLab.textContent = 'TIME';
+    // updated by RAF loop
+  }
+}
+
+function _dqRenderWave1() {
+  _dqState.locked = false;
+  _dqRenderHud();
+  const stage = document.getElementById('dq-stage');
+  if (!stage) return;
+  const item  = _dqState.w1Words[_dqState.w1Idx];
+  const opts  = ['فتحة', 'ضمة', 'كسرة', 'شدة', 'سكون'];
+  const shuf  = _dqShuffle(opts).slice(0, 4);
+  if (!shuf.includes(item.mark)) shuf[0] = item.mark;
+  const finalOpts = _dqShuffle(shuf);
+
+  stage.innerHTML = `
+    <div class="dq-wave-banner">Wave 1 — حدد العلامة فوق/تحت الحرف</div>
+    <div class="dq-w1-letter-card">
+      <div class="dq-w1-letter">${item.sym}</div>
+      <div class="dq-w1-prompt">ما هي حركة هذا الحرف؟</div>
+    </div>
+    <div class="dq-w1-options">
+      ${finalOpts.map(opt => `
+        <button class="dq-w1-opt" data-mark="${opt}" onclick="dqAnswerW1('${opt}')">${opt}</button>
+      `).join('')}
+    </div>`;
+}
+
+function dqAnswerW1(picked) {
+  if (_dqState.locked) return;
+  _dqState.locked = true;
+  const item = _dqState.w1Words[_dqState.w1Idx];
+  const correct = picked === item.mark;
+  const buttons = document.querySelectorAll('.dq-w1-opt');
+  buttons.forEach(b => {
+    b.disabled = true;
+    if (b.dataset.mark === item.mark) b.classList.add('is-correct');
+    else if (b.dataset.mark === picked && !correct) b.classList.add('is-wrong');
+  });
+  if (correct) {
+    _dqState.score++;
+    try { playMatchPro && playMatchPro(); } catch (e) {}
+  } else {
+    try { playErrorPro && playErrorPro(); } catch (e) {}
+  }
+  setTimeout(() => {
+    _dqState.w1Idx++;
+    if (_dqState.w1Idx >= _dqState.w1Words.length) {
+      _dqAdvanceTo(2);
+    } else {
+      _dqRenderWave1();
+    }
+  }, 850);
+}
+
+function _dqRenderWave2() {
+  _dqState.locked = false;
+  _dqRenderHud();
+  const stage = document.getElementById('dq-stage');
+  if (!stage) return;
+  const item = _dqState.w2Words[_dqState.w2Idx];
+
+  stage.innerHTML = `
+    <div class="dq-wave-banner">Wave 2 — كم سكون في الكلمة؟</div>
+    <div class="dq-w2-word-card">
+      <div class="dq-w2-word">${item.word}</div>
+      <div class="dq-w1-prompt">عدّ علامات السكون (ْ)</div>
+    </div>
+    <div class="dq-w2-options">
+      ${[0,1,2,3].map(n => `
+        <button class="dq-w2-opt" data-count="${n}" onclick="dqAnswerW2(${n})">${n}</button>
+      `).join('')}
+    </div>`;
+}
+
+function dqAnswerW2(picked) {
+  if (_dqState.locked) return;
+  _dqState.locked = true;
+  const item = _dqState.w2Words[_dqState.w2Idx];
+  const correct = picked === item.count;
+  const buttons = document.querySelectorAll('.dq-w2-opt');
+  buttons.forEach(b => {
+    b.disabled = true;
+    if (parseInt(b.dataset.count) === item.count) b.classList.add('is-correct');
+    else if (parseInt(b.dataset.count) === picked && !correct) b.classList.add('is-wrong');
+  });
+  if (correct) {
+    _dqState.score++;
+    try { playMatchPro && playMatchPro(); } catch (e) {}
+  } else {
+    try { playErrorPro && playErrorPro(); } catch (e) {}
+  }
+  setTimeout(() => {
+    _dqState.w2Idx++;
+    if (_dqState.w2Idx >= _dqState.w2Words.length) {
+      _dqAdvanceTo(3);
+    } else {
+      _dqRenderWave2();
+    }
+  }, 850);
+}
+
+function _dqRenderWave3() {
+  _dqRenderHud();
+  const stage = document.getElementById('dq-stage');
+  if (!stage) return;
+
+  // Pick 10 mixed words: 5 with sukoon, 5 without
+  const withSuk    = _dqShuffle(DQ_W3_POOL.filter(x => x.hasSukoon)).slice(0, 5);
+  const withoutSuk = _dqShuffle(DQ_W3_POOL.filter(x => !x.hasSukoon)).slice(0, 5);
+  _dqState.w3Words = _dqShuffle([...withSuk, ...withoutSuk]).map((w, i) => ({ ...w, id: i }));
+  _dqState.w3FoundIds = new Set();
+  _dqState.w3MissedIds = new Set();
+
+  stage.innerHTML = `
+    <div class="dq-wave-banner">Wave 3 — اضغط الكلمات التي فيها سكون فقط!</div>
+    <div class="dq-w3-timer-bar"><div class="dq-w3-timer-fill" id="dq-w3-fill"></div></div>
+    <div class="dq-w3-grid" id="dq-w3-grid">
+      ${_dqState.w3Words.map(w => `
+        <button class="dq-w3-word" data-id="${w.id}" data-suk="${w.hasSukoon ? '1' : '0'}" onclick="dqClickW3(${w.id})">${w.word}</button>
+      `).join('')}
+    </div>
+    <div class="dq-w3-hint">⏱ ٢٠ ثانية — كل سكون = +1 نقطة | الكلمة الخطأ = -1</div>`;
+
+  _dqState.w3Deadline = Date.now() + DQ_W3_DURATION_MS;
+  if (_dqState.w3Timer) clearTimeout(_dqState.w3Timer);
+  _dqState.w3Timer = setTimeout(() => _dqEndWave3(true), DQ_W3_DURATION_MS);
+  _dqW3Tick();
+}
+
+function _dqW3Tick() {
+  const fill = document.getElementById('dq-w3-fill');
+  const prog = document.getElementById('dq-progress');
+  if (!fill) return;
+  const remaining = Math.max(0, _dqState.w3Deadline - Date.now());
+  const pct = (remaining / DQ_W3_DURATION_MS) * 100;
+  fill.style.width = pct + '%';
+  if (prog) prog.textContent = (remaining / 1000).toFixed(1) + 's';
+  if (remaining > 0 && _dqState.wave === 3) {
+    _dqState.w3RafId = requestAnimationFrame(_dqW3Tick);
+  }
+}
+
+function dqClickW3(id) {
+  if (_dqState.wave !== 3) return;
+  if (_dqState.w3FoundIds.has(id) || _dqState.w3MissedIds.has(id)) return;
+  const w = _dqState.w3Words.find(x => x.id === id);
+  const btn = document.querySelector(`.dq-w3-word[data-id="${id}"]`);
+  if (!w || !btn) return;
+  if (w.hasSukoon) {
+    _dqState.w3FoundIds.add(id);
+    btn.classList.add('is-correct');
+    btn.disabled = true;
+    // +1 capped at 5 sukoon words available
+    if (_dqState.w3FoundIds.size <= 5) _dqState.score++;
+    try { playMatchPro && playMatchPro(); } catch (e) {}
+    _dqRenderHud();
+    if (_dqState.w3FoundIds.size >= 5) _dqEndWave3(false);
+  } else {
+    _dqState.w3MissedIds.add(id);
+    btn.classList.add('is-wrong');
+    btn.disabled = true;
+    if (_dqState.score > 0) _dqState.score--;
+    try { playErrorPro && playErrorPro(); } catch (e) {}
+    _dqRenderHud();
+  }
+}
+
+function _dqEndWave3(timeUp) {
+  if (_dqState.wave !== 3) return;
+  if (_dqState.w3Timer)  { clearTimeout(_dqState.w3Timer);  _dqState.w3Timer  = null; }
+  if (_dqState.w3RafId)  { cancelAnimationFrame(_dqState.w3RafId); _dqState.w3RafId = 0; }
+  // Reveal remaining sukoon words
+  document.querySelectorAll('.dq-w3-word').forEach(btn => {
+    btn.disabled = true;
+    if (btn.dataset.suk === '1' && !btn.classList.contains('is-correct')) {
+      btn.classList.add('is-revealed');
+    }
+  });
+  setTimeout(() => _dqShowResults(), 1000);
+}
+
+function _dqAdvanceTo(wave) {
+  _dqState.wave = wave;
+  if (wave === 2) {
+    _dqState.w2Idx = 0;
+    _dqRenderWave2();
+  } else if (wave === 3) {
+    _dqRenderWave3();
+  }
+}
+
+function _dqShowResults() {
+  const score = _dqState.score;
+  document.getElementById('dq-playing').style.display = 'none';
+  const res = document.getElementById('dq-results');
+  if (res) res.style.display = 'flex';
+
+  const finalScore = document.getElementById('dq-final-score');
+  if (finalScore) finalScore.textContent = score;
+
+  let iconStr, titleStr, subStr;
+  if (score === DQ_TOTAL) {
+    iconStr = '🏆'; titleStr = 'Master Detective! — محقق محترف!';
+    subStr = 'علامة كاملة — أنت بطل السكون!';
+  } else if (score >= 11) {
+    iconStr = '🎉'; titleStr = 'Excellent! — رائع!';
+    subStr = 'تمييز ممتاز للسكون';
+  } else if (score >= 7) {
+    iconStr = '👍'; titleStr = 'Good Job! — أحسنت!';
+    subStr = 'استمر في التدريب';
+  } else {
+    iconStr = '💪'; titleStr = 'Keep Trying! — حاول أكثر!';
+    subStr = 'راجع البطاقات في الأعلى';
+  }
+  document.getElementById('dq-result-icon').textContent  = iconStr;
+  document.getElementById('dq-result-title').textContent = titleStr;
+  document.getElementById('dq-result-sub').textContent   = subStr;
+
+  // Save best
+  try {
+    const prevBest = parseInt(localStorage.getItem('dq_best_sukoon') || '0');
+    if (score > prevBest) localStorage.setItem('dq_best_sukoon', String(score));
+  } catch (e) {}
+
+  // Reward
+  try {
+    if (score >= 11) {
+      addStars(score);
+      showVictory && showVictory('🔍', `Detective Quest: ${score}/${DQ_TOTAL}`);
+      fireConfetti && fireConfetti();
+    } else if (score > 0) {
+      addStars(Math.floor(score / 2));
+    }
+  } catch (e) {}
+}
+
+function dqRestart() {
+  _dqResetState();
+  document.getElementById('dq-results').style.display = 'none';
+  document.getElementById('dq-playing').style.display = 'none';
+  document.getElementById('dq-start').style.display   = 'flex';
+  _dqUpdateBest();
+}
+
+function _dqUpdateBest() {
+  const el = document.getElementById('dq-best-score');
+  if (!el) return;
+  try {
+    el.textContent = parseInt(localStorage.getItem('dq_best_sukoon') || '0');
+  } catch (e) { el.textContent = '0'; }
+}
+
+/* ============================================================
+   🎯 SPOT THE SUKOON — تحدي اكتشاف السكون (intro warmup)
+   10 quick rounds, 3 word choices each, pick the sukoon word
+   ============================================================ */
+
+const STS_SUKOON_WORDS = [
+  'بَيْتُ','شَمْسُ','قَلْبُ','نَهْرُ','مَكْتَبُ','أَحْمَدُ','مَلْعَبُ',
+  'فَصْلُ','يَكْتُبُ','مَسْجِدُ','جَنْبُ','أُخْتُ','نَصْرُ','صَبْرُ',
+  'حَمْدُ','عَدْلُ','رَأْسُ','شَرْطُ','بَحْرُ','كَلْبُ',
+];
+
+const STS_NON_SUKOON_WORDS = [
+  'كَتَبَ','ذَهَبَ','فَعَلَ','لَعِبَ','سَمِعَ','وَلَدَ','رَجَعَ',
+  'خَرَجَ','وَجَدَ','طَلَبَ','نَزَلَ','شَرِبَ','أَكَلَ','جَلَسَ',
+  'قَرَأَ','كَسَرَ','فَتَحَ','عَلِمَ','حَفِظَ','رَكِبَ',
+];
+
+const STS_TOTAL_ROUNDS = 10;
+
+const _stsState = {
+  round: 0,
+  score: 0,
+  streak: 0,
+  bestStreak: 0,
+  locked: false,
+  current: null,
+};
+
+function _stsResetState() {
+  _stsState.round = 0;
+  _stsState.score = 0;
+  _stsState.streak = 0;
+  _stsState.bestStreak = 0;
+  _stsState.locked = false;
+  _stsState.current = null;
+}
+
+function _stsShuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function renderSukoonSpot() {
+  const el = document.getElementById('sukoon-spot-container');
+  if (!el) return;
+
+  el.innerHTML = `
+    <div class="sts-wrap">
+      <div class="sts-header">
+        <div class="sts-title">🎯 Spot the Sukoon — اكتشف السكون!</div>
+        <div class="sts-best">🏆 Best: <span id="sts-best-streak">0</span></div>
+      </div>
+
+      <!-- Playing -->
+      <div class="sts-playing" id="sts-playing">
+        <div class="sts-hud">
+          <div class="sts-hud-item">
+            <div class="sts-hud-label">ROUND</div>
+            <div class="sts-hud-value"><span id="sts-round">1</span>/${STS_TOTAL_ROUNDS}</div>
+          </div>
+          <div class="sts-hud-item sts-hud-score">
+            <div class="sts-hud-label">SCORE</div>
+            <div class="sts-hud-value">⭐ <span id="sts-score">0</span></div>
+          </div>
+          <div class="sts-hud-item sts-hud-streak">
+            <div class="sts-hud-label">STREAK</div>
+            <div class="sts-hud-value">🔥 <span id="sts-streak">0</span></div>
+          </div>
+        </div>
+        <div class="sts-prompt">اضغط الكلمة التي فيها سكون (ْ)</div>
+        <div class="sts-cards" id="sts-cards"></div>
+      </div>
+
+      <!-- Results -->
+      <div class="sts-results" id="sts-results" style="display:none;">
+        <div class="sts-result-icon" id="sts-result-icon">🎉</div>
+        <div class="sts-result-title" id="sts-result-title">Great Spotting!</div>
+        <div class="sts-result-stats">
+          <div class="sts-stat">
+            <div class="sts-stat-label">SCORE</div>
+            <div class="sts-stat-value">⭐ <span id="sts-final-score">0</span>/${STS_TOTAL_ROUNDS}</div>
+          </div>
+          <div class="sts-stat">
+            <div class="sts-stat-label">BEST STREAK</div>
+            <div class="sts-stat-value">🔥 <span id="sts-final-streak">0</span></div>
+          </div>
+        </div>
+        <button class="sts-restart-btn" onclick="stsStart()">
+          <i class="fas fa-rotate-right"></i> Try Again — مرة أخرى
+        </button>
+      </div>
+    </div>`;
+
+  _stsUpdateBest();
+  stsStart();
+}
+
+function stsStart() {
+  _stsResetState();
+  document.getElementById('sts-results').style.display  = 'none';
+  document.getElementById('sts-playing').style.display  = 'flex';
+  _stsNextRound();
+}
+
+function _stsNextRound() {
+  _stsState.locked = false;
+  if (_stsState.round >= STS_TOTAL_ROUNDS) {
+    _stsShowResults();
+    return;
+  }
+  // Pick 1 sukoon word + 2 non-sukoon, shuffle
+  const sukoon = STS_SUKOON_WORDS[Math.floor(Math.random() * STS_SUKOON_WORDS.length)];
+  const nonShuf = _stsShuffle(STS_NON_SUKOON_WORDS).slice(0, 2);
+  const choices = _stsShuffle([
+    { word: sukoon, isSukoon: true },
+    { word: nonShuf[0], isSukoon: false },
+    { word: nonShuf[1], isSukoon: false },
+  ]);
+  _stsState.current = { choices };
+
+  const cards = document.getElementById('sts-cards');
+  if (cards) {
+    cards.innerHTML = choices.map((c, i) => `
+      <button class="sts-card" data-idx="${i}" data-suk="${c.isSukoon ? '1' : '0'}" onclick="stsAnswer(${i})">
+        ${c.word}
+      </button>`).join('');
+  }
+  _stsUpdateHud();
+}
+
+function stsAnswer(idx) {
+  if (_stsState.locked || !_stsState.current) return;
+  _stsState.locked = true;
+  const choice = _stsState.current.choices[idx];
+  const correct = !!(choice && choice.isSukoon);
+  const cards = document.querySelectorAll('.sts-card');
+  cards.forEach((c, i) => {
+    c.disabled = true;
+    if (c.dataset.suk === '1') c.classList.add('is-correct');
+    else if (i === idx && !correct) c.classList.add('is-wrong');
+  });
+  if (correct) {
+    _stsState.score++;
+    _stsState.streak++;
+    if (_stsState.streak > _stsState.bestStreak) _stsState.bestStreak = _stsState.streak;
+    try { playMatchPro && playMatchPro(); } catch (e) {}
+  } else {
+    _stsState.streak = 0;
+    try { playErrorPro && playErrorPro(); } catch (e) {}
+  }
+  _stsUpdateHud();
+  setTimeout(() => {
+    _stsState.round++;
+    _stsNextRound();
+  }, 700);
+}
+
+function _stsUpdateHud() {
+  const r = document.getElementById('sts-round');
+  const s = document.getElementById('sts-score');
+  const k = document.getElementById('sts-streak');
+  if (r) r.textContent = Math.min(_stsState.round + 1, STS_TOTAL_ROUNDS);
+  if (s) s.textContent = _stsState.score;
+  if (k) k.textContent = _stsState.streak;
+}
+
+function _stsShowResults() {
+  document.getElementById('sts-playing').style.display = 'none';
+  const res = document.getElementById('sts-results');
+  if (res) res.style.display = 'flex';
+
+  const score = _stsState.score;
+  const best  = _stsState.bestStreak;
+
+  const fScore = document.getElementById('sts-final-score');
+  const fStrk  = document.getElementById('sts-final-streak');
+  if (fScore) fScore.textContent = score;
+  if (fStrk)  fStrk.textContent  = best;
+
+  let icon, title;
+  if (score === STS_TOTAL_ROUNDS) {
+    icon = '🏆'; title = 'Perfect! — ممتاز!';
+  } else if (score >= 8) {
+    icon = '🎉'; title = 'Excellent! — رائع!';
+  } else if (score >= 5) {
+    icon = '👍'; title = 'Good Job! — أحسنت!';
+  } else {
+    icon = '💪'; title = 'Keep Trying! — حاول مرة أخرى!';
+  }
+  document.getElementById('sts-result-icon').textContent  = icon;
+  document.getElementById('sts-result-title').textContent = title;
+
+  // Save best streak
+  try {
+    const prev = parseInt(localStorage.getItem('sts_best_streak') || '0');
+    if (best > prev) localStorage.setItem('sts_best_streak', String(best));
+  } catch (e) {}
+  _stsUpdateBest();
+
+  // Reward
+  try {
+    if (score >= 8) {
+      addStars(score);
+      if (score === STS_TOTAL_ROUNDS) fireConfetti && fireConfetti();
+    } else if (score > 0) {
+      addStars(Math.floor(score / 2));
+    }
+  } catch (e) {}
+}
+
+function _stsUpdateBest() {
+  const el = document.getElementById('sts-best-streak');
+  if (!el) return;
+  try {
+    el.textContent = parseInt(localStorage.getItem('sts_best_streak') || '0');
+  } catch (e) { el.textContent = '0'; }
+}
+
+/* ============================================================
+   ✨ Sukoon intro card — interactive demo
+   Click a word: pulse + tone. Click symbol: pulse + tone.
+   "Play All" cycles through all example words.
+   ============================================================ */
+function sukoonIntroPlay(btn) {
+  if (!btn) return;
+  const tone = parseInt(btn.dataset.tone || '550', 10);
+  btn.classList.remove('is-played');
+  void btn.offsetWidth;
+  btn.classList.add('is-played');
+  try { playToneEnhanced && playToneEnhanced(tone, 'sine', 0.18, 0.06); } catch (e) {}
+  setTimeout(() => btn.classList.remove('is-played'), 700);
+}
+
+function sukoonIntroPlaySymbol(btn) {
+  if (!btn) return;
+  btn.classList.remove('is-played');
+  void btn.offsetWidth;
+  btn.classList.add('is-played');
+  try { playToneEnhanced && playToneEnhanced(420, 'triangle', 0.22, 0.06); } catch (e) {}
+  setTimeout(() => btn.classList.remove('is-played'), 700);
+}
+
+let _sukoonIntroPlayingAll = false;
+function sukoonIntroPlayAll() {
+  if (_sukoonIntroPlayingAll) return;
+  const words = Array.from(document.querySelectorAll('#sukoon-intro-words .sukoon-intro-word'));
+  if (!words.length) return;
+  _sukoonIntroPlayingAll = true;
+  const playAllBtn = document.querySelector('#sukoon-intro-words .sukoon-intro-play-all');
+  if (playAllBtn) playAllBtn.classList.add('is-busy');
+  let i = 0;
+  const step = () => {
+    if (i >= words.length) {
+      _sukoonIntroPlayingAll = false;
+      if (playAllBtn) playAllBtn.classList.remove('is-busy');
+      return;
+    }
+    sukoonIntroPlay(words[i]);
+    i++;
+    setTimeout(step, 600);
+  };
+  step();
+}
 
 /* ============================================================
    7. مستوى المد
@@ -5455,7 +6483,7 @@ function initSectionDots() {
 function updateScrollProgress() {
   const sections = document.querySelectorAll('.step-section[data-section]');
   const bar      = document.getElementById('letter-progress-fill');
-  const label    = document.getElementById('navSectionLabel');
+  const labelText = document.getElementById('navSectionText');
   let current    = 0;
 
   sections.forEach(sec => {
@@ -5465,9 +6493,22 @@ function updateScrollProgress() {
   });
 
   const pct = (current / (sections.length - 1)) * 100;
-  if (bar)   bar.style.width   = pct + '%';
-  if (label) label.textContent = `Section ${current + 1} / ${sections.length}`;
+  if (bar) bar.style.width = pct + '%';
 
+  // Update label with current section name
+  if (labelText) {
+    const curSec = document.querySelector(`.step-section[data-section="${current}"]`);
+    const heading = curSec ? curSec.querySelector('.section-heading') : null;
+    let name = `Section ${current + 1} / ${sections.length}`;
+    if (heading) {
+      const clone = heading.cloneNode(true);
+      clone.querySelectorAll('.section-badge').forEach(b => b.remove());
+      name = clone.textContent.trim().replace(/^[—–-]+/, '').trim().slice(0, 40);
+    }
+    labelText.textContent = name;
+  }
+
+  // Update dots + menu active state
   for (let i = 0; i < 12; i++) {
     ['dot-', 'sec-dot-'].forEach(prefix => {
       const d = document.getElementById(prefix + i);
@@ -5476,6 +6517,72 @@ function updateScrollProgress() {
       d.setAttribute('aria-current', i === current ? 'true' : 'false');
     });
   }
+  _updateSectionMenuActive(current);
+}
+
+function _buildSectionMenu() {
+  const menu = document.getElementById('sec-sections-menu');
+  if (!menu) return;
+  const sections = document.querySelectorAll('.step-section[data-section]');
+  menu.innerHTML = '';
+  sections.forEach((sec, idx) => {
+    const heading = sec.querySelector('.section-heading');
+    let name = `Section ${idx + 1}`;
+    if (heading) {
+      const clone = heading.cloneNode(true);
+      clone.querySelectorAll('.section-badge').forEach(b => b.remove());
+      name = clone.textContent.trim().replace(/^[—–-]+/, '').trim() || name;
+    }
+    const btn = document.createElement('button');
+    btn.className = 'sec-menu-item';
+    btn.setAttribute('role', 'menuitem');
+    btn.dataset.secIdx = idx;
+    btn.innerHTML = `<span class="sec-menu-num">${idx + 1}</span><span>${name}</span>`;
+    btn.addEventListener('click', () => {
+      sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      _closeSectionMenu();
+    });
+    menu.appendChild(btn);
+  });
+}
+
+function _updateSectionMenuActive(current) {
+  const items = document.querySelectorAll('.sec-menu-item');
+  items.forEach((item, i) => {
+    item.classList.toggle('active', i === current);
+    item.classList.toggle('done', i < current);
+  });
+}
+
+function _toggleSectionMenu() {
+  const menu = document.getElementById('sec-sections-menu');
+  const btn  = document.getElementById('navSectionLabel');
+  if (!menu) return;
+  const isOpen = menu.classList.contains('open');
+  if (isOpen) {
+    _closeSectionMenu();
+  } else {
+    if (menu.children.length === 0) _buildSectionMenu();
+    menu.classList.add('open');
+    if (btn) btn.setAttribute('aria-expanded', 'true');
+    // Close on outside click
+    setTimeout(() => {
+      document.addEventListener('click', _onOutsideSectionMenu, { once: true });
+    }, 0);
+  }
+}
+
+function _closeSectionMenu() {
+  const menu = document.getElementById('sec-sections-menu');
+  const btn  = document.getElementById('navSectionLabel');
+  if (menu) menu.classList.remove('open');
+  if (btn)  btn.setAttribute('aria-expanded', 'false');
+}
+
+function _onOutsideSectionMenu(e) {
+  const wrap = document.querySelector('.sec-label-wrap');
+  if (wrap && !wrap.contains(e.target)) _closeSectionMenu();
+  else document.addEventListener('click', _onOutsideSectionMenu, { once: true });
 }
 
 
@@ -6467,6 +7574,8 @@ function _showQuickError() {
 let _memCards = [], _memFirst = null, _memSecond = null;
 let _memLock = false, _memFlipped = false;
 let _memMatchedCount = 0, _memTotalPairs = 0;
+let _memPlayTimerId = null, _memPlaySecondsLeft = 0, _memPlayDuration = 120, _memTimerLevelKey = null;
+let _memTimerStarted = false, _memPendingLevelKey = null, _memPendingDuration = 120;
 
 function initMemoryGame(words, levelKey) {
   // Resolve grid element: prefer per-level grid when levelKey provided
@@ -6526,11 +7635,18 @@ function initMemoryGame(words, levelKey) {
   const peekBtnId = levelKey ? `${levelKey}-memory-peek-btn` : 'memory-peek-btn';
   const peekBtn = document.getElementById(peekBtnId) || document.getElementById('memory-peek-btn');
   if (peekBtn) {
+    const peekSec = _memGetPeekSec(levelKey);
     peekBtn.disabled = false;
-    peekBtn.innerHTML = '<i class="fas fa-eye"></i> Peek (4s)';
+    peekBtn.innerHTML = `<i class="fas fa-eye"></i> Peek (${peekSec}s)`;
   }
   // Remember which grid is active for memoryPeek
   window._activeMemoryGridId = gridId;
+
+  // Store timer config — starts on first card flip
+  _memStopPlayTimer();
+  _memTimerStarted  = false;
+  _memPendingLevelKey = levelKey;
+  _memPendingDuration = _memGetPlaySec(levelKey);
 }
 
 function _memFlipCard(card) {
@@ -6543,6 +7659,10 @@ function _memFlipCard(card) {
   card.classList.add('flip');
 
   if (!_memFlipped) {
+    if (!_memTimerStarted) {
+      _memTimerStarted = true;
+      _memStartPlayTimer(_memPendingLevelKey, _memPendingDuration);
+    }
     _memFlipped = true;
     _memFirst   = card;
     return;
@@ -6569,6 +7689,8 @@ function _memFlipCard(card) {
     }, 400);
 
     if (_memMatchedCount === _memTotalPairs) {
+      _memStopPlayTimer();
+      _memHideSandTimer(_memTimerLevelKey);
       try { addStars(10); } catch (e) {}
     }
   } else {
@@ -6594,11 +7716,12 @@ function memoryPeek(levelKey) {
   const peekBtnId = levelKey ? `${levelKey}-memory-peek-btn` : 'memory-peek-btn';
   const peekBtn = document.getElementById(peekBtnId) || document.getElementById('memory-peek-btn');
   const all = grid.querySelectorAll('.mem-card');
+  const peekSec = _memGetPeekSec(levelKey);
   all.forEach(c => c.classList.add('flip'));
   _memLock = true;
   if (peekBtn) {
     peekBtn.disabled = true;
-    peekBtn.innerHTML = '<i class="fas fa-clock"></i> Memorize...';
+    peekBtn.innerHTML = `<i class="fas fa-clock"></i> Memorize... (${peekSec}s)`;
   }
   setTimeout(() => {
     all.forEach(c => { if (!c.classList.contains('matched')) c.classList.remove('flip'); });
@@ -6607,7 +7730,71 @@ function memoryPeek(levelKey) {
       peekBtn.disabled = false;
       peekBtn.innerHTML = '<i class="fas fa-check"></i> Done!';
     }
-  }, 4000);
+  }, peekSec * 1000);
+}
+
+function _memGetPeekSec(levelKey) {
+  const id = levelKey ? `${levelKey}-peek-time` : 'memory-peek-time';
+  const el = document.getElementById(id);
+  return el ? Math.max(1, parseInt(el.value) || 4) : 4;
+}
+
+function _memGetPlaySec(levelKey) {
+  const id = levelKey ? `${levelKey}-play-time` : 'memory-play-time';
+  const el = document.getElementById(id);
+  return el ? Math.max(10, parseInt(el.value) || 120) : 120;
+}
+
+function _memStartPlayTimer(levelKey, duration) {
+  _memStopPlayTimer();
+  _memTimerLevelKey = levelKey;
+  _memPlayDuration  = duration;
+  _memPlaySecondsLeft = duration;
+
+  const fillId      = levelKey ? `${levelKey}-sand-fill`  : 'memory-sand-fill';
+  const labelId     = levelKey ? `${levelKey}-sand-label` : 'memory-sand-label';
+  const containerId = levelKey ? `${levelKey}-sand-timer` : 'memory-sand-timer';
+  const fill      = document.getElementById(fillId);
+  const label     = document.getElementById(labelId);
+  const container = document.getElementById(containerId);
+
+  if (container) container.style.visibility = 'visible';
+  if (fill)  { fill.classList.remove('sand-danger'); fill.style.transition = 'none'; fill.style.height = '100%'; }
+  if (label) label.textContent = duration;
+
+  setTimeout(() => { if (fill) fill.style.transition = 'height 1s linear'; }, 50);
+
+  _memPlayTimerId = setInterval(() => {
+    _memPlaySecondsLeft--;
+    const pct = (_memPlaySecondsLeft / _memPlayDuration) * 100;
+    if (fill)  fill.style.height = Math.max(0, pct) + '%';
+    if (label) label.textContent = _memPlaySecondsLeft;
+    if (pct <= 20 && fill) fill.classList.add('sand-danger');
+    if (_memPlaySecondsLeft <= 0) _memTimeUp(levelKey);
+  }, 1000);
+}
+
+function _memStopPlayTimer() {
+  if (_memPlayTimerId) { clearInterval(_memPlayTimerId); _memPlayTimerId = null; }
+}
+
+function _memHideSandTimer(levelKey) {
+  const id = levelKey ? `${levelKey}-sand-timer` : 'memory-sand-timer';
+  const el = document.getElementById(id);
+  if (el) el.style.visibility = 'hidden';
+}
+
+function _memTimeUp(levelKey) {
+  _memStopPlayTimer();
+  _memLock = true;
+  const gridId = levelKey ? `${levelKey}-memory-grid` : 'memory-grid';
+  const grid = document.getElementById(gridId);
+  if (grid) { grid.style.opacity = '0.4'; grid.style.pointerEvents = 'none'; }
+  setTimeout(() => {
+    if (typeof showVictory === 'function') showVictory('⏰', 'انتهى الوقت! — Time\'s Up!');
+    if (grid) { grid.style.opacity = ''; grid.style.pointerEvents = ''; }
+    _memLock = false;
+  }, 300);
 }
 
 
@@ -6991,8 +8178,9 @@ function _puzzleXoClick(which, idx) {
 }
 
 const LEVEL_PUZZLE_XO_CONFIG = {
-  'sukoon-syllables': { containerId: 'ui-sukoon-syllables', turnId: 'sukoon-syllable-turn', pieceSelector: '.puzzle-wrap', cellSelector: '.piece' },
-  'sukoon-words':     { containerId: 'ui-sukoon-words',     turnId: 'sukoon-word-turn',     pieceSelector: '.split-box',   cellSelector: '.split-cell' },
+  'sukoon-syllables': { containerId: 'ui-sukoon-syllables',       turnId: 'sukoon-syllable-turn', pieceSelector: '.puzzle-wrap', cellSelector: '.piece' },
+  'sukoon-cards':     { containerId: 'ui-sukoon-cards-container', turnId: 'sukoon-card-turn',     pieceSelector: '.puzzle-wrap', cellSelector: '.piece' },
+  'sukoon-words':     { containerId: 'ui-sukoon-words',           turnId: 'sukoon-word-turn',     pieceSelector: '.split-box',   cellSelector: '.split-cell' },
   'madd-syllables':   { containerId: 'ui-madd-syllables',   turnId: 'madd-syllable-turn',   pieceSelector: '.puzzle-wrap', cellSelector: '.piece' },
   'madd-words':       { containerId: 'ui-madd-words',       turnId: 'madd-word-turn',       pieceSelector: '.split-box',   cellSelector: '.split-cell' },
   'shadda-syllables': { containerId: 'ui-shadda-syllables', turnId: 'shadda-syllable-turn', pieceSelector: '.puzzle-wrap', cellSelector: '.piece' },
@@ -8769,6 +9957,37 @@ function speedReadRestart(levelKey) {
   });
 })();
 
+/* Ensure Sukoon mini-games (Spot/Patterns/Detective) render whenever the
+   sukoon screen becomes visible — even after page reload / HMR without
+   re-running openSukoonLevel. Each render fn is idempotent. */
+(function hookSukoonGames() {
+  function ensureSukoonGames() {
+    try { renderSukoonSpot(); }      catch (e) { console.warn('sukoonSpot:', e); }
+    try { renderSukoonPatterns(); }  catch (e) { console.warn('sukoonPatterns:', e); }
+    try { renderSukoonDetective(); } catch (e) { console.warn('sukoonDetective:', e); }
+  }
+  document.addEventListener('DOMContentLoaded', () => {
+    const ss = document.getElementById('sukoon-screen');
+    if (!ss) return;
+    // If sukoon screen is already visible at load, render now
+    if (ss.style.display !== 'none' && ss.style.opacity !== '0') {
+      setTimeout(ensureSukoonGames, 300);
+    }
+    new MutationObserver(() => {
+      const visible = ss.style.display !== 'none' && ss.style.opacity !== '0';
+      if (visible) {
+        // Throttle: only re-render once per visibility transition
+        if (!window._sukoonGamesRendered) {
+          window._sukoonGamesRendered = true;
+          setTimeout(ensureSukoonGames, 200);
+        }
+      } else {
+        window._sukoonGamesRendered = false;
+      }
+    }).observe(ss, { attributes: true, attributeFilter: ['style'] });
+  });
+})();
+
 
 /* ============================================================
    13. 🥤 TRICKY CUPS — اتبع الكلمة
@@ -8891,6 +10110,7 @@ function _tcRender() {
     const isTarget = (i === _tcState.targetIdx);
     if (isTarget) el.classList.add('tc-cup-target');
     el.innerHTML = `
+      <div class="tc-cup-num"></div>
       <div class="tc-cup-body">
         <div class="tc-cup-top"></div>
         <div class="tc-cup-mid"></div>
@@ -8931,6 +10151,15 @@ function _tcDoShuffle() {
     if (shufflesLeft <= 0) {
       _tcState.phase = 'waiting';
       _tcUpdateStatus('🎯 Click the cup with the word! — اضغط على الكوب الصحيح!');
+      // Number each cup by its current visual slot (1..n) so the player
+      // can refer to "cup 3" before picking.
+      _tcState.cups.forEach(cup => {
+        const cupEl = document.getElementById(cup.id);
+        if (!cupEl) return;
+        const numEl = cupEl.querySelector('.tc-cup-num');
+        if (numEl) numEl.textContent = String(cup.slot + 1);
+        cupEl.classList.add('tc-cup-numbered');
+      });
       return;
     }
     // Pick two random different slots and swap
@@ -9447,9 +10676,9 @@ function trickyCupsRestart(levelKey) {
   // Madd/Shadda/Tanween will gain matching ids in a follow-up pass.
   const GAME_SECTIONS_ADVANCED = {
     sukoon: [
-      'sukoon-2-motors', 'sukoon-2', 'sukoon-3', 'sukoon-4',
+      'sukoon-2', 'sukoon-3', 'sukoon-4-cards', 'sukoon-5', 'sukoon-4',
       'sukoon-wheel', 'sukoon-memory', 'sukoon-speed', 'sukoon-cups',
-      'sukoon-missing', 'sukoon-story', 'sukoon-xo', 'sukoon-quran',
+      'sukoon-missing', 'sukoon-story', 'sukoon-xo', 'sukoon-quran', 'sukoon-detective',
     ],
     madd: [
       'madd-2-motors', 'madd-2', 'madd-3', 'madd-4',
@@ -9546,14 +10775,21 @@ function _exitFullscreen(section, keepFs) {
 
     if (gameContainer) {
       // 🚗 وضع لعبة السيارة - الآن ستأخذ الشاشة كاملة لأن السكشن مخصص لها فقط
-      const availW = window.innerWidth - 60;
+      const motorsBox = wrapper.querySelector('.motors-box');
+      const sectionHeading = wrapper.querySelector('.section-heading');
+      const motorsH = motorsBox ? motorsBox.offsetHeight : 0;
+      const headingH = sectionHeading ? sectionHeading.offsetHeight : 0;
+      const topPadding = 40 + headingH + 14 + motorsH + 14;
+
+      const availW = window.innerWidth - 100;
+      const fsAvailH = Math.max(240, window.innerHeight - topPadding - 60);
       const availH = window.innerHeight - 120; // ترك مساحة للعنوان والأسهم
       const aspect = 1000 / 600;
 
       let w = availW;
       let h = w / aspect;
-      if (h > availH && availH > 0) {
-        h = availH;
+      if (h > fsAvailH) {
+        h = fsAvailH;
         w = h * aspect;
       }
       if (w < 600) { w = 600; h = w / aspect; }
@@ -9563,17 +10799,15 @@ function _exitFullscreen(section, keepFs) {
       gameContainer.style.maxWidth = 'none';
       gameContainer.style.margin = '0 auto';
 
-      wrapper.style.display = 'flex';
-      wrapper.style.flexDirection = 'column';
-      wrapper.style.alignItems = 'center';
-      wrapper.style.justifyContent = 'center';
+      wrapper.style.display = 'block';
+      wrapper.style.maxWidth = w + 'px';
       wrapper.style.width = '100%';
-      wrapper.style.height = '100vh';
+      wrapper.style.margin = '0 auto';
 
       _refreshPhaser();
     } else {
       // 🧩 وضع الأقسام الأخرى (تعريف الموتور، XO، إلخ)
-      const REF_WIDTH = 980;
+      const REF_WIDTH = 1200;
       wrapper.style.display = 'block';
       wrapper.style.width = REF_WIDTH + 'px';
       wrapper.style.maxWidth = REF_WIDTH + 'px';
@@ -9666,7 +10900,7 @@ function _installFsButtons() {
       const hasNextBtn = sec.querySelector('.next-level-btn'); // هل يحتوي على زر التالي؟
 
       // لا تضف زر التكبير للسكشن 0 أو 1، ولا تضيفه للسكشن الذي يحتوي على زر الانتقال
-      if (secNum !== '0' && secNum !== '1' && !hasNextBtn) {
+      if (secNum !== '0' && secNum !== '1' && !(secNum && secNum.endsWith('-selectors')) && !hasNextBtn) {
           _addFsButton(sec);
       }
     });
@@ -10439,4 +11673,31 @@ window._tabMe = function() {
     }
   }
 
+})();
+
+/* ── Smart Navbar: hide on scroll-down, show on scroll-up ── */
+(function() {
+  var lastY = 0;
+  var ticking = false;
+  var THRESHOLD = 6;
+
+  window.addEventListener('scroll', function() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function() {
+      var nav = document.getElementById('app-nav');
+      if (nav && nav.classList.contains('nav-visible')) {
+        var y = window.scrollY || window.pageYOffset;
+        if (Math.abs(y - lastY) > THRESHOLD) {
+          if (y > lastY && y > 80) {
+            nav.classList.add('nav-hidden');
+          } else {
+            nav.classList.remove('nav-hidden');
+          }
+          lastY = y;
+        }
+      }
+      ticking = false;
+    });
+  }, { passive: true });
 })();
