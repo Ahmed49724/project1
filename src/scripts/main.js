@@ -9028,9 +9028,6 @@ function _patchAlefFinalPage(key) {
 
   function _buildBreakModal() {
     if (document.getElementById('break-modal')) return;
-    const saved = _loadPomoSettings() || {};
-    const sMin = saved.sessionMin || 15;
-    const bMin = saved.breakMin || 1;
     const m = document.createElement('div');
     m.id = 'break-modal';
     m.innerHTML = `
@@ -9039,15 +9036,14 @@ function _patchAlefFinalPage(key) {
           <i class="fas fa-times"></i>
         </button>
         <div class="break-modal-title">⏸️ Take a Break — وقت استراحة</div>
-
-        <div class="break-modal-sub">⏱ Quick Break — استراحة سريعة</div>
+        <div class="break-modal-sub">How many minutes? — كم دقيقة؟</div>
         <div class="break-preset-grid">
-          <button class="break-preset" data-min="1" data-mode="break">1<span>min</span></button>
-          <button class="break-preset" data-min="2" data-mode="break">2<span>min</span></button>
-          <button class="break-preset" data-min="5" data-mode="break">5<span>min</span></button>
-          <button class="break-preset" data-min="10" data-mode="break">10<span>min</span></button>
-          <button class="break-preset" data-min="15" data-mode="break">15<span>min</span></button>
-          <button class="break-preset" data-min="20" data-mode="break">20<span>min</span></button>
+          <button class="break-preset" data-min="1">1<span>min</span></button>
+          <button class="break-preset" data-min="2">2<span>min</span></button>
+          <button class="break-preset" data-min="5">5<span>min</span></button>
+          <button class="break-preset" data-min="10">10<span>min</span></button>
+          <button class="break-preset" data-min="15">15<span>min</span></button>
+          <button class="break-preset" data-min="20">20<span>min</span></button>
         </div>
         <div class="break-custom">
           <label>Custom / مخصص:</label>
@@ -9055,41 +9051,24 @@ function _patchAlefFinalPage(key) {
           <span>min</span>
           <button class="break-custom-go" onclick="window._startBreakCustom()">Go!</button>
         </div>
-
-        <div class="break-modal-sub break-modal-sub-pomo">🍅 Pomodoro — جلسة + استراحة</div>
-        <div class="break-preset-grid">
-          <button class="break-preset break-preset-pomo" data-sess="15" data-brk="1" data-mode="pomo">15+1<span>pomo</span></button>
-          <button class="break-preset break-preset-pomo" data-sess="20" data-brk="2" data-mode="pomo">20+2<span>pomo</span></button>
-          <button class="break-preset break-preset-pomo" data-sess="25" data-brk="5" data-mode="pomo">25+5<span>pomo</span></button>
-        </div>
-        <div class="break-custom">
-          <label>🍅 Custom / مخصص:</label>
-          <input type="number" id="pomo-session-min" min="1" max="120" value="${sMin}" />
-          <span>+</span>
-          <input type="number" id="pomo-break-min" min="1" max="30" value="${bMin}" />
-          <span>min</span>
-          <button class="break-custom-go" onclick="window._startPomodoro()">Go!</button>
-        </div>
       </div>
     `;
     m.onclick = _closeBreakMenu;
     document.body.appendChild(m);
 
-    // Wire up presets
+    // Each preset launches a Pomodoro: that duration as the study session,
+    // followed by a 1-minute break, auto-looping until manually stopped.
     m.querySelectorAll('.break-preset').forEach(btn => {
-      const mode = btn.dataset.mode;
-      btn.onclick = () => {
-        if (mode === 'pomo') {
-          const sess = parseInt(btn.dataset.sess);
-          const brk  = parseInt(btn.dataset.brk);
-          _breakState.pomoConfig = { sessionMin: sess, breakMin: brk, autoLoop: true };
-          _savePomoSettings({ sessionMin: sess, breakMin: brk, autoLoop: true });
-          _startBreak(sess, 'pomo-session');
-        } else {
-          _startBreak(parseInt(btn.dataset.min), 'break');
-        }
-      };
+      btn.onclick = () => _startPomoFromPreset(parseInt(btn.dataset.min));
     });
+  }
+
+  function _startPomoFromPreset(sessionMin) {
+    if (!sessionMin || sessionMin < 1) return;
+    const breakMin = 1;  // fixed short break between sessions
+    _breakState.pomoConfig = { sessionMin, breakMin, autoLoop: true };
+    _savePomoSettings({ sessionMin, breakMin, autoLoop: true });
+    _startBreak(sessionMin, 'pomo-session');
   }
 
   function _buildBreakCountdown() {
@@ -9213,18 +9192,7 @@ function _patchAlefFinalPage(key) {
     if (!input) return;
     const val = parseInt(input.value);
     if (isNaN(val) || val < 1) return;
-    _startBreak(Math.min(val, 120), 'break');
-  }
-
-  function _startPomodoro() {
-    const sIn = document.getElementById('pomo-session-min');
-    const bIn = document.getElementById('pomo-break-min');
-    const sessionMin = Math.max(1, Math.min(120, parseInt(sIn && sIn.value) || 15));
-    const breakMin   = Math.max(1, Math.min(30,  parseInt(bIn && bIn.value) || 1));
-    const autoLoop   = true;  // pomodoro presets/custom always loop until manually stopped
-    _breakState.pomoConfig = { sessionMin, breakMin, autoLoop };
-    _savePomoSettings({ sessionMin, breakMin, autoLoop });
-    _startBreak(sessionMin, 'pomo-session');
+    _startPomoFromPreset(Math.min(val, 120));
   }
 
   function _renderFabPomo() {
@@ -9234,19 +9202,6 @@ function _patchAlefFinalPage(key) {
     fab.classList.remove('pomo-phase-session', 'pomo-phase-break', 'pomo-paused');
     if (_breakState.phase === 'pomo-session') fab.classList.add('pomo-phase-session');
     else if (_breakState.phase === 'pomo-break') fab.classList.add('pomo-phase-break');
-    const icon = document.getElementById('pomo-fab-icon');
-    if (icon) icon.textContent = (_breakState.phase === 'pomo-break') ? '☕' : '📚';
-    _updatePomoFabTime();
-  }
-
-  function _updatePomoFabTime() {
-    const el = document.getElementById('pomo-fab-time');
-    if (!el) return;
-    const remaining = Math.max(0, _breakState.endTime - Date.now());
-    const totalSec = Math.ceil(remaining / 1000);
-    const m = Math.floor(totalSec / 60);
-    const s = totalSec % 60;
-    el.textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
   }
 
   function _clearFabPomo() {
@@ -9262,20 +9217,30 @@ function _patchAlefFinalPage(key) {
       pop.id = 'pomo-popover';
       pop.className = 'pomo-popover';
       pop.innerHTML = `
-        <div class="pomo-popover-title" id="pomo-pop-title">📚 Session</div>
+        <div class="pomo-popover-title">
+          <span id="pomo-pop-phase">📚 Session</span>
+          <span class="pomo-pop-time" id="pomo-pop-time">--:--</span>
+        </div>
         <button class="pomo-pop-btn pomo-pop-stop" id="pomo-pop-stop"><i class="fas fa-stop"></i> Stop Pomodoro — إيقاف</button>
       `;
       document.body.appendChild(pop);
       pop.querySelector('#pomo-pop-stop').onclick = () => { _stopPomodoro(); };
     }
-    const titleEl = pop.querySelector('#pomo-pop-title');
-    if (titleEl) {
-      titleEl.textContent = (_breakState.phase === 'pomo-break')
+    const phaseEl = pop.querySelector('#pomo-pop-phase');
+    if (phaseEl) {
+      phaseEl.textContent = (_breakState.phase === 'pomo-break')
         ? '☕ Break — استراحة'
         : '📚 Session — جلسة دراسة';
     }
     pop.classList.toggle('show');
     if (pop.classList.contains('show')) {
+      // Refresh time immediately
+      const popTime = document.getElementById('pomo-pop-time');
+      if (popTime && _breakState.running) {
+        const remaining = Math.max(0, _breakState.endTime - Date.now());
+        const totalSec = Math.ceil(remaining / 1000);
+        popTime.textContent = String(Math.floor(totalSec / 60)).padStart(2, '0') + ':' + String(totalSec % 60).padStart(2, '0');
+      }
       const dismiss = (e) => {
         if (!pop.contains(e.target) && e.target.id !== 'break-fab' && !document.getElementById('break-fab').contains(e.target)) {
           pop.classList.remove('show');
@@ -9340,9 +9305,10 @@ function _patchAlefFinalPage(key) {
       }
       _updateCircleProgress(circle, remaining, total);
     } else {
-      // Pomodoro: ring on FAB
-      _updatePomoFabTime();
+      // Pomodoro: ring around FAB; popover (if open) shows live time
       _updateCircleProgress(document.getElementById('pomo-fab-ring-fg'), remaining, total);
+      const popTime = document.getElementById('pomo-pop-time');
+      if (popTime) popTime.textContent = formatted;
       if (totalSec <= 10 && totalSec > 0) {
         const fab = document.getElementById('break-fab');
         if (fab) {
@@ -9431,7 +9397,6 @@ function _patchAlefFinalPage(key) {
   window._cancelBreak = _cancelBreak;
   window._startBreakCustom = _startBreakCustom;
   window._closeBreakMenu = _closeBreakMenu;
-  window._startPomodoro = _startPomodoro;
 
   // Initialize on load
   document.addEventListener('DOMContentLoaded', () => {
