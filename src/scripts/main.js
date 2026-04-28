@@ -116,10 +116,10 @@
       xoWords: ['أَبَ','بَأَ','أَأَ','بَبَ','أَبَ','بَأَ','أَأَ','أَبَ','بَأَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َبَ`, correctShape: 0 },
-        { display: `بَ<span class="missing-gap"></span>َ`, correctShape: 1 },
-        { display: `أَبَ<span class="missing-gap"></span>`, correctShape: 3 },
+        { display: `بَ<span class="missing-gap"></span>َ`, correctShape: 2 },
+        { display: `أَبَ<span class="missing-gap"></span>`, correctShape: 2 },
         { display: `بَأَ<span class="missing-gap"></span>`, correctShape: 3 },
-        { display: `أَ<span class="missing-gap"></span>َبَ`, correctShape: 1 },
+        { display: `أَ<span class="missing-gap"></span>َبَ`, correctShape: 0 },
         { display: `أَأَ<span class="missing-gap"></span>`, correctShape: 3 }
       ]
     },
@@ -135,10 +135,10 @@
       xoWords: ['أَبَ','بَأَ','بَبَ','أَبَ','بَأَ','أَبَ','بَبَ','أَبَ','بَأَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َأَبَ`, correctShape: 0 },
-        { display: `أَ<span class="missing-gap"></span>َأَ`, correctShape: 1 },
+        { display: `أَ<span class="missing-gap"></span>َأَ`, correctShape: 0 },
         { display: `أَبَ<span class="missing-gap"></span>َ`, correctShape: 2 },
         { display: `بَأَ<span class="missing-gap"></span>َ`, correctShape: 3 },
-        { display: `أَ<span class="missing-gap"></span>َبَ`, correctShape: 1 },
+        { display: `أَ<span class="missing-gap"></span>َبَ`, correctShape: 0 },
         { display: `أَأَ<span class="missing-gap"></span>َ`, correctShape: 3 }
       ]
     },
@@ -154,7 +154,7 @@
       xoWords: ['بَتَتَ','أَتَبَ','تَبَتَ','تَأَبَ','بَأَتَ','تَبَ','بَتَ','أَتَ','تَأَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َبَتَ`, correctShape: 0 },
-        { display: `أَ<span class="missing-gap"></span>َبَ`, correctShape: 1 },
+        { display: `أَ<span class="missing-gap"></span>َبَ`, correctShape: 0 },
         { display: `بَتَ<span class="missing-gap"></span>َ`, correctShape: 2 },
         { display: `بَأَ<span class="missing-gap"></span>َ`, correctShape: 3 },
         { display: `أَبَ<span class="missing-gap"></span>َ`, correctShape: 2 },
@@ -181,7 +181,7 @@
         { display: `بَ<span class="missing-gap"></span>َثَ`, correctShape: 1 },
         { display: `أَبَ<span class="missing-gap"></span>َ`, correctShape: 2 },
         { display: `تَأَ<span class="missing-gap"></span>َ`, correctShape: 3 },
-        { display: `أَ<span class="missing-gap"></span>َبَ`, correctShape: 1 },
+        { display: `أَ<span class="missing-gap"></span>َبَ`, correctShape: 0 },
         { display: `بَأَ<span class="missing-gap"></span>َ`, correctShape: 3 }
       ],
       detective: {
@@ -271,7 +271,7 @@
         { display: `<span class="missing-gap"></span>َأَبَ`, correctShape: 0 },
         { display: `بَ<span class="missing-gap"></span>َأَ`, correctShape: 1 },
         { display: `سَعِ<span class="missing-gap"></span>َ`, correctShape: 2 },
-        { display: `أَ<span class="missing-gap"></span>َدَ`, correctShape: 3 },
+        { display: `أَ<span class="missing-gap"></span>َدَ`, correctShape: 0 },
         { display: `حَ<span class="missing-gap"></span>َثَ`, correctShape: 1 },
         { display: `بَأَ<span class="missing-gap"></span>َ`, correctShape: 3 }
       ]
@@ -288,8 +288,8 @@
       xoWords: ['أَدَذَ','أَخَذَ','ذَبَحَ','جَذَبَ','بَأَذَ','خَذَلَ','ذَهَبَ','عَذَبَ','نَبَذَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َبَحَ`, correctShape: 0 },
-        { display: `أَخَ<span class="missing-gap"></span>َ`, correctShape: 1 },
-        { display: `جَذَ<span class="missing-gap"></span>َ`, correctShape: 2 },
+        { display: `أَخَ<span class="missing-gap"></span>َ`, correctShape: 2 },
+        { display: `جَذَ<span class="missing-gap"></span>َ`, correctShape: 3 },
         { display: `أَدَ<span class="missing-gap"></span>َ`, correctShape: 3 },
         { display: `جَ<span class="missing-gap"></span>َبَ`, correctShape: 1 },
         { display: `بَأَ<span class="missing-gap"></span>َ`, correctShape: 3 }
@@ -402,7 +402,7 @@
         { display: `فَحَ<span class="missing-gap"></span>َ`, correctShape: 2 },
         { display: `حَرَ<span class="missing-gap"></span>َ`, correctShape: 3 },
         { display: `حَ<span class="missing-gap"></span>َدَ`, correctShape: 1 },
-        { display: `رَصَ<span class="missing-gap"></span>َ`, correctShape: 3 }
+        { display: `رَصَ<span class="missing-gap"></span>َ`, correctShape: 2 }
       ],
       detective: {
         target: 'ص', compareWith: 'س', type: 'sound',
@@ -513,7 +513,7 @@
       xoWords: ['بَزَغَ','غَرَسَ','رَغِبَ','شَغَبَ','ضَغَطَ','غُلِبَ','شُغِفَ','فَرِغَ','صُبِغَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َرَسَ`, correctShape: 0 },
-        { display: `رَ<span class="missing-gap"></span>ِبَ`, correctShape: 1 },
+        { display: `رَ<span class="missing-gap"></span>ِبَ`, correctShape: 0 },
         { display: `صُبِ<span class="missing-gap"></span>َ`, correctShape: 2 },
         { display: `بَزَ<span class="missing-gap"></span>َ`, correctShape: 3 },
         { display: `ضَ<span class="missing-gap"></span>َطَ`, correctShape: 1 },
@@ -537,10 +537,10 @@
       xoWords: ['رَدَفَ','فَتَحَ','فَرِحَ','رَفَعَ','عَرَفَ','فُحِصَ','زُفِفَ','سَلَفَ','خَطِفَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َتَحَ`, correctShape: 0 },
-        { display: `رَ<span class="missing-gap"></span>َعَ`, correctShape: 1 },
+        { display: `رَ<span class="missing-gap"></span>َعَ`, correctShape: 0 },
         { display: `خَطِ<span class="missing-gap"></span>َ`, correctShape: 2 },
         { display: `رَدَ<span class="missing-gap"></span>َ`, correctShape: 3 },
-        { display: `زُ<span class="missing-gap"></span>ِفَ`, correctShape: 1 },
+        { display: `زُ<span class="missing-gap"></span>ِفَ`, correctShape: 0 },
         { display: `عَرَ<span class="missing-gap"></span>َ`, correctShape: 3 }
       ]
     },
@@ -627,7 +627,7 @@
         { display: `حَكَ<span class="missing-gap"></span>َ`, correctShape: 2 },
         { display: `رَدَ<span class="missing-gap"></span>َ`, correctShape: 3 },
         { display: `جَ<span class="missing-gap"></span>َعَ`, correctShape: 1 },
-        { display: `رَحِ<span class="missing-gap"></span>َ`, correctShape: 3 }
+        { display: `رَحِ<span class="missing-gap"></span>َ`, correctShape: 2 }
       ]
     },
     'ن': {
@@ -666,11 +666,11 @@
       xoWords: ['رَدَهَ','هَرَبَ','ذَهَبَ','ظَهَرَ','شَهِدَ','هُدِمَ','فُهِمَ','نُهِرَ','بُهِتَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َرَبَ`, correctShape: 0 },
-        { display: `ذَ<span class="missing-gap"></span>َبَ`, correctShape: 1 },
+        { display: `ذَ<span class="missing-gap"></span>َبَ`, correctShape: 0 },
         { display: `شَهِ<span class="missing-gap"></span>َ`, correctShape: 2 },
         { display: `رَدَ<span class="missing-gap"></span>َ`, correctShape: 3 },
         { display: `ظَ<span class="missing-gap"></span>َرَ`, correctShape: 1 },
-        { display: `فُ<span class="missing-gap"></span>ِمَ`, correctShape: 3 }
+        { display: `فُ<span class="missing-gap"></span>ِمَ`, correctShape: 1 }
       ]
     },
     'و': {
@@ -704,7 +704,7 @@
       xoWords: ['رَدَيَ','يَئِسَ','يَبِسَ','يَقِظَ','يَنَعَ','يَسَرَ','يَفَعَ','بُغِيَ','نُسِيَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َئِسَ`, correctShape: 0 },
-        { display: `يَبِ<span class="missing-gap"></span>َ`, correctShape: 1 },
+        { display: `يَبِ<span class="missing-gap"></span>َ`, correctShape: 2 },
         { display: `بُغِ<span class="missing-gap"></span>َ`, correctShape: 2 },
         { display: `رَدَ<span class="missing-gap"></span>َ`, correctShape: 3 },
         { display: `نُسِ<span class="missing-gap"></span>َ`, correctShape: 2 },
