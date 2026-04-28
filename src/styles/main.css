@@ -3346,148 +3346,131 @@ html.has-phaser-fs #reading-check-btns {
    🍅 POMODORO — integrated into Break FAB + Break Modal
    ============================================================ */
 
-/* Pomodoro section inside Break Modal */
-.break-modal-divider {
-  height: 1.5px;
-  background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.4), transparent);
-  margin: 18px 0 16px;
+/* Pomodoro presets reuse .break-preset look but with red accent */
+.break-modal-sub-pomo { margin-top: 18px; color: #b45309; font-weight: 800; }
+.break-preset-pomo {
+  background: linear-gradient(135deg, #fee2e2, #fecaca) !important;
+  border-color: #ef4444 !important;
+  color: #991b1b !important;
 }
-.pomo-section-title {
-  font-family: 'Tajawal', sans-serif;
-  font-size: 1rem;
-  font-weight: 900;
-  color: #b91c1c;
-  text-align: center;
-  margin-bottom: 12px;
+.break-preset-pomo:hover {
+  background: linear-gradient(135deg, #fecaca, #fca5a5) !important;
+  box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3) !important;
 }
-.pomo-config {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 12px;
-  background: #fef2f2;
-  border: 1.5px solid #fee2e2;
-  border-radius: 14px;
-  margin-bottom: 10px;
+.break-preset-pomo span {
+  color: #b91c1c !important;
 }
-.pomo-config-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-family: 'Tajawal', sans-serif;
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: #334155;
+
+/* Circular timer (used in break countdown overlay) */
+.circle-timer {
+  position: relative;
+  width: 240px;
+  height: 240px;
+  margin: 0 auto 22px;
 }
-.pomo-config-input {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: #fff;
-  border: 1.5px solid #fecaca;
-  border-radius: 10px;
-  padding: 4px 10px;
-}
-.pomo-config-input input {
-  width: 50px;
-  border: none;
-  background: transparent;
-  font-family: 'Tajawal', sans-serif;
-  font-size: 1rem;
-  font-weight: 800;
-  text-align: center;
-  color: #1f2937;
-  outline: none;
-}
-.pomo-config-unit {
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: #64748b;
-}
-.pomo-config-checkbox {
-  justify-content: flex-start;
-  gap: 10px;
-  cursor: pointer;
-}
-.pomo-config-checkbox input[type="checkbox"] {
-  width: 18px; height: 18px;
-  accent-color: #ef4444;
-  cursor: pointer;
-}
-.pomo-start-btn {
+.circle-timer svg {
   width: 100%;
-  background: linear-gradient(135deg, #ef4444, #b91c1c);
-  color: #fff;
-  border: none;
-  border-radius: 50px;
-  padding: 12px 24px;
-  font-family: 'Tajawal', sans-serif;
-  font-size: 1rem;
-  font-weight: 900;
-  cursor: pointer;
+  height: 100%;
+  transform: rotate(-90deg);
+  display: block;
+}
+.circle-timer .circle-bg {
+  fill: none;
+  stroke: rgba(245, 158, 11, 0.18);
+  stroke-width: 8;
+}
+.circle-timer .circle-progress {
+  fill: none;
+  stroke: #f59e0b;
+  stroke-width: 10;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.25s linear;
+  filter: drop-shadow(0 4px 8px rgba(245, 158, 11, 0.35));
+}
+.circle-timer .circle-time {
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  box-shadow: 0 4px 14px rgba(220, 38, 38, 0.4);
-  transition: transform 0.2s, box-shadow 0.2s;
+  font-family: 'Courier New', monospace;
+  font-size: 3.6rem;
+  font-weight: 900;
+  color: #b45309;
+  letter-spacing: 3px;
+  text-shadow: 0 2px 6px rgba(245, 158, 11, 0.18);
+  transition: transform 0.3s, color 0.3s;
 }
-.pomo-start-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(220, 38, 38, 0.5);
+.circle-timer .circle-time.tick-pulse {
+  transform: scale(1.12);
+  color: #dc2626;
 }
 
-/* Break FAB pill mode — when Pomodoro is active, FAB transforms into a wider pill */
+/* Break FAB during Pomodoro: circular ring + icon + time inside */
+#break-fab .pomo-fab-ring,
+#break-fab .pomo-fab-content { display: none; }
+#break-fab.pomo-active .break-fab-lottie { display: none; }
 #break-fab.pomo-active {
-  width: auto !important;
-  min-width: 140px;
-  height: 56px;
-  padding: 0 18px;
-  border-radius: 50px;
-  flex-direction: row;
-  gap: 10px;
+  width: 88px !important;
+  height: 88px !important;
+  border-radius: 50% !important;
+  padding: 0 !important;
   animation: none !important;
 }
-#break-fab.pomo-active .break-fab-lottie {
-  display: none;
+#break-fab.pomo-active .pomo-fab-ring {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  pointer-events: none;
+}
+#break-fab.pomo-active .pomo-fab-ring-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.28);
+  stroke-width: 6;
+}
+#break-fab.pomo-active .pomo-fab-ring-fg {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 6;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.25s linear;
 }
 #break-fab.pomo-active .pomo-fab-content {
-  display: inline-flex;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 10px;
-  font-family: 'Tajawal', sans-serif;
-  font-weight: 900;
-  color: #fff;
-  white-space: nowrap;
+  justify-content: center;
+  gap: 1px;
+  pointer-events: none;
 }
-#break-fab .pomo-fab-content { display: none; }
-.pomo-fab-icon {
-  font-size: 1.5rem;
+#break-fab.pomo-active .pomo-fab-icon {
+  font-size: 1.4rem;
   line-height: 1;
 }
-.pomo-fab-time {
-  font-size: 1.25rem;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.02em;
+#break-fab.pomo-active .pomo-fab-time {
+  font-family: 'Courier New', monospace;
+  font-size: 1rem;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: 1px;
+  line-height: 1;
 }
+
+/* Phase colors for the FAB */
 #break-fab.pomo-active.pomo-phase-session {
   background: linear-gradient(135deg, #10b981, #047857) !important;
-  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.45) !important;
+  box-shadow: 0 6px 22px rgba(16, 185, 129, 0.45) !important;
 }
 #break-fab.pomo-active.pomo-phase-break {
   background: linear-gradient(135deg, #f59e0b, #d97706) !important;
-  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.45) !important;
+  box-shadow: 0 6px 22px rgba(245, 158, 11, 0.45) !important;
 }
 #break-fab.pomo-active.pomo-paused {
   background: linear-gradient(135deg, #94a3b8, #475569) !important;
-  box-shadow: 0 6px 20px rgba(71, 85, 105, 0.4) !important;
-}
-#break-fab.pomo-active:not(.pomo-paused) {
-  animation: pomoFabPulse 2s ease-in-out infinite !important;
-}
-@keyframes pomoFabPulse {
-  0%, 100% { transform: scale(1); }
-  50%      { transform: scale(1.04); }
+  box-shadow: 0 6px 22px rgba(71, 85, 105, 0.4) !important;
 }
 
 /* Override fullscreen-hide for FAB when Pomodoro is active */
@@ -3498,10 +3481,10 @@ html.has-phaser-fs #break-fab.pomo-active {
   right: 16px;
 }
 
-/* Pomodoro control popover (small panel with pause/stop, opens on FAB click) */
+/* Pomodoro stop popover (small panel that opens on FAB click during Pomodoro) */
 .pomo-popover {
   position: fixed;
-  bottom: 96px;
+  bottom: 116px;
   right: 28px;
   background: #fff;
   border: 2px solid #ef4444;
@@ -3555,25 +3538,30 @@ html.has-phaser-fs #break-fab.pomo-active {
 }
 
 @media (max-width: 500px) {
-  #break-fab.pomo-active { min-width: 120px; height: 50px; padding: 0 14px; }
-  .pomo-fab-time { font-size: 1.1rem; }
-  .pomo-popover { right: 16px; bottom: 80px; min-width: 200px; }
+  #break-fab.pomo-active { width: 76px !important; height: 76px !important; }
+  #break-fab.pomo-active .pomo-fab-time { font-size: 0.85rem; }
+  #break-fab.pomo-active .pomo-fab-icon { font-size: 1.2rem; }
+  .pomo-popover { right: 16px; bottom: 100px; min-width: 200px; }
+  .circle-timer { width: 200px; height: 200px; }
+  .circle-timer .circle-time { font-size: 2.8rem; letter-spacing: 2px; }
 }
 
-[data-theme="dark"] .pomo-config,
-.dark-mode .pomo-config { background: #1f2937; border-color: #475569; }
-[data-theme="dark"] .pomo-config-row,
-.dark-mode .pomo-config-row { color: #e2e8f0; }
-[data-theme="dark"] .pomo-config-input,
-.dark-mode .pomo-config-input { background: #0f172a; border-color: #475569; }
-[data-theme="dark"] .pomo-config-input input,
-.dark-mode .pomo-config-input input { color: #f1f5f9; }
+[data-theme="dark"] .break-preset-pomo,
+.dark-mode .break-preset-pomo {
+  background: linear-gradient(135deg, #4a1818, #5b1d1d) !important;
+  color: #fecaca !important;
+  border-color: #ef4444 !important;
+}
+[data-theme="dark"] .break-preset-pomo span,
+.dark-mode .break-preset-pomo span { color: #fca5a5 !important; }
 [data-theme="dark"] .pomo-popover,
 .dark-mode .pomo-popover { background: #1f2937; border-color: #ef4444; }
 [data-theme="dark"] .pomo-popover-title,
 .dark-mode .pomo-popover-title { color: #f1f5f9; border-color: #475569; }
 [data-theme="dark"] .pomo-pop-btn,
 .dark-mode .pomo-pop-btn { background: #334155; color: #cbd5e1; border-color: #475569; }
+[data-theme="dark"] .circle-timer .circle-time,
+.dark-mode .circle-timer .circle-time { color: #fbbf24; }
 
 /* Transition flash overlay (shows when session/break ends) */
 .pomo-flash-overlay {
