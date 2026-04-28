@@ -11701,3 +11701,281 @@ window._tabMe = function() {
     });
   }, { passive: true });
 })();
+
+
+/* ============================================================
+   🍅 POMODORO TIMER
+   - Teacher sets session/break minutes; auto-loops if enabled
+   - Ticks every 250ms for smooth display; emits transition flash
+   - Persists settings + running state to localStorage so refresh
+     during a session keeps the countdown honest
+   ============================================================ */
+(function pomodoroTimer() {
+  const STORAGE_KEY = 'pomodoro_v1';
+
+  /** mode: 'idle' | 'session' | 'break' | 'paused-session' | 'paused-break' */
+  const state = {
+    mode: 'idle',
+    endsAt: 0,        // ms timestamp when current phase ends (when running)
+    remainingMs: 0,   // ms remaining when paused
+    sessionMs: 15 * 60 * 1000,
+    breakMs: 1 * 60 * 1000,
+    autoLoop: true,
+    tickId: 0,
+  };
+
+  function $(id) { return document.getElementById(id); }
+  function widget() { return $('pomodoro-widget'); }
+  function fmt(ms) {
+    const total = Math.max(0, Math.ceil(ms / 1000));
+    const m = Math.floor(total / 60);
+    const s = total % 60;
+    return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+  }
+
+  function loadSettings() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      const o = JSON.parse(raw);
+      if (typeof o.sessionMin === 'number') state.sessionMs = o.sessionMin * 60 * 1000;
+      if (typeof o.breakMin === 'number')   state.breakMs   = o.breakMin   * 60 * 1000;
+      if (typeof o.autoLoop === 'boolean')  state.autoLoop  = o.autoLoop;
+    } catch (e) {}
+  }
+
+  function saveSettings() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        sessionMin: Math.round(state.sessionMs / 60000),
+        breakMin:   Math.round(state.breakMs   / 60000),
+        autoLoop:   state.autoLoop,
+      }));
+    } catch (e) {}
+  }
+
+  function applySettingsFromInputs() {
+    const sIn = $('pomo-session-min');
+    const bIn = $('pomo-break-min');
+    const lIn = $('pomo-loop-toggle');
+    if (sIn) state.sessionMs = (Math.max(1, Math.min(120, parseInt(sIn.value) || 15))) * 60 * 1000;
+    if (bIn) state.breakMs   = (Math.max(1, Math.min(30,  parseInt(bIn.value) || 1)))  * 60 * 1000;
+    if (lIn) state.autoLoop  = !!lIn.checked;
+    saveSettings();
+  }
+
+  function syncInputsFromState() {
+    const sIn = $('pomo-session-min');
+    const bIn = $('pomo-break-min');
+    const lIn = $('pomo-loop-toggle');
+    if (sIn) sIn.value = String(Math.round(state.sessionMs / 60000));
+    if (bIn) bIn.value = String(Math.round(state.breakMs   / 60000));
+    if (lIn) lIn.checked = state.autoLoop;
+  }
+
+  function setBadgeMode(mode) {
+    const w = widget();
+    if (!w) return;
+    if (mode === 'paused-session' || mode === 'paused-break') {
+      w.dataset.state = 'paused';
+    } else {
+      w.dataset.state = mode;
+    }
+  }
+
+  function updateDisplay() {
+    let total, remaining;
+    if (state.mode === 'idle') {
+      total = state.sessionMs;
+      remaining = state.sessionMs;
+    } else if (state.mode === 'session') {
+      total = state.sessionMs;
+      remaining = state.endsAt - Date.now();
+    } else if (state.mode === 'break') {
+      total = state.breakMs;
+      remaining = state.endsAt - Date.now();
+    } else if (state.mode === 'paused-session') {
+      total = state.sessionMs;
+      remaining = state.remainingMs;
+    } else if (state.mode === 'paused-break') {
+      total = state.breakMs;
+      remaining = state.remainingMs;
+    }
+    remaining = Math.max(0, remaining);
+
+    const time = fmt(remaining);
+    const pillTime = $('pomo-pill-time');
+    const bigTime  = $('pomo-time-big');
+    const fill     = $('pomo-progress-fill');
+    const badge    = $('pomo-state-badge');
+    const startBtn = $('pomo-start-btn');
+    const startLabel = $('pomo-start-label');
+
+    if (pillTime) pillTime.textContent = time;
+    if (bigTime)  bigTime.textContent  = time;
+    if (fill && total > 0) {
+      const pct = ((total - remaining) / total) * 100;
+      fill.style.width = pct + '%';
+    }
+
+    if (badge) {
+      if      (state.mode === 'idle')           badge.textContent = '⏰ Ready — جاهز';
+      else if (state.mode === 'session')        badge.textContent = '📚 Session — جلسة دراسة';
+      else if (state.mode === 'break')          badge.textContent = '☕ Break — استراحة';
+      else if (state.mode === 'paused-session') badge.textContent = '⏸ Paused (Session) — متوقف';
+      else if (state.mode === 'paused-break')   badge.textContent = '⏸ Paused (Break) — متوقف';
+    }
+
+    if (startBtn && startLabel) {
+      const running = (state.mode === 'session' || state.mode === 'break');
+      startLabel.textContent = running ? 'Pause' : 'Start';
+      startBtn.querySelector('i').className = running ? 'fas fa-pause' : 'fas fa-play';
+    }
+  }
+
+  function startTick() {
+    stopTick();
+    state.tickId = setInterval(() => {
+      const now = Date.now();
+      if (state.mode === 'session' || state.mode === 'break') {
+        if (now >= state.endsAt) {
+          handleEndOfPhase();
+          return;
+        }
+        updateDisplay();
+      }
+    }, 250);
+  }
+
+  function stopTick() {
+    if (state.tickId) { clearInterval(state.tickId); state.tickId = 0; }
+  }
+
+  function handleEndOfPhase() {
+    const finished = state.mode;
+    stopTick();
+    try { playToneEnhanced && playToneEnhanced(finished === 'session' ? 880 : 660, 'triangle', 0.4, 0.16); } catch (e) {}
+    setTimeout(() => { try { playToneEnhanced && playToneEnhanced(finished === 'session' ? 1100 : 880, 'triangle', 0.4, 0.16); } catch (e) {} }, 250);
+    setTimeout(() => { try { playToneEnhanced && playToneEnhanced(finished === 'session' ? 1320 : 990, 'triangle', 0.4, 0.16); } catch (e) {} }, 500);
+
+    if (finished === 'session') {
+      showFlash('☕', 'Time for a Break!', 'وقت الاستراحة!');
+      if (state.autoLoop) {
+        state.mode = 'break';
+        state.endsAt = Date.now() + state.breakMs;
+        setBadgeMode('break');
+        startTick();
+      } else {
+        state.mode = 'idle';
+        setBadgeMode('idle');
+      }
+    } else if (finished === 'break') {
+      showFlash('📚', 'Back to Learning!', 'عودة للدراسة!');
+      if (state.autoLoop) {
+        state.mode = 'session';
+        state.endsAt = Date.now() + state.sessionMs;
+        setBadgeMode('session');
+        startTick();
+      } else {
+        state.mode = 'idle';
+        setBadgeMode('idle');
+      }
+    }
+    updateDisplay();
+  }
+
+  function showFlash(icon, titleEn, titleAr) {
+    let overlay = document.querySelector('.pomo-flash-overlay');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.className = 'pomo-flash-overlay';
+      overlay.innerHTML = `
+        <div class="pomo-flash-card">
+          <div class="pomo-flash-icon"></div>
+          <div class="pomo-flash-title"></div>
+          <div class="pomo-flash-sub"></div>
+        </div>`;
+      document.body.appendChild(overlay);
+    }
+    overlay.querySelector('.pomo-flash-icon').textContent  = icon;
+    overlay.querySelector('.pomo-flash-title').textContent = titleEn;
+    overlay.querySelector('.pomo-flash-sub').textContent   = titleAr;
+    requestAnimationFrame(() => overlay.classList.add('is-visible'));
+    try { fireConfetti && fireConfetti(); } catch (e) {}
+    setTimeout(() => overlay.classList.remove('is-visible'), 2400);
+  }
+
+  // Public controls
+  window.pomodoroToggleExpand = function() {
+    const w = widget();
+    if (!w) return;
+    w.classList.toggle('pomo-collapsed');
+    if (!w.classList.contains('pomo-collapsed')) syncInputsFromState();
+  };
+
+  window.pomodoroStartPause = function() {
+    applySettingsFromInputs();
+    if (state.mode === 'idle') {
+      state.mode = 'session';
+      state.endsAt = Date.now() + state.sessionMs;
+      setBadgeMode('session');
+      startTick();
+    } else if (state.mode === 'session' || state.mode === 'break') {
+      // Pause
+      state.remainingMs = Math.max(0, state.endsAt - Date.now());
+      state.mode = state.mode === 'session' ? 'paused-session' : 'paused-break';
+      setBadgeMode(state.mode);
+      stopTick();
+    } else if (state.mode === 'paused-session') {
+      state.mode = 'session';
+      state.endsAt = Date.now() + state.remainingMs;
+      setBadgeMode('session');
+      startTick();
+    } else if (state.mode === 'paused-break') {
+      state.mode = 'break';
+      state.endsAt = Date.now() + state.remainingMs;
+      setBadgeMode('break');
+      startTick();
+    }
+    updateDisplay();
+  };
+
+  window.pomodoroReset = function() {
+    stopTick();
+    applySettingsFromInputs();
+    state.mode = 'idle';
+    state.endsAt = 0;
+    state.remainingMs = 0;
+    setBadgeMode('idle');
+    updateDisplay();
+  };
+
+  // Wire up settings change listeners
+  function wireSettings() {
+    ['pomo-session-min', 'pomo-break-min'].forEach(id => {
+      const el = $(id);
+      if (!el) return;
+      el.addEventListener('change', () => {
+        applySettingsFromInputs();
+        if (state.mode === 'idle') updateDisplay();
+      });
+    });
+    const loop = $('pomo-loop-toggle');
+    if (loop) loop.addEventListener('change', () => { applySettingsFromInputs(); });
+
+    // Click outside panel to collapse
+    document.addEventListener('click', (e) => {
+      const w = widget();
+      if (!w || w.classList.contains('pomo-collapsed')) return;
+      if (!w.contains(e.target)) w.classList.add('pomo-collapsed');
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    loadSettings();
+    syncInputsFromState();
+    setBadgeMode('idle');
+    updateDisplay();
+    wireSettings();
+  });
+})();

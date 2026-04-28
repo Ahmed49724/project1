@@ -110,6 +110,51 @@
     </div>
   </nav>
 
+  <!-- 🍅 Pomodoro Timer Widget — floating, visible in all modes incl. fullscreen -->
+  <div id="pomodoro-widget" class="pomo-collapsed" data-state="idle" dir="ltr">
+    <button class="pomo-pill" onclick="pomodoroToggleExpand()" aria-label="Pomodoro Timer">
+      <span class="pomo-pill-icon">🍅</span>
+      <span class="pomo-pill-time" id="pomo-pill-time">15:00</span>
+    </button>
+    <div class="pomo-panel" role="dialog" aria-label="Pomodoro Timer Settings">
+      <div class="pomo-panel-head">
+        <span class="pomo-state-badge" id="pomo-state-badge">📚 Ready</span>
+        <button class="pomo-close-btn" onclick="pomodoroToggleExpand()" aria-label="Close">×</button>
+      </div>
+      <div class="pomo-time-big" id="pomo-time-big">15:00</div>
+      <div class="pomo-progress"><div class="pomo-progress-fill" id="pomo-progress-fill"></div></div>
+      <div class="pomo-controls">
+        <button class="pomo-btn pomo-btn-start" onclick="pomodoroStartPause()" id="pomo-start-btn">
+          <i class="fas fa-play"></i> <span id="pomo-start-label">Start</span>
+        </button>
+        <button class="pomo-btn pomo-btn-reset" onclick="pomodoroReset()">
+          <i class="fas fa-rotate-right"></i> Reset
+        </button>
+      </div>
+      <div class="pomo-settings">
+        <div class="pomo-settings-title">⚙️ Teacher Settings — إعدادات المعلم</div>
+        <label class="pomo-setting-row">
+          <span class="pomo-setting-label">📚 Session — جلسة الدراسة</span>
+          <span class="pomo-input-group">
+            <input type="number" id="pomo-session-min" value="15" min="1" max="120" inputmode="numeric" />
+            <span class="pomo-unit">min</span>
+          </span>
+        </label>
+        <label class="pomo-setting-row">
+          <span class="pomo-setting-label">☕ Break — استراحة</span>
+          <span class="pomo-input-group">
+            <input type="number" id="pomo-break-min" value="1" min="1" max="30" inputmode="numeric" />
+            <span class="pomo-unit">min</span>
+          </span>
+        </label>
+        <label class="pomo-setting-row pomo-checkbox-row">
+          <input type="checkbox" id="pomo-loop-toggle" checked />
+          <span>🔁 Auto-loop sessions — تكرار تلقائي</span>
+        </label>
+      </div>
+    </div>
+  </div>
+
   <!-- Section nav bar (sticky, shown inside letter/sukoon/madd/shadda/tanween screens) -->
   <div id="section-nav" role="navigation" aria-label="Section navigation">
     <button class="sec-arrow" id="sec-prev" onclick="_navSection(-1)" aria-label="القسم السابق">
