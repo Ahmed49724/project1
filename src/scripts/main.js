@@ -4929,6 +4929,9 @@ function openLetter(key) {
   initXO(data.xoWords);
   renderNumberedText(data.quranText,   data.symbol, 'ui-quran-text', 'quran');
 
+  if (typeof initFootballReviewForLetter === 'function') {
+      initFootballReviewForLetter(key);
+  }
 
   // 👇👇 استدعاء محقق الحروف هنا 👇👇
   if (typeof renderDetectiveSection === 'function') {
@@ -4969,6 +4972,218 @@ function goNextLetter() {
     goHome();
   }
 }
+
+/* ============================================================
+   Football Review — مراجعة بعد كل حرفين
+============================================================ */
+const FOOTBALL_REVIEW_LETTERS = new Set(['ب','ث','ح','د','ر','س','ص','ط','ع','ف','ك','م','هـ','ي']);
+const FOOTBALL_PLAYER_POSITIONS = [
+  { x: 16, y: 22 }, { x: 38, y: 18 }, { x: 63, y: 20 }, { x: 84, y: 26 },
+  { x: 22, y: 54 }, { x: 48, y: 49 }, { x: 72, y: 55 }, { x: 36, y: 77 },
+  { x: 60, y: 78 }, { x: 84, y: 74 }
+];
+const _footballState = {
+  key: null,
+  count: 8,
+  players: [],
+  currentNum: null,
+  done: 0
+};
+
+function shouldShowFootballReview(key) {
+  return FOOTBALL_REVIEW_LETTERS.has(key);
+}
+
+function _shuffleCopy(list) {
+  const arr = list.slice();
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function getFootballReviewWords(key, count) {
+  const idx = ARABIC_LETTERS.indexOf(key);
+  const words = [];
+  ARABIC_LETTERS.slice(0, idx + 1).forEach(letter => {
+    const data = lettersDB[letter];
+    if (!data) return;
+    words.push(...(data.cardWords || []), ...(data.splitWords || []), ...(data.xoWords || []));
+  });
+  const unique = [...new Set(words)]
+    .filter(Boolean)
+    .filter(word => word.length <= 8);
+  const picked = _shuffleCopy(unique).slice(0, count);
+  while (picked.length < count && unique.length) {
+    picked.push(unique[picked.length % unique.length]);
+  }
+  return picked;
+}
+
+function initFootballReviewForLetter(key) {
+  const host = document.getElementById('section-football-review');
+  if (!host) return;
+  if (!shouldShowFootballReview(key)) {
+    host.innerHTML = '';
+    return;
+  }
+
+  host.innerHTML = `
+    <div class="step-section football-review-section" data-section="football-review">
+      <div class="section-head-row">
+        <div class="section-heading" style="margin-bottom:0;">
+          <span class="section-badge">⚽</span> Football Review — مراجعة الكرة
+        </div>
+        <button class="btn-secondary" onclick="footballReviewStart()">
+          <i class="fas fa-rotate-right"></i> Restart
+        </button>
+      </div>
+      <div class="football-review-intro">
+        بعد كل حرفين، راجع كل الكلمات السابقة. اختر المستوى، اقرأ كلمة اللاعب المطلوب، ثم اضغط رقمه لتمر الكرة إليه.
+      </div>
+      <div class="football-levels" role="group" aria-label="Football review levels">
+        <button class="football-level-btn" data-count="6" onclick="footballReviewStart(6)">
+          <span>6</span><small>سهل</small>
+        </button>
+        <button class="football-level-btn active" data-count="8" onclick="footballReviewStart(8)">
+          <span>8</span><small>متوسط</small>
+        </button>
+        <button class="football-level-btn" data-count="10" onclick="footballReviewStart(10)">
+          <span>10</span><small>تحدي</small>
+        </button>
+      </div>
+      <div class="football-hud">
+        <div class="football-prompt" id="football-prompt">اختر مستوى وابدأ اللعب</div>
+        <div class="football-score">تمريرات: <span id="football-done">0</span>/<span id="football-total">8</span></div>
+      </div>
+      <div class="football-field" id="football-field" aria-label="Football review field">
+        <div class="football-midline"></div>
+        <div class="football-circle"></div>
+        <div class="football-goal football-goal-left"></div>
+        <div class="football-goal football-goal-right"></div>
+        <div class="football-ball" id="football-ball" aria-hidden="true">⚽</div>
+        <div id="football-players"></div>
+      </div>
+      <div class="football-feedback" id="football-feedback"></div>
+    </div>
+  `;
+  footballReviewStart(8, key);
+  if (typeof window._installFsButtons === 'function') {
+    setTimeout(() => window._installFsButtons(), 0);
+  }
+  setTimeout(() => {
+    if (typeof _buildSectionMenu === 'function') _buildSectionMenu();
+  }, 0);
+}
+
+function footballReviewStart(count, key) {
+  const activeKey = key || _footballState.key || activeLetterKey;
+  if (!activeKey || !shouldShowFootballReview(activeKey)) return;
+  const playerCount = count || _footballState.count || 8;
+  _footballState.key = activeKey;
+  _footballState.count = playerCount;
+  _footballState.done = 0;
+  _footballState.currentNum = null;
+
+  document.querySelectorAll('.football-level-btn').forEach(btn => {
+    btn.classList.toggle('active', Number(btn.dataset.count) === playerCount);
+  });
+
+  const words = getFootballReviewWords(activeKey, playerCount);
+  const positions = FOOTBALL_PLAYER_POSITIONS.slice(0, playerCount);
+  _footballState.players = words.map((word, i) => ({
+    num: i + 1,
+    word,
+    done: false,
+    x: positions[i].x,
+    y: positions[i].y
+  }));
+  _renderFootballPlayers();
+  _setFootballBall(50, 91);
+  _footballPickNext();
+  _footballUpdateHud();
+}
+
+function _renderFootballPlayers() {
+  const wrap = document.getElementById('football-players');
+  if (!wrap) return;
+  wrap.innerHTML = _footballState.players.map(player => `
+    <button type="button"
+      class="football-player"
+      id="football-player-${player.num}"
+      style="left:${player.x}%;top:${player.y}%;"
+      onclick="footballChoosePlayer(${player.num})"
+      aria-label="Player ${player.num}: ${player.word}">
+      <span class="football-player-body">
+        <span class="football-player-num">${player.num}</span>
+        <span class="football-player-word">${player.word}</span>
+      </span>
+    </button>
+  `).join('');
+}
+
+function _footballPickNext() {
+  const remaining = _footballState.players.filter(player => !player.done);
+  const prompt = document.getElementById('football-prompt');
+  const feedback = document.getElementById('football-feedback');
+  if (!remaining.length) {
+    _footballState.currentNum = null;
+    if (prompt) prompt.textContent = 'أحسنت! راجعت كل الكلمات في الملعب.';
+    if (feedback) feedback.textContent = 'انتهت الجولة. اختر مستوى جديدًا لتلعب مرة أخرى.';
+    try { playVictorySound(); fireConfetti(); addStars(Math.max(4, Math.round(_footballState.count / 2))); } catch(e) {}
+    return;
+  }
+  const next = remaining[Math.floor(Math.random() * remaining.length)];
+  _footballState.currentNum = next.num;
+  if (prompt) prompt.innerHTML = `اقرأ كلمة اللاعب رقم <strong>${next.num}</strong> ثم اضغط عليه`;
+  if (feedback) feedback.textContent = '';
+}
+
+function footballChoosePlayer(num) {
+  const player = _footballState.players.find(p => p.num === num);
+  const feedback = document.getElementById('football-feedback');
+  const btn = document.getElementById(`football-player-${num}`);
+  if (!player || player.done) return;
+  if (num !== _footballState.currentNum) {
+    if (feedback) feedback.textContent = `هذا اللاعب رقم ${num}. ابحث عن رقم ${_footballState.currentNum}.`;
+    if (btn) {
+      btn.classList.remove('football-shake');
+      void btn.offsetWidth;
+      btn.classList.add('football-shake');
+    }
+    try { playTone(180, 'sawtooth', 0.16, 0.08); } catch(e) {}
+    return;
+  }
+  player.done = true;
+  _footballState.done += 1;
+  if (btn) btn.classList.add('done');
+  _setFootballBall(player.x, player.y);
+  if (feedback) feedback.textContent = `تمرير رائع! ${player.word}`;
+  try {
+    speakAr(player.word);
+    playTone(720, 'triangle', 0.13, 0.08);
+  } catch(e) {}
+  _footballUpdateHud();
+  setTimeout(_footballPickNext, 850);
+}
+
+function _footballUpdateHud() {
+  const done = document.getElementById('football-done');
+  const total = document.getElementById('football-total');
+  if (done) done.textContent = String(_footballState.done);
+  if (total) total.textContent = String(_footballState.count);
+}
+
+function _setFootballBall(x, y) {
+  const ball = document.getElementById('football-ball');
+  if (!ball) return;
+  ball.style.left = x + '%';
+  ball.style.top = y + '%';
+}
+
+window.footballReviewStart = footballReviewStart;
+window.footballChoosePlayer = footballChoosePlayer;
 
 
 /* ============================================================
@@ -6533,14 +6748,27 @@ function buildMotorsHTMLLegacy(key) {
 /**
  * initSectionDots — تهيئة نقاط التنقل في شاشة الحرف
  */
+function getVisibleStepSections() {
+  let root = null;
+  if (window.activeAdvancedLevel) {
+    root = document.getElementById(`${window.activeAdvancedLevel}-screen`);
+  } else if (activeLetterKey) {
+    root = document.getElementById('letter-screen');
+  }
+  const scope = root || document;
+  return Array.from(scope.querySelectorAll('.step-section[data-section]'))
+    .filter(sec => sec.style.display !== 'none');
+}
+
 function initSectionDots() {
   const containers = [
     document.getElementById('sectionDots'),
     document.getElementById('sec-dots')
   ].filter(Boolean);
   if (!containers.length) return;
+  const sections = getVisibleStepSections();
   containers.forEach(container => { container.innerHTML = ''; });
-  for (let i = 0; i < 12; i++) {
+  sections.forEach((section, i) => {
     containers.forEach((container, containerIndex) => {
       const d = document.createElement('button');
       d.type = 'button';
@@ -6548,26 +6776,27 @@ function initSectionDots() {
       d.id = (containerIndex === 0 ? 'dot-' : 'sec-dot-') + i;
       d.setAttribute('aria-label', 'Section ' + (i + 1));
       d.addEventListener('click', () => {
-        const section = document.querySelector('.step-section[data-section="' + i + '"]');
         if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
       container.appendChild(d);
     });
-  }
+  });
 }
 
 /**
  * updateScrollProgress — يحدث شريط التقدم ونقاط الأقسام أثناء التمرير
  */
 function updateScrollProgress() {
-  const sections = document.querySelectorAll('.step-section[data-section]');
+  const sections = getVisibleStepSections();
   const bar      = document.getElementById('letter-progress-fill');
   const labelText = document.getElementById('navSectionText');
   let current    = 0;
 
-  sections.forEach(sec => {
+  if (!sections.length) return;
+
+  sections.forEach((sec, idx) => {
     if (sec.getBoundingClientRect().top <= window.innerHeight * 0.4) {
-      current = parseInt(sec.dataset.section);
+      current = idx;
     }
   });
 
@@ -6576,7 +6805,7 @@ function updateScrollProgress() {
 
   // Update label with current section name
   if (labelText) {
-    const curSec = document.querySelector(`.step-section[data-section="${current}"]`);
+    const curSec = sections[current];
     const heading = curSec ? curSec.querySelector('.section-heading') : null;
     let name = `Section ${current + 1} / ${sections.length}`;
     if (heading) {
@@ -6588,7 +6817,7 @@ function updateScrollProgress() {
   }
 
   // Update dots + menu active state
-  for (let i = 0; i < 12; i++) {
+  for (let i = 0; i < sections.length; i++) {
     ['dot-', 'sec-dot-'].forEach(prefix => {
       const d = document.getElementById(prefix + i);
       if (!d) return;
@@ -6602,7 +6831,7 @@ function updateScrollProgress() {
 function _buildSectionMenu() {
   const menu = document.getElementById('sec-sections-menu');
   if (!menu) return;
-  const sections = document.querySelectorAll('.step-section[data-section]');
+  const sections = getVisibleStepSections();
   menu.innerHTML = '';
   sections.forEach((sec, idx) => {
     const heading = sec.querySelector('.section-heading');
@@ -10574,6 +10803,7 @@ function trickyCupsRestart(levelKey) {
     '8',
     '9',
     '10',
+    'football-review',
     'detective-twin-1',
     'detective-twin-2',
   ];
@@ -10897,7 +11127,7 @@ function trickyCupsRestart(levelKey) {
     '2-motors', // سكشن تعريف الموتورات الجديد
     '2',        // سكشن لعبة السيارة
     '3', '4', '5', '6', '6.5', '6.75', '6.89', '6.91', '7', '8', '9', '10',
-    'detective-twin-1', 'detective-twin-2'
+    'football-review', 'detective-twin-1', 'detective-twin-2'
   ];
   // advanced-level screens (Sukoon/Madd/Shadda/Tanween)
   // NOTE: currently only Sukoon has the full section set refactored.

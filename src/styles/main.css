@@ -6117,6 +6117,287 @@ body.nav-open.tabs-visible {
   font-family: 'Tajawal', sans-serif !important;
 }
 
+/* ============================================================
+   ⚽ FOOTBALL REVIEW — after every two letters
+   ============================================================ */
+.football-review-section {
+  background:
+    linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(135deg, #057a26 0%, #02a534 48%, #077428 100%);
+  background-size: 28px 28px, 28px 28px, auto;
+  color: #fff;
+  border: 0;
+  overflow: hidden;
+}
+.football-review-section .section-heading,
+.football-review-section .section-head-row {
+  color: #fff;
+}
+.football-review-section .btn-secondary {
+  background: rgba(255,255,255,0.96);
+  color: #075c26;
+  border-color: rgba(255,255,255,0.8);
+}
+.football-review-intro {
+  max-width: 760px;
+  margin: 0 auto 16px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.24);
+  font-family: var(--font-ui);
+  font-weight: 800;
+  line-height: 1.7;
+  text-align: center;
+  color: rgba(255,255,255,0.95);
+}
+.football-levels {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.football-level-btn {
+  min-width: 92px;
+  min-height: 54px;
+  border: 2px solid rgba(255,255,255,0.38);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.13);
+  color: #fff;
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-weight: 900;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  transition: transform 0.15s, background 0.2s, border-color 0.2s;
+}
+.football-level-btn span { font-size: 1.35rem; line-height: 1; }
+.football-level-btn small { font-size: 0.8rem; opacity: 0.92; }
+.football-level-btn:hover { transform: translateY(-2px); background: rgba(255,255,255,0.2); }
+.football-level-btn.active {
+  background: #fff;
+  color: #06702b;
+  border-color: #fff;
+}
+.football-hud {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 auto 12px;
+  max-width: 880px;
+  direction: rtl;
+}
+.football-prompt,
+.football-score {
+  background: rgba(0,0,0,0.22);
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-family: var(--font-ui);
+  font-weight: 900;
+  color: #fff;
+}
+.football-prompt {
+  flex: 1;
+  text-align: center;
+  font-size: 1.12rem;
+}
+.football-prompt strong {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  min-height: 32px;
+  margin: 0 4px;
+  border-radius: 50%;
+  background: #facc15;
+  color: #1f2937;
+}
+.football-score {
+  white-space: nowrap;
+  font-size: 0.95rem;
+}
+.football-field {
+  position: relative;
+  width: min(920px, 100%);
+  aspect-ratio: 16 / 9;
+  margin: 0 auto;
+  border: 4px solid rgba(255,255,255,0.86);
+  border-radius: 8px;
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.06) 0 7%, transparent 7% 14%),
+    linear-gradient(180deg, #04a82f 0%, #037d25 100%);
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,0.16), 0 18px 42px rgba(0,0,0,0.22);
+  overflow: hidden;
+}
+.football-midline,
+.football-circle,
+.football-goal {
+  position: absolute;
+  pointer-events: none;
+  border-color: rgba(255,255,255,0.78);
+}
+.football-midline {
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 3px;
+  background: rgba(255,255,255,0.78);
+}
+.football-circle {
+  width: 23%;
+  aspect-ratio: 1;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border: 3px solid rgba(255,255,255,0.78);
+  border-radius: 50%;
+}
+.football-circle::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: rgba(255,255,255,0.86);
+}
+.football-goal {
+  top: 34%;
+  width: 8%;
+  height: 32%;
+  border: 3px solid rgba(255,255,255,0.78);
+}
+.football-goal-left { left: -3px; border-left: 0; }
+.football-goal-right { right: -3px; border-right: 0; }
+.football-ball {
+  position: absolute;
+  left: 50%;
+  top: 91%;
+  transform: translate(-50%, -50%);
+  z-index: 8;
+  width: clamp(30px, 4.7vw, 46px);
+  height: clamp(30px, 4.7vw, 46px);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: clamp(1.35rem, 3vw, 2.1rem);
+  background: #fff;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.28);
+  transition: left 0.62s cubic-bezier(.2,.8,.2,1), top 0.62s cubic-bezier(.2,.8,.2,1), transform 0.2s;
+}
+.football-player {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 6;
+  width: clamp(84px, 11vw, 122px);
+  min-height: 62px;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  color: #111827;
+}
+.football-player-body {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  align-items: center;
+  gap: 6px;
+  min-height: 62px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #fff7d6 0%, #ffffff 56%, #e7f8ff 100%);
+  border: 2px solid rgba(17,24,39,0.16);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  transition: transform 0.16s, box-shadow 0.16s, filter 0.16s;
+}
+.football-player:hover .football-player-body {
+  transform: translateY(-3px);
+  box-shadow: 0 13px 22px rgba(0,0,0,0.26);
+}
+.football-player-num {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #ef4444;
+  color: #fff;
+  font-family: var(--font-ui);
+  font-weight: 900;
+  line-height: 1;
+}
+.football-player-word {
+  min-width: 0;
+  font-family: var(--font-ar);
+  font-size: clamp(1.05rem, 2.4vw, 1.55rem);
+  font-weight: 900;
+  line-height: 1.25;
+  color: #063d1c;
+  direction: rtl;
+  overflow-wrap: anywhere;
+}
+.football-player.done {
+  pointer-events: none;
+}
+.football-player.done .football-player-body {
+  background: linear-gradient(180deg, #dcfce7 0%, #fff 100%);
+  filter: saturate(0.82);
+}
+.football-player.done .football-player-num {
+  background: #16a34a;
+}
+.football-feedback {
+  min-height: 30px;
+  margin-top: 12px;
+  text-align: center;
+  color: #fff;
+  font-family: var(--font-ui);
+  font-size: 1.1rem;
+  font-weight: 900;
+}
+.football-shake .football-player-body {
+  animation: footballShake 0.34s ease;
+}
+@keyframes footballShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  50% { transform: translateX(6px); }
+  75% { transform: translateX(-4px); }
+}
+@media (max-width: 720px) {
+  .football-hud {
+    flex-direction: column;
+  }
+  .football-prompt,
+  .football-score {
+    width: 100%;
+  }
+  .football-field {
+    aspect-ratio: 10 / 13;
+  }
+  .football-player {
+    width: clamp(74px, 24vw, 96px);
+  }
+  .football-player-body {
+    grid-template-columns: 26px 1fr;
+    min-height: 56px;
+    padding: 7px;
+  }
+  .football-player-num {
+    width: 26px;
+    height: 26px;
+  }
+}
+
 
 /* ============================================================
    🔍 DETECTIVE QUEST — Sukoon Mark Game
