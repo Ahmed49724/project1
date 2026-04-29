@@ -11261,12 +11261,7 @@ function renderDetectiveSection(key) {
     if (shapesContainer) shapesContainer.innerHTML = '';
 
     if (!detArray.length) {
-        dynContainer.innerHTML = `
-            <div class="det-empty-card">
-                <div class="det-empty-letter">${key}</div>
-                <div class="det-empty-title">حرف جديد بلا توأم سابق</div>
-                <div class="det-empty-sub">سيتدرّب الطفل على مقارنة هذا الحرف عندما يتعلم حروفًا تشبهه في الشكل أو الصوت.</div>
-            </div>`;
+        dynContainer.innerHTML = '';
         return;
     }
 
