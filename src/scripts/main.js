@@ -69,11 +69,11 @@
      QURAN VERSES
   ============================================================ */
   const QURAN_VERSES = {
-    'أ': "﴿ اقْرَأْ بِاسْمِ رَبِّكَ الَّذِي خَلَقَ ۝ خَلَقَ الْإِنسَانَ مِنْ عَلَقٍ ۝ اقْرَأْ وَرَبُّكَ الْأَكْرَمُ ۝ الَّذِي عَلَّمَ بِالْقَلَمِ ﴾",
-    'ب': "﴿ تَبَّتْ يَدَا أَبِي لَهَبٍ وَتَبَّ ۝ مَا أَغْنَىٰ عَنْهُ مَالُهُ وَمَا كَسَبَ ۝ سَيَصْلَىٰ نَارًا ذَاتَ لَهَبٍ ﴾",
-    'ت': "﴿ وَالتِّينِ وَالزَّيْتُونِ ۝ وَطُورِ سِينِينَ ۝ وَهَٰذَا الْبَلَدِ الْأَمِينِ ۝ لَقَدْ خَلَقْنَا الْإِنسَانَ فِي أَحْسَنِ تَقْوِيمٍ ﴾",
-    'ث': "﴿ أَلْهَاكُمُ التَّكَاثُرُ ۝ حَتَّىٰ زُرْتُمُ الْمَقَابِرَ ۝ كَلَّا سَوْفَ تَعْلَمُونَ ۝ ثُمَّ كَلَّا سَوْفَ تَعْلَمُونَ ﴾",
-    'ج': "﴿ إِذَا جَاءَ نَصْرُ اللَّهِ وَالْفَتْحُ ۝ وَرَأَيْتَ النَّاسَ يَدْخُلُونَ فِي دِينِ اللَّهِ أَفْوَاجًا ﴾",
+    'أ': "﴿ اقْرَأْ بِاسْمِ رَبِّكَ الَّذِي خَلَقَ ۝ خَلَقَ الْإِنسَانَ مِنْ عَلَقٍ ۝ اقْرَأْ وَرَبُّكَ الْأَكْرَمُ ۝ الَّذِي عَلَّمَ بِالْقَلَمِ ۝ عَلَّمَ الْإِنسَانَ مَا لَمْ يَعْلَمْ ﴾",
+    'ب': "﴿ تَبَّتْ يَدَا أَبِي لَهَبٍ وَتَبَّ ۝ مَا أَغْنَىٰ عَنْهُ مَالُهُ وَمَا كَسَبَ ۝ سَيَصْلَىٰ نَارًا ذَاتَ لَهَبٍ ۝ وَامْرَأَتُهُ حَمَّالَةَ الْحَطَبِ ۝ فِي جِيدِهَا حَبْلٌ مِّن مَّسَدٍ ﴾",
+    'ت': "﴿ وَالتِّينِ وَالزَّيْتُونِ ۝ وَطُورِ سِينِينَ ۝ وَهَٰذَا الْبَلَدِ الْأَمِينِ ۝ لَقَدْ خَلَقْنَا الْإِنسَانَ فِي أَحْسَنِ تَقْوِيمٍ ۝ ثُمَّ رَدَدْنَاهُ أَسْفَلَ سَافِلِينَ ۝ إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ فَلَهُمْ أَجْرٌ غَيْرُ مَمْنُونٍ ۝ فَمَا يُكَذِّبُكَ بَعْدُ بِالدِّينِ ۝ أَلَيْسَ اللَّهُ بِأَحْكَمِ الْحَاكِمِينَ ﴾",
+    'ث': "﴿ أَلْهَاكُمُ التَّكَاثُرُ ۝ حَتَّىٰ زُرْتُمُ الْمَقَابِرَ ۝ كَلَّا سَوْفَ تَعْلَمُونَ ۝ ثُمَّ كَلَّا سَوْفَ تَعْلَمُونَ ۝ كَلَّا لَوْ تَعْلَمُونَ عِلْمَ الْيَقِينِ ۝ لَتَرَوُنَّ الْجَحِيمَ ۝ ثُمَّ لَتَرَوُنَّهَا عَيْنَ الْيَقِينِ ۝ ثُمَّ لَتُسْأَلُنَّ يَوْمَئِذٍ عَنِ النَّعِيمِ ﴾",
+    'ج': "﴿ إِذَا جَاءَ نَصْرُ اللَّهِ وَالْفَتْحُ ۝ وَرَأَيْتَ النَّاسَ يَدْخُلُونَ فِي دِينِ اللَّهِ أَفْوَاجًا ۝ فَسَبِّحْ بِحَمْدِ رَبِّكَ وَاسْتَغْفِرْهُ إِنَّهُ كَانَ تَوَّابًا ﴾",
     'ح': "﴿ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ ۝ الرَّحْمَٰنِ الرَّحِيمِ ۝ مَالِكِ يَوْمِ الدِّينِ ۝ إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ﴾",
     'خ': "﴿ قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ ۝ مِن شَرِّ مَا خَلَقَ ۝ وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ ﴾",
     'د': "﴿ قُلْ هُوَ اللَّهُ أَحَدٌ ۝ اللَّهُ الصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ ﴾",
@@ -110,16 +110,16 @@
       jollyAction: 'Lift your shoulders up quickly as if you are hiccuping, and make the sound.',
       jollyRawSound: 'uh - uh - uh<br><span style="font-size:1rem;font-weight:normal;color:#7f8c8d;">(Like the "u" in "up")</span>',
       jollyArabic: false, storyIcon: '🐾',
-      storyText: 'أَسَدٌ شُجَاعٌ فِي الْغَابَةِ ، يَأْكُلُ اللَّحْمَ ، وَيَزْأَرُ بِصَوْتٍ عَالٍ',
-      cardWords: ['أَبَبَ','أَبَأَ','أَأَبَ','بَأَبَ','أَبَبَ'],
-      splitWords: ['أَبَ','بَأَ','أَأَ','بَبَ','أَبَ','بَأَ','أَأَ','أَبَ','بَأَ'],
-      xoWords: ['أَبَ','بَأَ','أَأَ','بَبَ','أَبَ','بَأَ','أَأَ','أَبَ','بَأَ'],
+      storyText: 'أَخَذَ أَحْمَدُ كِتَابَهُ وَجَلَسَ أَمَامَ أُمِّهِ. قَرَأَ أَوَّلَ كَلِمَةٍ، ثُمَّ أَشَارَ إِلَى حَرْفِ أَ.',
+      cardWords: ['أَ','أَأَ','أَأَأَ','أَأَ','أَ','أَأَأَ'],
+      splitWords: ['أَ','أَأَ','أَأَأَ','أَأَ','أَ','أَأَأَ','أَأَ','أَأَأَ','أَ'],
+      xoWords: ['أَ','أَأَ','أَأَأَ','أَأَ','أَ','أَأَأَ','أَأَ','أَأَأَ','أَ'],
       missingWords: [
-        { display: `<span class="missing-gap"></span>َبَ`, correctShape: 0 },
-        { display: `بَ<span class="missing-gap"></span>َ`, correctShape: 2 },
-        { display: `أَبَ<span class="missing-gap"></span>`, correctShape: 2 },
-        { display: `بَأَ<span class="missing-gap"></span>`, correctShape: 3 },
-        { display: `أَ<span class="missing-gap"></span>َبَ`, correctShape: 0 },
+        { display: `<span class="missing-gap"></span>َ`, correctShape: 0 },
+        { display: `أَ<span class="missing-gap"></span>َ`, correctShape: 2 },
+        { display: `<span class="missing-gap"></span>َأَ`, correctShape: 0 },
+        { display: `أَأَ<span class="missing-gap"></span>`, correctShape: 3 },
+        { display: `أَ<span class="missing-gap"></span>َأَ`, correctShape: 0 },
         { display: `أَأَ<span class="missing-gap"></span>`, correctShape: 3 }
       ]
     },
@@ -129,10 +129,10 @@
       jollyAction: 'Press your lips together tightly and open them to make the duck\'s splashing sound.',
       jollyRawSound: 'b - b - b<br><span style="font-size:1rem;font-weight:normal;color:#7f8c8d;">(Like the "b" in "bat")</span>',
       jollyArabic: false, storyIcon: '🦆',
-      storyText: 'بَطَّةٌ بَيْضَاءُ تَسْبَحُ فِي الْبُحَيْرَةِ ، تَبْحَثُ عَنْ طَعَامٍ لِصِغَارِهَا',
-      cardWords: ['أَبَبَ','بَأَبَ','بَبَبَ','أَبَأَ','بَأَأَ'],
-      splitWords: ['أَبَ','بَأَ','بَبَ','أَبَ','بَأَ','أَبَ','بَبَ','أَبَ','بَأَ'],
-      xoWords: ['أَبَ','بَأَ','بَبَ','أَبَ','بَأَ','أَبَ','بَبَ','أَبَ','بَأَ'],
+      storyText: 'ذَهَبَ بَاسِمُ مَعَ أَبِيهِ إِلَى الْبُسْتَانِ. رَأَى بَابًا بُنِّيًا وَبَطَّةً تَسْبَحُ قُرْبَ الْمَاءِ.',
+      cardWords: ['أَبَ','بَأَ','بَبَ','أَأَ','أَبَبَ','بَأَبَ','بَبَبَ','بَأَأَ'],
+      splitWords: ['أَبَ','بَأَ','بَبَ','أَأَ','أَبَبَ','بَأَبَ','بَبَبَ','بَأَأَ','أَبَأَ'],
+      xoWords: ['أَبَ','بَأَ','بَبَ','أَأَ','أَبَبَ','بَأَبَ','بَبَبَ','بَأَأَ','أَبَأَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َأَبَ`, correctShape: 0 },
         { display: `أَ<span class="missing-gap"></span>َأَ`, correctShape: 0 },
@@ -148,10 +148,10 @@
       jollyAction: 'Smile widely and touch your upper teeth with your tongue.',
       jollyRawSound: 't - t - t<br><span style="font-size:1rem;font-weight:normal;color:#7f8c8d;">(Like the "t" in "tap")</span>',
       jollyArabic: false, storyIcon: '🐊',
-      storyText: 'تِمْسَاحٌ كَبِيرٌ يَنْتَظِرُ فَرِيسَتَهُ',
-      cardWords: ['بَتَتَ','أَتَبَ','تَبَتَ','تَأَبَ','بَأَتَ'],
-      splitWords: ['تَبَ','بَتَ','أَتَ','تَأَ','تَتَ','بَتَ','أَتَ','تَأَ','تَبَ'],
-      xoWords: ['بَتَتَ','أَتَبَ','تَبَتَ','تَأَبَ','بَأَتَ','تَبَ','بَتَ','أَتَ','تَأَ'],
+      storyText: 'تَجَوَّلَتْ تَالا فِي الْحَدِيقَةِ وَهِيَ تَحْمِلُ تُفَّاحَةً. تَوَقَّفَتْ تَحْتَ شَجَرَةٍ ثُمَّ تَابَعَتْ طَرِيقَهَا.',
+      cardWords: ['تَبَ','بَتَ','أَتَ','تَأَ','تَتَ','تَبَتَ','بَتَتَ','أَتَبَ'],
+      splitWords: ['تَبَ','بَتَ','أَتَ','تَأَ','تَتَ','تَبَتَ','بَتَتَ','أَتَبَ','تَأَبَ','بَأَتَ','تَتَبَ','أَتَتَ'],
+      xoWords: ['تَبَ','بَتَ','أَتَ','تَأَ','تَتَ','تَبَتَ','بَتَتَ','أَتَبَ','تَأَبَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َبَتَ`, correctShape: 0 },
         { display: `أَ<span class="missing-gap"></span>َبَ`, correctShape: 0 },
@@ -172,10 +172,10 @@
       jollyAction: 'Place the tip of your tongue slightly between your front teeth and blow air softly.',
       jollyRawSound: 'th - th - th<br><span style="font-size:1rem;font-weight:normal;color:#7f8c8d;">(Like the soft "th" in "think")</span>',
       jollyArabic: false, storyIcon: '❄️',
-      storyText: 'ثَعْلَبٌ مَاكِرٌ يَمْشِي فِي الثَّلْجِ ، يَبْحَثُ عَنْ طَعَامٍ',
-      cardWords: ['تَأَثَ','ثَبَتَ','بَثَثَ','أَثَبَ','بَأَثَ'],
-      splitWords: ['ثَبَتَ','بَثَثَ','أَثَبَ','تَأَثَ','بَأَثَ','ثَبَ','بِثَ','أَثَ','تَثَ'],
-      xoWords: ['تَأَثَ','ثَبَتَ','بَثَثَ','أَثَبَ','بَأَثَ','ثَبَ','بِثَ','أَثَ','تَثَ'],
+      storyText: 'ثَابِتٌ طِفْلٌ هَادِئٌ يُحِبُّ الْبَحْثَ. وَجَدَ ثَوْبًا ثَمِينًا، ثُمَّ رَأَى ثَلَاثَ ثَمَرَاتٍ.',
+      cardWords: ['ثَبَ','ثَتَ','ثَأَ','أَثَ','تَثَ','ثَبَتَ','بَثَثَ','أَثَبَ'],
+      splitWords: ['ثَبَ','ثَتَ','ثَأَ','أَثَ','تَثَ','ثَبَتَ','بَثَثَ','أَثَبَ','تَأَثَ','بَأَثَ','ثَثَبَ','أَثَثَ'],
+      xoWords: ['ثَبَ','ثَتَ','ثَأَ','أَثَ','تَثَ','ثَبَتَ','بَثَثَ','أَثَبَ','تَأَثَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َبَتَ`, correctShape: 0 },
         { display: `بَ<span class="missing-gap"></span>َثَ`, correctShape: 1 },
@@ -196,10 +196,10 @@
       jollyAction: 'Press the middle of your tongue to the roof of your mouth and push air out sharply.',
       jollyRawSound: 'j - j - j<br><span style="font-size:1rem;font-weight:normal;color:#7f8c8d;">(Like the "j" in "jump")</span>',
       jollyArabic: false, storyIcon: '🐪',
-      storyText: 'جَمَلٌ قَوِيٌّ يَجْرِي فِي الصَّحْرَاءِ ، يَحْمِلُ الْجَزَرَ',
-      cardWords: ['بَأَجَ','جَأَبَ','أَجَبَ','تَجَبَ','جَثَبَ'],
-      splitWords: ['بَأَجَ','جَأَبَ','أَجَبَ','تَجَبَ','جَثَبَ','جَتَثَ','بِجَتَ','أَجَثَ','تَجَأَ'],
-      xoWords: ['بَأَجَ','جَأَبَ','أَجَبَ','تَجَبَ','جَثَبَ','جَتَ','بِجَ','أَجَ','تَجَ'],
+      storyText: 'جَلَسَ جَادٌّ قُرْبَ جَدِّهِ فِي الْمَجْلِسِ. حَكَى الْجَدُّ قِصَّةً عَنْ جَمَلٍ جَمِيلٍ وَجِسْرٍ صَغِيرٍ.',
+      cardWords: ['جَبَ','جَتَ','جَثَ','جَأَ','بَأَجَ','جَأَبَ','أَجَبَ','تَجَبَ'],
+      splitWords: ['جَبَ','جَتَ','جَثَ','جَأَ','بَأَجَ','جَأَبَ','أَجَبَ','تَجَبَ','جَثَبَ','جَتَثَ','أَجَثَ','تَجَأَ'],
+      xoWords: ['جَبَ','جَتَ','جَثَ','جَأَ','بَأَجَ','جَأَبَ','أَجَبَ','تَجَبَ','جَثَبَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َأَبَ`, correctShape: 0 },
         { display: `أَ<span class="missing-gap"></span>َبَ`, correctShape: 0 },
@@ -215,14 +215,14 @@
       jollyAction: 'Squeeze the middle of your throat and breathe out a sharp, breathy sound.',
       jollyRawSound: 'H - H - H<br><span style="font-size:1rem;font-weight:normal;color:#7f8c8d;">(A sharp, crispy "h" from the throat)</span>',
       jollyArabic: true, storyIcon: '🐎',
-      storyText: 'حِصَانٌ سَرِيعٌ يَجْرِي فِي الْحَقْلِ ، يَحْمِلُ الْحَطَبَ',
-      cardWords: ['تَأَحَ','بَحَثَ','حَبَبَ','أَحَبَ','تَحَبَ'],
-      splitWords: ['تَأَحَ','بَحَثَ','حَبَبَ','أَحَبَ','تَحَبَ','حَجَبَ','أَحَبَ','حَتَ','بِحَ'],
-      xoWords: ['تَأَحَ','بَحَثَ','حَبَبَ','أَحَبَ','تَحَبَ','حَجَبَ','أَحَبَ','حَتَ','بِحَ'],
+      storyText: 'حِصَانٌ سَرِيعٌ يَجْرِي فِي الْحَقْلِ يَحْمِلُ الْحَطَبَ. ثُمَّ يَحُطُّ بِجَانِبِ الْحَدِيقَةِ لِيَرْتَاحَ بِهُدُوءٍ.',
+      cardWords: ['بَحَثَ','أَحَبَ','تَأَحَ','حَبَبَ','تَحَبَ'],
+      splitWords: ['بَحَثَ','أَحَبَ','تَأَحَ','حَبَبَ','تَحَبَ','حَجَبَ','تَحَجَ','أَحَجَ','بَأَحَ'],
+      xoWords: ['بَحَثَ','أَحَبَ','تَأَحَ','حَبَبَ','تَحَبَ','حَجَبَ','تَحَجَ','أَحَجَ','بَأَحَ'],
       missingWords: [
-        { display: `<span class="missing-gap"></span>َبَبَ`, correctShape: 0 },
+        { display: `<span class="missing-gap"></span>َبَثَ`, correctShape: 0 },
         { display: `بَ<span class="missing-gap"></span>َثَ`, correctShape: 1 },
-        { display: `سَبَ<span class="missing-gap"></span>َ`, correctShape: 2 },
+        { display: `بَجَ<span class="missing-gap"></span>َ`, correctShape: 2 },
         { display: `تَأَ<span class="missing-gap"></span>َ`, correctShape: 3 },
         { display: `أَ<span class="missing-gap"></span>َبَ`, correctShape: 0 },
         { display: `بَأَ<span class="missing-gap"></span>َ`, correctShape: 3 }
@@ -239,16 +239,16 @@
       jollyAction: 'Raise the back of your tongue toward your throat to create a scraping, raspy sound.',
       jollyRawSound: 'kh - kh - kh<br><span style="font-size:1rem;font-weight:normal;color:#7f8c8d;">(Like the Scottish "ch" or Spanish "j")</span>',
       jollyArabic: true, storyIcon: '⛺',
-      storyText: 'خَيْمَةٌ كَبِيرَةٌ فِي الصَّحْرَاءِ ، نَخْبِزُ فِيهَا الْخُبْزَ',
-      cardWords: ['تَأَخَ','خَبَأَ','تَخَبَ','أَخَذَ','بَأَخَ'],
-      splitWords: ['تَأَخَ','خَبَأَ','تَخَبَ','بَخَتَ','خَتَمَ','خَبَزَ','خَشَبَ','أَخَذَ','خَرَجَ'],
-      xoWords: ['تَأَخَ','خَبَأَ','تَخَبَ','أَخَذَ','بَأَخَ','خَتَمَ','خَرَجَ','خَشَبَ','خَبَزَ'],
+      storyText: 'خَيْمَةٌ كَبِيرَةٌ فِي الصَّحْرَاءِ نَخْبِزُ فِيهَا الْخُبْزَ. وَفِي الْمَسَاءِ نَدْخُلُ إِلَيْهَا لِنَنَامَ بِأَمَانٍ.',
+      cardWords: ['خَبَأَ','تَأَخَ','بَخَتَ','تَخَبَ','بَأَخَ'],
+      splitWords: ['خَبَأَ','تَأَخَ','بَخَتَ','تَخَبَ','بَأَخَ','أَخَبَ','حَخَجَ','خَأَتَ','جَخَأَ'],
+      xoWords: ['خَبَأَ','تَأَخَ','بَخَتَ','تَخَبَ','بَأَخَ','أَخَبَ','حَخَجَ','خَأَتَ','جَخَأَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َبَأَ`, correctShape: 0 },
         { display: `تَ<span class="missing-gap"></span>َبَ`, correctShape: 1 },
-        { display: `طَبَ<span class="missing-gap"></span>َ`, correctShape: 2 },
+        { display: `بَجَ<span class="missing-gap"></span>َ`, correctShape: 2 },
         { display: `تَأَ<span class="missing-gap"></span>َ`, correctShape: 3 },
-        { display: `أَ<span class="missing-gap"></span>َذَ`, correctShape: 0 },
+        { display: `أَ<span class="missing-gap"></span>َبَ`, correctShape: 0 },
         { display: `بَأَ<span class="missing-gap"></span>َ`, correctShape: 3 }
       ],
       detective: {
@@ -263,14 +263,14 @@
       jollyAction: 'Tap the tip of your tongue right behind your top front teeth.',
       jollyRawSound: 'd - d - d<br><span style="font-size:1rem;font-weight:normal;color:#7f8c8d;">(Like the "d" in "dog")</span>',
       jollyArabic: false, storyIcon: '🚲',
-      storyText: 'دَرَّاجَةٌ سَرِيعَةٌ فِي الْحَدِيقَةِ ، يَرْكَبُهَا وَلَدٌ نَشِيطٌ',
-      cardWords: ['أَدَدَ','بَدَأَ','دَأَبَ','حَدَثَ','بَأَدَ'],
-      splitWords: ['أَدَدَ','بَدَأَ','دَأَبَ','حَدَثَ','بَأَدَ','أَدَبَ','جَدَدَ','خَدَشَ','دَبَبَ'],
-      xoWords: ['أَدَدَ','بَدَأَ','دَأَبَ','حَدَثَ','بَأَدَ','أَدَبَ','جَدَدَ','خَدَشَ','دَبَبَ'],
+      storyText: 'دَرَّاجَةٌ سَرِيعَةٌ فِي الْحَدِيقَةِ يَرْكَبُهَا وَلَدٌ نَشِيطٌ. ثُمَّ يَدْعُو أَصْدِقَاءَهُ لِيَتَدَرَّبُوا مَعَهُ بِفَرَحٍ.',
+      cardWords: ['بَدَأَ','حَدَثَ','أَدَبَ','جَدَدَ','أَدَدَ'],
+      splitWords: ['بَدَأَ','حَدَثَ','أَدَبَ','جَدَدَ','أَدَدَ','دَأَبَ','بَأَدَ','دَبَبَ','تَدَجَ'],
+      xoWords: ['بَدَأَ','حَدَثَ','أَدَبَ','جَدَدَ','أَدَدَ','دَأَبَ','بَأَدَ','دَبَبَ','تَدَجَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َأَبَ`, correctShape: 0 },
         { display: `بَ<span class="missing-gap"></span>َأَ`, correctShape: 1 },
-        { display: `سَعِ<span class="missing-gap"></span>َ`, correctShape: 2 },
+        { display: `أَدَ<span class="missing-gap"></span>َ`, correctShape: 3 },
         { display: `أَ<span class="missing-gap"></span>َدَ`, correctShape: 0 },
         { display: `حَ<span class="missing-gap"></span>َثَ`, correctShape: 1 },
         { display: `بَأَ<span class="missing-gap"></span>َ`, correctShape: 3 }
@@ -282,16 +282,16 @@
       jollyAction: 'Place your tongue between your teeth (like ث) but add a buzzing vibration.',
       jollyRawSound: 'th - th - th<br><span style="font-size:1rem;font-weight:normal;color:#7f8c8d;">(Like the buzzing "th" in "that")</span>',
       jollyArabic: true, storyIcon: '🌱',
-      storyText: 'ذَهَبَ الْفَلَّاحُ إِلَى الْحَقْلِ لِيَزْرَعَ الذُّرَةَ',
-      cardWords: ['أَدَذَ','أَخَذَ','ذَبَحَ','جَذَبَ','بَأَذَ'],
-      splitWords: ['أَدَذَ','أَخَذَ','ذَبَحَ','جَذَبَ','بَأَذَ','خَذَلَ','ذَهَبَ','عَذَبَ','نَبَذَ'],
-      xoWords: ['أَدَذَ','أَخَذَ','ذَبَحَ','جَذَبَ','بَأَذَ','خَذَلَ','ذَهَبَ','عَذَبَ','نَبَذَ'],
+      storyText: 'ذَهَبَ الْفَلَّاحُ إِلَى الْحَقْلِ لِيَزْرَعَ الذُّرَةَ بِنَفْسِهِ. ثُمَّ أَخَذَ يَذْكُرُ أَيَّامَ صِبَاهُ وَيَبْتَسِمُ.',
+      cardWords: ['أَخَذَ','ذَبَحَ','جَذَبَ','بَذَخَ','أَدَذَ'],
+      splitWords: ['أَخَذَ','ذَبَحَ','جَذَبَ','بَذَخَ','أَدَذَ','بَأَذَ','حَذَأَ','ذَجَتَ','أَذَتَ'],
+      xoWords: ['أَخَذَ','ذَبَحَ','جَذَبَ','بَذَخَ','أَدَذَ','بَأَذَ','حَذَأَ','ذَجَتَ','أَذَتَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َبَحَ`, correctShape: 0 },
-        { display: `أَخَ<span class="missing-gap"></span>َ`, correctShape: 2 },
+        { display: `أَخَ<span class="missing-gap"></span>َ`, correctShape: 3 },
         { display: `جَذَ<span class="missing-gap"></span>َ`, correctShape: 3 },
         { display: `أَدَ<span class="missing-gap"></span>َ`, correctShape: 3 },
-        { display: `جَ<span class="missing-gap"></span>َبَ`, correctShape: 1 },
+        { display: `جَ<span class="missing-gap"></span>َبَ`, correctShape: 0 },
         { display: `بَأَ<span class="missing-gap"></span>َ`, correctShape: 3 }
       ],
       detective: {
@@ -306,17 +306,17 @@
       jollyAction: 'Flick the tip of your tongue quickly against the roof of your mouth.',
       jollyRawSound: 'r - r - r<br><span style="font-size:1rem;font-weight:normal;color:#7f8c8d;">(A rolled "r" like in Spanish)</span>',
       jollyArabic: false, storyIcon: '🖌️',
-      storyText: 'رَسَمَ رَامِي رَسْمَةً رَائِعَةً فِيهَا قَمَرٌ',
-      cardWords: ['بَدَرَ','تَرَكَ','خَرَجَ','حَرَثَ','بَرَدَ'],
-      splitWords: ['بَدَرَ','تَرَكَ','خَرَجَ','حَرَثَ','بَرَدَ','رَسَمَ','شَكَرَ','صَبَرَ','كَبُرَ'],
-      xoWords: ['بَدَرَ','تَرَكَ','خَرَجَ','حَرَثَ','بَرَدَ','رَسَمَ','شَكَرَ','صَبَرَ','كَبُرَ'],
+      storyText: 'رَسَمَ رَامِي رَسْمَةً رَائِعَةً فِيهَا قَمَرٌ مُنِيرٌ. ثُمَّ رَفَعَ الرَّسْمَةَ لِيَرَاهَا أَخُوهُ الصَّغِيرُ.',
+      cardWords: ['بَدَرَ','خَرَجَ','حَرَثَ','بَرَدَ','جَبَرَ'],
+      splitWords: ['بَدَرَ','خَرَجَ','حَرَثَ','بَرَدَ','جَبَرَ','حَجَرَ','ذَخَرَ','رَتَبَ','رَبَتَ'],
+      xoWords: ['بَدَرَ','خَرَجَ','حَرَثَ','بَرَدَ','جَبَرَ','حَجَرَ','ذَخَرَ','رَتَبَ','رَبَتَ'],
       missingWords: [
-        { display: `<span class="missing-gap"></span>َبَطَ`, correctShape: 0 },
-        { display: `تَ<span class="missing-gap"></span>َكَ`, correctShape: 1 },
-        { display: `صَبَ<span class="missing-gap"></span>َ`, correctShape: 2 },
-        { display: `بَدَ<span class="missing-gap"></span>َ`, correctShape: 3 },
+        { display: `<span class="missing-gap"></span>َتَبَ`, correctShape: 0 },
         { display: `خَ<span class="missing-gap"></span>َجَ`, correctShape: 1 },
-        { display: `أَأَ<span class="missing-gap"></span>َ`, correctShape: 3 }
+        { display: `حَجَ<span class="missing-gap"></span>َ`, correctShape: 3 },
+        { display: `بَدَ<span class="missing-gap"></span>َ`, correctShape: 3 },
+        { display: `حَ<span class="missing-gap"></span>َثَ`, correctShape: 1 },
+        { display: `بَأَ<span class="missing-gap"></span>َ`, correctShape: 3 }
       ]
     },
     'ز': {
@@ -325,14 +325,14 @@
       jollyAction: 'Close your teeth together, smile slightly, and make a buzzing sound.',
       jollyRawSound: 'z - z - z<br><span style="font-size:1rem;font-weight:normal;color:#7f8c8d;">(Like the "z" in "zoo")</span>',
       jollyArabic: false, storyIcon: '🌳',
-      storyText: 'زَرَعَ زَيْدٌ زَهْرَةً جَمِيلَةً فِي الْحَدِيقَةِ',
-      cardWords: ['بَرَزَ','زَجَرَ','حَجَزَ','خَزَأَ','دَرَزَ'],
-      splitWords: ['بَرَزَ','زَجَرَ','حَجَزَ','خَزَأَ','دَرَزَ','زَرَعَ','نَزَلَ','عَزَمَ','هَزَمَ'],
-      xoWords: ['بَرَزَ','زَجَرَ','حَجَزَ','خَزَأَ','دَرَزَ','زَرَعَ','نَزَلَ','عَزَمَ','هَزَمَ'],
+      storyText: 'زَرَعَ زَيْدٌ زَهْرَةً جَمِيلَةً فِي الْحَدِيقَةِ. ثُمَّ زَارَهَا كُلَّ صَبَاحٍ لِيَسْقِيَهَا الْمَاءَ.',
+      cardWords: ['بَرَزَ','زَجَرَ','حَجَزَ','زَأَرَ','زَحَرَ'],
+      splitWords: ['بَرَزَ','زَجَرَ','حَجَزَ','زَأَرَ','زَحَرَ','خَزَأَ','دَرَزَ','جَزَرَ','أَزَرَ'],
+      xoWords: ['بَرَزَ','زَجَرَ','حَجَزَ','زَأَرَ','زَحَرَ','خَزَأَ','دَرَزَ','جَزَرَ','أَزَرَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َجَرَ`, correctShape: 0 },
-        { display: `حَ<span class="missing-gap"></span>َزَ`, correctShape: 1 },
-        { display: `حَجَ<span class="missing-gap"></span>َ`, correctShape: 2 },
+        { display: `حَ<span class="missing-gap"></span>َرَ`, correctShape: 1 },
+        { display: `حَجَ<span class="missing-gap"></span>َ`, correctShape: 3 },
         { display: `بَرَ<span class="missing-gap"></span>َ`, correctShape: 3 },
         { display: `خَ<span class="missing-gap"></span>َأَ`, correctShape: 1 },
         { display: `دَرَ<span class="missing-gap"></span>َ`, correctShape: 3 }
@@ -349,17 +349,17 @@
       jollyAction: 'Bring your teeth together and blow air right through the middle of them smoothly.',
       jollyRawSound: 's - s - s<br><span style="font-size:1rem;font-weight:normal;color:#7f8c8d;">(Like the "s" in "sun")</span>',
       jollyArabic: false, storyIcon: '🚗',
-      storyText: 'سَيَّارَةٌ سَرِيعَةٌ تَسِيرُ فِي الطَّرِيقِ',
+      storyText: 'سَيَّارَةٌ سَرِيعَةٌ تَسِيرُ فِي الطَّرِيقِ بِسُرْعَةٍ. سَائِقُهَا حَذِرٌ وَيَنْتَبِهُ لِكُلِّ السَّيَّارَاتِ حَوْلَهُ.',
       cardWords: ['دَرَسَ','سَجَدَ','سَحَبَ','سَرَدَ','حَسَدَ'],
-      splitWords: ['دَرَسَ','سَجَدَ','سَحَبَ','سَرَدَ','حَسَدَ','كَسَبَ','سَمِعَ','عَسَسَ','غَسَلَ'],
-      xoWords: ['دَرَسَ','سَجَدَ','سَحَبَ','سَرَدَ','حَسَدَ','كَسَبَ','سَمِعَ','عَسَسَ','غَسَلَ'],
+      splitWords: ['دَرَسَ','سَجَدَ','سَحَبَ','سَرَدَ','حَسَدَ','حَبَسَ','أَسَرَ','سَتَرَ','سَبَرَ'],
+      xoWords: ['دَرَسَ','سَجَدَ','سَحَبَ','سَرَدَ','حَسَدَ','حَبَسَ','أَسَرَ','سَتَرَ','سَبَرَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َجَدَ`, correctShape: 0 },
         { display: `حَ<span class="missing-gap"></span>َدَ`, correctShape: 1 },
-        { display: `عَسَ<span class="missing-gap"></span>َ`, correctShape: 2 },
-        { display: `دَرَ<span class="missing-gap"></span>َ`, correctShape: 3 },
-        { display: `خَ<span class="missing-gap"></span>ِرَ`, correctShape: 1 },
-        { display: `أَأَ<span class="missing-gap"></span>َ`, correctShape: 3 }
+        { display: `حَبَ<span class="missing-gap"></span>َ`, correctShape: 2 },
+        { display: `دَرَ<span class="missing-gap"></span>َ`, correctShape: 2 },
+        { display: `سَ<span class="missing-gap"></span>َرَ`, correctShape: 1 },
+        { display: `أَ<span class="missing-gap"></span>َرَ`, correctShape: 0 }
       ]
     },
     'ش': {
@@ -368,17 +368,17 @@
       jollyAction: 'Push your lips forward slightly and blow air over the middle of your tongue.',
       jollyRawSound: 'sh - sh - sh<br><span style="font-size:1rem;font-weight:normal;color:#7f8c8d;">(Like the "sh" in "shoe")</span>',
       jollyArabic: false, storyIcon: '☀️',
-      storyText: 'أَشْرَقَتِ الشَّمْسُ الدَّافِئَةُ فَشَرِبَ شَادِي الشَّايَ',
-      cardWords: ['خَدَشَ','شَرِبَ','شَجَرَ','حَشَرَ','خَشَبَ'],
-      splitWords: ['خَدَشَ','شَرِبَ','شَجَرَ','حَشَرَ','خَشَبَ','شَكَرَ','نَشِطَ','عَطَشَ','بَطَشَ'],
-      xoWords: ['خَدَشَ','شَرِبَ','شَجَرَ','حَشَرَ','خَشَبَ','شَكَرَ','نَشِطَ','عَطَشَ','بَطَشَ'],
+      storyText: 'أَشْرَقَتِ الشَّمْسُ الدَّافِئَةُ فَشَرِبَ شَادِي الشَّايَ. ثُمَّ خَرَجَ يَمْشِي تَحْتَ الشَّجَرَةِ الْكَبِيرَةِ.',
+      cardWords: ['خَدَشَ','شَجَرَ','حَشَرَ','خَشَبَ','حَشَدَ'],
+      splitWords: ['خَدَشَ','شَجَرَ','حَشَرَ','خَشَبَ','حَشَدَ','شَجَبَ','شَرَدَ','بَأَشَ','أَشَرَ'],
+      xoWords: ['خَدَشَ','شَجَرَ','حَشَرَ','خَشَبَ','حَشَدَ','شَجَبَ','شَرَدَ','بَأَشَ','أَشَرَ'],
       missingWords: [
-        { display: `<span class="missing-gap"></span>َرِبَ`, correctShape: 0 },
+        { display: `<span class="missing-gap"></span>َجَرَ`, correctShape: 0 },
         { display: `حَ<span class="missing-gap"></span>َرَ`, correctShape: 1 },
-        { display: `عَطَ<span class="missing-gap"></span>َ`, correctShape: 2 },
+        { display: `حَشَ<span class="missing-gap"></span>َ`, correctShape: 2 },
         { display: `خَدَ<span class="missing-gap"></span>َ`, correctShape: 3 },
         { display: `خَ<span class="missing-gap"></span>َبَ`, correctShape: 1 },
-        { display: `دَرَ<span class="missing-gap"></span>َ`, correctShape: 3 }
+        { display: `بَأَ<span class="missing-gap"></span>َ`, correctShape: 3 }
       ],
       detective: {
         target: 'ش', compareWith: 'س', type: 'visual',
@@ -392,17 +392,17 @@
       jollyAction: 'Say "S", but drop your jaw down and make the back of your tongue heavy.',
       jollyRawSound: 'S - S - S<br><span style="font-size:1rem;font-weight:normal;color:#7f8c8d;">(A deep, heavy, hollow "S")</span>',
       jollyArabic: true, storyIcon: '🚀',
-      storyText: 'صَنَعَ صَالِحٌ صَارُوخاً صَغِيراً لِلْفَضَاءِ',
+      storyText: 'صَنَعَ صَالِحٌ صَارُوخاً صَغِيراً لِلْفَضَاءِ. ثُمَّ صَوَّرَهُ بِالْكَامِيرَا وَفَخَرَ بِصُنْعِهِ الْجَمِيلِ.',
       cardWords: ['حَرَصَ','صَبَرَ','صَدَرَ','بَصَرَ','حَصَدَ'],
-      splitWords: ['حَرَصَ','صَبَرَ','صَدَرَ','بَصَرَ','حَصَدَ','صَنَعَ','فَحَصَ','نَصَحَ','قَصَدَ'],
-      xoWords: ['حَرَصَ','صَبَرَ','صَدَرَ','بَصَرَ','حَصَدَ','صَنَعَ','فَحَصَ','نَصَحَ','قَصَدَ'],
+      splitWords: ['حَرَصَ','صَبَرَ','صَدَرَ','بَصَرَ','حَصَدَ','حَصَرَ','صَخَبَ','صَدَأَ','أَصَرَ'],
+      xoWords: ['حَرَصَ','صَبَرَ','صَدَرَ','بَصَرَ','حَصَدَ','حَصَرَ','صَخَبَ','صَدَأَ','أَصَرَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َبَرَ`, correctShape: 0 },
         { display: `بَ<span class="missing-gap"></span>َرَ`, correctShape: 1 },
-        { display: `فَحَ<span class="missing-gap"></span>َ`, correctShape: 2 },
-        { display: `حَرَ<span class="missing-gap"></span>َ`, correctShape: 3 },
+        { display: `حَصَ<span class="missing-gap"></span>َ`, correctShape: 2 },
+        { display: `حَرَ<span class="missing-gap"></span>َ`, correctShape: 2 },
         { display: `حَ<span class="missing-gap"></span>َدَ`, correctShape: 1 },
-        { display: `رَصَ<span class="missing-gap"></span>َ`, correctShape: 2 }
+        { display: `أَ<span class="missing-gap"></span>َرَ`, correctShape: 0 }
       ],
       detective: {
         target: 'ص', compareWith: 'س', type: 'sound',
@@ -416,16 +416,16 @@
       jollyAction: 'Press the sides of your tongue against your upper back teeth to block the air.',
       jollyRawSound: 'D - D - D<br><span style="font-size:1rem;font-weight:normal;color:#7f8c8d;">(A deep, heavy, muffled "D")</span>',
       jollyArabic: true, storyIcon: '🐸',
-      storyText: 'ضِفْدَعٌ أَخْضَرُ يَقْفِزُ فِي الضَّحَى',
-      cardWords: ['دَرَضَ','ضَرَبَ','حَضَرَ','ضَجِرَ','مَرِضَ'],
-      splitWords: ['دَرَضَ','ضَرَبَ','حَضَرَ','ضَجِرَ','مَرِضَ','ضَحِكَ','عَرَضَ','نَضِجَ','رَفَضَ'],
-      xoWords: ['دَرَضَ','ضَرَبَ','حَضَرَ','ضَجِرَ','مَرِضَ','ضَحِكَ','عَرَضَ','نَضِجَ','رَفَضَ'],
+      storyText: 'ضِفْدَعٌ أَخْضَرُ يَقْفِزُ فِي الضَّحَى عَلَى وَرَقَةٍ كَبِيرَةٍ. ثُمَّ يَسْبَحُ فِي الْمَاءِ بِنَشَاطٍ.',
+      cardWords: ['ضَرَبَ','حَضَرَ','ضَجَرَ','ضَرَجَ','دَرَضَ'],
+      splitWords: ['ضَرَبَ','حَضَرَ','ضَجَرَ','ضَرَجَ','دَرَضَ','حَرَضَ','أَرَضَ','بَأَضَ','رَأَضَ'],
+      xoWords: ['ضَرَبَ','حَضَرَ','ضَجَرَ','ضَرَجَ','دَرَضَ','حَرَضَ','أَرَضَ','بَأَضَ','رَأَضَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َرَبَ`, correctShape: 0 },
         { display: `حَ<span class="missing-gap"></span>َرَ`, correctShape: 1 },
-        { display: `رَفَ<span class="missing-gap"></span>َ`, correctShape: 2 },
-        { display: `دَرَ<span class="missing-gap"></span>َ`, correctShape: 3 },
-        { display: `نَ<span class="missing-gap"></span>ِجَ`, correctShape: 1 },
+        { display: `حَرَ<span class="missing-gap"></span>َ`, correctShape: 2 },
+        { display: `دَرَ<span class="missing-gap"></span>َ`, correctShape: 2 },
+        { display: `<span class="missing-gap"></span>َجَرَ`, correctShape: 0 },
         { display: `أَرَ<span class="missing-gap"></span>َ`, correctShape: 3 }
       ],
       detective: {
@@ -440,17 +440,17 @@
       jollyAction: 'Place your tongue exactly like "T", but fill your mouth with air to make it heavy.',
       jollyRawSound: 'T - T - T<br><span style="font-size:1rem;font-weight:normal;color:#7f8c8d;">(A deep, heavy, explosive "T")</span>',
       jollyArabic: true, storyIcon: '✈️',
-      storyText: 'طَارَتِ الطَّائِرَةُ طَوِيلاً وَاطْمَأَنَّ الرُّكَّابُ',
+      storyText: 'طَارَتِ الطَّائِرَةُ طَوِيلاً وَاطْمَأَنَّ الرُّكَّابُ. ثُمَّ هَبَطَتْ بِسَلَامٍ فِي الْمَطَارِ الْكَبِيرِ.',
       cardWords: ['شَرَطَ','طَبَخَ','رَبَطَ','طَرَدَ','حَطَبَ'],
-      splitWords: ['شَرَطَ','طَبَخَ','رَبَطَ','طَرَدَ','حَطَبَ','طَلَبَ','بَطَلَ','قَطَعَ','خَلَطَ'],
-      xoWords: ['شَرَطَ','طَبَخَ','رَبَطَ','طَرَدَ','حَطَبَ','طَلَبَ','بَطَلَ','قَطَعَ','خَلَطَ'],
+      splitWords: ['شَرَطَ','طَبَخَ','رَبَطَ','طَرَدَ','حَطَبَ','طَرَحَ','طَرَأَ','ضَبَطَ','طَبَطَ'],
+      xoWords: ['شَرَطَ','طَبَخَ','رَبَطَ','طَرَدَ','حَطَبَ','طَرَحَ','طَرَأَ','ضَبَطَ','طَبَطَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َبَخَ`, correctShape: 0 },
         { display: `حَ<span class="missing-gap"></span>َبَ`, correctShape: 1 },
         { display: `رَبَ<span class="missing-gap"></span>َ`, correctShape: 2 },
         { display: `شَرَ<span class="missing-gap"></span>َ`, correctShape: 3 },
-        { display: `بَ<span class="missing-gap"></span>َلَ`, correctShape: 1 },
-        { display: `أَأَ<span class="missing-gap"></span>َ`, correctShape: 3 }
+        { display: `ضَبَ<span class="missing-gap"></span>َ`, correctShape: 2 },
+        { display: `أَ<span class="missing-gap"></span>َرَ`, correctShape: 0 }
       ],
       detective: {
         target: 'ط', compareWith: 'ت', type: 'sound',
@@ -464,17 +464,17 @@
       jollyAction: 'Put your tongue between your teeth (like ذ), but drop your jaw back to make it heavy.',
       jollyRawSound: 'TH - TH - TH<br><span style="font-size:1rem;font-weight:normal;color:#7f8c8d;">(A deep, heavy buzzing "TH")</span>',
       jollyArabic: true, storyIcon: '✉️',
-      storyText: 'ظَافِرٌ يَحْفَظُ رِسَالَتَهُ فِي الظَّرْفِ',
-      cardWords: ['حَرَظَ','حَظِرَ','ظَرَبَ','نَظَرَ','حَفِظَ'],
-      splitWords: ['حَرَظَ','حَظِرَ','ظَرَبَ','نَظَرَ','حَفِظَ','ظَلَمَ','لَحَظَ','عَظُمَ','يَقِظَ'],
-      xoWords: ['حَرَظَ','حَظِرَ','ظَرَبَ','نَظَرَ','حَفِظَ','ظَلَمَ','لَحَظَ','عَظُمَ','يَقِظَ'],
+      storyText: 'ظَافِرٌ يَحْفَظُ رِسَالَتَهُ فِي الظَّرْفِ بِعِنَايَةٍ. ثُمَّ يَنْظُرُ إِلَيْهَا قَبْلَ أَنْ يَنَامَ.',
+      cardWords: ['حَظَرَ','ظَرَبَ','حَرَظَ','ظَبَرَ','بَظَرَ'],
+      splitWords: ['حَظَرَ','ظَرَبَ','حَرَظَ','ظَبَرَ','بَظَرَ','أَظَرَ','ظَحَظَ','دَظَرَ','ظَدَحَ'],
+      xoWords: ['حَظَرَ','ظَرَبَ','حَرَظَ','ظَبَرَ','بَظَرَ','أَظَرَ','ظَحَظَ','دَظَرَ','ظَدَحَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َرَبَ`, correctShape: 0 },
-        { display: `حَ<span class="missing-gap"></span>ِرَ`, correctShape: 1 },
-        { display: `حَفِ<span class="missing-gap"></span>َ`, correctShape: 2 },
+        { display: `حَ<span class="missing-gap"></span>َرَ`, correctShape: 1 },
         { display: `حَرَ<span class="missing-gap"></span>َ`, correctShape: 3 },
-        { display: `نَ<span class="missing-gap"></span>َرَ`, correctShape: 1 },
-        { display: `أَأَ<span class="missing-gap"></span>َ`, correctShape: 3 }
+        { display: `بَ<span class="missing-gap"></span>َرَ`, correctShape: 1 },
+        { display: `أَ<span class="missing-gap"></span>َرَ`, correctShape: 0 },
+        { display: `ظَحَ<span class="missing-gap"></span>َ`, correctShape: 2 }
       ],
       detective: {
         target: 'ظ', compareWith: 'ذ', type: 'sound',
@@ -488,17 +488,17 @@
       jollyAction: 'Squeeze the middle of your throat tightly and push the sound out.',
       jollyRawSound: '\'a - \'a - \'a<br><span style="font-size:1rem;font-weight:normal;color:#7f8c8d;">(A deep, tight throat sound)</span>',
       jollyArabic: true, storyIcon: '🍇',
-      storyText: 'عِمَادٌ يَعْمَلُ فِي الْمَزْرَعَةِ يَقْطِفُ عِنَباً',
-      cardWords: ['زَرَعَ','عَبَرَ','رَجَعَ','صَعِدَ','مَنَعَ'],
-      splitWords: ['زَرَعَ','عَبَرَ','رَجَعَ','صَعِدَ','مَنَعَ','عَمِلَ','لَعِبَ','رَفَعَ','سَمِعَ'],
-      xoWords: ['زَرَعَ','عَبَرَ','رَجَعَ','صَعِدَ','مَنَعَ','عَمِلَ','لَعِبَ','رَفَعَ','سَمِعَ'],
+      storyText: 'عِمَادٌ يَعْمَلُ فِي الْمَزْرَعَةِ يَقْطِفُ عِنَباً نَاضِجاً. ثُمَّ يَعُودُ إِلَى بَيْتِهِ يَحْمِلُ السَّلَّةَ بِفَرَحٍ.',
+      cardWords: ['زَرَعَ','عَبَرَ','رَجَعَ','خَدَعَ','جَزَعَ'],
+      splitWords: ['زَرَعَ','عَبَرَ','رَجَعَ','خَدَعَ','جَزَعَ','خَضَعَ','طَبَعَ','ضَرَعَ','عَزَبَ'],
+      xoWords: ['زَرَعَ','عَبَرَ','رَجَعَ','خَدَعَ','جَزَعَ','خَضَعَ','طَبَعَ','ضَرَعَ','عَزَبَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َبَرَ`, correctShape: 0 },
-        { display: `صَ<span class="missing-gap"></span>ِدَ`, correctShape: 1 },
+        { display: `جَ<span class="missing-gap"></span>َزَ`, correctShape: 1 },
         { display: `رَجَ<span class="missing-gap"></span>َ`, correctShape: 2 },
         { display: `زَرَ<span class="missing-gap"></span>َ`, correctShape: 3 },
-        { display: `لَ<span class="missing-gap"></span>ِبَ`, correctShape: 1 },
-        { display: `بَدَ<span class="missing-gap"></span>َ`, correctShape: 3 }
+        { display: `طَبَ<span class="missing-gap"></span>َ`, correctShape: 2 },
+        { display: `خَدَ<span class="missing-gap"></span>َ`, correctShape: 3 }
       ]
     },
     'غ': {
@@ -507,17 +507,17 @@
       jollyAction: 'Tilt your head back slightly and vibrate the very back of your throat.',
       jollyRawSound: 'gh - gh - gh<br><span style="font-size:1rem;font-weight:normal;color:#7f8c8d;">(Like the French "R" in "Paris")</span>',
       jollyArabic: true, storyIcon: '🐦‍⬛',
-      storyText: 'غُرَابٌ صَغِيرٌ يَقِفُ فَوْقَ الْغُصْنِ',
-      cardWords: ['بَزَغَ','غَرَسَ','رَغِبَ','شَغَبَ','ضَغَطَ'],
-      splitWords: ['بَزَغَ','غَرَسَ','رَغِبَ','شَغَبَ','ضَغَطَ','غُلِبَ','شُغِفَ','فَرِغَ','صُبِغَ'],
-      xoWords: ['بَزَغَ','غَرَسَ','رَغِبَ','شَغَبَ','ضَغَطَ','غُلِبَ','شُغِفَ','فَرِغَ','صُبِغَ'],
+      storyText: 'غُرَابٌ صَغِيرٌ يَقِفُ فَوْقَ الْغُصْنِ يُغَنِّي بِفَرَحٍ. ثُمَّ يَطِيرُ بَعِيداً نَحْوَ الْغَيْمِ الْأَبْيَضِ.',
+      cardWords: ['بَزَغَ','غَرَسَ','شَغَبَ','ضَغَطَ','غَدَرَ'],
+      splitWords: ['بَزَغَ','غَرَسَ','شَغَبَ','ضَغَطَ','غَدَرَ','غَرَزَ','أَغَرَ','بَغَتَ','غَضَبَ'],
+      xoWords: ['بَزَغَ','غَرَسَ','شَغَبَ','ضَغَطَ','غَدَرَ','غَرَزَ','أَغَرَ','بَغَتَ','غَضَبَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َرَسَ`, correctShape: 0 },
-        { display: `رَ<span class="missing-gap"></span>ِبَ`, correctShape: 0 },
-        { display: `صُبِ<span class="missing-gap"></span>َ`, correctShape: 2 },
-        { display: `بَزَ<span class="missing-gap"></span>َ`, correctShape: 3 },
         { display: `ضَ<span class="missing-gap"></span>َطَ`, correctShape: 1 },
-        { display: `فَرِ<span class="missing-gap"></span>َ`, correctShape: 3 }
+        { display: `بَزَ<span class="missing-gap"></span>َ`, correctShape: 3 },
+        { display: `شَ<span class="missing-gap"></span>َبَ`, correctShape: 1 },
+        { display: `رَجَ<span class="missing-gap"></span>َ`, correctShape: 2 },
+        { display: `أَ<span class="missing-gap"></span>َرَ`, correctShape: 0 }
       ],
       detective: {
         target: 'غ', compareWith: 'ع', type: 'visual',
@@ -531,17 +531,17 @@
       jollyAction: 'Rest your top teeth gently on your bottom lip and blow air through.',
       jollyRawSound: 'f - f - f<br><span style="font-size:1rem;font-weight:normal;color:#7f8c8d;">(Like the "f" in "fish")</span>',
       jollyArabic: false, storyIcon: '🦋',
-      storyText: 'فَرَاشَةٌ فَاتِنَةٌ تَطِيرُ فَوْقَ الزُّهُورِ',
-      cardWords: ['رَدَفَ','فَتَحَ','فَرِحَ','رَفَعَ','عَرَفَ'],
-      splitWords: ['رَدَفَ','فَتَحَ','فَرِحَ','رَفَعَ','عَرَفَ','فُحِصَ','زُفِفَ','سَلَفَ','خَطِفَ'],
-      xoWords: ['رَدَفَ','فَتَحَ','فَرِحَ','رَفَعَ','عَرَفَ','فُحِصَ','زُفِفَ','سَلَفَ','خَطِفَ'],
+      storyText: 'فَرَاشَةٌ فَاتِنَةٌ تَطِيرُ فَوْقَ الزُّهُورِ بِخِفَّةٍ. ثُمَّ تَحُطُّ عَلَى وَرْدَةٍ حَمْرَاءَ لِتَسْتَرِيحَ.',
+      cardWords: ['فَتَحَ','عَرَفَ','رَفَعَ','دَفَعَ','رَدَفَ'],
+      splitWords: ['فَتَحَ','عَرَفَ','رَفَعَ','دَفَعَ','رَدَفَ','فَخَرَ','فَطَرَ','شَفَعَ','فَجَرَ'],
+      xoWords: ['فَتَحَ','عَرَفَ','رَفَعَ','دَفَعَ','رَدَفَ','فَخَرَ','فَطَرَ','شَفَعَ','فَجَرَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َتَحَ`, correctShape: 0 },
+        { display: `شَ<span class="missing-gap"></span>َعَ`, correctShape: 1 },
+        { display: `عَطَ<span class="missing-gap"></span>َ`, correctShape: 2 },
+        { display: `عَرَ<span class="missing-gap"></span>َ`, correctShape: 3 },
         { display: `رَ<span class="missing-gap"></span>َعَ`, correctShape: 0 },
-        { display: `خَطِ<span class="missing-gap"></span>َ`, correctShape: 2 },
-        { display: `رَدَ<span class="missing-gap"></span>َ`, correctShape: 3 },
-        { display: `زُ<span class="missing-gap"></span>ِفَ`, correctShape: 0 },
-        { display: `عَرَ<span class="missing-gap"></span>َ`, correctShape: 3 }
+        { display: `رَدَ<span class="missing-gap"></span>َ`, correctShape: 3 }
       ]
     },
     'ق': {
@@ -550,17 +550,17 @@
       jollyAction: 'Click the very back of your tongue against the soft part of your throat.',
       jollyRawSound: 'q - q - q<br><span style="font-size:1rem;font-weight:normal;color:#7f8c8d;">(A deep, hollow, popping "K")</span>',
       jollyArabic: true, storyIcon: '🚆',
-      storyText: 'قِطَارٌ قَوِيٌّ يَقْطَعُ الطَّرِيقَ بِسُرْعَةٍ',
-      cardWords: ['رَزَقَ','قَرَأَ','قَطَعَ','سَبَقَ','خَلَقَ'],
-      splitWords: ['رَزَقَ','قَرَأَ','قَطَعَ','سَبَقَ','خَلَقَ','قُبِضَ','سُرِقَ','صُعِقَ','رَفَقَ'],
-      xoWords: ['رَزَقَ','قَرَأَ','قَطَعَ','سَبَقَ','خَلَقَ','قُبِضَ','سُرِقَ','صُعِقَ','رَفَقَ'],
+      storyText: 'قِطَارٌ قَوِيٌّ يَقْطَعُ الطَّرِيقَ بِسُرْعَةٍ. ثُمَّ يَقِفُ فِي الْمَحَطَّةِ لِيَنْزِلَ الرُّكَّابُ.',
+      cardWords: ['قَرَأَ','قَطَعَ','سَبَقَ','رَزَقَ','رَفَقَ'],
+      splitWords: ['قَرَأَ','قَطَعَ','سَبَقَ','رَزَقَ','رَفَقَ','قَعَدَ','صَدَقَ','شَرَقَ','قَفَزَ'],
+      xoWords: ['قَرَأَ','قَطَعَ','سَبَقَ','رَزَقَ','رَفَقَ','قَعَدَ','صَدَقَ','شَرَقَ','قَفَزَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َرَأَ`, correctShape: 0 },
         { display: `سَ<span class="missing-gap"></span>َطَ`, correctShape: 1 },
-        { display: `خَلَ<span class="missing-gap"></span>َ`, correctShape: 2 },
+        { display: `سَبَ<span class="missing-gap"></span>َ`, correctShape: 2 },
         { display: `رَزَ<span class="missing-gap"></span>َ`, correctShape: 3 },
-        { display: `صُ<span class="missing-gap"></span>ِعَ`, correctShape: 1 },
-        { display: `سُرِ<span class="missing-gap"></span>َ`, correctShape: 3 }
+        { display: `صَدَ<span class="missing-gap"></span>َ`, correctShape: 2 },
+        { display: `أَ<span class="missing-gap"></span>َعَ`, correctShape: 0 }
       ],
       detective: {
         target: 'ق', compareWith: 'ف', type: 'visual',
@@ -574,17 +574,17 @@
       jollyAction: 'Press the back of your tongue to the roof of your mouth and release a sharp burst of air.',
       jollyRawSound: 'k - k - k<br><span style="font-size:1rem;font-weight:normal;color:#7f8c8d;">(Like the "k" in "kite")</span>',
       jollyArabic: false, storyIcon: '🐕',
-      storyText: 'كَلْبٌ كَرِيمٌ يَحْرُسُ الْمَزْرَعَةَ',
-      cardWords: ['تَرَكَ','كَتَبَ','كَسَرَ','شَكَرَ','ضَحِكَ'],
-      splitWords: ['تَرَكَ','كَتَبَ','كَسَرَ','شَكَرَ','ضَحِكَ','كُتِبَ','كَتَمَ','مُسِكَ','حُكِمَ'],
-      xoWords: ['تَرَكَ','كَتَبَ','كَسَرَ','شَكَرَ','ضَحِكَ','كُتِبَ','كَتَمَ','مُسِكَ','حُكِمَ'],
+      storyText: 'كَلْبٌ كَرِيمٌ يَحْرُسُ الْمَزْرَعَةَ كُلَّ لَيْلَةٍ. ثُمَّ يَنَامُ فِي رُكْنِهِ بَعْدَ أَنْ يَأْكُلَ طَعَامَهُ.',
+      cardWords: ['كَتَبَ','كَسَرَ','شَكَرَ','تَرَكَ','ذَكَرَ'],
+      splitWords: ['كَتَبَ','كَسَرَ','شَكَرَ','تَرَكَ','ذَكَرَ','كَذَبَ','سَكَتَ','بَرَكَ','كَدَحَ'],
+      xoWords: ['كَتَبَ','كَسَرَ','شَكَرَ','تَرَكَ','ذَكَرَ','كَذَبَ','سَكَتَ','بَرَكَ','كَدَحَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َتَبَ`, correctShape: 0 },
         { display: `شَ<span class="missing-gap"></span>َرَ`, correctShape: 1 },
-        { display: `ضَحِ<span class="missing-gap"></span>َ`, correctShape: 2 },
+        { display: `حَكَ<span class="missing-gap"></span>َ`, correctShape: 2 },
         { display: `تَرَ<span class="missing-gap"></span>َ`, correctShape: 3 },
-        { display: `حُ<span class="missing-gap"></span>ِمَ`, correctShape: 1 },
-        { display: `دَرَ<span class="missing-gap"></span>َ`, correctShape: 3 }
+        { display: `سَ<span class="missing-gap"></span>َتَ`, correctShape: 1 },
+        { display: `بَرَ<span class="missing-gap"></span>َ`, correctShape: 3 }
       ],
       detective: {
         target: 'ك', compareWith: 'ق', type: 'sound',
@@ -598,17 +598,17 @@
       jollyAction: 'Press the tip of your tongue against the gums right above your top front teeth and hum.',
       jollyRawSound: 'l - l - l<br><span style="font-size:1rem;font-weight:normal;color:#7f8c8d;">(Like the "l" in "lemon")</span>',
       jollyArabic: false, storyIcon: '🍋',
-      storyText: 'لَبِسَ لُؤَيٌّ مَلَابِسَهُ وَشَرِبَ عَصِيرَ اللَّيْمُونِ',
+      storyText: 'لَبِسَ لُؤَيٌّ مَلَابِسَهُ وَشَرِبَ عَصِيرَ اللَّيْمُونِ. ثُمَّ ذَهَبَ لِيَلْعَبَ مَعَ زَمِيلِهِ فِي الْحَدِيقَةِ.',
       cardWords: ['بَدَلَ','دَخَلَ','بَطَلَ','جَعَلَ','خَلَقَ'],
-      splitWords: ['بَدَلَ','دَخَلَ','بَطَلَ','جَعَلَ','خَلَقَ','لَبِسَ','لَعِبَ','ظُلِمَ','غُسِلَ'],
-      xoWords: ['بَدَلَ','دَخَلَ','بَطَلَ','جَعَلَ','خَلَقَ','لَبِسَ','لَعِبَ','ظُلِمَ','غُسِلَ'],
+      splitWords: ['دَخَلَ','جَعَلَ','بَدَلَ','بَطَلَ','خَلَقَ','لَفَظَ','لَطَفَ','لَطَخَ','أَكَلَ'],
+      xoWords: ['دَخَلَ','جَعَلَ','بَدَلَ','بَطَلَ','خَلَقَ','لَفَظَ','لَطَفَ','لَطَخَ','أَكَلَ'],
       missingWords: [
-        { display: `<span class="missing-gap"></span>َبِسَ`, correctShape: 0 },
+        { display: `<span class="missing-gap"></span>َفَظَ`, correctShape: 0 },
         { display: `خَ<span class="missing-gap"></span>َقَ`, correctShape: 1 },
         { display: `جَعَ<span class="missing-gap"></span>َ`, correctShape: 2 },
         { display: `بَدَ<span class="missing-gap"></span>َ`, correctShape: 3 },
-        { display: `ظُ<span class="missing-gap"></span>ِمَ`, correctShape: 1 },
-        { display: `نَزَ<span class="missing-gap"></span>َ`, correctShape: 3 }
+        { display: `أَكَ<span class="missing-gap"></span>َ`, correctShape: 2 },
+        { display: `دَخَ<span class="missing-gap"></span>َ`, correctShape: 2 }
       ]
     },
     'م': {
@@ -617,17 +617,17 @@
       jollyAction: 'Press your lips completely together and let your voice hum through your nose.',
       jollyRawSound: 'm - m - m<br><span style="font-size:1rem;font-weight:normal;color:#7f8c8d;">(Like the "m" in "moon")</span>',
       jollyArabic: false, storyIcon: '🌙',
-      storyText: 'مَشَى مَاجِدٌ فَرَأَى قَمَراً مُنِيراً وَنُجُوماً',
-      cardWords: ['رَدَمَ','جَمَعَ','سَمِعَ','حَكَمَ','مَسَحَ'],
-      splitWords: ['رَدَمَ','جَمَعَ','سَمِعَ','حَكَمَ','مَسَحَ','مَنَعَ','ظُلِمَ','فُهِمَ','عُلِمَ'],
-      xoWords: ['رَدَمَ','جَمَعَ','سَمِعَ','حَكَمَ','مَسَحَ','مَنَعَ','ظُلِمَ','فُهِمَ','عُلِمَ'],
+      storyText: 'مَشَى مَاجِدٌ فَرَأَى قَمَراً مُنِيراً وَنُجُوماً جَمِيلَةً. ثُمَّ ابْتَسَمَ وَعَادَ إِلَى مَنْزِلِهِ مَسْرُوراً.',
+      cardWords: ['جَمَعَ','حَكَمَ','مَسَحَ','رَسَمَ','خَتَمَ'],
+      splitWords: ['جَمَعَ','حَكَمَ','مَسَحَ','رَسَمَ','خَتَمَ','ظَلَمَ','مَدَحَ','مَلَكَ','لَمَسَ'],
+      xoWords: ['جَمَعَ','حَكَمَ','مَسَحَ','رَسَمَ','خَتَمَ','ظَلَمَ','مَدَحَ','مَلَكَ','لَمَسَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َسَحَ`, correctShape: 0 },
-        { display: `سَ<span class="missing-gap"></span>ِعَ`, correctShape: 1 },
-        { display: `حَكَ<span class="missing-gap"></span>َ`, correctShape: 2 },
-        { display: `رَدَ<span class="missing-gap"></span>َ`, correctShape: 3 },
         { display: `جَ<span class="missing-gap"></span>َعَ`, correctShape: 1 },
-        { display: `رَحِ<span class="missing-gap"></span>َ`, correctShape: 2 }
+        { display: `حَكَ<span class="missing-gap"></span>َ`, correctShape: 2 },
+        { display: `رَسَ<span class="missing-gap"></span>َ`, correctShape: 2 },
+        { display: `ظَلَ<span class="missing-gap"></span>َ`, correctShape: 2 },
+        { display: `رَدَ<span class="missing-gap"></span>َ`, correctShape: 3 }
       ]
     },
     'ن': {
@@ -636,17 +636,17 @@
       jollyAction: 'Place your tongue on the roof of your mouth and hum the sound through your nose.',
       jollyRawSound: 'n - n - n<br><span style="font-size:1rem;font-weight:normal;color:#7f8c8d;">(Like the "n" in "nest")</span>',
       jollyArabic: false, storyIcon: '🐝',
-      storyText: 'نَحْلَةٌ نَشِيطَةٌ تَصْنَعُ عَسَلاً لَذِيذاً',
+      storyText: 'نَحْلَةٌ نَشِيطَةٌ تَصْنَعُ عَسَلاً لَذِيذاً فِي خَلِيَّتِهَا. ثُمَّ تَطِيرُ مِنْ زَهْرَةٍ إِلَى أُخْرَى تَجْمَعُ الرَّحِيقَ.',
       cardWords: ['بَدَنَ','نَجَحَ','نَزَلَ','مَنَعَ','نَصَحَ'],
-      splitWords: ['بَدَنَ','نَجَحَ','نَزَلَ','مَنَعَ','نَصَحَ','طُعِنَ','دُفِنَ','لُعِنَ','صُنِعَ'],
-      xoWords: ['بَدَنَ','نَجَحَ','نَزَلَ','مَنَعَ','نَصَحَ','طُعِنَ','دُفِنَ','لُعِنَ','صُنِعَ'],
+      splitWords: ['نَجَحَ','نَزَلَ','مَنَعَ','نَصَحَ','بَدَنَ','نَفَخَ','نَطَقَ','دَفَنَ','طَعَنَ'],
+      xoWords: ['نَجَحَ','نَزَلَ','مَنَعَ','نَصَحَ','بَدَنَ','نَفَخَ','نَطَقَ','دَفَنَ','طَعَنَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َجَحَ`, correctShape: 0 },
         { display: `مَ<span class="missing-gap"></span>َعَ`, correctShape: 1 },
-        { display: `طُعِ<span class="missing-gap"></span>َ`, correctShape: 2 },
         { display: `بَدَ<span class="missing-gap"></span>َ`, correctShape: 3 },
-        { display: `صُ<span class="missing-gap"></span>ِعَ`, correctShape: 1 },
-        { display: `وَزَ<span class="missing-gap"></span>َ`, correctShape: 3 }
+        { display: `دَفَ<span class="missing-gap"></span>َ`, correctShape: 2 },
+        { display: `طَعَ<span class="missing-gap"></span>َ`, correctShape: 2 },
+        { display: `رَ<span class="missing-gap"></span>َزَ`, correctShape: 0 }
       ],
       detective: {
         target: 'ن', compareWith: 'ب', type: 'visual',
@@ -660,17 +660,17 @@
       jollyAction: 'Open your mouth, relax your throat, and push air gently from your chest.',
       jollyRawSound: 'h - h - h<br><span style="font-size:1rem;font-weight:normal;color:#7f8c8d;">(Like the "h" in "hat")</span>',
       jollyArabic: false, storyIcon: '🎁',
-      storyText: 'هَدِيَّةٌ أَعْطَاهَا هِشَامٌ لِأُخْتِهِ فِيهَا هِلَالٌ',
-      cardWords: ['رَدَهَ','هَرَبَ','ذَهَبَ','ظَهَرَ','شَهِدَ'],
-      splitWords: ['رَدَهَ','هَرَبَ','ذَهَبَ','ظَهَرَ','شَهِدَ','هُدِمَ','فُهِمَ','نُهِرَ','بُهِتَ'],
-      xoWords: ['رَدَهَ','هَرَبَ','ذَهَبَ','ظَهَرَ','شَهِدَ','هُدِمَ','فُهِمَ','نُهِرَ','بُهِتَ'],
+      storyText: 'هَدِيَّةٌ أَعْطَاهَا هِشَامٌ لِأُخْتِهِ فِيهَا هِلَالٌ مِنَ الذَّهَبِ. ثُمَّ ابْتَهَجَتْ بِهَا كَثِيراً.',
+      cardWords: ['ذَهَبَ','هَرَبَ','ظَهَرَ','جَهَرَ','بَهَرَ'],
+      splitWords: ['ذَهَبَ','هَرَبَ','ظَهَرَ','جَهَرَ','بَهَرَ','نَهَجَ','دَهَنَ','زَهَدَ','مَهَرَ'],
+      xoWords: ['ذَهَبَ','هَرَبَ','ظَهَرَ','جَهَرَ','بَهَرَ','نَهَجَ','دَهَنَ','زَهَدَ','مَهَرَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َرَبَ`, correctShape: 0 },
         { display: `ذَ<span class="missing-gap"></span>َبَ`, correctShape: 0 },
-        { display: `شَهِ<span class="missing-gap"></span>َ`, correctShape: 2 },
-        { display: `رَدَ<span class="missing-gap"></span>َ`, correctShape: 3 },
         { display: `ظَ<span class="missing-gap"></span>َرَ`, correctShape: 1 },
-        { display: `فُ<span class="missing-gap"></span>ِمَ`, correctShape: 1 }
+        { display: `نَبَ<span class="missing-gap"></span>َ`, correctShape: 2 },
+        { display: `رَدَ<span class="missing-gap"></span>َ`, correctShape: 3 },
+        { display: `مَ<span class="missing-gap"></span>َرَ`, correctShape: 1 }
       ]
     },
     'و': {
@@ -679,17 +679,17 @@
       jollyAction: 'Push your lips forward into a tight, round circle and blow your voice through them.',
       jollyRawSound: 'w - w - w<br><span style="font-size:1rem;font-weight:normal;color:#7f8c8d;">(Like the "w" in "wind")</span>',
       jollyArabic: false, storyIcon: '🌹',
-      storyText: 'وَلَدٌ وَدُودٌ يَقِفُ عِنْدَ حَوْضِ الْوَرْدِ',
-      cardWords: ['بَدَوَ','وَلَدَ','وَقَعَ','وَجَدَ','وَعَدَ'],
-      splitWords: ['بَدَوَ','وَلَدَ','وَقَعَ','وَجَدَ','وَعَدَ','وَزَنَ','وُضِعَ','وُهِبَ','وُصِفَ'],
-      xoWords: ['بَدَوَ','وَلَدَ','وَقَعَ','وَجَدَ','وَعَدَ','وَزَنَ','وُضِعَ','وُهِبَ','وُصِفَ'],
+      storyText: 'وَلَدٌ وَدُودٌ يَقِفُ عِنْدَ حَوْضِ الْوَرْدِ بِهُدُوءٍ. ثُمَّ يَجْنِي وَرْدَةً وَيُهْدِيهَا لِأُمِّهِ.',
+      cardWords: ['وَجَدَ','وَلَدَ','وَقَعَ','وَعَدَ','وَزَنَ'],
+      splitWords: ['وَجَدَ','وَلَدَ','وَقَعَ','وَعَدَ','وَزَنَ','وَهَبَ','وَصَلَ','وَدَعَ','وَكَلَ'],
+      xoWords: ['وَجَدَ','وَلَدَ','وَقَعَ','وَعَدَ','وَزَنَ','وَهَبَ','وَصَلَ','وَدَعَ','وَكَلَ'],
       missingWords: [
-        { display: `<span class="missing-gap"></span>َلَدَ`, correctShape: 0 },
-        { display: `عَ<span class="missing-gap"></span>َرَ`, correctShape: 1 },
-        { display: `دَعَ<span class="missing-gap"></span>َ`, correctShape: 2 },
-        { display: `بَدَ<span class="missing-gap"></span>َ`, correctShape: 3 },
+        { display: `<span class="missing-gap"></span>َجَدَ`, correctShape: 0 },
         { display: `حَ<span class="missing-gap"></span>َصَ`, correctShape: 1 },
-        { display: `ذَرَ<span class="missing-gap"></span>َ`, correctShape: 3 }
+        { display: `ذَ<span class="missing-gap"></span>َعَ`, correctShape: 0 },
+        { display: `عَطَ<span class="missing-gap"></span>َ`, correctShape: 2 },
+        { display: `بَدَ<span class="missing-gap"></span>َ`, correctShape: 3 },
+        { display: `كَ<span class="missing-gap"></span>َلَ`, correctShape: 1 }
       ]
     },
     'ي': {
@@ -698,17 +698,17 @@
       jollyAction: 'Drop your jaw slightly, pull your tongue back, and make a bright, cheerful sound.',
       jollyRawSound: 'y - y - y<br><span style="font-size:1rem;font-weight:normal;color:#7f8c8d;">(Like the "y" in "yes")</span>',
       jollyArabic: false, storyIcon: '🕊️',
-      storyText: 'يَطِيرُ يَمَامٌ أَبْيَضُ فِي يَوْمٍ يَسِيرٍ',
-      cardWords: ['رَدَيَ','يَئِسَ','يَبِسَ','يَقِظَ','يَنَعَ'],
-      splitWords: ['رَدَيَ','يَئِسَ','يَبِسَ','يَقِظَ','يَنَعَ','يَسَرَ','يَفَعَ','بُغِيَ','نُسِيَ'],
-      xoWords: ['رَدَيَ','يَئِسَ','يَبِسَ','يَقِظَ','يَنَعَ','يَسَرَ','يَفَعَ','بُغِيَ','نُسِيَ'],
+      storyText: 'يَطِيرُ يَمَامٌ أَبْيَضُ فِي يَوْمٍ يَسِيرٍ بِسَلَامٍ. ثُمَّ يَنْزِلُ عَلَى يَدِ الطِّفْلِ يَأْكُلُ الْحَبَّ.',
+      cardWords: ['يَنَعَ','يَسَرَ','يَبَسَ','يَقَظَ','بَيَنَ'],
+      splitWords: ['يَنَعَ','يَسَرَ','يَفَعَ','يَبَسَ','يَقَظَ','بَيَنَ','يَدَعَ','رَدَيَ','بَنَيَ'],
+      xoWords: ['يَنَعَ','يَسَرَ','يَفَعَ','يَبَسَ','يَقَظَ','بَيَنَ','يَدَعَ','رَدَيَ','بَنَيَ'],
       missingWords: [
-        { display: `<span class="missing-gap"></span>َئِسَ`, correctShape: 0 },
-        { display: `يَبِ<span class="missing-gap"></span>َ`, correctShape: 2 },
-        { display: `بُغِ<span class="missing-gap"></span>َ`, correctShape: 2 },
+        { display: `<span class="missing-gap"></span>َنَعَ`, correctShape: 0 },
+        { display: `بَ<span class="missing-gap"></span>َنَ`, correctShape: 1 },
+        { display: `بَنَ<span class="missing-gap"></span>َ`, correctShape: 2 },
         { display: `رَدَ<span class="missing-gap"></span>َ`, correctShape: 3 },
-        { display: `نُسِ<span class="missing-gap"></span>َ`, correctShape: 2 },
-        { display: `أَرَ<span class="missing-gap"></span>َ`, correctShape: 3 }
+        { display: `بَسَ<span class="missing-gap"></span>َ`, correctShape: 2 },
+        { display: `أَ<span class="missing-gap"></span>َرَ`, correctShape: 0 }
       ],
       detective: {
         target: 'ي', compareWith: 'ب', type: 'visual',
@@ -723,120 +723,53 @@
 /* ============================================================
    قاعدة بيانات المحقق الشاملة (توضع هنا قبل بناء الحروف)
 ============================================================ */
-const DETECTIVE_DATA = {
-  'أ': [
-      { type: 'visual', target: 'أ', compareWith: 'ل', dots: { target: 'بهمزة', compare: 'بدون همزة' } },
-      { type: 'sound', target: 'أ', compareWith: 'هـ', weight: { light: 'أ', heavy: 'هـ' }, labels: { light: 'أقصى الحلق (أ)', heavy: 'أقصى الحلق (هـ)' } }
-  ],
-  'ب': [
-      { type: 'visual', target: 'ب', compareWith: 'ن', dots: { target: 'نقطة تحت', compare: 'نقطة فوق' } }
-  ],
-  'ت': [
-      { type: 'visual', target: 'ت', compareWith: 'ي', dots: { target: 'نقطتان فوق', compare: 'نقطتان تحت' } },
-      { type: 'sound', target: 'ت', compareWith: 'د', weight: { light: 'ت', heavy: 'د' }, labels: { light: 'مهموس (ت)', heavy: 'مجهور (د)' } },
-      { type: 'sound', target: 'ت', compareWith: 'ط', weight: { light: 'ت', heavy: 'ط' }, labels: { light: 'مرقق (ت)', heavy: 'مفخم (ط)' } }
-  ],
-  'ث': [
-      { type: 'visual', target: 'ث', compareWith: 'ش', dots: { target: 'شكل طبق', compare: 'لها أسنان' } },
-      { type: 'sound', target: 'ث', compareWith: 'س', weight: { light: 'ث', heavy: 'س' }, labels: { light: 'لثوي (ث)', heavy: 'صفير (س)' } },
-      { type: 'sound', target: 'ث', compareWith: 'ذ', weight: { light: 'ث', heavy: 'ذ' }, labels: { light: 'مهموس (ث)', heavy: 'مجهور (ذ)' } }
-  ],
-  'ج': { type: 'visual', target: 'ج', compareWith: 'خ', dots: { target: 'نقطة تحت', compare: 'نقطة فوق' } },
-  'ح': [
-      { type: 'sound', target: 'ح', compareWith: 'ع', weight: { light: 'ح', heavy: 'ع' }, labels: { light: 'مهموس (ح)', heavy: 'مجهور (ع)' } },
-      { type: 'sound', target: 'ح', compareWith: 'هـ', weight: { light: 'ح', heavy: 'هـ' }, labels: { light: 'وسط الحلق (ح)', heavy: 'أقصى الحلق (هـ)' } }
-  ],
-  'خ': [
-      { type: 'visual', target: 'خ', compareWith: 'ج', dots: { target: 'نقطة فوق', compare: 'نقطة تحت' } },
-      { type: 'sound', target: 'خ', compareWith: 'غ', weight: { light: 'خ', heavy: 'غ' }, labels: { light: 'مهموس (خ)', heavy: 'مجهور (غ)' } }
-  ],
-  'د': [
-      { type: 'visual', target: 'د', compareWith: 'ذ', dots: { target: 'بدون نقاط', compare: 'نقطة فوق' } },
-      { type: 'sound', target: 'د', compareWith: 'ض', weight: { light: 'د', heavy: 'ض' }, labels: { light: 'مرقق (د)', heavy: 'مفخم (ض)' } },
-      { type: 'sound', target: 'د', compareWith: 'ت', weight: { light: 'د', heavy: 'ت' }, labels: { light: 'مجهور (د)', heavy: 'مهموس (ت)' } }
-  ],
-  'ذ': [
-      { type: 'visual', target: 'ذ', compareWith: 'د', dots: { target: 'نقطة فوق', compare: 'بدون نقاط' } },
-      { type: 'sound', target: 'ذ', compareWith: 'ز', weight: { light: 'ذ', heavy: 'ز' }, labels: { light: 'لثوي (ذ)', heavy: 'صفير (ز)' } },
-      { type: 'sound', target: 'ذ', compareWith: 'ظ', weight: { light: 'ذ', heavy: 'ظ' }, labels: { light: 'مرقق (ذ)', heavy: 'مفخم (ظ)' } },
-      { type: 'sound', target: 'ذ', compareWith: 'ث', weight: { light: 'ذ', heavy: 'ث' }, labels: { light: 'مجهور (ذ)', heavy: 'مهموس (ث)' } }
-  ],
-  'ر': [
-      { type: 'visual', target: 'ر', compareWith: 'ز', dots: { target: 'بدون نقاط', compare: 'نقطة فوق' } },
-      { type: 'sound', target: 'ر', compareWith: 'ل', weight: { light: 'ر', heavy: 'ل' }, labels: { light: 'تكرار (ر)', heavy: 'انحراف (ل)' } }
-  ],
-  'ز': [
-      { type: 'visual', target: 'ز', compareWith: 'ر', dots: { target: 'نقطة فوق', compare: 'بدون نقاط' } },
-      { type: 'sound', target: 'ز', compareWith: 'ذ', weight: { light: 'ز', heavy: 'ذ' }, labels: { light: 'صفير (ز)', heavy: 'لثوي (ذ)' } },
-      { type: 'sound', target: 'ز', compareWith: 'ظ', weight: { light: 'ز', heavy: 'ظ' }, labels: { light: 'مرقق (ز)', heavy: 'مفخم (ظ)' } }
-  ],
-  'س': [
-      { type: 'visual', target: 'س', compareWith: 'ش', dots: { target: 'بدون نقاط', compare: '٣ نقاط فوق' } },
-      { type: 'sound', target: 'س', compareWith: 'ص', weight: { light: 'س', heavy: 'ص' }, labels: { light: 'مرقق (س)', heavy: 'مفخم (ص)' } },
-      { type: 'sound', target: 'س', compareWith: 'ث', weight: { light: 'س', heavy: 'ث' }, labels: { light: 'صفير (س)', heavy: 'لثوي (ث)' } }
-  ],
-  'ش': [
-      { type: 'visual', target: 'ش', compareWith: 'س', dots: { target: '٣ نقاط فوق', compare: 'بدون نقاط' } },
-      { type: 'visual', target: 'ش', compareWith: 'ث', dots: { target: 'لها أسنان', compare: 'شكل طبق' } }
-  ],
-  'ص': [
-      { type: 'visual', target: 'ص', compareWith: 'ض', dots: { target: 'بدون نقاط', compare: 'نقطة فوق' } },
-      { type: 'sound', target: 'ص', compareWith: 'س', weight: { light: 'س', heavy: 'ص' }, labels: { light: 'مفخم (ص)', heavy: 'مرقق (س)' } }
-  ],
-  'ض': [
-      { type: 'visual', target: 'ض', compareWith: 'ص', dots: { target: 'نقطة فوق', compare: 'بدون نقاط' } },
-      { type: 'sound', target: 'ض', compareWith: 'د', weight: { light: 'ض', heavy: 'د' }, labels: { light: 'مفخم (ض)', heavy: 'مرقق (د)' } }
-  ],
-  'ط': [
-      { type: 'visual', target: 'ط', compareWith: 'ظ', dots: { target: 'بدون نقاط', compare: 'نقطة فوق' } },
-      { type: 'sound', target: 'ط', compareWith: 'ت', weight: { light: 'ط', heavy: 'ت' }, labels: { light: 'مفخم (ط)', heavy: 'مرقق (ت)' } }
-  ],
-  'ظ': [
-      { type: 'visual', target: 'ظ', compareWith: 'ط', dots: { target: 'نقطة فوق', compare: 'بدون نقاط' } },
-      { type: 'sound', target: 'ظ', compareWith: 'ذ', weight: { light: 'ظ', heavy: 'ذ' }, labels: { light: 'مفخم (ظ)', heavy: 'مرقق (ذ)' } },
-      { type: 'sound', target: 'ظ', compareWith: 'ز', weight: { light: 'ظ', heavy: 'ز' }, labels: { light: 'مفخم (ظ)', heavy: 'مرقق (ز)' } }
-  ],
-  'ع': [
-      { type: 'visual', target: 'ع', compareWith: 'غ', dots: { target: 'بدون نقاط', compare: 'نقطة فوق' } },
-      { type: 'sound', target: 'ع', compareWith: 'ح', weight: { light: 'ع', heavy: 'ح' }, labels: { light: 'مجهور (ع)', heavy: 'مهموس (ح)' } }
-  ],
-  'غ': [
-      { type: 'visual', target: 'غ', compareWith: 'ع', dots: { target: 'نقطة فوق', compare: 'بدون نقاط' } },
-      { type: 'visual', target: 'غ', compareWith: 'ف', dots: { target: 'نصف دائرة', compare: 'لها رقبة' } },
-      { type: 'sound', target: 'غ', compareWith: 'خ', weight: { light: 'غ', heavy: 'خ' }, labels: { light: 'مجهور (غ)', heavy: 'مهموس (خ)' } }
-  ],
-  'ف': [
-      { type: 'visual', target: 'ف', compareWith: 'ق', dots: { target: 'نقطة واحدة', compare: 'نقطتان' } },
-      { type: 'visual', target: 'ف', compareWith: 'غ', dots: { target: 'لها رقبة', compare: 'نصف دائرة' } },
-      { type: 'sound', target: 'ف', compareWith: 'ث', weight: { light: 'ف', heavy: 'ث' }, labels: { light: 'من الشفة (ف)', heavy: 'من اللثة (ث)' } }
-  ],
-  'ق': [
-      { type: 'visual', target: 'ق', compareWith: 'ف', dots: { target: 'نقطتان', compare: 'نقطة واحدة' } },
-      { type: 'sound', target: 'ق', compareWith: 'ك', weight: { light: 'ق', heavy: 'ك' }, labels: { light: 'مفخم (ق)', heavy: 'مرقق (ك)' } }
-  ],
-  'ك': [
-      { type: 'visual', target: 'ك', compareWith: 'ل', dots: { target: 'بداخلها همزة', compare: 'بدون همزة' } },
-      { type: 'sound', target: 'ك', compareWith: 'ق', weight: { light: 'ك', heavy: 'ق' }, labels: { light: 'مرقق (ك)', heavy: 'مفخم (ق)' } }
-  ],
-  'ل': [
-      { type: 'visual', target: 'ل', compareWith: 'ك', dots: { target: 'بدون همزة', compare: 'بداخلها همزة' } },
-      { type: 'sound', target: 'ل', compareWith: 'ر', weight: { light: 'ل', heavy: 'ر' }, labels: { light: 'انحراف (ل)', heavy: 'تكرار (ر)' } }
-  ],
-  'م': { type: 'visual', target: 'م', compareWith: 'هـ', dots: { target: 'دائرة مغلقة', compare: 'دائرتان' } },
-  'ن': [
-      { type: 'visual', target: 'ن', compareWith: 'ب', dots: { target: 'نقطة فوق', compare: 'نقطة تحت' } },
-      { type: 'visual', target: 'ن', compareWith: 'ذ', dots: { target: 'طبق غويط', compare: 'لا تنزل عن السطر' } }
-  ],
-  'هـ': [
-      { type: 'visual', target: 'هـ', compareWith: 'ة', dots: { target: 'بدون نقاط', compare: 'نقطتان فوق' } },
-      { type: 'sound', target: 'هـ', compareWith: 'ح', weight: { light: 'هـ', heavy: 'ح' }, labels: { light: 'أقصى الحلق (هـ)', heavy: 'وسط الحلق (ح)' } }
-  ],
-  'و': { type: 'visual', target: 'و', compareWith: 'ر', dots: { target: 'برأس دائرية', compare: 'بدون رأس' } },
-  'ي': [
-      { type: 'visual', target: 'ي', compareWith: 'ت', dots: { target: 'نقطتان تحت', compare: 'نقطتان فوق' } },
-      { type: 'visual', target: 'ي', compareWith: 'ث', dots: { target: 'نقطتان تحت', compare: '٣ نقاط فوق' } }
-  ]
-};
+const DETECTIVE_DATA = (() => {
+  // Pairs are limited to the similarities in the user-provided reference image.
+  const A='أ', B='ب', T='ت', TH='ث', J='ج', H='ح', KH='خ';
+  const D='د', DH='ذ', R='ر', Z='ز', S='س', SH='ش', SAD='ص', DAD='ض';
+  const TT='ط', ZAA='ظ', AIN='ع', GH='غ', F='ف', Q='ق', K='ك';
+  const L='ل', M='م', N='ن', HA='هـ', W='و', Y='ي', TAM='ة', HAM='ء';
+  const noDots='بدون نقاط';
+  const oneTop='نقطة فوق';
+  const oneBottom='نقطة تحت';
+  const twoTop='نقطتان فوق';
+  const twoBottom='نقطتان تحت';
+  const threeTop='٣ نقاط فوق';
+  const hamza='همزة';
+  const smallHamza='همزة صغيرة';
+  const visual = (target, compareWith, targetDots, compareDots) => ({ type:'visual', target, compareWith, dots:{ target:targetDots, compare:compareDots } });
+  const sound = (target, compareWith, light, heavy, lightLabel, heavyLabel) => ({ type:'sound', target, compareWith, weight:{ light, heavy }, labels:{ light: lightLabel, heavy: heavyLabel } });
+  const LBL = {
+    mahmous: 'مهموس', majhour: 'مجهور', muraqaq: 'مرقق', mufakham: 'مفخم',
+    lithawi: 'لثوي', safeer: 'صفير', shafawi: 'شفوي', lahawi: 'لهوي',
+    inhiraf: 'انحراف', takrar: 'تكرار', halq: 'حلقي'
+  };
+  const label = (name, ch) => name + ' (' + ch + ')';
+  return {
+    [T]: [visual(T, B, twoTop, oneBottom)],
+    [TH]: [visual(TH, T, threeTop, twoTop), visual(TH, B, threeTop, oneBottom)],
+    [KH]: [visual(KH, J, oneTop, oneBottom), sound(KH, GH, KH, GH, label(LBL.mahmous, KH), label(LBL.majhour, GH))],
+    [DH]: [visual(DH, D, oneTop, noDots), sound(DH, Z, DH, Z, label(LBL.lithawi, DH), label(LBL.safeer, Z)), sound(DH, TH, TH, DH, label(LBL.mahmous, TH), label(LBL.majhour, DH))],
+    [Z]: [visual(Z, R, oneTop, noDots), sound(Z, DH, DH, Z, label(LBL.lithawi, DH), label(LBL.safeer, Z))],
+    [S]: [visual(S, SH, noDots, threeTop), sound(S, TH, TH, S, label(LBL.lithawi, TH), label(LBL.safeer, S))],
+    [SH]: [visual(SH, S, threeTop, noDots), visual(SH, TH, threeTop, threeTop)],
+    [SAD]: [visual(SAD, DAD, noDots, oneTop), visual(SAD, F, noDots, oneTop), sound(SAD, S, S, SAD, label(LBL.muraqaq, S), label(LBL.mufakham, SAD))],
+    [DAD]: [visual(DAD, SAD, oneTop, noDots), sound(DAD, D, D, DAD, label(LBL.muraqaq, D), label(LBL.mufakham, DAD))],
+    [TT]: [visual(TT, ZAA, noDots, oneTop), visual(TT, TAM, noDots, twoTop), sound(TT, TAM, TAM, TT, label('تاء مربوطة', TAM), label(LBL.mufakham, TT))],
+    [ZAA]: [visual(ZAA, TT, oneTop, noDots), sound(ZAA, DH, DH, ZAA, label(LBL.muraqaq, DH), label(LBL.mufakham, ZAA)), sound(ZAA, Z, Z, ZAA, label(LBL.muraqaq, Z), label(LBL.mufakham, ZAA))],
+    [AIN]: [visual(AIN, GH, noDots, oneTop), visual(AIN, HAM, noDots, hamza), sound(AIN, H, H, AIN, label(LBL.mahmous, H), label(LBL.majhour, AIN))],
+    [GH]: [visual(GH, AIN, oneTop, noDots), sound(GH, KH, KH, GH, label(LBL.mahmous, KH), label(LBL.majhour, GH))],
+    [F]: [visual(F, M, oneTop, noDots), visual(F, SAD, oneTop, noDots), sound(F, TH, F, TH, label(LBL.shafawi, F), label(LBL.lithawi, TH))],
+    [Q]: [visual(Q, HA, twoTop, noDots)],
+    [K]: [visual(K, L, smallHamza, noDots), visual(K, F, smallHamza, oneTop), sound(K, F, F, K, label(LBL.shafawi, F), label(LBL.lahawi, K))],
+    [L]: [visual(L, A, noDots, hamza), visual(L, K, noDots, smallHamza), sound(L, R, L, R, label(LBL.inhiraf, L), label(LBL.takrar, R))],
+    [M]: [visual(M, HA, noDots, noDots)],
+    [N]: [visual(N, B, oneTop, oneBottom), visual(N, DH, oneTop, oneTop), sound(N, ZAA, N, ZAA, label('غنة', N), label(LBL.mufakham, ZAA))],
+    [HA]: [visual(HA, TAM, noDots, twoTop), sound(HA, A, A, HA, label('همزة', A), label('هاء', HA)), sound(HA, H, HA, H, label('أقصى الحلق', HA), label('وسط الحلق', H))],
+    [W]: [visual(W, R, noDots, noDots)],
+    [Y]: [visual(Y, T, twoBottom, twoTop)]
+  };
+})();
 
 /* ============================================================
    BUILD lettersDB from FULL_DB
@@ -1266,6 +1199,24 @@ function saveLocalProgress(code, progress) {
   }
 }
 
+function getLocalProgressForCode(code) {
+  return normalizeProgress(loadLocalProgress(code || 'guest'));
+}
+
+function getProgressSummary(progress) {
+  const normalized = normalizeProgress(progress);
+  const total = Array.isArray(ARABIC_LETTERS) && ARABIC_LETTERS.length ? ARABIC_LETTERS.length : 28;
+  const completed = normalized.completed.length;
+  return {
+    stars: normalized.stars,
+    completed,
+    total,
+    pct: Math.max(0, Math.min(100, Math.round((completed / total) * 100))),
+    verbStars: normalized.verbLab ? normalized.verbLab.stars || 0 : 0,
+    verbCompleted: normalized.verbLab && Array.isArray(normalized.verbLab.completed) ? normalized.verbLab.completed.length : 0,
+  };
+}
+
 async function loadProgressOnline(code) {
   if (!supabaseClient || !code) return null;
   const session = getCurrentJameaSession();
@@ -1428,8 +1379,18 @@ function renderParentPanel() {
   }
 
   list.innerHTML = children.map(function(child) {
+    const progress = getLocalProgressForCode(child.id);
+    const summary = getProgressSummary(progress);
     return '<div class="child-profile-row">'
+      + '<div class="child-profile-main">'
       + '<span class="child-profile-name"><i class="fas fa-child"></i> ' + escapeHtml(child.displayName || 'Student') + '</span>'
+      + '<div class="child-progress-summary" aria-label="Progress summary">'
+      + '<span><i class="fas fa-star"></i> ' + summary.stars + '</span>'
+      + '<span><i class="fas fa-book-open"></i> ' + summary.completed + '/' + summary.total + '</span>'
+      + '<span><i class="fas fa-flask"></i> ' + summary.verbCompleted + '</span>'
+      + '</div>'
+      + '<div class="child-progress-track" aria-hidden="true"><div style="width:' + summary.pct + '%"></div></div>'
+      + '</div>'
       + '<button class="btn-secondary" type="button" onclick="enterChildProfile(&quot;' + escapeHtml(child.id) + '&quot;)">Enter Student Mode <i class="fas fa-arrow-right"></i></button>'
       + '</div>';
   }).join('');
@@ -1465,6 +1426,112 @@ function escapeHtml(value) {
     return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[ch];
   });
 }
+
+function getPlatformBackupData() {
+  const auth = getJameaAuth();
+  const keys = [];
+  for (let i = 0; i < localStorage.length; i += 1) {
+    const key = localStorage.key(i);
+    if (
+      key === 'jamea_auth_session_v1' ||
+      key === 'jamea_child_profiles_v1' ||
+      key === 'jamea_lang' ||
+      key.indexOf('jami3_') === 0 ||
+      key.indexOf('verblab_') === 0 ||
+      key.indexOf('sws_') === 0 ||
+      key.indexOf('dq_') === 0 ||
+      key.indexOf('sts_') === 0 ||
+      key.indexOf('tc_') === 0 ||
+      key.indexOf('sr_') === 0 ||
+      key.indexOf('lc_') === 0 ||
+      key.indexOf('ls_') === 0
+    ) {
+      keys.push(key);
+    }
+  }
+  const storage = {};
+  keys.sort().forEach(function(key) {
+    storage[key] = localStorage.getItem(key);
+  });
+  return {
+    app: 'jamea-platform',
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    currentStudentCode: studentCode || '',
+    session: auth ? auth.loadSession() : getCurrentJameaSession(),
+    storage,
+  };
+}
+
+function exportPlatformBackup() {
+  try {
+    const data = getPlatformBackupData();
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const link = document.createElement('a');
+    const date = new Date().toISOString().slice(0, 10);
+    link.href = URL.createObjectURL(blob);
+    link.download = 'jamea-progress-backup-' + date + '.json';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(function() { URL.revokeObjectURL(link.href); }, 1000);
+    showToast('Backup exported — تم حفظ نسخة احتياطية', 2200);
+  } catch (e) {
+    console.error('Backup export failed:', e);
+    showToast('Could not export backup — تعذر حفظ النسخة', 2600);
+  }
+}
+
+function triggerPlatformImport() {
+  const input = document.getElementById('platformImportInput');
+  if (input) input.click();
+}
+
+function restorePlatformBackup(data) {
+  if (!data || data.app !== 'jamea-platform' || !data.storage || typeof data.storage !== 'object') {
+    throw new Error('Invalid Jamea backup file.');
+  }
+  Object.keys(data.storage).forEach(function(key) {
+    if (typeof data.storage[key] === 'string') {
+      localStorage.setItem(key, data.storage[key]);
+    }
+  });
+  const auth = getJameaAuth();
+  if (auth && data.session) auth.saveSession(data.session);
+  const session = getCurrentJameaSession();
+  if (session) applyUnifiedSession(session);
+  playerProgress = loadLocalProgress(studentCode || data.currentStudentCode || 'guest');
+  updateStarsUI();
+  updateHomeProgress();
+  renderParentPanel();
+  initApp();
+}
+
+function importPlatformBackupFromInput(input) {
+  const file = input && input.files && input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function() {
+    try {
+      restorePlatformBackup(JSON.parse(String(reader.result || '{}')));
+      showToast('Backup restored — تم استرجاع التقدم', 2600);
+    } catch (e) {
+      console.error('Backup import failed:', e);
+      showToast((e && e.message ? e.message : 'Could not import backup'), 3200);
+    } finally {
+      input.value = '';
+    }
+  };
+  reader.onerror = function() {
+    input.value = '';
+    showToast('Could not read backup file — تعذر قراءة الملف', 3000);
+  };
+  reader.readAsText(file);
+}
+
+window.exportPlatformBackup = exportPlatformBackup;
+window.triggerPlatformImport = triggerPlatformImport;
+window.importPlatformBackupFromInput = importPlatformBackupFromInput;
 
 async function createChildProfileFromUi() {
   const auth = getJameaAuth();
@@ -2097,6 +2164,20 @@ function renderNumberedText(text, letter, containerId, type) {
 
   // هل نبحث عن حركة/سكون أم حرف عادي؟
   const isMarkSearch = ['ً', 'ٌ', 'ٍ', 'ّ', 'ْ', 'tanween'].includes(letter);
+  const markChars = '\u064b-\u0652\u0670';
+  const makeHighlightRegex = () => {
+    if (letter === 'tanween') return /[ًٌٍ]/g;
+    if (isMarkSearch) return new RegExp(letter.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+    return new RegExp(`(${regexStr})([${markChars}]*)`, 'g');
+  };
+  const highlightRegex = makeHighlightRegex();
+  const highlightTargetInWord = word => {
+    if (!word) return word;
+    return word.replace(highlightRegex, (match, base = '', marks = '') => {
+      if (isMarkSearch) return `<span class="target-letter">${match}</span>`;
+      return `<span class="target-letter">${base}${marks || ''}</span>`;
+    });
+  };
 
   words.forEach((w, i) => {
     // علامات خاصة: رمز الآية والفاصلة
@@ -2120,9 +2201,11 @@ function renderNumberedText(text, letter, containerId, type) {
 
     if (isTgt) count++;
 
+    const displayWord = isTgt ? highlightTargetInWord(w) : w;
+
     html += `<div class="w-chip" data-target="${isTgt}" onclick="handleWordClick(this,'${type}')">
       <span class="w-num">${i + 1}</span>
-      <span class="w-text">${w}</span>
+      <span class="w-text">${displayWord}</span>
     </div>`;
   });
 
@@ -4912,14 +4995,14 @@ function openSukoonLevel(front = null, back = null) {
   const frontSel = document.getElementById('sukoon-front-selector');
   if (frontSel) {
     frontSel.innerHTML = ARABIC_LETTERS.map(l =>
-      `<div class="madd-letter-pill ${l === currentSukoonFront ? 'active' : ''}" onclick="openSukoonLevel('${l}',null)">${l}</div>`
+      `<button type="button" class="madd-letter-pill ${l === currentSukoonFront ? 'active' : ''}" aria-pressed="${l === currentSukoonFront ? 'true' : 'false'}" onclick="openSukoonLevel('${l}',null)">${l}</button>`
     ).join('');
   }
 
   const backSel = document.getElementById('sukoon-back-selector');
   if (backSel) {
     backSel.innerHTML = ARABIC_LETTERS.map(l =>
-      `<div class="madd-letter-pill ${l === currentSukoonBack ? 'active' : ''}" onclick="openSukoonLevel(null,'${l}')">${l}</div>`
+      `<button type="button" class="madd-letter-pill ${l === currentSukoonBack ? 'active' : ''}" aria-pressed="${l === currentSukoonBack ? 'true' : 'false'}" onclick="openSukoonLevel(null,'${l}')">${l}</button>`
     ).join('');
   }
 
@@ -6018,7 +6101,7 @@ function openMaddLevel(mod) {
   const selectorEl = document.getElementById('madd-letter-selector');
   if (selectorEl) {
     selectorEl.innerHTML = ARABIC_LETTERS.map(l =>
-      `<div class="madd-letter-pill ${l === currentMaddTargetLetter ? 'active' : ''}" onclick="changeMaddTargetLetter('${l}')">${l}</div>`
+      `<button type="button" class="madd-letter-pill ${l === currentMaddTargetLetter ? 'active' : ''}" aria-pressed="${l === currentMaddTargetLetter ? 'true' : 'false'}" onclick="changeMaddTargetLetter('${l}')">${l}</button>`
     ).join('');
   }
 
@@ -6149,13 +6232,13 @@ function openShaddaLevel(shaddaL = null, helperL = null) {
   const sel1 = document.getElementById('shadda-letter-selector');
   if (sel1) {
     sel1.innerHTML = ARABIC_LETTERS.map(l =>
-      `<div class="madd-letter-pill ${l === currentShaddaLetter ? 'active' : ''}" onclick="openShaddaLevel('${l}',null)">${l}</div>`
+      `<button type="button" class="madd-letter-pill ${l === currentShaddaLetter ? 'active' : ''}" aria-pressed="${l === currentShaddaLetter ? 'true' : 'false'}" onclick="openShaddaLevel('${l}',null)">${l}</button>`
     ).join('');
   }
   const sel2 = document.getElementById('shadda-helper-selector');
   if (sel2) {
     sel2.innerHTML = ARABIC_LETTERS.map(l =>
-      `<div class="madd-letter-pill ${l === currentHelperLetter ? 'active' : ''}" onclick="openShaddaLevel(null,'${l}')">${l}</div>`
+      `<button type="button" class="madd-letter-pill ${l === currentHelperLetter ? 'active' : ''}" aria-pressed="${l === currentHelperLetter ? 'true' : 'false'}" onclick="openShaddaLevel(null,'${l}')">${l}</button>`
     ).join('');
   }
 
@@ -6224,7 +6307,7 @@ function openTanweenLevel(letter = null) {
   const sel = document.getElementById('tanween-letter-selector');
   if (sel) {
     sel.innerHTML = ARABIC_LETTERS.map(l =>
-      `<div class="madd-letter-pill ${l === currentTanweenLetter ? 'active' : ''}" onclick="openTanweenLevel('${l}')">${l}</div>`
+      `<button type="button" class="madd-letter-pill ${l === currentTanweenLetter ? 'active' : ''}" aria-pressed="${l === currentTanweenLetter ? 'true' : 'false'}" onclick="openTanweenLevel('${l}')">${l}</button>`
     ).join('');
   }
 
@@ -8207,7 +8290,17 @@ function initLevelPuzzleXO(key) {
     piece.classList.remove('xo-x', 'xo-o', 'xo-win');
     piece.classList.add('xo-clickable');
     piece.dataset.xoIdx = i;
+    piece.setAttribute('role', 'button');
+    piece.setAttribute('tabindex', '0');
+    piece.setAttribute('aria-pressed', 'false');
+    piece.setAttribute('aria-label', 'Claim puzzle cell ' + (i + 1));
     piece.onclick = () => _levelPuzzleXoClick(key, i);
+    piece.onkeydown = (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        _levelPuzzleXoClick(key, i);
+      }
+    };
   });
   _updatePuzzleXoTurnUI(cfg.turnId, 'x');
 }
@@ -8223,6 +8316,8 @@ function _levelPuzzleXoClick(key, idx) {
 
   state.claimed[idx] = state.turn;
   piece.classList.add(state.turn === 'x' ? 'xo-x' : 'xo-o');
+  piece.setAttribute('aria-pressed', 'true');
+  piece.setAttribute('aria-label', 'Puzzle cell ' + (idx + 1) + ' claimed by ' + state.turn.toUpperCase());
   try {
     if (typeof playClickPro === 'function') playClickPro();
     else playTone(500, 'sine', 0.1, 0.1);
@@ -8412,15 +8507,19 @@ function _enhanceMotorsSection(key) {
 ============================================================ */
 /*
   ============================================================
-  LETTER_FINAL_EXAMPLES — تدرّج الكلمة والضمير لكل حرف
+  LETTER_FINAL_EXAMPLES — الضمائر ثم أسماء الإشارة ثم حروف الربط
   ============================================================
-  كل حرف يُقدِّم:
-    • pronoun : الضمير الجديد الذي يتعلّمه الطفل مع هذا الحرف
-    • word    : المفردة الرئيسية بحرف الحرف
-    • examples: جُمَل تستخدم كل الضمائر المكتسبة حتى الآن
-  ترتيب تدريجي:
-    أ→أنا  ب→هو  ت→هي  ث→نحن  ج→أنتَ  ح→أنتِ
-    خ→هم   د→أنتم  ذ→هما  ر→أنتما  ز..ي: مراجعة وتثبيت
+  كل حرف يُقدِّم كلمة وظيفية مع جملتين من استخدامنا اليومي.
+  الترتيب التدريجي:
+    الضمائر:      أ→أنا   ب→هو    ت→هي    ث→نحن
+                   ج→أنتَ  ح→أنتِ   خ→هم    د→أنتم
+                   ذ→هما   ر→أنتما
+    أسماء الإشارة: ز→هذا   س→هذه   ش→ذلك   ص→تلك
+                   ض→هؤلاء ط→أولئك
+    حروف الربط:   ظ→وَ    ع→ثمَّ   غ→أو    ف→لكن
+                   ق→إذا   ك→لأن    ل→لكي
+                   م→مع    ن→نعم   هـ→هنا   و→حتى
+    خاتمة:        ي→اليوم (احتفال 🎉)
   ============================================================
 */
 const LETTER_FINAL_EXAMPLES = {
@@ -8433,9 +8532,8 @@ const LETTER_FINAL_EXAMPLES = {
     wordEn:  'I / Me',
     hint: '🙋 "أَنَا" = I — Use it when YOU are talking about yourself',
     examples: [
-      { ar: 'أَنَا اسْمِي أَحْمَد',    en: 'My name is Ahmad' },
-      { ar: 'أَنَا مِنْ مِصْر',         en: 'I am from Egypt' },
-      { ar: 'أَنَا طَالِب',             en: 'I am a student' },
+      { ar: 'أَنَا جَوْعَان',       en: "I'm hungry" },
+      { ar: 'أَنَا فِي الْبَيْت',   en: "I'm at home" },
     ]
   },
 
@@ -8447,9 +8545,8 @@ const LETTER_FINAL_EXAMPLES = {
     wordEn:  'House',
     hint: '👦 "هُوَ" = He — Use it for a boy or a man',
     examples: [
-      { ar: 'أَنَا فِي الْبَيْت',       en: 'I am at home'         },
-      { ar: 'هُوَ فِي الْبَيْت',        en: 'He is at home'        },
-      { ar: 'بَيْتِي جَمِيل',           en: 'My house is beautiful' },
+      { ar: 'هُوَ صَدِيقِي',          en: 'He is my friend' },
+      { ar: 'هُوَ فِي الْمَدْرَسَة', en: 'He is at school' },
     ]
   },
 
@@ -8461,9 +8558,8 @@ const LETTER_FINAL_EXAMPLES = {
     wordEn:  'Apple',
     hint: '👧 "هِيَ" = She — Use it for a girl or a woman',
     examples: [
-      { ar: 'أَنَا آكُلُ تُفَّاحَة',   en: 'I eat an apple'       },
-      { ar: 'هُوَ يُحِبُّ التُّفَّاح', en: 'He loves apples'      },
-      { ar: 'هِيَ تَأْكُلُ تُفَّاحَة', en: 'She eats an apple'    },
+      { ar: 'هِيَ أُخْتِي',           en: 'She is my sister' },
+      { ar: 'هِيَ فِي الْمَطْبَخ',   en: 'She is in the kitchen' },
     ]
   },
 
@@ -8475,9 +8571,8 @@ const LETTER_FINAL_EXAMPLES = {
     wordEn:  'Fridge',
     hint: '👨‍👩‍👧 "نَحْنُ" = We — Use it when you speak for a group that includes yourself',
     examples: [
-      { ar: 'أَنَا أُحِبُّ الثَّلَاجَة',   en: 'I like the fridge'       },
-      { ar: 'هِيَ تَفْتَحُ الثَّلَاجَة',   en: 'She opens the fridge'    },
-      { ar: 'نَحْنُ نَأْكُلُ مَعًا',        en: 'We eat together'         },
+      { ar: 'نَحْنُ فِي الْبَيْت',     en: 'We are at home' },
+      { ar: 'نَحْنُ نَأْكُلُ مَعًا',  en: 'We eat together' },
     ]
   },
 
@@ -8489,9 +8584,8 @@ const LETTER_FINAL_EXAMPLES = {
     wordEn:  'Camel',
     hint: '🤝 "أَنْتَ" = You (for a boy/man) — When talking TO someone male',
     examples: [
-      { ar: 'أَنَا أَرَى الْجَمَل',      en: 'I see the camel'           },
-      { ar: 'هُوَ يَرْكَبُ الْجَمَل',    en: 'He rides the camel'        },
-      { ar: 'أَنْتَ تُحِبُّ الْجَمَل؟',  en: 'Do you love the camel?'   },
+      { ar: 'أَيْنَ أَنْتَ الْآن؟',    en: 'Where are you now?' },
+      { ar: 'هَلْ أَنْتَ بِخَيْر؟',     en: 'Are you okay?' },
     ]
   },
 
@@ -8503,9 +8597,8 @@ const LETTER_FINAL_EXAMPLES = {
     wordEn:  'Milk',
     hint: '🤝 "أَنْتِ" = You (for a girl/woman) — The feminine form of "you"',
     examples: [
-      { ar: 'أَنَا أَشْرَبُ الْحَلِيب',   en: 'I drink milk'              },
-      { ar: 'نَحْنُ نُحِبُّ الْحَلِيب',   en: 'We love milk'              },
-      { ar: 'أَنْتِ تَشْرَبِينَ الْحَلِيب؟', en: 'Do you drink milk?'   },
+      { ar: 'كَيْفَ حَالُكِ؟',          en: 'How are you?' },
+      { ar: 'هَلْ أَنْتِ جَاهِزَة؟',   en: 'Are you ready?' },
     ]
   },
 
@@ -8517,9 +8610,8 @@ const LETTER_FINAL_EXAMPLES = {
     wordEn:  'Bread',
     hint: '👨‍👩‍👦‍👦 "هُمْ" = They — A group of people (not including you)',
     examples: [
-      { ar: 'أَنَا آكُلُ الْخُبْز',      en: 'I eat the bread'           },
-      { ar: 'هِيَ تُحِبُّ الْخُبْز',     en: 'She loves the bread'       },
-      { ar: 'هُمْ يَأْكُلُونَ الْخُبْز', en: 'They eat the bread'        },
+      { ar: 'هُمْ فِي الْخَارِج',   en: 'They are outside' },
+      { ar: 'هُمْ قَادِمُونَ الْآن', en: 'They are coming now' },
     ]
   },
 
@@ -8531,9 +8623,8 @@ const LETTER_FINAL_EXAMPLES = {
     wordEn:  'Chicken',
     hint: '🙌 "أَنْتُمْ" = You all — When talking TO a group of people',
     examples: [
-      { ar: 'هُمْ يَأْكُلُونَ الدَّجَاج',      en: 'They eat the chicken'        },
-      { ar: 'نَحْنُ نُحِبُّ الدَّجَاج',         en: 'We love the chicken'         },
-      { ar: 'أَنْتُمْ تُحِبُّونَ الدَّجَاج؟',   en: 'Do you all love chicken?'   },
+      { ar: 'أَيْنَ أَنْتُمْ؟',            en: 'Where are you all?' },
+      { ar: 'هَلْ أَنْتُمْ جَائِعُون؟', en: 'Are you all hungry?' },
     ]
   },
 
@@ -8545,9 +8636,8 @@ const LETTER_FINAL_EXAMPLES = {
     wordEn:  'Gold',
     hint: '👫 "هُمَا" = The two of them — Arabic has a special form for exactly TWO!',
     examples: [
-      { ar: 'هُوَ يَرَى الذَّهَب',        en: 'He sees the gold'            },
-      { ar: 'هِيَ تُحِبُّ الذَّهَب',      en: 'She loves the gold'          },
-      { ar: 'هُمَا يَنْظُرَانِ الذَّهَب', en: 'The two of them look at gold' },
+      { ar: 'هُمَا أَخَوَانِ',           en: 'The two are brothers' },
+      { ar: 'أَيْنَ هُمَا الْآن؟',     en: 'Where are the two now?' },
     ]
   },
 
@@ -8559,261 +8649,242 @@ const LETTER_FINAL_EXAMPLES = {
     wordEn:  'Pomegranate',
     hint: '👬 "أَنْتُمَا" = You two — Talking TO exactly two people',
     examples: [
-      { ar: 'أَنَا أُحِبُّ الرُّمَّان',         en: 'I love pomegranate'              },
-      { ar: 'هُمَا يَأْكُلَانِ الرُّمَّان',     en: 'The two of them eat pomegranate' },
-      { ar: 'أَنْتُمَا تُحِبَّانِ الرُّمَّان؟', en: 'Do you two love pomegranate?'    },
+      { ar: 'إِلَى أَيْنَ أَنْتُمَا؟',           en: 'Where are you two going?' },
+      { ar: 'هَلْ أَنْتُمَا جَاهِزَانِ؟',       en: 'Are you two ready?' },
     ]
   },
 
-  /* ── ز : مراجعة شاملة — زَهْرَة ─────────────────── */
+  /* ── ز : اسم إشارة — هَذَا ─────────────────────── */
   'ز': {
-    pronoun:   '(مراجعة)',
-    pronounEn: 'Review all pronouns',
-    word:    'زَهْرَة',
-    wordEn:  'Flower',
-    hint: '🌸 Review all pronouns with one beautiful flower!',
+    pronoun:   'هَذَا',
+    pronounEn: 'This (m.)',
+    word:    'هَذَا',
+    wordEn:  'This (m.)',
+    hint: '👉 "هَذَا" = This — Use it to point to a near male thing or person',
     examples: [
-      { ar: 'أَنَا أُحِبُّ الزَّهْرَة',    en: 'I love the flower'    },
-      { ar: 'هِيَ تَشُمُّ الزَّهْرَة',     en: 'She smells the flower' },
-      { ar: 'هُمْ يَقْطِفُونَ الزَّهْرَة', en: 'They pick the flower'  },
+      { ar: 'هَذَا بَيْتِي',           en: 'This is my house' },
+      { ar: 'هَذَا أَخِي',             en: 'This is my brother' },
     ]
   },
 
-  /* ── س : مراجعة — سَمَك ───────────────────────── */
+  /* ── س : اسم إشارة — هَذِهِ ─────────────────────── */
   'س': {
-    pronoun:   '(مراجعة)',
-    pronounEn: 'Review',
-    word:    'سَمَك',
-    wordEn:  'Fish',
-    hint: '🐟 Let\'s review all we know while talking about fish!',
+    pronoun:   'هَذِهِ',
+    pronounEn: 'This (f.)',
+    word:    'هَذِهِ',
+    wordEn:  'This (f.)',
+    hint: '👉 "هَذِهِ" = This — The feminine form, for a near female thing or person',
     examples: [
-      { ar: 'أَنَا أَرَى السَّمَك',        en: 'I see the fish'       },
-      { ar: 'هُوَ يَصْطَادُ السَّمَك',     en: 'He catches the fish'  },
-      { ar: 'نَحْنُ نَأْكُلُ السَّمَك',    en: 'We eat the fish'      },
+      { ar: 'هَذِهِ سَيَّارَتِي',     en: 'This is my car' },
+      { ar: 'هَذِهِ أُمِّي',           en: 'This is my mother' },
     ]
   },
 
-  /* ── ش : مراجعة — شَمْس ───────────────────────── */
+  /* ── ش : اسم إشارة — ذَلِكَ ─────────────────────── */
   'ش': {
-    pronoun:   '(مراجعة)',
-    pronounEn: 'Review',
-    word:    'شَمْس',
-    wordEn:  'Sun',
-    hint: '☀️ The sun shines on all pronouns — let\'s review!',
+    pronoun:   'ذَلِكَ',
+    pronounEn: 'That (m.)',
+    word:    'ذَلِكَ',
+    wordEn:  'That (m.)',
+    hint: '👉 "ذَلِكَ" = That — Use it to point to a far male thing or person',
     examples: [
-      { ar: 'أَنَا أَرَى الشَّمْس',        en: 'I see the sun'         },
-      { ar: 'أَنْتَ تُحِبُّ الشَّمْس؟',    en: 'Do you love the sun?'  },
-      { ar: 'هُمْ يَجْلِسُونَ فِي الشَّمْس', en: 'They sit in the sun' },
+      { ar: 'ذَلِكَ صَدِيقِي',       en: 'That is my friend' },
+      { ar: 'مَا ذَلِكَ؟',             en: 'What is that?' },
     ]
   },
 
-  /* ── ص : مراجعة — صَدِيق ──────────────────────── */
+  /* ── ص : اسم إشارة — تِلْكَ ─────────────────────── */
   'ص': {
-    pronoun:   '(مراجعة)',
-    pronounEn: 'Review',
-    word:    'صَدِيق',
-    wordEn:  'Friend',
-    hint: '🤗 Friends help us review — practice all pronouns!',
+    pronoun:   'تِلْكَ',
+    pronounEn: 'That (f.)',
+    word:    'تِلْكَ',
+    wordEn:  'That (f.)',
+    hint: '👉 "تِلْكَ" = That — The feminine form, for a far female thing or person',
     examples: [
-      { ar: 'أَنَا أُحِبُّ صَدِيقِي',     en: 'I love my friend'       },
-      { ar: 'هِيَ صَدِيقَتِي',             en: 'She is my friend'       },
-      { ar: 'نَحْنُ أَصْدِقَاء',           en: 'We are friends'         },
+      { ar: 'تِلْكَ مَدْرَسَتِي',     en: 'That is my school' },
+      { ar: 'تِلْكَ هِيَ الْإِجَابَة', en: 'That is the answer' },
     ]
   },
 
-  /* ── ض : مراجعة — ضَوْء ───────────────────────── */
+  /* ── ض : اسم إشارة — هَؤُلَاءِ ──────────────────── */
   'ض': {
-    pronoun:   '(مراجعة)',
-    pronounEn: 'Review',
-    word:    'ضَوْء',
-    wordEn:  'Light',
-    hint: '💡 Let the light of knowledge review all our pronouns!',
+    pronoun:   'هَؤُلَاءِ',
+    pronounEn: 'These',
+    word:    'هَؤُلَاءِ',
+    wordEn:  'These',
+    hint: '👉 "هَؤُلَاءِ" = These — Use it to point to a near group of people',
     examples: [
-      { ar: 'أَنَا أُضِيءُ الضَّوْء',       en: 'I turn on the light'   },
-      { ar: 'أَنْتُمْ تَرَوْنَ الضَّوْء؟',  en: 'Do you all see the light?' },
-      { ar: 'هُمَا يُطْفِئَانِ الضَّوْء',   en: 'The two of them turn off the light' },
+      { ar: 'هَؤُلَاءِ أَصْدِقَائِي', en: 'These are my friends' },
+      { ar: 'هَؤُلَاءِ أَهْلِي',       en: 'These are my family' },
     ]
   },
 
-  /* ── ط : مراجعة — طِفْل ───────────────────────── */
+  /* ── ط : اسم إشارة — أُولَئِكَ ──────────────────── */
   'ط': {
-    pronoun:   '(مراجعة)',
-    pronounEn: 'Review',
-    word:    'طِفْل',
-    wordEn:  'Child',
-    hint: '🧒 Every child learns all the pronouns — you can do it!',
+    pronoun:   'أُولَئِكَ',
+    pronounEn: 'Those',
+    word:    'أُولَئِكَ',
+    wordEn:  'Those',
+    hint: '👉 "أُولَئِكَ" = Those — Use it to point to a far group of people',
     examples: [
-      { ar: 'أَنَا طِفْل صَغِير',           en: 'I am a young child'    },
-      { ar: 'هُوَ طِفْل ذَكِيّ',            en: 'He is a smart child'   },
-      { ar: 'هُمْ أَطْفَال سُعَدَاء',       en: 'They are happy children' },
+      { ar: 'أُولَئِكَ زُمَلَائِي',   en: 'Those are my colleagues' },
+      { ar: 'أُولَئِكَ أَوْلَاد طَيِّبُون', en: 'Those are good kids' },
     ]
   },
 
-  /* ── ظ : مراجعة — ظِلّ ───────────────────────── */
+  /* ── ظ : حرف ربط — وَ ──────────────────────────── */
   'ظ': {
-    pronoun:   '(مراجعة)',
-    pronounEn: 'Review',
-    word:    'ظِلّ',
-    wordEn:  'Shadow / Shade',
-    hint: '🌳 Rest in the shade and review your pronouns!',
+    pronoun:   'وَ',
+    pronounEn: 'And',
+    word:    'وَ',
+    wordEn:  'And',
+    hint: '🔗 "وَ" = And — The most common connector in Arabic',
     examples: [
-      { ar: 'أَنَا أَجْلِسُ فِي الظِّلّ',   en: 'I sit in the shade'    },
-      { ar: 'أَنْتِ تَجْلِسِينَ فِي الظِّلّ؟', en: 'Do you (f.) sit in the shade?' },
-      { ar: 'هُمَا يَجْلِسَانِ فِي الظِّلّ', en: 'The two of them sit in the shade' },
+      { ar: 'أَنَا وَأَخِي فِي الْبَيْت', en: 'My brother and I are at home' },
+      { ar: 'خُبْز وَلَبَن',                en: 'Bread and milk' },
     ]
   },
 
-  /* ── ع : مراجعة — عَسَل ───────────────────────── */
+  /* ── ع : حرف ربط — ثُمَّ ─────────────────────── */
   'ع': {
-    pronoun:   '(مراجعة)',
-    pronounEn: 'Review',
-    word:    'عَسَل',
-    wordEn:  'Honey',
-    hint: '🍯 Sweet as honey — review all pronouns one more time!',
+    pronoun:   'ثُمَّ',
+    pronounEn: 'Then',
+    word:    'ثُمَّ',
+    wordEn:  'Then',
+    hint: '🔗 "ثُمَّ" = Then — Use it to show order between actions',
     examples: [
-      { ar: 'أَنَا أُحِبُّ الْعَسَل',       en: 'I love honey'          },
-      { ar: 'أَنْتُمَا تَأْكُلَانِ الْعَسَل؟', en: 'Do you two eat honey?' },
-      { ar: 'نَحْنُ نَشْتَرِي الْعَسَل',    en: 'We buy honey'          },
+      { ar: 'أَكَلْتُ ثُمَّ نِمْتُ',           en: 'I ate, then I slept' },
+      { ar: 'اِغْسِلْ يَدَيْكَ ثُمَّ كُلْ', en: 'Wash your hands, then eat' },
     ]
   },
 
-  /* ── غ : مراجعة — غَزَال ──────────────────────── */
+  /* ── غ : حرف ربط — أَوْ ────────────────────────── */
   'غ': {
-    pronoun:   '(مراجعة)',
-    pronounEn: 'Review',
-    word:    'غَزَال',
-    wordEn:  'Gazelle',
-    hint: '🦌 Fast like a gazelle — you\'ve learned so many pronouns!',
+    pronoun:   'أَوْ',
+    pronounEn: 'Or',
+    word:    'أَوْ',
+    wordEn:  'Or',
+    hint: '🔗 "أَوْ" = Or — Choose between two things',
     examples: [
-      { ar: 'أَنَا أَرَى الْغَزَال',        en: 'I see the gazelle'     },
-      { ar: 'هِيَ تُحِبُّ الْغَزَال',       en: 'She loves the gazelle' },
-      { ar: 'هُمْ يُصَوِّرُونَ الْغَزَال',  en: 'They photograph the gazelle' },
+      { ar: 'شَاي أَوْ قَهْوَة؟',           en: 'Tea or coffee?' },
+      { ar: 'الْيَوْم أَوْ غَدًا',          en: 'Today or tomorrow' },
     ]
   },
 
-  /* ── ف : مراجعة — فِيل ───────────────────────── */
+  /* ── ف : حرف ربط — لَكِنْ ──────────────────────── */
   'ف': {
-    pronoun:   '(مراجعة)',
-    pronounEn: 'Review',
-    word:    'فِيل',
-    wordEn:  'Elephant',
-    hint: '🐘 Big like an elephant, strong like your Arabic!',
+    pronoun:   'لَكِنْ',
+    pronounEn: 'But',
+    word:    'لَكِنْ',
+    wordEn:  'But',
+    hint: '🔗 "لَكِنْ" = But — Use it to show contrast',
     examples: [
-      { ar: 'أَنَا أَرَى الْفِيل',          en: 'I see the elephant'     },
-      { ar: 'أَنْتَ تُحِبُّ الْفِيل؟',      en: 'Do you love the elephant?' },
-      { ar: 'هُمَا يَرَيَانِ الْفِيل',      en: 'The two of them see the elephant' },
+      { ar: 'أُحِبُّهُ لَكِنَّهُ بَعِيد',  en: "I like it but it's far" },
+      { ar: 'هُوَ صَغِير لَكِنَّهُ ذَكِيّ', en: 'He is small but smart' },
     ]
   },
 
-  /* ── ق : مراجعة — قَلَم ───────────────────────── */
+  /* ── ق : حرف ربط — إِذَا ──────────────────────── */
   'ق': {
-    pronoun:   '(مراجعة)',
-    pronounEn: 'Review',
-    word:    'قَلَم',
-    wordEn:  'Pen',
-    hint: '✏️ With a pen you write — with pronouns you speak!',
+    pronoun:   'إِذَا',
+    pronounEn: 'If / When',
+    word:    'إِذَا',
+    wordEn:  'If / When',
+    hint: '🔗 "إِذَا" = If / When — Use it for conditions',
     examples: [
-      { ar: 'أَنَا أَكْتُبُ بِالْقَلَم',    en: 'I write with the pen'   },
-      { ar: 'هُوَ يَرْسُمُ بِالْقَلَم',     en: 'He draws with the pen'  },
-      { ar: 'أَنْتُمْ تَكْتُبُونَ؟',         en: 'Are you all writing?'   },
+      { ar: 'إِذَا جِئْتَ، نَأْكُل',         en: 'If you come, we eat' },
+      { ar: 'إِذَا أَرَدْتَ، اتَّصِلْ بِي', en: 'If you want, call me' },
     ]
   },
 
-  /* ── ك : مراجعة — كِتَاب ──────────────────────── */
+  /* ── ك : حرف ربط — لِأَنَّ ─────────────────────── */
   'ك': {
-    pronoun:   '(مراجعة)',
-    pronounEn: 'Review',
-    word:    'كِتَاب',
-    wordEn:  'Book',
-    hint: '📚 Books teach us everything — pronouns too!',
+    pronoun:   'لِأَنَّ',
+    pronounEn: 'Because',
+    word:    'لِأَنَّ',
+    wordEn:  'Because',
+    hint: '🔗 "لِأَنَّ" = Because — Use it to give a reason',
     examples: [
-      { ar: 'أَنَا أَقْرَأُ الْكِتَاب',     en: 'I read the book'        },
-      { ar: 'هِيَ تَحْمِلُ الْكِتَاب',      en: 'She carries the book'   },
-      { ar: 'نَحْنُ نَحْتَاجُ الْكِتَاب',   en: 'We need the book'       },
+      { ar: 'تَأَخَّرْتُ لِأَنَّ الطَّرِيقَ مُزْدَحِم', en: 'I was late because the road was busy' },
+      { ar: 'أُحِبُّهَا لِأَنَّهَا طَيِّبَة',         en: 'I love her because she is kind' },
     ]
   },
 
-  /* ── ل : مراجعة — لَبَن ───────────────────────── */
+  /* ── ل : حرف ربط — لِكَيْ ─────────────────────── */
   'ل': {
-    pronoun:   '(مراجعة)',
-    pronounEn: 'Review',
-    word:    'لَبَن',
-    wordEn:  'Yogurt',
-    hint: '🥛 Healthy like yogurt — keep reviewing your pronouns!',
+    pronoun:   'لِكَيْ',
+    pronounEn: 'In order to',
+    word:    'لِكَيْ',
+    wordEn:  'In order to',
+    hint: '🔗 "لِكَيْ" = In order to — Use it to give a purpose',
     examples: [
-      { ar: 'أَنَا أُحِبُّ اللَّبَن',        en: 'I love yogurt'          },
-      { ar: 'أَنْتُمَا تَشْرَبَانِ اللَّبَن؟', en: 'Do you two drink yogurt?' },
-      { ar: 'هُمْ يَشْتَرُونَ اللَّبَن',     en: 'They buy yogurt'        },
+      { ar: 'أَدْرُسُ لِكَيْ أَنْجَح',     en: 'I study in order to succeed' },
+      { ar: 'يَأْكُلُ لِكَيْ يَكْبَر',     en: 'He eats in order to grow' },
     ]
   },
 
-  /* ── م : مراجعة — مَاء ───────────────────────── */
+  /* ── م : حرف جر — مَعَ ────────────────────────── */
   'م': {
-    pronoun:   '(مراجعة)',
-    pronounEn: 'Review',
-    word:    'مَاء',
-    wordEn:  'Water',
-    hint: '💧 Water is life — and pronouns give life to sentences!',
+    pronoun:   'مَعَ',
+    pronounEn: 'With',
+    word:    'مَعَ',
+    wordEn:  'With',
+    hint: '🔗 "مَعَ" = With — Use it for togetherness',
     examples: [
-      { ar: 'أَنَا أَشْرَبُ الْمَاء',        en: 'I drink water'          },
-      { ar: 'هُوَ يَحْمِلُ الْمَاء',         en: 'He carries the water'   },
-      { ar: 'أَنْتِ تُحِبِّينَ الْمَاء؟',    en: 'Do you (f.) love water?' },
+      { ar: 'أَنَا مَعَ صَدِيقِي', en: 'I am with my friend' },
+      { ar: 'تَعَالَ مَعَنَا',     en: 'Come with us' },
     ]
   },
 
-  /* ── ن : مراجعة — نَجْم ───────────────────────── */
+  /* ── ن : كلمة — نَعَمْ ────────────────────────── */
   'ن': {
-    pronoun:   '(مراجعة)',
-    pronounEn: 'Review',
-    word:    'نَجْم',
-    wordEn:  'Star',
-    hint: '⭐ You are a star — you\'ve learned all the Arabic pronouns!',
+    pronoun:   'نَعَمْ',
+    pronounEn: 'Yes',
+    word:    'نَعَمْ',
+    wordEn:  'Yes',
+    hint: '✅ "نَعَمْ" = Yes — A daily reply you\'ll always need',
     examples: [
-      { ar: 'أَنَا أَرَى النَّجْم',          en: 'I see the star'         },
-      { ar: 'نَحْنُ نُحِبُّ النُّجُوم',      en: 'We love the stars'      },
-      { ar: 'هُمَا يَنْظُرَانِ إِلَى النَّجْم', en: 'The two of them look at the star' },
+      { ar: 'نَعَمْ، أَنَا جَاهِز',  en: 'Yes, I am ready' },
+      { ar: 'نَعَمْ، أُحِبُّ ذَلِك', en: 'Yes, I love that' },
     ]
   },
 
-  /* ── هـ : مراجعة — هِلَال ─────────────────────── */
+  /* ── هـ : ظرف مكان — هُنَا ─────────────────────── */
   'هـ': {
-    pronoun:   '(مراجعة)',
-    pronounEn: 'Review',
-    word:    'هِلَال',
-    wordEn:  'Crescent Moon',
-    hint: '🌙 Like the crescent that grows, your Arabic is growing!',
+    pronoun:   'هُنَا',
+    pronounEn: 'Here',
+    word:    'هُنَا',
+    wordEn:  'Here',
+    hint: '📍 "هُنَا" = Here — Use it for places near you',
     examples: [
-      { ar: 'أَنَا أَرَى الْهِلَال',         en: 'I see the crescent'      },
-      { ar: 'هِيَ تُحِبُّ الْهِلَال',        en: 'She loves the crescent'  },
-      { ar: 'أَنْتُمْ تَرَوْنَ الْهِلَال؟',  en: 'Do you all see the crescent?' },
+      { ar: 'أَنَا هُنَا',     en: 'I am here' },
+      { ar: 'تَعَالَ هُنَا',  en: 'Come here' },
     ]
   },
 
-  /* ── و : مراجعة — وَرْدَة ─────────────────────── */
+  /* ── و : حرف ربط — حَتَّى ─────────────────────── */
   'و': {
-    pronoun:   '(مراجعة)',
-    pronounEn: 'Review',
-    word:    'وَرْدَة',
-    wordEn:  'Rose',
-    hint: '🌹 A rose for your hard work — all pronouns reviewed!',
+    pronoun:   'حَتَّى',
+    pronounEn: 'Until / Even',
+    word:    'حَتَّى',
+    wordEn:  'Until / Even',
+    hint: '🔗 "حَتَّى" = Until / Even — Versatile daily connector',
     examples: [
-      { ar: 'أَنَا أُحِبُّ الْوَرْدَة',      en: 'I love the rose'        },
-      { ar: 'أَنْتَ تُعْطِينِي وَرْدَة',     en: 'You give me a rose'     },
-      { ar: 'هُمْ يَزْرَعُونَ الْوَرْد',     en: 'They grow roses'        },
+      { ar: 'اِنْتَظِرْ حَتَّى أَعُود',     en: 'Wait until I come back' },
+      { ar: 'حَتَّى الصَّغِير يَفْهَم',  en: 'Even the little one understands' },
     ]
   },
 
-  /* ── ي : خاتمة — يَد ──────────────────────────── */
+  /* ── ي : خاتمة — اليوم ──────────────────────────── */
   'ي': {
     pronoun:   '🎉 أتممتَ الرحلة!',
     pronounEn: 'You completed the journey!',
-    word:    'يَد',
-    wordEn:  'Hand',
-    hint: '🙌 With your hand and your tongue — you speak Arabic now! أنتَ تتكلّم العربية!',
+    word:    'الْيَوْم',
+    wordEn:  'Today',
+    hint: '🙌 الْيَوْم تَتَكَلَّم الْعَرَبِيَّة — Today you speak Arabic!',
     examples: [
-      { ar: 'أَنَا أُحِبُّ اللُّغَة الْعَرَبِيَّة', en: 'I love the Arabic language' },
-      { ar: 'نَحْنُ نَتَكَلَّمُ الْعَرَبِيَّة',     en: 'We speak Arabic'            },
-      { ar: 'هُمْ يَتَعَلَّمُونَ الْعَرَبِيَّة',    en: 'They learn Arabic'          },
+      { ar: 'الْيَوْمُ جَمِيل',                    en: 'Today is beautiful' },
+      { ar: 'نَحْنُ نَتَكَلَّمُ الْعَرَبِيَّة', en: 'We speak Arabic' },
     ]
   },
 };
@@ -8826,65 +8897,26 @@ function _patchAlefFinalPage(key) {
   const entry = LETTER_FINAL_EXAMPLES[key];
   if (!entry) return;
 
-  // Build pronoun badge (only when it's a real new pronoun, not a review)
   const isReview = entry.pronoun && entry.pronoun.includes('مراجعة');
-  const isFinale  = entry.pronoun && entry.pronoun.includes('أتممتَ');
-  let pronounBadgeHtml = '';
-  if (!isReview && !isFinale) {
-    pronounBadgeHtml = `
-      <div style="
-        display:flex; align-items:center; gap:12px;
-        background:linear-gradient(135deg,var(--green),var(--green-dark,#015a3d));
-        color:#fff; border-radius:14px; padding:14px 20px;
-        margin-bottom:14px; box-shadow:0 4px 18px rgba(2,114,78,0.25);
-      ">
-        <div style="font-size:2.6rem; line-height:1; font-family:'Noto Naskh Arabic',serif;">
-          ${entry.pronoun}
-        </div>
-        <div style="text-align:left; flex:1;">
-          <div style="font-family:'Tajawal',sans-serif; font-size:0.78rem; opacity:0.85; letter-spacing:1px; text-transform:uppercase;">
-            ✨ الضمير الجديد — New Pronoun
-          </div>
-          <div style="font-family:'Tajawal',sans-serif; font-size:1.05rem; font-weight:700; margin-top:2px;">
-            ${entry.pronounEn}
-          </div>
-        </div>
-      </div>`;
-  } else if (isFinale) {
-    pronounBadgeHtml = `
-      <div style="
-        background:linear-gradient(135deg,#d4af37,#b8962a);
-        color:#fff; border-radius:14px; padding:14px 20px;
-        margin-bottom:14px; text-align:center;
-        box-shadow:0 4px 18px rgba(212,175,55,0.35);
-        font-family:'Tajawal',sans-serif; font-size:1.15rem; font-weight:900;
-      ">
-        🎉 ${entry.pronoun} — ${entry.pronounEn}
-      </div>`;
-  } else {
-    pronounBadgeHtml = `
-      <div style="
-        background:var(--surface2,#f8fdfb); border:1.5px solid var(--border);
-        border-radius:12px; padding:10px 16px; margin-bottom:14px;
-        font-family:'Tajawal',sans-serif; font-size:0.9rem; color:var(--text-muted);
-      ">
-        🔄 مراجعة الضمائر — Pronouns Review
-      </div>`;
-  }
+  const isFinale = entry.pronoun && entry.pronoun.includes('أتممتَ');
 
   const panel = document.createElement('div');
   panel.id = 'letter-final-panel';
   panel.className = 'step-section';
   panel.setAttribute('data-section', 'final');
   panel.style.cssText = 'min-height:auto;margin-top:20px;';
+  // النقطة المركزية: الضمير/اسم الإشارة/حرف الربط — وليس مفردة الحرف
+  const headlineAr = (isReview || isFinale) ? entry.word : entry.pronoun;
+  const headlineEn = (isReview || isFinale) ? entry.wordEn : entry.pronounEn;
+  const headlineSpeak = headlineAr;
+
   panel.innerHTML = `
     <div class="section-heading" style="color:var(--green);">
       <span class="section-badge" style="background:var(--gold,#d4af37);">⭐</span>
-      ${entry.word} — ${entry.wordEn}
+      ${headlineAr} — ${headlineEn}
     </div>
     <div class="alef-ana-box">
-      ${pronounBadgeHtml}
-      <div class="alef-ana-word" onclick="playMatchPro && playMatchPro()">${entry.word}</div>
+      <div class="alef-ana-word" onclick="speakAr && speakAr('${headlineSpeak}')">${headlineAr}</div>
       <div class="alef-ana-sub">${entry.hint}</div>
       <div class="alef-ana-examples">
         ${entry.examples.map(ex => `
@@ -10546,7 +10578,8 @@ function trickyCupsRestart(levelKey) {
     '8',
     '9',
     '10',
-    'detective',
+    'detective-twin-1',
+    'detective-twin-2',
   ];
 
   function _enterFullscreen(section) {
@@ -10867,7 +10900,8 @@ function trickyCupsRestart(levelKey) {
   const GAME_SECTIONS_LETTER = [
     '2-motors', // سكشن تعريف الموتورات الجديد
     '2',        // سكشن لعبة السيارة
-    '3', '4', '5', '6', '6.5', '6.75', '6.89', '6.91', '7', '8', '9', '10', 'detective'
+    '3', '4', '5', '6', '6.5', '6.75', '6.89', '6.91', '7', '8', '9', '10',
+    'detective-twin-1', 'detective-twin-2'
   ];
   // advanced-level screens (Sukoon/Madd/Shadda/Tanween)
   // NOTE: currently only Sukoon has the full section set refactored.
@@ -11127,6 +11161,7 @@ function _installFsButtons() {
 // دالة رسم النقاط الوهمية
 function generateDotsHTML(desc, color, letter) {
     if (!desc || desc.includes('بدون')) return '';
+    if (!/(نقطة|نقطتان|نقاط|٣|3)/.test(desc)) return '';
     let count = 1;
     if (desc.includes('نقطتان')) count = 2;
     if (desc.includes('٣') || desc.includes('3')) count = 3;
@@ -11134,7 +11169,7 @@ function generateDotsHTML(desc, color, letter) {
     let cls = `pos-${pos}${count} letter-${letter}`;
     let dotsHtml = '';
     for(let i = 0; i < count; i++) {
-        dotsHtml += `<div class="g-dot"></div>`;
+        dotsHtml += `<div class="g-dot g-dot-${i + 1}"></div>`;
     }
     return `<div class="glow-dots-container ${cls}" style="color: ${color};">${dotsHtml}</div>`;
 }
@@ -11152,7 +11187,10 @@ function initSpyGame(target, spy) {
     pool.sort(() => 0.5 - Math.random());
 
     grid.innerHTML = pool.map((char, i) => `
-        <div class="spy-cell" onclick="handleSpyClick(this, '${char}', '${target}')">${char}</div>
+        <div class="spy-cell" onclick="handleSpyClick(this, '${char}', '${target}')">
+            <span class="spy-num">${i + 1}</span>
+            <span class="spy-letter">${char}</span>
+        </div>
     `).join('');
 }
 
@@ -11177,6 +11215,27 @@ function handleSpyClick(cell, char, target) {
     }
 }
 
+function handleDetectivePick(cell, isTarget) {
+    const grid = cell.closest('.det-spy-grid');
+    if (!grid || cell.classList.contains('target-hit') || cell.classList.contains('spy-hit')) return;
+
+    if (isTarget) {
+        cell.classList.add('target-hit');
+        const hits = Number(grid.dataset.hits || 0) + 1;
+        grid.dataset.hits = String(hits);
+        try { playTone(820, 'triangle', 0.1); } catch(e){}
+        if (hits >= 3 && grid.dataset.done !== '1') {
+            grid.dataset.done = '1';
+            try { playVictorySound(); addStars(5); fireConfetti(); } catch(e){}
+            showToast('أحسنت! وجدت الحرف الصحيح', 2200);
+        }
+    } else {
+        cell.classList.add('spy-hit');
+        try { playTone(200, 'sawtooth', 0.2, 0.1); } catch(e){}
+        setTimeout(() => cell.classList.remove('spy-hit'), 400);
+    }
+}
+
 // دالة تهيئة قسم المحقق (النسخة الاحترافية ثنائية اللغة 🌍 + أسماء الحروف)
 function renderDetectiveSection(key) {
     const data = lettersDB[key];
@@ -11188,14 +11247,28 @@ function renderDetectiveSection(key) {
         return;
     }
 
-    sec.style.display = 'flex';
-    const detArray = Array.isArray(data.detective) ? data.detective : [data.detective];
+    sec.style.display = 'block';
+    const activeIndex = ARABIC_LETTERS.indexOf(key);
+    const detArray = (Array.isArray(data.detective) ? data.detective : [data.detective]).filter(det => {
+        const compIndex = ARABIC_LETTERS.indexOf(det.compareWith);
+        return compIndex === -1 || compIndex <= activeIndex;
+    });
 
     const dynContainer = document.getElementById('det-dynamic-container');
     const shapesContainer = document.getElementById('ui-shapes-compare');
 
     dynContainer.innerHTML = '';
     if (shapesContainer) shapesContainer.innerHTML = '';
+
+    if (!detArray.length) {
+        dynContainer.innerHTML = `
+            <div class="det-empty-card">
+                <div class="det-empty-letter">${key}</div>
+                <div class="det-empty-title">حرف جديد بلا توأم سابق</div>
+                <div class="det-empty-sub">سيتدرّب الطفل على مقارنة هذا الحرف عندما يتعلم حروفًا تشبهه في الشكل أو الصوت.</div>
+            </div>`;
+        return;
+    }
 
     const colorTarget = '#e67e22';
     const colorComp = '#3498db';
@@ -11209,8 +11282,13 @@ function renderDetectiveSection(key) {
             ? 'Visual Twins — شكل التوائم'
             : 'Sound Twins — التوائم الصوتية';
 
+        const twinSec = `detective-twin-${index + 1}`;
         let html = `
-            <div style="margin-top: ${index > 0 ? '50px' : '10px'};">
+            <div class="step-section det-twin-block" data-section="${twinSec}" id="${twinSec}">
+                <div class="section-heading" style="color:var(--green);">
+                    <span class="section-badge">🔍</span> The Letter Detective — محقق الحروف (${index + 1})
+                </div>
+                <div class="detective-wrap">
                 <div class="det-header-sub" style="color:var(--green); font-weight:900; direction:ltr;">${twinTypeTitle}</div>
                 <div class="det-header-sub" style="font-size:0.95rem; direction:ltr;">${subTitle}</div>
         `;
@@ -11222,7 +11300,7 @@ function renderDetectiveSection(key) {
 
             html += `
             <div class="visual-twins-box">
-                <div style="text-align:center;">
+                <div class="visual-twin-section">
                     <div class="twin-wrapper">
                         <div class="twin-char">${det.target}</div>
                         ${generateDotsHTML(det.dots.target, colorTarget, det.target)}
@@ -11230,12 +11308,30 @@ function renderDetectiveSection(key) {
                     <div class="twin-desc" style="color:${colorTarget}; direction:ltr; font-family:'Tajawal', sans-serif;">${nameTarget} — ${det.target}</div>
                 </div>
                 <button class="lens-btn" onclick="revealVisualDotsDyn(this)"><i class="fas fa-search"></i></button>
-                <div style="text-align:center;">
+                <div class="visual-twin-section">
                     <div class="twin-wrapper">
                         <div class="twin-char">${det.compareWith}</div>
                         ${generateDotsHTML(det.dots.compare, colorComp, det.compareWith)}
                     </div>
                     <div class="twin-desc" style="color:${colorComp}; direction:ltr; font-family:'Tajawal', sans-serif;">${nameComp} — ${det.compareWith}</div>
+                </div>
+            </div>`;
+
+            const huntPool = [det.target, det.target, det.target, det.compareWith, det.compareWith, det.compareWith]
+                .sort(() => Math.random() - 0.5);
+            html += `
+            <div class="det-practice-card">
+                <div class="det-practice-title">
+                    <span class="det-practice-title-ar">صِد حرف ${det.target}</span>
+                    <span class="det-practice-title-en">Catch the letter ${det.target}</span>
+                </div>
+                <div class="det-spy-grid" data-hits="0">
+                    ${huntPool.map((ch, idx) => `
+                        <button type="button" class="spy-cell" onclick="handleDetectivePick(this, ${ch === det.target})">
+                            <span class="spy-num">${idx + 1}</span>
+                            <span class="spy-letter">${ch}</span>
+                        </button>
+                    `).join('')}
                 </div>
             </div>`;
         } else {
@@ -11297,9 +11393,14 @@ function renderDetectiveSection(key) {
             `;
         }
 
-        html += `</div>`;
+        html += `</div></div>`;
         dynContainer.innerHTML += html;
     });
+
+    // ركّب أزرار الـ Fullscreen على كل قسم توأم منفصل
+    if (typeof window._installFsButtons === 'function') {
+        setTimeout(() => window._installFsButtons(), 0);
+    }
 }
 
 // دالة التوهج الديناميكية (تعمل مع أي عدسة مكبرة في الشاشة)
