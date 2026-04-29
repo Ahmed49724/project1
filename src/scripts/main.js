@@ -4994,6 +4994,11 @@ const FOOTBALL_TEAMS = {
   student: { ar: 'فريق الطالب', en: 'Student Team', icon: '🏃', side: 'يسار الملعب' },
   teacher: { ar: 'فريق المعلم', en: 'Teacher Team', icon: '🧑‍🏫', side: 'يمين الملعب' }
 };
+const FOOTBALL_LANES = [
+  { key: 'top', ar: 'فوق', y: 25 },
+  { key: 'middle', ar: 'وسط', y: 50 },
+  { key: 'bottom', ar: 'تحت', y: 75 }
+];
 const _footballState = {
   key: null,
   level: 'medium',
@@ -5009,6 +5014,9 @@ const _footballState = {
   reads: 0,
   phase: 'pass',
   shotWord: '',
+  shotLane: 'middle',
+  defenderLane: 'middle',
+  rodWords: [],
   goals: { student: 0, teacher: 0 },
   matchOver: false
 };
@@ -5108,6 +5116,9 @@ function initFootballReviewForLetter(key) {
         <div class="football-score">الهجمة: <span id="football-done">0</span>/<span id="football-total">3</span></div>
       </div>
       <div class="football-field" id="football-field" aria-label="Football review field">
+        <div class="football-rod-line football-rod-top"></div>
+        <div class="football-rod-line football-rod-middle"></div>
+        <div class="football-rod-line football-rod-bottom"></div>
         <div class="football-midline"></div>
         <div class="football-circle"></div>
         <div class="football-goal football-goal-left"></div>
@@ -5115,10 +5126,18 @@ function initFootballReviewForLetter(key) {
         <button type="button" class="football-shot-card" id="football-shot-card" onclick="footballShoot()" aria-label="Shoot">
           <span class="football-shot-label">سدد واقرأ</span>
           <span class="football-shot-word" id="football-shot-word">—</span>
+          <span class="football-shot-lane" id="football-shot-lane">—</span>
         </button>
+        <div class="football-keeper" id="football-keeper" aria-hidden="true">
+          <span></span>
+        </div>
         <div class="football-goal-flash" id="football-goal-flash">GOOOAL!</div>
         <div class="football-ball" id="football-ball" aria-hidden="true">⚽</div>
         <div id="football-players"></div>
+      </div>
+      <div class="football-rod-panel" id="football-rod-panel">
+        <div class="football-rod-title" id="football-rod-title">اقرأ كلمة العصا وحرك الحارس</div>
+        <div class="football-rod-options" id="football-rod-options"></div>
       </div>
       <div class="football-feedback" id="football-feedback"></div>
     </div>
@@ -5147,6 +5166,9 @@ function footballReviewStart(level, key) {
   _footballState.possession = 'student';
   _footballState.phase = 'pass';
   _footballState.shotWord = '';
+  _footballState.shotLane = 'middle';
+  _footballState.defenderLane = 'middle';
+  _footballState.rodWords = [];
   _footballState.goals = { student: 0, teacher: 0 };
   _footballState.matchOver = false;
 
@@ -5171,6 +5193,8 @@ function footballReviewStart(level, key) {
   });
   _renderFootballPlayers();
   _hideFootballShot();
+  _hideFootballRodPanel();
+  _setFootballKeeper('teacher', 'middle');
   _setFootballBall(50, 50);
   _footballStartPossession('student');
   _footballUpdateHud();
@@ -5189,7 +5213,7 @@ function _renderFootballPlayers() {
       <span class="football-player-body">
         <span class="football-player-top">
           <span class="football-player-num">${player.num}</span>
-          <span class="football-player-team">${FOOTBALL_TEAMS[player.team].ar}</span>
+          <span class="football-player-rod-dot" aria-hidden="true"></span>
         </span>
         <span class="football-player-word">${player.word}</span>
       </span>
@@ -5236,8 +5260,8 @@ function footballChoosePlayer(num) {
     return;
   }
   if (btn) {
-    btn.classList.add('done');
-    setTimeout(() => btn.classList.remove('done', 'target'), 500);
+    btn.classList.add('done', 'run');
+    setTimeout(() => btn.classList.remove('done', 'target', 'run'), 620);
   }
   _footballState.reads += 1;
   _footballState.passes += 1;
@@ -5283,6 +5307,8 @@ function _footballStartPossession(team) {
   _footballState.phase = 'pass';
   _footballState.currentNum = null;
   _hideFootballShot();
+  _hideFootballRodPanel();
+  _setFootballKeeper(_footballOtherTeam(team), 'middle');
   _setFootballBall(50, 50);
   _footballUpdateHud();
   setTimeout(_footballPickNext, 250);
@@ -5308,24 +5334,36 @@ function _footballPrepareShot() {
   _footballState.phase = 'shoot';
   _footballState.currentNum = null;
   _footballState.shotWord = _footballNextWord();
+  _footballState.shotLane = _footballRandomLane();
+  _footballState.defenderLane = 'middle';
+  _footballState.rodWords = FOOTBALL_LANES.map(lane => ({
+    lane: lane.key,
+    word: _footballNextWord()
+  }));
   const prompt = document.getElementById('football-prompt');
   const feedback = document.getElementById('football-feedback');
   const team = FOOTBALL_TEAMS[_footballState.possession];
+  const defender = _footballOtherTeam(_footballState.possession);
+  const lane = _footballLane(_footballState.shotLane);
   const attackingStudent = _footballState.possession === 'student';
-  if (prompt) prompt.innerHTML = `🔥 فرصة هدف لـ <b>${team.ar}</b>: اقرأ كلمة التسديدة ثم اضغطها`;
-  if (feedback) feedback.textContent = 'سدد على المرمى!';
-  _setFootballBall(attackingStudent ? 76 : 24, 50);
-  _showFootballShot(attackingStudent ? 'right' : 'left', _footballState.shotWord);
+  if (prompt) prompt.innerHTML = `🔥 فرصة هدف لـ <b>${team.ar}</b>: اقرأ كلمة التسديدة، ثم اختر كلمة العصا التي تحرك الحارس إلى <strong>${lane.ar}</strong>`;
+  if (feedback) feedback.textContent = 'الكلمة الكبيرة هي التسديدة. كلمات العصا تحرك الحارس بين فوق ووسط وتحت.';
+  _setFootballBall(attackingStudent ? 76 : 24, lane.y);
+  _setFootballKeeper(defender, 'middle');
+  _showFootballShot(attackingStudent ? 'right' : 'left', _footballState.shotWord, lane.ar);
+  _showFootballRodPanel(defender);
   _footballUpdateHud();
 }
 
-function _showFootballShot(side, word) {
+function _showFootballShot(side, word, laneLabel) {
   const card = document.getElementById('football-shot-card');
   const wordEl = document.getElementById('football-shot-word');
+  const laneEl = document.getElementById('football-shot-lane');
   if (!card) return;
   card.classList.remove('left', 'right', 'show');
   card.classList.add(side, 'show');
   if (wordEl) wordEl.textContent = word;
+  if (laneEl) laneEl.textContent = `مسار الكرة: ${laneLabel}`;
 }
 
 function _hideFootballShot() {
@@ -5335,13 +5373,90 @@ function _hideFootballShot() {
 
 function footballShoot() {
   if (_footballState.matchOver || _footballState.phase !== 'shoot') return;
+  const feedback = document.getElementById('football-feedback');
+  if (feedback) feedback.textContent = 'اختَر كلمة من عصا الصد لتحريك الحارس قبل وصول الكرة.';
+  try { speakAr(_footballState.shotWord); playTone(580, 'triangle', 0.1, 0.06); } catch(e) {}
+}
+
+function _footballLane(key) {
+  return FOOTBALL_LANES.find(lane => lane.key === key) || FOOTBALL_LANES[1];
+}
+
+function _footballRandomLane() {
+  return FOOTBALL_LANES[Math.floor(Math.random() * FOOTBALL_LANES.length)].key;
+}
+
+function _setFootballKeeper(team, laneKey) {
+  const keeper = document.getElementById('football-keeper');
+  if (!keeper) return;
+  const lane = _footballLane(laneKey);
+  _footballState.defenderLane = lane.key;
+  keeper.className = `football-keeper show football-keeper-${team}`;
+  keeper.style.left = team === 'student' ? '7%' : '93%';
+  keeper.style.top = lane.y + '%';
+}
+
+function _showFootballRodPanel(defendingTeam) {
+  const panel = document.getElementById('football-rod-panel');
+  const title = document.getElementById('football-rod-title');
+  const options = document.getElementById('football-rod-options');
+  if (!panel || !options) return;
+  if (title) {
+    title.textContent = `عصا الصد ${FOOTBALL_TEAMS[defendingTeam].icon}: اقرأ كلمة وحرك الحارس`;
+  }
+  options.innerHTML = _footballState.rodWords.map(item => {
+    const lane = _footballLane(item.lane);
+    return `
+      <button type="button" class="football-rod-btn football-rod-${item.lane}" onclick="footballMoveRod('${item.lane}')">
+        <span>${lane.ar}</span>
+        <b>${item.word}</b>
+      </button>
+    `;
+  }).join('');
+  panel.classList.add('show');
+}
+
+function _hideFootballRodPanel() {
+  const panel = document.getElementById('football-rod-panel');
+  if (panel) panel.classList.remove('show');
+}
+
+function footballMoveRod(laneKey) {
+  if (_footballState.matchOver || _footballState.phase !== 'shoot') return;
+  const defendingTeam = _footballOtherTeam(_footballState.possession);
+  const picked = _footballState.rodWords.find(item => item.lane === laneKey);
+  const feedback = document.getElementById('football-feedback');
+  _footballState.phase = 'resolving';
+  _setFootballKeeper(defendingTeam, laneKey);
+  document.querySelectorAll('.football-rod-btn').forEach(btn => btn.disabled = true);
+  if (feedback && picked) feedback.textContent = `الحارس يتحرك بكلمة: ${picked.word}`;
+  try {
+    if (picked) speakAr(picked.word);
+    playTone(440, 'square', 0.12, 0.05);
+  } catch(e) {}
+  setTimeout(() => _footballResolveShot(laneKey), 520);
+}
+
+function _footballResolveShot(blockLane) {
   const team = _footballState.possession;
   const opponent = _footballOtherTeam(team);
   const feedback = document.getElementById('football-feedback');
-  _footballState.goals[team] += 1;
+  const shotLane = _footballLane(_footballState.shotLane);
+  const saved = blockLane === _footballState.shotLane;
   _footballState.reads += 1;
+  _hideFootballRodPanel();
+  if (saved) {
+    _hideFootballShot();
+    _setFootballBall(opponent === 'student' ? 8 : 92, shotLane.y);
+    if (feedback) feedback.textContent = `تصدي رائع! الحارس قرأ المسار الصحيح ومنع كلمة ${_footballState.shotWord}.`;
+    try { speakAr(_footballState.shotWord); playTone(220, 'sawtooth', 0.16, 0.07); } catch(e) {}
+    _footballUpdateHud();
+    setTimeout(() => _footballStartPossession(opponent), 1350);
+    return;
+  }
+  _footballState.goals[team] += 1;
   _hideFootballShot();
-  _setFootballBall(team === 'student' ? 97 : 3, 50);
+  _setFootballBall(team === 'student' ? 97 : 3, shotLane.y);
   _footballGoalFlash(team);
   if (feedback) feedback.textContent = `جوووون! ${FOOTBALL_TEAMS[team].ar} سجل بكلمة: ${_footballState.shotWord}`;
   try { speakAr(_footballState.shotWord); playVictorySound(); } catch(e) {}
@@ -5376,6 +5491,7 @@ function _footballEndMatch(winner) {
 window.footballReviewStart = footballReviewStart;
 window.footballChoosePlayer = footballChoosePlayer;
 window.footballShoot = footballShoot;
+window.footballMoveRod = footballMoveRod;
 
 
 /* ============================================================
