@@ -4977,12 +4977,17 @@ function goNextLetter() {
    Football Review — مراجعة بعد كل حرفين
 ============================================================ */
 const FOOTBALL_REVIEW_LETTERS = new Set(['ب','ث','ح','د','ر','س','ص','ط','ع','ف','ك','م','هـ','ي']);
+const FOOTBALL_LEVELS = {
+  easy: { key: 'easy', playersPerTeam: 4, passesToShoot: 2, ar: 'سهل', en: '4 ضد 4' },
+  medium: { key: 'medium', playersPerTeam: 5, passesToShoot: 3, ar: 'متوسط', en: '5 ضد 5' },
+  hard: { key: 'hard', playersPerTeam: 6, passesToShoot: 4, ar: 'تحدي', en: '6 ضد 6' }
+};
 const FOOTBALL_PLAYER_POSITIONS = {
   student: [
-    { x: 17, y: 22 }, { x: 30, y: 42 }, { x: 18, y: 64 }, { x: 39, y: 24 }, { x: 39, y: 75 }
+    { x: 14, y: 21 }, { x: 27, y: 39 }, { x: 15, y: 62 }, { x: 38, y: 23 }, { x: 39, y: 72 }, { x: 28, y: 82 }
   ],
   teacher: [
-    { x: 83, y: 22 }, { x: 70, y: 42 }, { x: 82, y: 64 }, { x: 61, y: 24 }, { x: 61, y: 75 }
+    { x: 86, y: 21 }, { x: 73, y: 39 }, { x: 85, y: 62 }, { x: 62, y: 23 }, { x: 61, y: 72 }, { x: 72, y: 82 }
   ]
 };
 const FOOTBALL_TEAMS = {
@@ -4991,12 +4996,21 @@ const FOOTBALL_TEAMS = {
 };
 const _footballState = {
   key: null,
-  count: 8,
+  level: 'medium',
+  playersPerTeam: 5,
+  passesToShoot: 3,
+  winGoals: 3,
   players: [],
+  wordBank: [],
+  wordCursor: 0,
   currentNum: null,
-  currentTeam: 'student',
-  done: 0,
-  scores: { student: 0, teacher: 0 }
+  possession: 'student',
+  passes: 0,
+  reads: 0,
+  phase: 'pass',
+  shotWord: '',
+  goals: { student: 0, teacher: 0 },
+  matchOver: false
 };
 window._footballState = _footballState;
 
@@ -5031,6 +5045,13 @@ function getFootballReviewWords(key, count) {
   return picked;
 }
 
+function _footballLevelFromInput(input) {
+  if (FOOTBALL_LEVELS[input]) return FOOTBALL_LEVELS[input];
+  if (input === 6 || input === '6') return FOOTBALL_LEVELS.easy;
+  if (input === 10 || input === '10') return FOOTBALL_LEVELS.hard;
+  return FOOTBALL_LEVELS.medium;
+}
+
 function initFootballReviewForLetter(key) {
   const host = document.getElementById('section-football-review');
   if (!host) return;
@@ -5050,7 +5071,7 @@ function initFootballReviewForLetter(key) {
         </button>
       </div>
       <div class="football-review-intro">
-        مباراة مراجعة بعد كل حرفين: المعلم فريق، والطالب فريق. اقرأ كلمة اللاعب المطلوب، ثم اضغط رقمه لتمر الكرة إليه.
+        مباراة قراءة حقيقية: كل تمريرة تحتاج قراءة صحيحة، وبعد عدد تمريرات محدد تظهر فرصة تسديد. أول فريق يصل إلى 3 أهداف يفوز.
       </div>
       <div class="football-teams-board">
         <div class="football-team-card football-team-student">
@@ -5072,25 +5093,30 @@ function initFootballReviewForLetter(key) {
         </div>
       </div>
       <div class="football-levels" role="group" aria-label="Football review levels">
-        <button class="football-level-btn" data-count="6" onclick="footballReviewStart(6)">
-          <span>6</span><small>سهل</small>
+        <button class="football-level-btn" data-level="easy" onclick="footballReviewStart('easy')">
+          <span>4v4</span><small>سهل · تمريرتان</small>
         </button>
-        <button class="football-level-btn active" data-count="8" onclick="footballReviewStart(8)">
-          <span>8</span><small>متوسط</small>
+        <button class="football-level-btn active" data-level="medium" onclick="footballReviewStart('medium')">
+          <span>5v5</span><small>متوسط · 3 تمريرات</small>
         </button>
-        <button class="football-level-btn" data-count="10" onclick="footballReviewStart(10)">
-          <span>10</span><small>تحدي</small>
+        <button class="football-level-btn" data-level="hard" onclick="footballReviewStart('hard')">
+          <span>6v6</span><small>تحدي · 4 تمريرات</small>
         </button>
       </div>
       <div class="football-hud">
         <div class="football-prompt" id="football-prompt">اختر مستوى وابدأ اللعب</div>
-        <div class="football-score">تمريرات: <span id="football-done">0</span>/<span id="football-total">8</span></div>
+        <div class="football-score">الهجمة: <span id="football-done">0</span>/<span id="football-total">3</span></div>
       </div>
       <div class="football-field" id="football-field" aria-label="Football review field">
         <div class="football-midline"></div>
         <div class="football-circle"></div>
         <div class="football-goal football-goal-left"></div>
         <div class="football-goal football-goal-right"></div>
+        <button type="button" class="football-shot-card" id="football-shot-card" onclick="footballShoot()" aria-label="Shoot">
+          <span class="football-shot-label">سدد واقرأ</span>
+          <span class="football-shot-word" id="football-shot-word">—</span>
+        </button>
+        <div class="football-goal-flash" id="football-goal-flash">GOOOAL!</div>
         <div class="football-ball" id="football-ball" aria-hidden="true">⚽</div>
         <div id="football-players"></div>
       </div>
@@ -5106,39 +5132,47 @@ function initFootballReviewForLetter(key) {
   }, 0);
 }
 
-function footballReviewStart(count, key) {
+function footballReviewStart(level, key) {
   const activeKey = key || _footballState.key || activeLetterKey;
   if (!activeKey || !shouldShowFootballReview(activeKey)) return;
-  const playerCount = count || _footballState.count || 8;
+  const cfg = _footballLevelFromInput(level || _footballState.level);
+  const playerCount = cfg.playersPerTeam * 2;
   _footballState.key = activeKey;
-  _footballState.count = playerCount;
-  _footballState.done = 0;
+  _footballState.level = cfg.key;
+  _footballState.playersPerTeam = cfg.playersPerTeam;
+  _footballState.passesToShoot = cfg.passesToShoot;
+  _footballState.reads = 0;
+  _footballState.passes = 0;
   _footballState.currentNum = null;
-  _footballState.currentTeam = 'student';
-  _footballState.scores = { student: 0, teacher: 0 };
+  _footballState.possession = 'student';
+  _footballState.phase = 'pass';
+  _footballState.shotWord = '';
+  _footballState.goals = { student: 0, teacher: 0 };
+  _footballState.matchOver = false;
 
   document.querySelectorAll('.football-level-btn').forEach(btn => {
-    btn.classList.toggle('active', Number(btn.dataset.count) === playerCount);
+    btn.classList.toggle('active', btn.dataset.level === cfg.key);
   });
 
-  const words = getFootballReviewWords(activeKey, playerCount);
-  const perTeam = Math.floor(playerCount / 2);
-  _footballState.players = words.map((word, i) => {
-    const team = i < perTeam ? 'student' : 'teacher';
-    const teamIndex = team === 'student' ? i : i - perTeam;
+  const words = getFootballReviewWords(activeKey, playerCount + 18);
+  _footballState.wordBank = words;
+  _footballState.wordCursor = playerCount;
+  _footballState.players = words.slice(0, playerCount).map((word, i) => {
+    const team = i < cfg.playersPerTeam ? 'student' : 'teacher';
+    const teamIndex = team === 'student' ? i : i - cfg.playersPerTeam;
     const pos = FOOTBALL_PLAYER_POSITIONS[team][teamIndex];
     return {
-    num: i + 1,
-    word,
-    team,
-    done: false,
+      num: i + 1,
+      word,
+      team,
       x: pos.x,
       y: pos.y
     };
   });
   _renderFootballPlayers();
-  _setFootballBall(50, 91);
-  _footballPickNext();
+  _hideFootballShot();
+  _setFootballBall(50, 50);
+  _footballStartPossession('student');
   _footballUpdateHud();
 }
 
@@ -5164,63 +5198,61 @@ function _renderFootballPlayers() {
 }
 
 function _footballPickNext() {
-  let remaining = _footballState.players.filter(player => !player.done && player.team === _footballState.currentTeam);
-  if (!remaining.length) {
-    _footballState.currentTeam = _footballState.currentTeam === 'student' ? 'teacher' : 'student';
-    remaining = _footballState.players.filter(player => !player.done && player.team === _footballState.currentTeam);
-  }
+  const remaining = _footballState.players.filter(player => player.team === _footballState.possession);
   const prompt = document.getElementById('football-prompt');
   const feedback = document.getElementById('football-feedback');
-  if (!remaining.length) {
-    _footballState.currentNum = null;
-    const winner = _footballState.scores.student === _footballState.scores.teacher
-      ? 'تعادل جميل'
-      : (_footballState.scores.student > _footballState.scores.teacher ? 'فريق الطالب فاز' : 'فريق المعلم فاز');
-    if (prompt) prompt.textContent = `${winner}! راجعت كل الكلمات في الملعب.`;
-    if (feedback) feedback.textContent = 'انتهت المباراة. اختر مستوى جديدًا لتلعب مرة أخرى.';
-    try { playVictorySound(); fireConfetti(); addStars(Math.max(4, Math.round(_footballState.count / 2))); } catch(e) {}
-    return;
-  }
   const next = remaining[Math.floor(Math.random() * remaining.length)];
   _footballState.currentNum = next.num;
   const team = FOOTBALL_TEAMS[next.team];
-  if (prompt) prompt.innerHTML = `${team.icon} دور <b>${team.ar}</b>: اقرأ كلمة اللاعب رقم <strong>${next.num}</strong> ثم اضغط عليه`;
+  _footballState.phase = 'pass';
+  _hideFootballShot();
+  if (prompt) prompt.innerHTML = `${team.icon} <b>${team.ar}</b> يستحوذ: اقرأ كلمة اللاعب رقم <strong>${next.num}</strong> ومرر له`;
   if (feedback) feedback.textContent = '';
   document.querySelectorAll('.football-team-card').forEach(card => card.classList.remove('active'));
   const activeCard = document.querySelector(`.football-team-${next.team}`);
   if (activeCard) activeCard.classList.add('active');
+  document.querySelectorAll('.football-player').forEach(el => el.classList.remove('target'));
+  const targetBtn = document.getElementById(`football-player-${next.num}`);
+  if (targetBtn) targetBtn.classList.add('target');
 }
 
 function footballChoosePlayer(num) {
+  if (_footballState.matchOver || _footballState.phase !== 'pass') return;
   const player = _footballState.players.find(p => p.num === num);
   const feedback = document.getElementById('football-feedback');
   const btn = document.getElementById(`football-player-${num}`);
-  if (!player || player.done) return;
+  if (!player) return;
   if (num !== _footballState.currentNum) {
     const wanted = _footballState.players.find(p => p.num === _footballState.currentNum);
     const teamLabel = wanted ? FOOTBALL_TEAMS[wanted.team].ar : '';
-    if (feedback) feedback.textContent = `هذا اللاعب رقم ${num}. الدور الآن لـ ${teamLabel}: ابحث عن رقم ${_footballState.currentNum}.`;
+    if (feedback) feedback.textContent = `تمريرة مقطوعة! الدور كان لـ ${teamLabel} رقم ${_footballState.currentNum}.`;
     if (btn) {
       btn.classList.remove('football-shake');
       void btn.offsetWidth;
       btn.classList.add('football-shake');
     }
     try { playTone(180, 'sawtooth', 0.16, 0.08); } catch(e) {}
+    _footballTurnover();
     return;
   }
-  player.done = true;
-  _footballState.done += 1;
-  _footballState.scores[player.team] += 1;
-  if (btn) btn.classList.add('done');
+  if (btn) {
+    btn.classList.add('done');
+    setTimeout(() => btn.classList.remove('done', 'target'), 500);
+  }
+  _footballState.reads += 1;
+  _footballState.passes += 1;
   _setFootballBall(player.x, player.y);
-  if (feedback) feedback.textContent = `تمرير رائع لـ ${FOOTBALL_TEAMS[player.team].ar}: ${player.word}`;
+  if (feedback) feedback.textContent = `تمريرة ${_footballState.passes}/${_footballState.passesToShoot}: ${player.word}`;
   try {
     speakAr(player.word);
     playTone(720, 'triangle', 0.13, 0.08);
   } catch(e) {}
   _footballUpdateHud();
-  _footballState.currentTeam = player.team === 'student' ? 'teacher' : 'student';
-  setTimeout(_footballPickNext, 850);
+  if (_footballState.passes >= _footballState.passesToShoot) {
+    setTimeout(_footballPrepareShot, 650);
+  } else {
+    setTimeout(_footballPickNext, 750);
+  }
 }
 
 function _footballUpdateHud() {
@@ -5228,10 +5260,10 @@ function _footballUpdateHud() {
   const total = document.getElementById('football-total');
   const studentScore = document.getElementById('football-student-score');
   const teacherScore = document.getElementById('football-teacher-score');
-  if (done) done.textContent = String(_footballState.done);
-  if (total) total.textContent = String(_footballState.count);
-  if (studentScore) studentScore.textContent = String(_footballState.scores.student);
-  if (teacherScore) teacherScore.textContent = String(_footballState.scores.teacher);
+  if (done) done.textContent = String(_footballState.passes);
+  if (total) total.textContent = String(_footballState.passesToShoot);
+  if (studentScore) studentScore.textContent = String(_footballState.goals.student);
+  if (teacherScore) teacherScore.textContent = String(_footballState.goals.teacher);
 }
 
 function _setFootballBall(x, y) {
@@ -5241,8 +5273,109 @@ function _setFootballBall(x, y) {
   ball.style.top = y + '%';
 }
 
+function _footballOtherTeam(team) {
+  return team === 'student' ? 'teacher' : 'student';
+}
+
+function _footballStartPossession(team) {
+  _footballState.possession = team;
+  _footballState.passes = 0;
+  _footballState.phase = 'pass';
+  _footballState.currentNum = null;
+  _hideFootballShot();
+  _setFootballBall(50, 50);
+  _footballUpdateHud();
+  setTimeout(_footballPickNext, 250);
+}
+
+function _footballTurnover() {
+  if (_footballState.matchOver) return;
+  const nextTeam = _footballOtherTeam(_footballState.possession);
+  const feedback = document.getElementById('football-feedback');
+  if (feedback) feedback.textContent += ` الكرة الآن مع ${FOOTBALL_TEAMS[nextTeam].ar}.`;
+  setTimeout(() => _footballStartPossession(nextTeam), 950);
+}
+
+function _footballNextWord() {
+  if (!_footballState.wordBank.length) return 'هَدَفَ';
+  const word = _footballState.wordBank[_footballState.wordCursor % _footballState.wordBank.length];
+  _footballState.wordCursor += 1;
+  return word;
+}
+
+function _footballPrepareShot() {
+  if (_footballState.matchOver) return;
+  _footballState.phase = 'shoot';
+  _footballState.currentNum = null;
+  _footballState.shotWord = _footballNextWord();
+  const prompt = document.getElementById('football-prompt');
+  const feedback = document.getElementById('football-feedback');
+  const team = FOOTBALL_TEAMS[_footballState.possession];
+  const attackingStudent = _footballState.possession === 'student';
+  if (prompt) prompt.innerHTML = `🔥 فرصة هدف لـ <b>${team.ar}</b>: اقرأ كلمة التسديدة ثم اضغطها`;
+  if (feedback) feedback.textContent = 'سدد على المرمى!';
+  _setFootballBall(attackingStudent ? 76 : 24, 50);
+  _showFootballShot(attackingStudent ? 'right' : 'left', _footballState.shotWord);
+  _footballUpdateHud();
+}
+
+function _showFootballShot(side, word) {
+  const card = document.getElementById('football-shot-card');
+  const wordEl = document.getElementById('football-shot-word');
+  if (!card) return;
+  card.classList.remove('left', 'right', 'show');
+  card.classList.add(side, 'show');
+  if (wordEl) wordEl.textContent = word;
+}
+
+function _hideFootballShot() {
+  const card = document.getElementById('football-shot-card');
+  if (card) card.classList.remove('show', 'left', 'right');
+}
+
+function footballShoot() {
+  if (_footballState.matchOver || _footballState.phase !== 'shoot') return;
+  const team = _footballState.possession;
+  const opponent = _footballOtherTeam(team);
+  const feedback = document.getElementById('football-feedback');
+  _footballState.goals[team] += 1;
+  _footballState.reads += 1;
+  _hideFootballShot();
+  _setFootballBall(team === 'student' ? 97 : 3, 50);
+  _footballGoalFlash(team);
+  if (feedback) feedback.textContent = `جوووون! ${FOOTBALL_TEAMS[team].ar} سجل بكلمة: ${_footballState.shotWord}`;
+  try { speakAr(_footballState.shotWord); playVictorySound(); } catch(e) {}
+  _footballUpdateHud();
+  if (_footballState.goals[team] >= _footballState.winGoals) {
+    _footballEndMatch(team);
+    return;
+  }
+  setTimeout(() => _footballStartPossession(opponent), 1450);
+}
+
+function _footballGoalFlash(team) {
+  const flash = document.getElementById('football-goal-flash');
+  if (!flash) return;
+  flash.textContent = `${FOOTBALL_TEAMS[team].icon} GOOOAL!`;
+  flash.classList.remove('show');
+  void flash.offsetWidth;
+  flash.classList.add('show');
+  setTimeout(() => flash.classList.remove('show'), 1100);
+}
+
+function _footballEndMatch(winner) {
+  _footballState.matchOver = true;
+  _footballState.phase = 'done';
+  const prompt = document.getElementById('football-prompt');
+  const feedback = document.getElementById('football-feedback');
+  if (prompt) prompt.innerHTML = `🏆 ${FOOTBALL_TEAMS[winner].ar} فاز بالمباراة ${_footballState.goals.student} - ${_footballState.goals.teacher}`;
+  if (feedback) feedback.textContent = 'مباراة رائعة! اختر مستوى جديدًا لإعادة اللعب.';
+  try { fireConfetti(); addStars(winner === 'student' ? 8 : 5); } catch(e) {}
+}
+
 window.footballReviewStart = footballReviewStart;
 window.footballChoosePlayer = footballChoosePlayer;
+window.footballShoot = footballShoot;
 
 
 /* ============================================================
