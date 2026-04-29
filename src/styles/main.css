@@ -6152,6 +6152,79 @@ body.nav-open.tabs-visible {
   text-align: center;
   color: rgba(255,255,255,0.95);
 }
+.football-teams-board {
+  max-width: 760px;
+  margin: 0 auto 14px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: stretch;
+  gap: 10px;
+  direction: rtl;
+}
+.football-team-card {
+  min-height: 68px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 2px solid rgba(255,255,255,0.22);
+  background: rgba(255,255,255,0.14);
+  color: #fff;
+  font-family: var(--font-ui);
+  transition: transform 0.18s, border-color 0.18s, background 0.18s;
+}
+.football-team-card.active {
+  transform: translateY(-2px);
+  border-color: #facc15;
+  background: rgba(255,255,255,0.24);
+  box-shadow: 0 0 0 3px rgba(250,204,21,0.22);
+}
+.football-team-card strong {
+  display: block;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+.football-team-card small {
+  display: block;
+  opacity: 0.86;
+  margin-top: 2px;
+  direction: ltr;
+}
+.football-team-icon {
+  font-size: 1.8rem;
+}
+.football-team-card b {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #fff;
+  color: #064e3b;
+  font-size: 1.35rem;
+  box-shadow: inset 0 -3px 0 rgba(0,0,0,0.1);
+}
+.football-team-student {
+  border-right: 6px solid #38bdf8;
+}
+.football-team-teacher {
+  border-right: 6px solid #fb7185;
+}
+.football-vs {
+  align-self: center;
+  min-width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #facc15;
+  color: #1f2937;
+  font-family: var(--font-ui);
+  font-weight: 900;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.22);
+}
 .football-levels {
   display: flex;
   justify-content: center;
@@ -6298,8 +6371,8 @@ body.nav-open.tabs-visible {
   position: absolute;
   transform: translate(-50%, -50%);
   z-index: 6;
-  width: clamp(84px, 11vw, 122px);
-  min-height: 62px;
+  width: clamp(112px, 14vw, 158px);
+  min-height: 82px;
   border: 0;
   background: transparent;
   padding: 0;
@@ -6308,20 +6381,33 @@ body.nav-open.tabs-visible {
 }
 .football-player-body {
   display: grid;
-  grid-template-columns: 30px 1fr;
-  align-items: center;
-  gap: 6px;
-  min-height: 62px;
-  padding: 8px 10px;
+  grid-template-rows: auto 1fr;
+  gap: 7px;
+  min-height: 82px;
+  padding: 8px;
   border-radius: 8px;
-  background: linear-gradient(180deg, #fff7d6 0%, #ffffff 56%, #e7f8ff 100%);
-  border: 2px solid rgba(17,24,39,0.16);
+  background: rgba(255,255,255,0.96);
+  border: 3px solid rgba(17,24,39,0.16);
   box-shadow: 0 8px 16px rgba(0,0,0,0.2);
   transition: transform 0.16s, box-shadow 0.16s, filter 0.16s;
+}
+.football-player-student .football-player-body {
+  border-color: #38bdf8;
+  box-shadow: 0 8px 16px rgba(14,165,233,0.28), 0 8px 16px rgba(0,0,0,0.18);
+}
+.football-player-teacher .football-player-body {
+  border-color: #fb7185;
+  box-shadow: 0 8px 16px rgba(244,63,94,0.26), 0 8px 16px rgba(0,0,0,0.18);
 }
 .football-player:hover .football-player-body {
   transform: translateY(-3px);
   box-shadow: 0 13px 22px rgba(0,0,0,0.26);
+}
+.football-player-top {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  align-items: center;
+  gap: 6px;
 }
 .football-player-num {
   width: 30px;
@@ -6335,15 +6421,40 @@ body.nav-open.tabs-visible {
   font-weight: 900;
   line-height: 1;
 }
-.football-player-word {
+.football-player-student .football-player-num {
+  background: #0284c7;
+}
+.football-player-teacher .football-player-num {
+  background: #e11d48;
+}
+.football-player-team {
   min-width: 0;
-  font-family: var(--font-ar);
-  font-size: clamp(1.05rem, 2.4vw, 1.55rem);
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
   font-weight: 900;
-  line-height: 1.25;
-  color: #063d1c;
+  color: #334155;
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.football-player-word {
+  min-width: 100%;
+  display: grid;
+  place-items: center;
+  min-height: 42px;
+  padding: 4px 8px 7px;
+  border-radius: 7px;
+  background: #fffbe8;
+  border: 2px solid #f59e0b;
+  font-family: var(--font-ar);
+  font-size: clamp(1.45rem, 3vw, 2rem);
+  font-weight: 900;
+  line-height: 1.1;
+  color: #111827;
   direction: rtl;
   overflow-wrap: anywhere;
+  text-shadow: none;
 }
 .football-player.done {
   pointer-events: none;
@@ -6374,6 +6485,12 @@ body.nav-open.tabs-visible {
   75% { transform: translateX(-4px); }
 }
 @media (max-width: 720px) {
+  .football-teams-board {
+    grid-template-columns: 1fr;
+  }
+  .football-vs {
+    margin: -2px auto;
+  }
   .football-hud {
     flex-direction: column;
   }
@@ -6385,16 +6502,25 @@ body.nav-open.tabs-visible {
     aspect-ratio: 10 / 13;
   }
   .football-player {
-    width: clamp(74px, 24vw, 96px);
+    width: clamp(92px, 33vw, 122px);
   }
   .football-player-body {
-    grid-template-columns: 26px 1fr;
-    min-height: 56px;
+    min-height: 76px;
     padding: 7px;
+  }
+  .football-player-top {
+    grid-template-columns: 26px 1fr;
   }
   .football-player-num {
     width: 26px;
     height: 26px;
+  }
+  .football-player-team {
+    font-size: 0.62rem;
+  }
+  .football-player-word {
+    min-height: 38px;
+    font-size: clamp(1.18rem, 6vw, 1.55rem);
   }
 }
 

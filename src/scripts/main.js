@@ -4977,18 +4977,28 @@ function goNextLetter() {
    Football Review — مراجعة بعد كل حرفين
 ============================================================ */
 const FOOTBALL_REVIEW_LETTERS = new Set(['ب','ث','ح','د','ر','س','ص','ط','ع','ف','ك','م','هـ','ي']);
-const FOOTBALL_PLAYER_POSITIONS = [
-  { x: 16, y: 22 }, { x: 38, y: 18 }, { x: 63, y: 20 }, { x: 84, y: 26 },
-  { x: 22, y: 54 }, { x: 48, y: 49 }, { x: 72, y: 55 }, { x: 36, y: 77 },
-  { x: 60, y: 78 }, { x: 84, y: 74 }
-];
+const FOOTBALL_PLAYER_POSITIONS = {
+  student: [
+    { x: 17, y: 22 }, { x: 30, y: 42 }, { x: 18, y: 64 }, { x: 39, y: 24 }, { x: 39, y: 75 }
+  ],
+  teacher: [
+    { x: 83, y: 22 }, { x: 70, y: 42 }, { x: 82, y: 64 }, { x: 61, y: 24 }, { x: 61, y: 75 }
+  ]
+};
+const FOOTBALL_TEAMS = {
+  student: { ar: 'فريق الطالب', en: 'Student Team', icon: '🏃', side: 'يسار الملعب' },
+  teacher: { ar: 'فريق المعلم', en: 'Teacher Team', icon: '🧑‍🏫', side: 'يمين الملعب' }
+};
 const _footballState = {
   key: null,
   count: 8,
   players: [],
   currentNum: null,
-  done: 0
+  currentTeam: 'student',
+  done: 0,
+  scores: { student: 0, teacher: 0 }
 };
+window._footballState = _footballState;
 
 function shouldShowFootballReview(key) {
   return FOOTBALL_REVIEW_LETTERS.has(key);
@@ -5040,7 +5050,26 @@ function initFootballReviewForLetter(key) {
         </button>
       </div>
       <div class="football-review-intro">
-        بعد كل حرفين، راجع كل الكلمات السابقة. اختر المستوى، اقرأ كلمة اللاعب المطلوب، ثم اضغط رقمه لتمر الكرة إليه.
+        مباراة مراجعة بعد كل حرفين: المعلم فريق، والطالب فريق. اقرأ كلمة اللاعب المطلوب، ثم اضغط رقمه لتمر الكرة إليه.
+      </div>
+      <div class="football-teams-board">
+        <div class="football-team-card football-team-student">
+          <span class="football-team-icon">🏃</span>
+          <div>
+            <strong>فريق الطالب</strong>
+            <small>Student Team</small>
+          </div>
+          <b id="football-student-score">0</b>
+        </div>
+        <div class="football-vs">VS</div>
+        <div class="football-team-card football-team-teacher">
+          <span class="football-team-icon">🧑‍🏫</span>
+          <div>
+            <strong>فريق المعلم</strong>
+            <small>Teacher Team</small>
+          </div>
+          <b id="football-teacher-score">0</b>
+        </div>
       </div>
       <div class="football-levels" role="group" aria-label="Football review levels">
         <button class="football-level-btn" data-count="6" onclick="footballReviewStart(6)">
@@ -5085,20 +5114,28 @@ function footballReviewStart(count, key) {
   _footballState.count = playerCount;
   _footballState.done = 0;
   _footballState.currentNum = null;
+  _footballState.currentTeam = 'student';
+  _footballState.scores = { student: 0, teacher: 0 };
 
   document.querySelectorAll('.football-level-btn').forEach(btn => {
     btn.classList.toggle('active', Number(btn.dataset.count) === playerCount);
   });
 
   const words = getFootballReviewWords(activeKey, playerCount);
-  const positions = FOOTBALL_PLAYER_POSITIONS.slice(0, playerCount);
-  _footballState.players = words.map((word, i) => ({
+  const perTeam = Math.floor(playerCount / 2);
+  _footballState.players = words.map((word, i) => {
+    const team = i < perTeam ? 'student' : 'teacher';
+    const teamIndex = team === 'student' ? i : i - perTeam;
+    const pos = FOOTBALL_PLAYER_POSITIONS[team][teamIndex];
+    return {
     num: i + 1,
     word,
+    team,
     done: false,
-    x: positions[i].x,
-    y: positions[i].y
-  }));
+      x: pos.x,
+      y: pos.y
+    };
+  });
   _renderFootballPlayers();
   _setFootballBall(50, 91);
   _footballPickNext();
@@ -5110,13 +5147,16 @@ function _renderFootballPlayers() {
   if (!wrap) return;
   wrap.innerHTML = _footballState.players.map(player => `
     <button type="button"
-      class="football-player"
+      class="football-player football-player-${player.team}"
       id="football-player-${player.num}"
       style="left:${player.x}%;top:${player.y}%;"
       onclick="footballChoosePlayer(${player.num})"
       aria-label="Player ${player.num}: ${player.word}">
       <span class="football-player-body">
-        <span class="football-player-num">${player.num}</span>
+        <span class="football-player-top">
+          <span class="football-player-num">${player.num}</span>
+          <span class="football-player-team">${FOOTBALL_TEAMS[player.team].ar}</span>
+        </span>
         <span class="football-player-word">${player.word}</span>
       </span>
     </button>
@@ -5124,20 +5164,31 @@ function _renderFootballPlayers() {
 }
 
 function _footballPickNext() {
-  const remaining = _footballState.players.filter(player => !player.done);
+  let remaining = _footballState.players.filter(player => !player.done && player.team === _footballState.currentTeam);
+  if (!remaining.length) {
+    _footballState.currentTeam = _footballState.currentTeam === 'student' ? 'teacher' : 'student';
+    remaining = _footballState.players.filter(player => !player.done && player.team === _footballState.currentTeam);
+  }
   const prompt = document.getElementById('football-prompt');
   const feedback = document.getElementById('football-feedback');
   if (!remaining.length) {
     _footballState.currentNum = null;
-    if (prompt) prompt.textContent = 'أحسنت! راجعت كل الكلمات في الملعب.';
-    if (feedback) feedback.textContent = 'انتهت الجولة. اختر مستوى جديدًا لتلعب مرة أخرى.';
+    const winner = _footballState.scores.student === _footballState.scores.teacher
+      ? 'تعادل جميل'
+      : (_footballState.scores.student > _footballState.scores.teacher ? 'فريق الطالب فاز' : 'فريق المعلم فاز');
+    if (prompt) prompt.textContent = `${winner}! راجعت كل الكلمات في الملعب.`;
+    if (feedback) feedback.textContent = 'انتهت المباراة. اختر مستوى جديدًا لتلعب مرة أخرى.';
     try { playVictorySound(); fireConfetti(); addStars(Math.max(4, Math.round(_footballState.count / 2))); } catch(e) {}
     return;
   }
   const next = remaining[Math.floor(Math.random() * remaining.length)];
   _footballState.currentNum = next.num;
-  if (prompt) prompt.innerHTML = `اقرأ كلمة اللاعب رقم <strong>${next.num}</strong> ثم اضغط عليه`;
+  const team = FOOTBALL_TEAMS[next.team];
+  if (prompt) prompt.innerHTML = `${team.icon} دور <b>${team.ar}</b>: اقرأ كلمة اللاعب رقم <strong>${next.num}</strong> ثم اضغط عليه`;
   if (feedback) feedback.textContent = '';
+  document.querySelectorAll('.football-team-card').forEach(card => card.classList.remove('active'));
+  const activeCard = document.querySelector(`.football-team-${next.team}`);
+  if (activeCard) activeCard.classList.add('active');
 }
 
 function footballChoosePlayer(num) {
@@ -5146,7 +5197,9 @@ function footballChoosePlayer(num) {
   const btn = document.getElementById(`football-player-${num}`);
   if (!player || player.done) return;
   if (num !== _footballState.currentNum) {
-    if (feedback) feedback.textContent = `هذا اللاعب رقم ${num}. ابحث عن رقم ${_footballState.currentNum}.`;
+    const wanted = _footballState.players.find(p => p.num === _footballState.currentNum);
+    const teamLabel = wanted ? FOOTBALL_TEAMS[wanted.team].ar : '';
+    if (feedback) feedback.textContent = `هذا اللاعب رقم ${num}. الدور الآن لـ ${teamLabel}: ابحث عن رقم ${_footballState.currentNum}.`;
     if (btn) {
       btn.classList.remove('football-shake');
       void btn.offsetWidth;
@@ -5157,22 +5210,28 @@ function footballChoosePlayer(num) {
   }
   player.done = true;
   _footballState.done += 1;
+  _footballState.scores[player.team] += 1;
   if (btn) btn.classList.add('done');
   _setFootballBall(player.x, player.y);
-  if (feedback) feedback.textContent = `تمرير رائع! ${player.word}`;
+  if (feedback) feedback.textContent = `تمرير رائع لـ ${FOOTBALL_TEAMS[player.team].ar}: ${player.word}`;
   try {
     speakAr(player.word);
     playTone(720, 'triangle', 0.13, 0.08);
   } catch(e) {}
   _footballUpdateHud();
+  _footballState.currentTeam = player.team === 'student' ? 'teacher' : 'student';
   setTimeout(_footballPickNext, 850);
 }
 
 function _footballUpdateHud() {
   const done = document.getElementById('football-done');
   const total = document.getElementById('football-total');
+  const studentScore = document.getElementById('football-student-score');
+  const teacherScore = document.getElementById('football-teacher-score');
   if (done) done.textContent = String(_footballState.done);
   if (total) total.textContent = String(_footballState.count);
+  if (studentScore) studentScore.textContent = String(_footballState.scores.student);
+  if (teacherScore) teacherScore.textContent = String(_footballState.scores.teacher);
 }
 
 function _setFootballBall(x, y) {
