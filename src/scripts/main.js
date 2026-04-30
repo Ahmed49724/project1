@@ -4731,7 +4731,7 @@ function _launchPhaser(parentId, scenes, h = 400) {
    3. مساعد مشترك: إخفاء كل الشاشات وإظهار واحدة
    ============================================================ */
 const ALL_SCREENS = [
-  'home-screen','letter-screen','sukoon-screen',
+  'home-screen','letter-screen','revision-screen','sukoon-screen',
   'madd-screen','shadda-screen','tanween-screen','verb-lab-screen',
 ];
 
@@ -5207,6 +5207,9 @@ function openLetter(key) {
   // 👇👇 استدعاء محقق الحروف هنا 👇👇
   if (typeof renderDetectiveSection === 'function') {
       renderDetectiveSection(key);
+  }
+  if (typeof _initLetterPhaseDemo === 'function') {
+      _initLetterPhaseDemo(key);
   }
   // ── شريط التقدم ───────────────────────────────────────
   document.getElementById('letter-progress-bar').style.display = 'block';
@@ -7909,17 +7912,18 @@ function renderAlphabetGrid() {
   if (!grid) return;
   grid.innerHTML = '';
 
-  ARABIC_LETTERS.forEach(key => {
+  ARABIC_LETTERS.forEach((key, index) => {
     const btn         = document.createElement('div');
     const isUnlocked  = playerProgress.unlocked.includes(key);
     const isCompleted = playerProgress.completed.includes(key);
+    const themeClass   = ' letter-stage-card stage-theme-' + ((index % 5) + 1);
 
     if (isUnlocked) {
-      btn.className = 'letter-btn unlocked' + (isCompleted ? ' completed' : '');
+      btn.className = 'letter-btn unlocked' + themeClass + (isCompleted ? ' completed' : '');
       btn.innerHTML = `<div class="l-char">${key}</div><div class="l-name">${LETTER_NAMES_EN[key] || ''}</div>`;
       btn.onclick   = () => openLetter(key);
     } else {
-      btn.className = 'letter-btn locked';
+      btn.className = 'letter-btn locked' + themeClass;
       btn.innerHTML = `<div class="lock-icon">🔒</div><div class="lock-cost">⭐ ${UNLOCK_COST}</div>`;
       btn.onclick   = () => {
         if (playerProgress.stars >= UNLOCK_COST) {
@@ -7934,8 +7938,302 @@ function renderAlphabetGrid() {
       };
     }
     grid.appendChild(btn);
+    grid.appendChild(_makeRevisionMapButton(key, isUnlocked));
   });
 }
+
+function _makeRevisionMapButton(key, isUnlocked) {
+  const btn = document.createElement('div');
+  const label = LETTER_NAMES_EN[key] || key;
+  btn.className = 'letter-btn revision-map-btn ' + (isUnlocked ? 'unlocked' : 'locked');
+  if (isUnlocked) {
+    btn.innerHTML = `
+      <div class="revision-r">R</div>
+      <div class="l-name">Revision</div>
+      <div class="revision-sub">${label}</div>
+    `;
+    btn.onclick = () => openRevisionScreen(key);
+  } else {
+    btn.innerHTML = `<div class="lock-icon">🔒</div><div class="lock-cost">R</div>`;
+    btn.onclick = () => showToast('افتح الحرف أولاً | Unlock the letter first');
+  }
+  return btn;
+}
+
+function _ensureRevisionScreen() {
+  let screen = document.getElementById('revision-screen');
+  if (screen) return screen;
+  screen = document.createElement('div');
+  screen.id = 'revision-screen';
+  screen.style.display = 'none';
+  screen.innerHTML = `
+    <div class="revision-layout">
+      <div class="revision-nav">
+        <button class="back-btn" onclick="goHome()" aria-label="Back to map">
+          <i class="fas fa-arrow-left"></i> Back
+        </button>
+        <div class="revision-title-pill">
+          <span>R</span>
+          <strong id="revision-title">Revision</strong>
+          <small id="revision-subtitle">مراجعة الكلمات</small>
+        </div>
+      </div>
+
+      <div class="step-section revision-screen-hero" data-section="revision-home">
+        <div class="section-heading">
+          <span class="section-badge">R</span> Revision Stage — مرحلة المراجعة
+        </div>
+        <div class="revision-word-count" id="revision-word-count">0 words</div>
+      </div>
+
+      <div class="step-section revision-game-section" data-section="revision-shapes">
+        <div class="section-head-row">
+          <div class="section-heading" style="margin-bottom:0;">
+            <span class="section-badge">1</span> Complete The Shape — أكمل الشكل
+          </div>
+          <button class="btn-secondary" onclick="revisionNewShapeRound()">
+            <i class="fas fa-rotate-right"></i> New
+          </button>
+        </div>
+        <div class="revision-shape-wrap">
+          <div class="revision-shape-board" id="revision-shape-board"></div>
+          <div class="revision-shape-options" id="revision-shape-options"></div>
+          <div class="revision-feedback" id="revision-shape-feedback"></div>
+        </div>
+      </div>
+
+      <div class="step-section revision-game-section" data-section="revision-tubes">
+        <div class="section-head-row">
+          <div class="section-heading" style="margin-bottom:0;">
+            <span class="section-badge">2</span> Word Balls Tubes — أنابيب الكرات
+          </div>
+          <button class="btn-secondary" onclick="revisionNewTubeRound()">
+            <i class="fas fa-rotate-right"></i> New
+          </button>
+        </div>
+        <div class="revision-tubes-wrap">
+          <div class="revision-ball-bank" id="revision-ball-bank"></div>
+          <div class="revision-tube-hint" id="revision-tube-hint">اختر كرة، اقرأ الكلمة، ثم اختر الأنبوبة المناسبة.</div>
+          <div class="revision-tubes" id="revision-tubes"></div>
+          <div class="revision-feedback" id="revision-tube-feedback"></div>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(screen);
+  return screen;
+}
+
+const _revisionState = {
+  key: null,
+  words: [],
+  shapeCorrect: null,
+  selectedBall: null,
+  tubeLetters: [],
+  tubeBalls: {}
+};
+window._revisionState = _revisionState;
+
+const REVISION_SHAPES = {
+  square: [[1,1],[1,1]],
+  line: [[1,1,1]],
+  corner: [[1,0],[1,1]],
+  tee: [[1,1,1],[0,1,0]],
+  zig: [[1,1,0],[0,1,1]]
+};
+
+function _stripArabicMarks(text) {
+  return String(text || '').replace(/[\u064B-\u065F\u0670\u0640]/g, '');
+}
+
+function _revisionWordsForKey(key) {
+  const idx = Math.max(0, ARABIC_LETTERS.indexOf(key));
+  const words = [];
+  ARABIC_LETTERS.slice(0, idx + 1).forEach(letter => {
+    const data = lettersDB[letter];
+    if (!data) return;
+    words.push(...(data.cardWords || []), ...(data.splitWords || []), ...(data.xoWords || []));
+  });
+  return [...new Set(words)]
+    .filter(Boolean)
+    .filter(word => String(word).length <= 9);
+}
+
+function _revisionPickWords(count) {
+  const src = _revisionState.words.length ? _revisionState.words : ['أَ', 'بَ', 'تَ', 'ثَ'];
+  const shuffled = _shuffleCopy(src);
+  while (shuffled.length < count) shuffled.push(...src);
+  return shuffled.slice(0, count);
+}
+
+function openRevisionScreen(key) {
+  const activeKey = key || activeLetterKey || playerProgress.unlocked[playerProgress.unlocked.length - 1] || 'أ';
+  _ensureRevisionScreen();
+  _revisionState.key = activeKey;
+  _revisionState.words = _revisionWordsForKey(activeKey);
+  window.activeAdvancedLevel = null;
+  if (typeof _srState !== 'undefined') _srState.levelKey = null;
+  if (typeof _tcState !== 'undefined') _tcState.levelKey = null;
+
+  const title = document.getElementById('revision-title');
+  const sub = document.getElementById('revision-subtitle');
+  const count = document.getElementById('revision-word-count');
+  if (title) title.textContent = `Revision ${activeKey}`;
+  if (sub) sub.textContent = `مراجعة حتى حرف ${activeKey}`;
+  if (count) count.textContent = `${_revisionState.words.length} words from learned letters`;
+
+  revisionNewShapeRound();
+  revisionNewTubeRound();
+  _showScreen('revision-screen');
+  _pushRoute('#revision-' + encodeURIComponent(activeKey));
+  if (typeof _navOnScreen === 'function') _navOnScreen('revision-screen', activeKey);
+}
+window.openRevisionScreen = openRevisionScreen;
+
+function _revisionShapeMini(shapeKey) {
+  const grid = REVISION_SHAPES[shapeKey] || REVISION_SHAPES.square;
+  return `<div class="revision-mini-shape" style="--cols:${grid[0].length};">
+    ${grid.flat().map(cell => `<span class="${cell ? 'on' : ''}"></span>`).join('')}
+  </div>`;
+}
+
+function revisionNewShapeRound() {
+  const board = document.getElementById('revision-shape-board');
+  const options = document.getElementById('revision-shape-options');
+  const feedback = document.getElementById('revision-shape-feedback');
+  if (!board || !options) return;
+  const shapeKeys = _shuffleCopy(Object.keys(REVISION_SHAPES)).slice(0, 4);
+  const correct = shapeKeys[Math.floor(Math.random() * shapeKeys.length)];
+  _revisionState.shapeCorrect = correct;
+  const words = _revisionPickWords(4);
+
+  board.innerHTML = `
+    <div class="revision-puzzle-stage">
+      <div class="revision-puzzle-stack">
+        <div class="revision-puzzle-row">${_revisionShapeMini('line')}${_revisionShapeMini('line')}</div>
+        <div class="revision-puzzle-gap">?</div>
+        <div class="revision-puzzle-row">${_revisionShapeMini('corner')}${_revisionShapeMini('square')}</div>
+      </div>
+      <div class="revision-puzzle-arrow"><i class="fas fa-arrow-down"></i></div>
+      <div class="revision-puzzle-target is-missing">ضع القطعة المناسبة هنا</div>
+    </div>
+  `;
+  options.innerHTML = shapeKeys.map((shapeKey, index) => `
+    <button type="button" class="revision-shape-choice" onclick="revisionChooseShape('${shapeKey}')">
+      ${_revisionShapeMini(shapeKey)}
+      <b>${words[index]}</b>
+    </button>
+  `).join('');
+  if (feedback) feedback.textContent = 'اقرأ الكلمات ثم اختر القطعة التي تكمل الشكل.';
+}
+window.revisionNewShapeRound = revisionNewShapeRound;
+
+function revisionChooseShape(shapeKey) {
+  const feedback = document.getElementById('revision-shape-feedback');
+  const buttons = document.querySelectorAll('.revision-shape-choice');
+  buttons.forEach(btn => btn.classList.remove('correct', 'wrong'));
+  const clicked = [...buttons].find(btn => btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(`'${shapeKey}'`));
+  if (shapeKey === _revisionState.shapeCorrect) {
+    if (clicked) clicked.classList.add('correct');
+    if (feedback) feedback.textContent = 'صحيح! القطعة أكملت الشكل. | Correct!';
+    try { playVictorySound(); addStars(2); } catch(e) {}
+    setTimeout(revisionNewShapeRound, 900);
+  } else {
+    if (clicked) clicked.classList.add('wrong');
+    if (feedback) feedback.textContent = 'حاول مرة أخرى بعد قراءة الكلمة. | Try again.';
+    try { playTone(180, 'sawtooth', 0.14, 0.08); } catch(e) {}
+  }
+}
+window.revisionChooseShape = revisionChooseShape;
+
+function _wordPrimaryLetter(word) {
+  const clean = _stripArabicMarks(word);
+  return ARABIC_LETTERS.find(letter => clean.includes(letter)) || clean[0] || 'أ';
+}
+
+function revisionNewTubeRound() {
+  const bank = document.getElementById('revision-ball-bank');
+  const tubes = document.getElementById('revision-tubes');
+  const hint = document.getElementById('revision-tube-hint');
+  const feedback = document.getElementById('revision-tube-feedback');
+  if (!bank || !tubes) return;
+
+  const availableLetters = ARABIC_LETTERS.slice(0, Math.max(1, ARABIC_LETTERS.indexOf(_revisionState.key) + 1));
+  _revisionState.tubeLetters = _shuffleCopy(availableLetters).slice(0, Math.min(4, availableLetters.length));
+  _revisionState.tubeBalls = {};
+  _revisionState.selectedBall = null;
+
+  let ballWords = _revisionState.words.filter(word => _revisionState.tubeLetters.includes(_wordPrimaryLetter(word)));
+  if (ballWords.length < 8) ballWords = _revisionPickWords(12);
+  ballWords = _shuffleCopy(ballWords).slice(0, 12);
+
+  bank.innerHTML = ballWords.map((word, index) => {
+    const letter = _wordPrimaryLetter(word);
+    return `<button type="button" class="revision-ball" data-word="${word}" data-letter="${letter}" onclick="revisionSelectBall(${index})" id="revision-ball-${index}">${word}</button>`;
+  }).join('');
+
+  tubes.innerHTML = _revisionState.tubeLetters.map(letter => `
+    <button type="button" class="revision-tube" data-letter="${letter}" onclick="revisionChooseTube('${letter}')">
+      <span class="revision-tube-letter">${letter}</span>
+      <span class="revision-tube-stack" id="revision-tube-stack-${letter}"></span>
+    </button>
+  `).join('');
+  if (hint) hint.textContent = 'اختر كرة، اقرأ الكلمة، ثم ضعها في أنبوبة الحرف المناسب.';
+  if (feedback) feedback.textContent = '';
+}
+window.revisionNewTubeRound = revisionNewTubeRound;
+
+function revisionSelectBall(index) {
+  const ball = document.getElementById(`revision-ball-${index}`);
+  if (!ball || ball.disabled) return;
+  document.querySelectorAll('.revision-ball').forEach(btn => btn.classList.remove('selected'));
+  ball.classList.add('selected');
+  _revisionState.selectedBall = {
+    index,
+    word: ball.dataset.word || ball.textContent,
+    letter: ball.dataset.letter || _wordPrimaryLetter(ball.textContent)
+  };
+  const hint = document.getElementById('revision-tube-hint');
+  if (hint) hint.textContent = `اقرأ: ${_revisionState.selectedBall.word} | Now choose the tube`;
+  try { speakAr(_revisionState.selectedBall.word); } catch(e) {}
+}
+window.revisionSelectBall = revisionSelectBall;
+
+function revisionChooseTube(letter) {
+  const feedback = document.getElementById('revision-tube-feedback');
+  const selected = _revisionState.selectedBall;
+  if (!selected) {
+    if (feedback) feedback.textContent = 'اختر كرة أولاً. | Choose a ball first.';
+    return;
+  }
+  const ball = document.getElementById(`revision-ball-${selected.index}`);
+  if (letter !== selected.letter) {
+    if (feedback) feedback.textContent = `هذه الكلمة تحتاج أنبوبة ${selected.letter}. | Try tube ${selected.letter}.`;
+    if (ball) {
+      ball.classList.remove('wrong');
+      void ball.offsetWidth;
+      ball.classList.add('wrong');
+    }
+    try { playTone(180, 'sawtooth', 0.15, 0.08); } catch(e) {}
+    return;
+  }
+  const stack = document.getElementById(`revision-tube-stack-${letter}`);
+  if (stack) {
+    const mini = document.createElement('span');
+    mini.className = 'revision-stacked-ball';
+    mini.textContent = selected.word;
+    stack.appendChild(mini);
+  }
+  if (ball) {
+    ball.disabled = true;
+    ball.classList.remove('selected');
+    ball.classList.add('placed');
+  }
+  _revisionState.selectedBall = null;
+  if (feedback) feedback.textContent = 'رائع! الكرة في الأنبوبة الصحيحة. | Nice sorting!';
+  try { playTone(720, 'triangle', 0.12, 0.08); addStars(1); } catch(e) {}
+}
+window.revisionChooseTube = revisionChooseTube;
 
 /**
  * _makeLevelBtn — ينشئ زر مستوى واحد (مفتوح أو مقفول) ويُعيده كـ element
@@ -9816,6 +10114,190 @@ function _puzzleXoClick(which, idx) {
   _updatePuzzleXoTurnUI(turnUIId, state.turn);
 }
 
+const LETTER_PHASE_STATE = {
+  phase: 1,
+  key: '',
+};
+const LETTER_PHASE_SECTIONS = {
+  1: ['2-motors', '2', '3', '4', '5', '6'],
+  2: ['6.5', '6.75', '6.89', '6.91'],
+  3: ['7', '8', '9', '10', 'football-review', 'final'],
+};
+
+function _getLetterLayout() {
+  return document.querySelector('#letter-screen .letter-layout');
+}
+
+function _getLetterPhaseSections() {
+  const layout = _getLetterLayout();
+  if (!layout) return [];
+  return Array.from(layout.querySelectorAll('.step-section'));
+}
+
+function _sectionInAlifPhase(section, maxPhase) {
+  const name = section ? section.getAttribute('data-section') : '';
+  if (!name) return false;
+  for (let phase = 1; phase <= maxPhase; phase++) {
+    if ((LETTER_PHASE_SECTIONS[phase] || []).includes(name)) return true;
+  }
+  return false;
+}
+
+function _isLetterTwinSection(section) {
+  return !!(section && (
+    section.classList.contains('det-twin-block') ||
+    section.closest('#section-detective') ||
+    String(section.getAttribute('data-section') || '').startsWith('detective-twin')
+  ));
+}
+
+function _restoreLetterPhaseDemo() {
+  _getLetterPhaseSections().forEach(section => {
+    if (section.dataset.letterPhaseDemoHidden === '1') {
+      section.style.display = '';
+      delete section.dataset.letterPhaseDemoHidden;
+    }
+  });
+  const detective = document.getElementById('section-detective');
+  if (detective && detective.dataset.letterPhaseDemoHidden === '1') {
+    detective.style.display = '';
+    delete detective.dataset.letterPhaseDemoHidden;
+  }
+  document.querySelectorAll('.letter-level-gate').forEach(gate => gate.remove());
+}
+
+function _makeLetterLevelGate(targetPhase) {
+  const gate = document.createElement('div');
+  gate.className = 'step-section letter-level-gate';
+  gate.id = `letter-level-gate-${targetPhase}`;
+  gate.setAttribute('data-section', `letter-level-up-${targetPhase}`);
+  gate.dataset.phaseGate = String(targetPhase);
+  gate.innerHTML = `
+    <div class="letter-level-card">
+      <div class="letter-level-kicker">Letter path</div>
+      <div class="letter-level-title">Level Up!</div>
+      <div class="letter-level-sub">اضغط للاحتفال وفتح المرحلة التالية</div>
+      <button class="next-level-btn letter-level-btn" type="button" onclick="letterPhaseLevelUp(${targetPhase})">
+        <span>Level Up</span>
+        <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+  `;
+  return gate;
+}
+
+function _ensureLetterLevelGates() {
+  const layout = _getLetterLayout();
+  if (!layout) return;
+
+  if (!document.getElementById('letter-level-gate-2')) {
+    const phaseOneEnd = layout.querySelector('.step-section[data-section="6"]');
+    if (phaseOneEnd) phaseOneEnd.insertAdjacentElement('afterend', _makeLetterLevelGate(2));
+  }
+
+  if (!document.getElementById('letter-level-gate-3')) {
+    const phaseTwoEnd = layout.querySelector('.step-section[data-section="6.91"]');
+    if (phaseTwoEnd) phaseTwoEnd.insertAdjacentElement('afterend', _makeLetterLevelGate(3));
+  }
+}
+
+function _setSectionHidden(section, hidden) {
+  if (!section) return;
+  if (hidden) {
+    section.style.display = 'none';
+    section.dataset.letterPhaseDemoHidden = '1';
+  } else {
+    section.style.display = '';
+    delete section.dataset.letterPhaseDemoHidden;
+  }
+}
+
+function _applyLetterPhaseDemo() {
+  if (!activeLetterKey || !lettersDB[activeLetterKey]) {
+    _restoreLetterPhaseDemo();
+    if (typeof initSectionDots === 'function') initSectionDots();
+    if (typeof updateScrollProgress === 'function') updateScrollProgress();
+    return;
+  }
+
+  _ensureLetterLevelGates();
+
+  const maxPhase = Math.max(1, Math.min(3, LETTER_PHASE_STATE.phase || 1));
+  _getLetterPhaseSections().forEach(section => {
+    const gatePhase = Number(section.dataset.phaseGate || 0);
+    const isGate = section.classList.contains('letter-level-gate');
+    let hidden = false;
+
+    if (_isLetterTwinSection(section)) {
+      hidden = true;
+    } else if (isGate) {
+      hidden = !((gatePhase === 2 && maxPhase === 1) || (gatePhase === 3 && maxPhase === 2));
+    } else if (section.querySelector('.next-level-btn') && !section.classList.contains('letter-level-gate')) {
+      hidden = maxPhase < 3;
+    } else {
+      hidden = !_sectionInAlifPhase(section, maxPhase);
+    }
+
+    _setSectionHidden(section, hidden);
+  });
+
+  const detective = document.getElementById('section-detective');
+  if (detective) {
+    detective.style.display = 'none';
+    detective.dataset.letterPhaseDemoHidden = '1';
+  }
+
+  if (typeof initSectionDots === 'function') initSectionDots();
+  if (typeof updateScrollProgress === 'function') updateScrollProgress();
+  if (typeof _buildSectionMenu === 'function') {
+    const menu = document.getElementById('sec-sections-menu');
+    if (menu) menu.innerHTML = '';
+  }
+  if (typeof window._installFsButtons === 'function') {
+    setTimeout(() => window._installFsButtons(), 0);
+  }
+}
+
+function _initLetterPhaseDemo(key) {
+  LETTER_PHASE_STATE.phase = 1;
+  LETTER_PHASE_STATE.key = key || '';
+  setTimeout(_applyLetterPhaseDemo, 0);
+}
+
+function _letterPhaseCelebrate(targetPhase) {
+  try { playVictorySound(); } catch (e) {}
+  try { fireConfetti(); } catch (e) {}
+  if (typeof window._pomoShowFlash === 'function') {
+    window._pomoShowFlash('🚀', `Level ${targetPhase} Unlocked!`, 'فتحت المرحلة التالية');
+  } else {
+    try { showVictory('🚀', `Level ${targetPhase} Unlocked! — فتحت المرحلة التالية`); } catch (e) {}
+  }
+}
+
+function _letterPhaseCompleteConnectedWords() {
+  // Level-up gates are intentionally always visible now.
+}
+
+function letterPhaseLevelUp(targetPhase) {
+  if (!activeLetterKey || !lettersDB[activeLetterKey]) return;
+  const nextPhase = Number(targetPhase);
+  if (!Number.isFinite(nextPhase) || nextPhase < 2 || nextPhase > 3) return;
+
+  LETTER_PHASE_STATE.phase = Math.max(LETTER_PHASE_STATE.phase, nextPhase);
+  _letterPhaseCelebrate(nextPhase);
+  _applyLetterPhaseDemo();
+
+  const firstSection = document.querySelector(
+    nextPhase === 2
+      ? '#letter-screen .step-section[data-section="6.5"]'
+      : '#letter-screen .step-section[data-section="7"]'
+  );
+  setTimeout(() => {
+    if (firstSection) firstSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 450);
+}
+window.letterPhaseLevelUp = letterPhaseLevelUp;
+
 const LEVEL_PUZZLE_XO_CONFIG = {
   'sukoon-syllables': { containerId: 'ui-sukoon-syllables',       turnId: 'sukoon-syllable-turn', pieceSelector: '.puzzle-wrap', cellSelector: '.piece' },
   'sukoon-cards':     { containerId: 'ui-sukoon-cards-container', turnId: 'sukoon-card-turn',     pieceSelector: '.puzzle-wrap', cellSelector: '.piece' },
@@ -9923,6 +10405,7 @@ function _levelPuzzleXoClick(key, idx) {
         try { initThreeLetterXO(); }         catch (e) { console.warn('threeXO:', e); }
         try { initSplitWordsXO(); }          catch (e) { console.warn('splitXO:', e); }
         try { _patchAlefFinalPage(key); }    catch (e) { console.warn('alefFinal:', e); }
+        try { _applyLetterPhaseDemo(); }     catch (e) { console.warn('letterPhase:', e); }
       }, 800);
       return r;
     };
@@ -9949,6 +10432,7 @@ function _levelPuzzleXoClick(key, idx) {
       setTimeout(() => {
         try { _enhanceMotorsSection(key); } catch(e) {}
         try { _patchAlefFinalPage(key); }   catch(e) {}
+        try { _applyLetterPhaseDemo(); }    catch(e) {}
       }, 900);
     }).observe(ls, { attributes: true, attributeFilter: ['style'] });
   });
