@@ -3140,6 +3140,7 @@ class Car extends Phaser.GameObjects.Container {
     this.baseLetter  = letter;
     this.currentMark = mark;
     this.setSize(280, 110);
+    this._lastSmokeAt = 0;
 
     if (!scene.textures.exists('brand_car_body')) this._generateTextures();
 
@@ -3149,6 +3150,8 @@ class Car extends Phaser.GameObjects.Container {
     // العجلات
     const w1 = scene.add.image(-90, 48, 'brand_wheel');
     const w2 = scene.add.image(90,  48, 'brand_wheel');
+    const w1Cap = scene.add.image(-90, 48, 'brand_wheel_cap');
+    const w2Cap = scene.add.image(90, 48, 'brand_wheel_cap');
 
     // نص الحرف
     this.letterText = scene.add.text(0, -28, letter + mark, {
@@ -3159,7 +3162,7 @@ class Car extends Phaser.GameObjects.Container {
       strokeThickness: 7,
     }).setOrigin(0.5).setPadding({ top: 55, bottom: 55, left: 22, right: 22 });
 
-    this.add([body, w1, w2]);
+    this.add([body, w1, w2, w1Cap, w2Cap]);
 
     if (isBroken) {
       const be = scene.add.image(-100, -18, 'brand_gear').setTint(0x333333);
@@ -3169,7 +3172,9 @@ class Car extends Phaser.GameObjects.Container {
     this.add(this.letterText);
     scene.add.existing(this);
 
-    this.wheels     = [w1, w2];
+    this.body       = body;
+    this.shadow     = null;
+    this.wheels     = [w1, w2, w1Cap, w2Cap];
     this.enginePart = null;
     this.letterTxt  = this.letterText; // alias for ShaddaScene compatibility
   }
@@ -3184,9 +3189,9 @@ class Car extends Phaser.GameObjects.Container {
 
     // سقف بلون فاتح
     g.fillStyle(0xf0f0f0);
-    g.fillRoundedRect(50, 0, 180, 55, { tl:22, tr:22, bl:0, br:0 });
+    g.fillRoundedRect(50, 0, 180, 55, 18);
 
-    // زجاج أمامي (أزرق فاتح)
+    // زجاج أمامي
     g.fillStyle(0xbbd9f0);
     g.beginPath();
     g.moveTo(190, 5);
@@ -3226,16 +3231,23 @@ class Car extends Phaser.GameObjects.Container {
 
     // ── العجلة ────────────────────────────────────────────
     g.clear();
-    g.fillStyle(0x222222); g.fillCircle(32, 32, 32);
-    g.fillStyle(0xc8c8c8); g.fillCircle(32, 32, 22);
-    g.lineStyle(3, CAR_COLORS.ORANGE); g.strokeCircle(32, 32, 22);
-    // أشعة العجلة
-    g.lineStyle(2, 0x888888);
-    for (let i = 0; i < 5; i++) {
-      const a = (i * 72) * Math.PI / 180;
-      g.lineBetween(32, 32, 32 + Math.cos(a)*20, 32 + Math.sin(a)*20);
+    g.fillStyle(0x111827); g.fillCircle(36, 36, 34);
+    g.fillStyle(0x1f2937); g.fillCircle(36, 36, 28);
+    g.lineStyle(4, CAR_COLORS.ORANGE); g.strokeCircle(36, 36, 24);
+    g.fillStyle(0xe5e7eb); g.fillCircle(36, 36, 18);
+    g.lineStyle(3, 0x6b7280);
+    for (let i = 0; i < 6; i++) {
+      const a = (i * 60) * Math.PI / 180;
+      g.lineBetween(36, 36, 36 + Math.cos(a)*17, 36 + Math.sin(a)*17);
     }
-    g.generateTexture('brand_wheel', 64, 64);
+    g.generateTexture('brand_wheel', 72, 72);
+
+    g.clear();
+    g.fillStyle(0xffffff, 0.76);
+    g.fillCircle(14, 14, 8);
+    g.fillStyle(CAR_COLORS.GREEN);
+    g.fillCircle(14, 14, 4);
+    g.generateTexture('brand_wheel_cap', 28, 28);
 
     // ── الترس/الموتور ─────────────────────────────────────
     g.clear();
@@ -3276,31 +3288,65 @@ class Car extends Phaser.GameObjects.Container {
 
     this.y = this.initialY;
 
-    const body = this.list[0];
+    const body = this.body;
     const rw   = this.list[1];
     const fw   = this.list[2];
+    const rwCap = this.list[3];
+    const fwCap = this.list[4];
     if (body && body.scaleX > 1) {
-      this.scene.tweens.killTweensOf([body, rw, fw]);
+      this.scene.tweens.killTweensOf([body, rw, fw, rwCap, fwCap]);
       body.setScale(1, 1);
       rw.x = -90; fw.x = 90;
+      if (rwCap) rwCap.x = -90;
+      if (fwCap) fwCap.x = 90;
     }
   }
 
   animateDrive(speed = 1) {
-    this.y = this.initialY + Math.sin(this.scene.time.now / 45) * 1.8;
-    if (this.wheels) {
-      this.wheels.forEach(w => { w.rotation += 0.09 * speed; });
+    const t = this.scene.time.now;
+    this.y = this.initialY + Math.sin(t / 45) * 2.4;
+    if (this.body) this.body.y = -10 + Math.sin(t / 80) * 1.5;
+    if (this.shadow) {
+      const pulse = 1 + Math.sin(t / 90) * 0.035;
+      this.shadow.setScale(pulse, 1);
     }
+    if (this.wheels) {
+      this.wheels.forEach(w => { w.rotation += 0.11 * speed; });
+    }
+    this._emitSmoke(speed);
+  }
+
+  _emitSmoke(speed = 1) {
+    const now = this.scene.time.now;
+    if (now - this._lastSmokeAt < 120) return;
+    this._lastSmokeAt = now;
+
+    const puff = this.scene.add.circle(this.x - 148, this.y + 36, 9, 0xd1d5db, 0.46);
+    puff.setDepth(Math.max(0, this.depth - 1));
+    this.scene.tweens.add({
+      targets: puff,
+      x: puff.x - 34 - Math.random() * 22 * speed,
+      y: puff.y - 16 - Math.random() * 12,
+      scale: 2.6 + Math.random() * 0.8,
+      alpha: 0,
+      duration: 760,
+      ease: 'Sine.out',
+      onComplete: () => puff.destroy()
+    });
   }
 
   extendChassis(maddChar) {
-    const body = this.list[0];
+    const body = this.body;
     const rw   = this.list[1];
     const fw   = this.list[2];
+    const rwCap = this.list[3];
+    const fwCap = this.list[4];
 
     this.scene.tweens.add({ targets: body, scaleX: 1.85, duration: 1000, ease: 'Back.out' });
     this.scene.tweens.add({ targets: rw, x: -170, duration: 1000, ease: 'Back.out' });
     this.scene.tweens.add({ targets: fw, x: 170,  duration: 1000, ease: 'Back.out' });
+    if (rwCap) this.scene.tweens.add({ targets: rwCap, x: -170, duration: 1000, ease: 'Back.out' });
+    if (fwCap) this.scene.tweens.add({ targets: fwCap, x: 170, duration: 1000, ease: 'Back.out' });
     if (this.enginePart) {
       this.scene.tweens.add({ targets: this.enginePart, x: -185, duration: 1000, ease: 'Back.out' });
     }
@@ -3310,6 +3356,87 @@ class Car extends Phaser.GameObjects.Container {
     this.letterText.setText(displayChar + this.currentMark + maddChar);
     this.scene.tweens.add({ targets: this.letterText, scale: 1.2, yoyo: true, duration: 200 });
   }
+}
+
+
+function shadePhaserColor(color, amount) {
+  const r = (color >> 16) & 255;
+  const g = (color >> 8) & 255;
+  const b = color & 255;
+  const mix = amount >= 0 ? 255 : 0;
+  const ratio = Math.abs(amount) / 100;
+  const nr = Math.round(r + (mix - r) * ratio);
+  const ng = Math.round(g + (mix - g) * ratio);
+  const nb = Math.round(b + (mix - b) * ratio);
+  return (nr << 16) | (ng << 8) | nb;
+}
+
+function createPhaserMotor(scene, mark, color, options = {}) {
+  const c = scene.add.container(0, 0);
+  const body = scene.add.container(0, 0);
+  const gfx = scene.add.graphics();
+  const radius = options.radius || 38;
+  const bladeColor = shadePhaserColor(color, -12);
+  const highlightColor = shadePhaserColor(color, 26);
+  const shadowColor = shadePhaserColor(color, -34);
+
+  gfx.fillStyle(bladeColor, 1);
+  gfx.fillRoundedRect(-13, -radius - 17, 26, 34, 4);
+  gfx.fillRoundedRect(-13, radius - 17, 26, 34, 4);
+  gfx.fillRoundedRect(-radius - 17, -13, 34, 26, 4);
+  gfx.fillRoundedRect(radius - 17, -13, 34, 26, 4);
+  gfx.fillStyle(shadowColor, 0.95);
+  for (let i = 0; i < 12; i++) {
+    const a = (i * 30) * Math.PI / 180;
+    gfx.fillCircle(Math.cos(a) * (radius + 9), Math.sin(a) * (radius + 9), 6);
+  }
+
+  gfx.fillStyle(color, 1);
+  gfx.fillCircle(0, 0, radius);
+  gfx.lineStyle(3, highlightColor, 0.62);
+  gfx.strokeCircle(0, 0, radius - 3);
+
+  gfx.fillStyle(highlightColor, 0.28);
+  gfx.fillCircle(-12, -12, radius * 0.48);
+  gfx.fillStyle(shadowColor, 0.9);
+  gfx.fillCircle(0, 0, radius * 0.34);
+  gfx.fillStyle(highlightColor, 1);
+  gfx.fillCircle(0, 0, radius * 0.18);
+  gfx.lineStyle(3, highlightColor, 0.9);
+  for (let i = 0; i < 6; i++) {
+    const a = (i * 60) * Math.PI / 180;
+    gfx.lineBetween(
+      Math.cos(a) * radius * 0.2,
+      Math.sin(a) * radius * 0.2,
+      Math.cos(a) * radius * 0.7,
+      Math.sin(a) * radius * 0.7
+    );
+  }
+
+  body.add(gfx);
+
+  if (options.animate !== false) {
+    scene.tweens.add({
+      targets: body,
+      angle: 360,
+      duration: options.duration || 2600,
+      repeat: -1,
+      ease: 'Linear'
+    });
+  }
+
+  const textY = mark === 'ِ' ? -6 : (mark === 'ْ' ? -9 : 4);
+  const txt = scene.add.text(0, textY, mark, {
+    fontSize: options.fontSize || '54px',
+    fontFamily: '"Noto Naskh Arabic", sans-serif',
+    color: options.textColor || '#ffffff',
+    stroke: options.stroke || '#000000',
+    strokeThickness: options.strokeThickness || 3,
+    padding: { left: 20, right: 20, top: 38, bottom: 38 }
+  }).setOrigin(0.5);
+
+  c.add([body, txt]);
+  return c;
 }
 
 
@@ -3364,22 +3491,13 @@ class MainScene extends Phaser.Scene {
   }
 
   _mkGear(color) {
-    const g = this.add.graphics();
-    g.fillStyle(color,1); g.fillCircle(0,0,34);
-    for (let i=0;i<8;i++) { const a=(i*45)*Math.PI/180; g.fillRect(Math.cos(a)*34-9,Math.sin(a)*34-9,18,18); }
-    g.lineStyle(2,0xffffff,0.3); g.strokeCircle(0,0,34);
-    return g;
+    return createPhaserMotor(this, '', color, { radius: 34, fontSize: '1px' });
   }
 
   _mkEngine(x, y, mark, color) {
     const c = this.add.container(x,y).setSize(80,80);
     c.initialX=x; c.initialY=y;
-    const txt = this.add.text(0, mark==='ِ'?-4:4, mark, {
-      fontSize:'50px', fontFamily:'"Noto Naskh Arabic",sans-serif',
-      color:'#fff', stroke:'#000', strokeThickness:3,
-      padding:{left:18,right:18,top:34,bottom:34}
-    }).setOrigin(0.5);
-    c.add([this._mkGear(color), txt]);
+    c.add(createPhaserMotor(this, mark, color, { animate: mark !== 'ْ' }));
     c.setInteractive({draggable:true, useHandCursor:true});
     c.mark=mark; c.color=color;
     this.input.setDraggable(c);
@@ -3391,13 +3509,7 @@ class MainScene extends Phaser.Scene {
   _handleDrop(engine) {
     if (this.mainCar.enginePart) return;
     engine.setVisible(false); engine.dropped=true;
-    const clone = this.add.container(0,0);
-    const txt = this.add.text(0,engine.mark==='ِ'?-4:4,engine.mark,{
-      fontSize:'50px',fontFamily:'"Noto Naskh Arabic"',
-      color:'#fff',stroke:'#000',strokeThickness:3,
-      padding:{left:18,right:18,top:34,bottom:34}
-    }).setOrigin(0.5);
-    clone.add([this._mkGear(engine.color),txt]);
+    const clone = createPhaserMotor(this, engine.mark, engine.color, { animate: engine.mark !== 'ْ' });
     this.mainCar.addEngine(clone,engine.mark);
     if (engine.mark==='ْ') {
       this.playing=false; this.env.stop();
@@ -3451,19 +3563,11 @@ class SukoonScene extends Phaser.Scene {
     this.backCar = new Car(this, W * 0.22, H - 95, this.targetLetter);
 
     // إضافة محرك السكون (ثابت — لا يتغير)
-    const sukoonEng = this.add.container(0, 0);
-    const sg = this.add.graphics();
-    sg.fillStyle(0x444444, 1);
-    sg.fillCircle(0, 0, 40);
-    for (let i = 0; i < 8; i++) {
-      sg.fillRect(Math.cos(i * 45 * Math.PI / 180) * 40 - 10, Math.sin(i * 45 * Math.PI / 180) * 40 - 10, 20, 20);
-    }
-    sg.lineStyle(2, 0xffffff, 0.5);
-    sg.strokeCircle(0, 0, 40);
-    sukoonEng.add([
-      sg,
-      this.add.text(0, -8, 'ْ', { fontSize: '65px', fontFamily: '"Noto Naskh Arabic"', color: '#fff', stroke: '#000', strokeThickness: 3 }).setOrigin(0.5),
-    ]);
+    const sukoonEng = createPhaserMotor(this, 'ْ', 0x555555, {
+      radius: 40,
+      fontSize: '64px',
+      animate: false
+    });
     this.backCar.addEngine(sukoonEng, 'ْ');
 
     // ── السيارة الأمامية (المتحركة) ──────────────────────
@@ -3535,21 +3639,7 @@ class SukoonScene extends Phaser.Scene {
   _mkEngine(x, y, mark, color) {
     const c = this.add.container(x, y).setSize(90, 90);
     c.initialX = x; c.initialY = y;
-
-    const g = this.add.graphics();
-    g.fillStyle(color, 1); g.fillCircle(0, 0, 38);
-    for (let i = 0; i < 8; i++) {
-      g.fillRect(Math.cos(i * 45 * Math.PI / 180) * 38 - 10, Math.sin(i * 45 * Math.PI / 180) * 38 - 10, 20, 20);
-    }
-    g.lineStyle(2, 0xffffff, 0.4); g.strokeCircle(0, 0, 38);
-
-    const txt = this.add.text(0, mark === 'ِ' ? -5 : 5, mark, {
-      fontSize: '55px', fontFamily: '"Noto Naskh Arabic", sans-serif',
-      color: '#fff', stroke: '#000', strokeThickness: 3,
-      padding: { left: 20, right: 20, top: 40, bottom: 40 },
-    }).setOrigin(0.5);
-
-    c.add([g, txt]);
+    c.add(createPhaserMotor(this, mark, color, { animate: true }));
     c.setInteractive({ draggable: true, useHandCursor: true });
     c.mark = mark; c.color = color;
     this.input.setDraggable(c);
@@ -3574,20 +3664,7 @@ class SukoonScene extends Phaser.Scene {
     this.currentHaraka = engine.mark;
 
     // استنساخ المحرك داخل السيارة
-    const clone = this.add.container(0, 0);
-    const g = this.add.graphics();
-    g.fillStyle(engine.color, 1); g.fillCircle(0, 0, 38);
-    for (let i = 0; i < 8; i++) {
-      g.fillRect(Math.cos(i * 45 * Math.PI / 180) * 38 - 10, Math.sin(i * 45 * Math.PI / 180) * 38 - 10, 20, 20);
-    }
-    g.lineStyle(2, 0xffffff, 0.4); g.strokeCircle(0, 0, 38);
-
-    const txt = this.add.text(0, engine.mark === 'ِ' ? -5 : 5, engine.mark, {
-      fontSize: '55px', fontFamily: '"Noto Naskh Arabic", sans-serif',
-      color: '#fff', stroke: '#000', strokeThickness: 3,
-      padding: { left: 20, right: 20, top: 40, bottom: 40 },
-    }).setOrigin(0.5);
-    clone.add([g, txt]);
+    const clone = createPhaserMotor(this, engine.mark, engine.color, { animate: true });
 
     this.frontCar.addEngine(clone, engine.mark);
 
@@ -4965,6 +5042,68 @@ function openIslamicsJourney() {
  * openLetter — فتح شاشة تعلم حرف معين
  * @param {string} key - رمز الحرف (مثال: 'ب')
  */
+let _heroCarLottieAnim = null;
+
+function initPuzzleTitleLotties(scope) {
+  if (typeof lottie === 'undefined') return;
+  const root = scope || document;
+  root.querySelectorAll('.puzzle-title-lottie:not([data-lottie-ready])').forEach(el => {
+    el.dataset.lottieReady = '1';
+    try {
+      lottie.loadAnimation({
+        container: el,
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        path: '/lottie/puzzle.json'
+      });
+    } catch (e) {
+      el.innerHTML = '';
+    }
+  });
+}
+
+function updateHeroCarLottie(key, data) {
+  const hero = document.querySelector('#letter-screen .letter-hero');
+  if (!hero) return;
+  const letterEl = document.getElementById('ui-hero-letter');
+  const layerHost = (letterEl && letterEl.parentNode) ? letterEl.parentNode : hero;
+
+  let carLayer = hero.querySelector('.letter-hero-car-lottie');
+  if (!carLayer) {
+    carLayer = document.createElement('div');
+    carLayer.className = 'letter-hero-car-lottie';
+    carLayer.setAttribute('aria-hidden', 'true');
+    layerHost.insertBefore(carLayer, letterEl || layerHost.firstChild);
+  }
+
+  const shouldShowCar = !!(data && data.symbol);
+  hero.classList.toggle('has-car-lottie', shouldShowCar);
+
+  if (!shouldShowCar || typeof lottie === 'undefined') {
+    if (_heroCarLottieAnim) {
+      try { _heroCarLottieAnim.destroy(); } catch (e) {}
+      _heroCarLottieAnim = null;
+    }
+    carLayer.innerHTML = '';
+    return;
+  }
+
+  if (_heroCarLottieAnim) return;
+
+  try {
+    _heroCarLottieAnim = lottie.loadAnimation({
+      container: carLayer,
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      path: '/lottie/car.json'
+    });
+  } catch (e) {
+    carLayer.innerHTML = '';
+  }
+}
+
 function openLetter(key) {
   activeLetterKey = key;
   // Clear advanced-level scope — letter mode uses lettersDB, not ADVANCED_LEVELS_DB
@@ -4976,6 +5115,7 @@ function openLetter(key) {
 
   // ── بيانات الجولي فونيكس ──────────────────────────────
   document.getElementById('ui-hero-letter').textContent = data.symbol;
+  updateHeroCarLottie(key, data);
 
   const storyEl  = document.getElementById('ui-jolly-story');
   const actionEl = document.getElementById('ui-jolly-action');
@@ -4993,9 +5133,11 @@ function openLetter(key) {
   // ── قسم المحركات ──────────────────────────────────────
   // ✅ إصلاح: نعرض الحركات الثلاث دائماً لجميع الحروف
   document.getElementById('ui-motor-section').innerHTML = buildMotorsHTML(key);
+  if (typeof initMotorLotties === 'function') initMotorLotties(document.getElementById('ui-motor-section'));
 
   // ── قسم المقاطع ذات الحرفين ──────────────────────────
   const fathPairs = generateFathAlRahmanPairs(key);
+  initPuzzleTitleLotties(document.getElementById('letter-screen'));
   document.getElementById('ui-two-letter-container').innerHTML = fathPairs.map(p => {
     const isCut = RAFISA.some(r => p.c1.includes(r));
     const p1Class = 'piece no-nub ' + (isCut ? 'no-hole' : '');
@@ -7632,14 +7774,17 @@ window.WORD_READER_ENABLED = false;
 function buildMotorsHTML(key) {
   const harakat = (typeof getAvailableHarakat==='function') ? getAvailableHarakat(key) : ['َ'];
   const defs = [
-    { char:'َ', label:'Fatha — الفتحة',   color:'#e74c3c', sym:'⬆️', tip:'Open your mouth — افتح فمك!' },
-    { char:'ِ', label:'Kasrah — الكسرة',  color:'#2980b9', sym:'⬇️', tip:'Drop your jaw — اخفض فكّك!' },
-    { char:'ُ', label:'Dhammah — الضمة', color:'#27ae60', sym:'⭕', tip:'Round lips — دوّر شفتيك!' },
+    { char:'َ', label:'Fatha — الفتحة',   color:'#e74c3c', tip:'Open your mouth — افتح فمك!' },
+    { char:'ِ', label:'Kasrah — الكسرة',  color:'#2980b9', tip:'Drop your jaw — اخفض فكّك!' },
+    { char:'ُ', label:'Dhammah — الضمة', color:'#27ae60', tip:'Round lips — دوّر شفتيك!' },
   ];
   return defs.map((m,i) => {
     const ok = harakat.includes(m.char);
     return `<div class="motor-item" style="margin-bottom:13px;border-top:${i>0?'1px solid var(--border)':'none'};padding-top:${i>0?'13px':'0'};${!ok?'opacity:0.3;filter:grayscale(1);':''}">
-      <div style="font-weight:900;font-size:1.1rem;color:${m.color};margin-bottom:4px;">${ok?m.sym:'🔒'} ${m.label}</div>
+      <div class="motor-label" style="color:${m.color};font-size:1.1rem;">
+        ${ok ? `<span class="motor-lottie" data-motor-color="${m.color}" style="--motor-color:${m.color};"></span>` : '🔒'}
+        <span>${m.label}</span>
+      </div>
       ${ok ? m.tip : '<span style="font-size:0.85rem;color:var(--text-muted);">Unlocks as you advance — يُفتح مع تقدمك</span>'}
     </div>`;
   }).join('');
@@ -9150,6 +9295,64 @@ function _levelPuzzleXoClick(key, idx) {
 /* ============================================================
    7. MOTORS PROGRESSIVE (نص حرفي من الأساسي.html)
 ============================================================ */
+let _motorLottieDataPromise = null;
+
+function _hexToLottieColor(hex) {
+  const clean = String(hex || '#047857').replace('#', '').trim();
+  const full = clean.length === 3
+    ? clean.split('').map(ch => ch + ch).join('')
+    : clean.padEnd(6, '0').slice(0, 6);
+  const n = parseInt(full, 16);
+  return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255, 1];
+}
+
+function _recolorLottieData(node, color) {
+  if (!node || typeof node !== 'object') return;
+  if ((node.ty === 'fl' || node.ty === 'st') && node.c && Array.isArray(node.c.k)) {
+    node.c.k = color.slice();
+  }
+  Object.keys(node).forEach(key => {
+    const value = node[key];
+    if (Array.isArray(value)) value.forEach(item => _recolorLottieData(item, color));
+    else if (value && typeof value === 'object') _recolorLottieData(value, color);
+  });
+}
+
+function _getMotorLottieData() {
+  if (!_motorLottieDataPromise) {
+    _motorLottieDataPromise = fetch('/lottie/motor.json').then(res => res.json());
+  }
+  return _motorLottieDataPromise;
+}
+
+function initMotorLotties(scope) {
+  if (typeof lottie === 'undefined') return;
+  const root = scope || document;
+  const targets = Array.from(root.querySelectorAll('.motor-lottie')).filter(el => !el.dataset.lottieReady);
+  if (!targets.length) return;
+
+  _getMotorLottieData().then(data => {
+    targets.forEach(el => {
+      el.dataset.lottieReady = '1';
+      const animData = JSON.parse(JSON.stringify(data));
+      _recolorLottieData(animData, _hexToLottieColor(el.dataset.motorColor || '#047857'));
+      try {
+        lottie.loadAnimation({
+          container: el,
+          renderer: 'svg',
+          loop: true,
+          autoplay: true,
+          animationData: animData
+        });
+      } catch (e) {
+        el.innerHTML = '';
+      }
+    });
+  }).catch(() => {
+    targets.forEach(el => { el.innerHTML = ''; });
+  });
+}
+
 function _enhanceMotorsSection(key) {
   const el = document.getElementById('ui-motor-section');
   if (!el) return;
@@ -9160,27 +9363,37 @@ function _enhanceMotorsSection(key) {
 
   let html = `
     <div class="motor-item" style="margin-bottom:15px;">
-      <div class="motor-label" style="color:var(--red);font-size:1.2rem;">⬆️ The Fatha Motor</div>
+      <div class="motor-label" style="color:var(--red);font-size:1.2rem;">
+        <span class="motor-lottie" data-motor-color="#e74c3c" style="--motor-color:#e74c3c;"></span>
+        <span>The Fatha Motor</span>
+      </div>
       Fat-hah is pronounced by separating the two jaws and opening the mouth.<br>
-      <span style="font-weight:bold;color:var(--red);">Fatha is UP ⬆️ — Open your mouth!</span>
+      <span style="font-weight:bold;color:var(--red);">Fatha opens the mouth — Open your mouth!</span>
     </div>`;
   if (idx >= zIdx) {
     html += `
       <div class="motor-item" style="margin-bottom:15px;border-top:1px solid var(--border);padding-top:15px;">
-        <div class="motor-label" style="color:#2980b9;font-size:1.2rem;">⬇️ The Kasrah Motor</div>
+        <div class="motor-label" style="color:#2980b9;font-size:1.2rem;">
+          <span class="motor-lottie" data-motor-color="#2980b9" style="--motor-color:#2980b9;"></span>
+          <span>The Kasrah Motor</span>
+        </div>
         Kasrah is pronounced by dropping the lower jaw.<br>
-        <span style="font-weight:bold;color:#2980b9;">Kasrah is DOWN ⬇️ — Drop your jaw!</span>
+        <span style="font-weight:bold;color:#2980b9;">Kasrah drops the jaw — Drop your jaw!</span>
       </div>`;
   }
   if (idx >= gIdx) {
     html += `
       <div class="motor-item" style="border-top:1px solid var(--border);padding-top:15px;">
-        <div class="motor-label" style="color:var(--green);font-size:1.2rem;">⭕ The Dhammah Motor</div>
+        <div class="motor-label" style="color:var(--green);font-size:1.2rem;">
+          <span class="motor-lottie" data-motor-color="#27ae60" style="--motor-color:#27ae60;"></span>
+          <span>The Dhammah Motor</span>
+        </div>
         Dhammah is pronounced by rounding the two lips completely.<br>
-        <span style="font-weight:bold;color:var(--green);">Dhammah is ROUND ⭕ — Round your lips!</span>
+        <span style="font-weight:bold;color:var(--green);">Dhammah rounds the lips — Round your lips!</span>
       </div>`;
   }
   el.innerHTML = html;
+  initMotorLotties(el);
 }
 
 
@@ -12306,7 +12519,7 @@ function renderDetectiveSection(key) {
                 { en: 'Isolated', ar: 'مُنفصل' }
             ];
             html += `
-                <div style="text-align:center; margin: 30px 0 15px; font-weight:900; color:var(--text-muted); font-family:'Tajawal', sans-serif; font-size: 1.1rem; border-top:2px dashed var(--border); padding-top:20px; direction:ltr;">
+                <div class="shapes-context-title" style="text-align:center; margin: 30px 0 15px; font-weight:900; color:var(--text-muted); font-family:'Tajawal', sans-serif; font-size: 1.1rem; border-top:2px dashed var(--border); padding-top:20px; direction:ltr;">
                     Shapes in Context — مقارنة الأشكال (${det.target} / ${det.compareWith})
                 </div>
                 <div class="shapes-compare-grid">

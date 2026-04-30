@@ -534,6 +534,31 @@
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+.letter-hero .letter-hero-car-lottie {
+  position: absolute;
+  left: 50%;
+  top: 38%;
+  width: min(700px, 96%);
+  height: 350px;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  filter: drop-shadow(0 20px 34px rgba(4, 120, 87, 0.18));
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.letter-hero.has-car-lottie .letter-hero-car-lottie {
+  opacity: 0.42;
+  transform: translate(-50%, -50%) scale(1.02);
+}
+
+.letter-hero .letter-hero-car-lottie svg {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
 .letter-hero .hero-root:hover {
   transform: scale(1.10) rotate(-4deg);
 }
@@ -700,6 +725,19 @@
     .motor-item { margin-bottom: 12px; }
     .motor-item:last-child { margin-bottom: 0; }
     .motor-label { font-weight: 700; font-size: 1.05rem; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+    .motor-lottie {
+      --motor-color: var(--green);
+      width: 42px;
+      height: 42px;
+      flex: 0 0 42px;
+      color: var(--motor-color);
+      filter: drop-shadow(0 5px 10px color-mix(in srgb, var(--motor-color) 28%, transparent));
+    }
+    .motor-lottie svg {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+    }
 
     /* ============================================================
        SUKOON INTRO CARD
@@ -2158,6 +2196,51 @@
   margin-bottom: 16px;
   padding-bottom: 14px;
   border-bottom: 1px solid var(--border-soft);
+}
+
+.puzzle-title-row {
+  position: relative;
+  isolation: isolate;
+  min-height: 96px;
+  justify-content: center;
+  padding: 14px 120px;
+  border-bottom: 0;
+}
+
+.puzzle-title-row .section-heading,
+.puzzle-title-row .btn-secondary {
+  position: relative;
+  z-index: 1;
+}
+
+.puzzle-title-lottie {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(440px, 54vw);
+  height: 170px;
+  transform: translate(-50%, -50%) rotate(-5deg);
+  opacity: 0.22;
+  pointer-events: none;
+  z-index: 0;
+  filter: drop-shadow(0 18px 30px rgba(2, 114, 78, 0.16));
+}
+
+.puzzle-title-lottie svg {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+@media (max-width: 700px) {
+  .puzzle-title-row {
+    padding: 12px 12px;
+  }
+
+  .puzzle-title-lottie {
+    width: 92vw;
+    height: 150px;
+  }
 }
 
 
@@ -5009,6 +5092,146 @@ html.has-phaser-fs #break-fab.pomo-active {
 
 /* كل توأم الآن step-section مستقل (يصلح للفول اسكرين) */
 .det-twin-block { /* يرث min-height/padding من .step-section */ }
+
+.det-twin-block.fs-section-active {
+  justify-content: center !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding: 2px 92px !important;
+}
+
+.det-twin-block.fs-section-active .fs-content-wrapper {
+  width: min(1168px, calc(100vw - 184px)) !important;
+  max-width: min(1168px, calc(100vw - 184px)) !important;
+  height: auto !important;
+  transform: none !important;
+  transform-origin: center center !important;
+  margin: 0 auto !important;
+}
+
+.det-twin-block.fs-section-active .detective-wrap {
+  width: 100%;
+  min-height: calc(100vh - 6px);
+  max-height: calc(100vh - 6px);
+  padding: 22px 28px 24px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  gap: clamp(8px, 1.3vh, 16px);
+  border: 3px solid #f59e0b;
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.22);
+}
+
+.det-twin-block.fs-section-active .section-heading {
+  display: none !important;
+}
+
+.det-twin-block.fs-section-active .det-header-sub {
+  margin-bottom: 5px;
+  font-size: 0.95rem;
+}
+
+.det-twin-block.fs-section-active .visual-twins-box {
+  gap: 18px;
+  padding: 8px 0 10px;
+  margin-bottom: 10px;
+}
+
+.det-twin-block.fs-section-active .visual-twin-section {
+  min-width: min(300px, 30vw);
+  padding: 18px 20px 12px;
+}
+
+.det-twin-block.fs-section-active .twin-wrapper {
+  width: 128px;
+  height: 132px;
+}
+
+.det-twin-block.fs-section-active .twin-char {
+  font-size: 7rem;
+}
+
+.det-twin-block.fs-section-active .lens-btn {
+  width: 72px;
+  height: 72px;
+  font-size: 2.2rem;
+}
+
+.det-twin-block.fs-section-active .det-practice-card {
+  margin: 0 auto;
+  padding: 16px 18px 18px;
+}
+
+.det-twin-block.fs-section-active .det-practice-title {
+  margin-bottom: 10px;
+}
+
+.det-twin-block.fs-section-active .det-spy-grid {
+  gap: 10px;
+}
+
+.det-twin-block.fs-section-active .spy-cell {
+  min-height: 78px;
+  font-size: 3rem;
+}
+
+.det-twin-block.fs-section-active .shapes-context-title {
+  margin: 0 0 2px !important;
+  padding-top: 12px !important;
+  font-size: 1rem !important;
+}
+
+.det-twin-block.fs-section-active .shapes-compare-grid {
+  gap: 12px;
+  margin-top: 0;
+}
+
+.det-twin-block.fs-section-active .sc-card {
+  padding: 10px 8px;
+}
+
+.det-twin-block.fs-section-active .sc-title {
+  margin-bottom: 8px;
+  font-size: 0.88rem;
+}
+
+.det-twin-block.fs-section-active .sc-chars {
+  font-size: 3.25rem;
+  gap: 14px;
+}
+
+@media (max-width: 900px) {
+  .det-twin-block.fs-section-active {
+    padding: 76px 16px 28px !important;
+  }
+
+  .det-twin-block.fs-section-active .fs-content-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .det-twin-block.fs-section-active .detective-wrap {
+    min-height: auto;
+    max-height: none;
+    overflow: visible;
+    display: block;
+    padding: 24px 18px 30px;
+    border-radius: 20px;
+  }
+
+  .det-twin-block.fs-section-active .visual-twins-box {
+    flex-direction: column;
+    gap: 14px;
+    padding-top: 20px;
+  }
+
+  .det-twin-block.fs-section-active .visual-twin-section {
+    min-width: 100%;
+  }
+}
 
 .det-practice-card {
   background: var(--surface);
@@ -8055,6 +8278,12 @@ html.has-fs-section body {
 
 .letter-hero.fs-section-active .sound-card {
   border-radius: 14px !important;
+}
+
+.letter-hero.fs-section-active .letter-hero-car-lottie {
+  top: 30%;
+  width: min(780px, 80vw);
+  height: 400px;
 }
 
 .letter-hero.fs-section-active .hero-root {
