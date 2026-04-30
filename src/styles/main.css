@@ -2403,6 +2403,253 @@
   font-weight: 600;
 }
 
+.whatsapp-final-section {
+  background: linear-gradient(135deg, #e8fff4, #f8fafc) !important;
+  border-color: rgba(2, 114, 78, 0.22) !important;
+}
+
+.wa-chat-shell {
+  max-width: 100%;
+  width: 100%;
+  margin: 0 auto;
+  border-radius: 26px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(34, 197, 94, 0.16) 0 8px, transparent 9px),
+    radial-gradient(circle at 78% 30%, rgba(20, 184, 166, 0.13) 0 7px, transparent 8px),
+    linear-gradient(135deg, #e7f8ef, #f7fff9);
+  border: 2px solid rgba(2, 114, 78, 0.22);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.16);
+  font-family: 'Tajawal', sans-serif;
+}
+
+.wa-chat-topbar {
+  min-height: 82px;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, #075e54, #128c7e);
+  color: #ffffff;
+}
+
+.wa-chat-back,
+.wa-chat-icon {
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 50%;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.12);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wa-chat-avatar {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #dcfce7;
+  color: #047857;
+  border: 3px solid rgba(255, 255, 255, 0.75);
+  font-family: 'Noto Naskh Arabic', serif;
+  font-size: 2rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.wa-chat-contact {
+  min-width: 0;
+  flex: 1;
+  text-align: right;
+}
+
+.wa-chat-name {
+  font-family: 'Noto Naskh Arabic', serif;
+  font-size: clamp(2.4rem, 6vw, 3.8rem);
+  font-weight: 900;
+  line-height: 1.1;
+}
+
+.wa-chat-status {
+  margin-top: 3px;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.92rem;
+  font-weight: 700;
+  direction: ltr;
+}
+
+.wa-chat-topic {
+  width: fit-content;
+  max-width: calc(100% - 36px);
+  margin: 16px auto 4px;
+  padding: 9px 18px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.86);
+  border: 1px solid rgba(2, 114, 78, 0.18);
+  color: var(--green, #02724e);
+  box-shadow: 0 8px 20px rgba(2, 114, 78, 0.08);
+  text-align: center;
+}
+
+.wa-chat-topic span {
+  display: block;
+  font-family: 'Noto Naskh Arabic', serif;
+  font-size: clamp(2.6rem, 6.5vw, 4rem);
+  font-weight: 900;
+  line-height: 1.1;
+}
+
+.wa-chat-body {
+  min-height: 300px;
+  padding: 18px clamp(16px, 4vw, 38px) 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.wa-bubble {
+  position: relative;
+  width: min(88%, 560px);
+  border: 0;
+  border-radius: 18px;
+  padding: 16px 18px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: right;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.10);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.wa-bubble:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 30px rgba(15, 23, 42, 0.14);
+}
+
+.wa-bubble-in {
+  align-self: flex-start;
+  background: #ffffff;
+  border-top-left-radius: 6px;
+}
+
+.wa-bubble-out {
+  align-self: flex-end;
+  background: #dcf8c6;
+  border-top-right-radius: 6px;
+}
+
+.wa-msg-ar {
+  font-family: 'Noto Naskh Arabic', serif;
+  font-size: clamp(1.7rem, 4.4vw, 2.45rem);
+  font-weight: 800;
+  line-height: 1.55;
+  color: var(--text, #10231b);
+  direction: rtl;
+}
+
+.wa-msg-ar mark {
+  padding: 0 0.14em;
+  border-radius: 8px;
+  color: #047857;
+  background: rgba(250, 204, 21, 0.36);
+  box-shadow: inset 0 -0.25em rgba(250, 204, 21, 0.22);
+}
+
+.wa-msg-en {
+  font-size: clamp(0.88rem, 2.2vw, 1.06rem);
+  font-weight: 800;
+  line-height: 1.35;
+  color: #64748b;
+  direction: ltr;
+  text-align: left;
+}
+
+.wa-msg-meta {
+  position: absolute;
+  right: 14px;
+  bottom: 7px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #7c8a84;
+  font-size: 0.72rem;
+  font-weight: 800;
+  direction: ltr;
+}
+
+.wa-msg-meta .fa-check-double {
+  color: #34b7f1;
+}
+
+.wa-chat-composer {
+  margin: 0 14px 14px;
+  padding: 10px 12px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--text-muted, #64748b);
+  font-weight: 800;
+}
+
+.wa-compose-field {
+  flex: 1;
+  text-align: right;
+}
+
+.wa-send-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  background: #128c7e;
+}
+
+.whatsapp-final-section.fs-section-active {
+  padding: 42px 96px !important;
+}
+
+.whatsapp-final-section.fs-section-active .wa-chat-shell {
+  max-width: 100%;
+}
+
+.whatsapp-final-section.fs-section-active .wa-chat-body {
+  min-height: min(430px, 44vh);
+}
+
+@media (max-width: 700px) {
+  .wa-chat-topbar {
+    padding: 10px 12px;
+    gap: 8px;
+  }
+
+  .wa-chat-icon {
+    display: none;
+  }
+
+  .wa-bubble {
+    width: 94%;
+  }
+
+  .whatsapp-final-section.fs-section-active {
+    padding: 74px 14px 28px !important;
+  }
+
+  .whatsapp-final-section.fs-section-active .wa-chat-shell {
+    max-width: 100%;
+  }
+}
+
 
 /* ============================================================
    8. Quick Error Overlay animations

@@ -3886,36 +3886,63 @@ html.has-phaser-fs #reading-check-btns {
 
 /* 💎 Visual Twins: The Neon Dots Magic */
 .visual-twins-box {
-  background: var(--surface2);
-  border: 2px solid var(--border);
-  border-radius: 20px;
-  padding: 40px 20px;
+  background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
+  border: 3px solid var(--green);
+  border-radius: 30px;
+  padding: 60px 40px;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  gap: clamp(40px, 8vw, 100px);
   align-items: center;
-  margin-bottom: 30px;
-  box-shadow: inset 0 4px 15px rgba(0,0,0,0.02);
+  margin: 0 auto 40px;
+  max-width: 900px;
+  box-shadow: 
+    0 15px 45px rgba(2, 114, 78, 0.15),
+    inset 0 2px 10px rgba(255,255,255,0.8),
+    0 0 0 1px rgba(2, 114, 78, 0.05);
+  position: relative;
+  overflow: hidden;
 }
+
+/* Background pattern for the stadium effect */
+.visual-twins-box::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('data:image/svg+xml;utf8,<svg opacity="0.03" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="0" y="0" width="50" height="50" fill="%2302724e"/><rect x="50" y="50" width="50" height="50" fill="%2302724e"/></svg>') repeat;
+  background-size: 60px;
+  pointer-events: none;
+}
+
 .twin-wrapper {
   position: relative;
-  width: 140px;
-  height: 160px;
+  width: clamp(160px, 20vw, 220px);
+  height: clamp(200px, 25vw, 260px);
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: 28px;
+  border: 2px solid rgba(2, 114, 78, 0.12);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.03);
+  z-index: 5;
 }
+
 .twin-char {
-  font-size: 8rem;
-  color: var(--text);
+  font-size: clamp(6rem, 12vw, 10rem);
+  color: var(--green-dark);
   font-family: 'Noto Naskh Arabic', serif;
   font-weight: 700;
   line-height: 1;
-  transition: opacity 0.4s;
+  transition: all 0.4s ease;
   z-index: 1;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.1));
 }
+
 .twin-char.dimmed {
-  opacity: 0.15; /* إخفاء جسم الحرف بنسبة 85% */
+  opacity: 0.15;
 }
 
 /* حاوية نقاط النيون */
@@ -3945,17 +3972,18 @@ html.has-phaser-fs #reading-check-btns {
 
 /* -------------------------------------- */
 /* القواعد العامة للـ إحداثيات (لخط Noto Naskh) */
+/* تم تعديلها لتناسب الحاوية الأكبر */
 /* -------------------------------------- */
-.pos-t1 .g-dot { top: 32%; left: 50%; }
-.pos-t2 .g-dot:nth-child(1) { top: 35%; left: 41%; }
-.pos-t2 .g-dot:nth-child(2) { top: 35%; left: 59%; }
-.pos-t3 .g-dot:nth-child(1) { top: 37%; left: 40%; }
-.pos-t3 .g-dot:nth-child(2) { top: 37%; left: 60%; }
+.pos-t1 .g-dot { top: 30%; left: 50%; }
+.pos-t2 .g-dot:nth-child(1) { top: 33%; left: 42%; }
+.pos-t2 .g-dot:nth-child(2) { top: 33%; left: 58%; }
+.pos-t3 .g-dot:nth-child(1) { top: 35%; left: 41%; }
+.pos-t3 .g-dot:nth-child(2) { top: 35%; left: 59%; }
 .pos-t3 .g-dot:nth-child(3) { top: 22%; left: 50%; }
 
-.pos-b1 .g-dot { bottom: 12%; left: 50%; } /* الباء والجيم وغيرها */
-.pos-b2 .g-dot:nth-child(1) { bottom: 18%; left: 41%; }
-.pos-b2 .g-dot:nth-child(2) { bottom: 18%; left: 59%; }
+.pos-b1 .g-dot { bottom: 15%; left: 50%; } /* الباء والجيم وغيرها */
+.pos-b2 .g-dot:nth-child(1) { bottom: 20%; left: 42%; }
+.pos-b2 .g-dot:nth-child(2) { bottom: 20%; left: 58%; }
 
 /* -------------------------------------- */
 /* استثناءات مخصصة للحروف ذات البطن وغيرها */
@@ -4220,11 +4248,11 @@ html.has-phaser-fs #reading-check-btns {
     .missing-grid { grid-template-columns: 1fr !important; }
 }
 
-/* إجبار الحاويات على احترام العرض الجديد حتى بعد الخروج من Fullscreen */
+/* إجبار الحاويات على احترام العرض الجديد */
 .fs-content-wrapper {
-    width: 100% !important;
-    max-width: 1200px !important;
-    margin: 0 auto !important;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 /* تعديل عرض شبكات الألعاب لتناسب الـ 1200 بكسل بشكل مريح */

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { FULL_DB, getLetterRule } from "@/data/db";
 import { useAppContext } from "@/context/AppContext";
@@ -42,6 +42,34 @@ export default function LetterScreen() {
 
   const [activeSection, setActiveSection] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  // Fullscreen Scaling Logic
+  useEffect(() => {
+    if (!isFullscreen) {
+      if (wrapperRef.current) {
+        wrapperRef.current.style.transform = "";
+        wrapperRef.current.style.width = "";
+      }
+      return;
+    }
+
+    const handleResize = () => {
+      if (!wrapperRef.current) return;
+      const winW = window.innerWidth - 40; // 20px padding on each side
+      const winH = window.innerHeight - 40;
+      const naturalW = 1000;
+      const naturalH = 700;
+
+      const scale = Math.min(winW / naturalW, winH / naturalH, 1.5); // Max scale 1.5
+      wrapperRef.current.style.width = `${naturalW}px`;
+      wrapperRef.current.style.transform = `scale(${scale})`;
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [isFullscreen, activeSection]);
 
   const toggleFullscreen = () => {
     const next = !isFullscreen;
@@ -122,7 +150,7 @@ export default function LetterScreen() {
 
           <div className="letter-content-area">
             <div className={`step-section ${isFullscreen ? "fs-section-active" : ""}`}>
-              <div className="fs-content-wrapper">
+              <div className="fs-content-wrapper" ref={wrapperRef}>
 
             {/* ══ 1: HERO ══ */}
             {activeSection === 0 && (

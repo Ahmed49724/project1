@@ -9787,13 +9787,310 @@ const LETTER_FINAL_EXAMPLES = {
   },
 };
 
+const LETTER_FINAL_CONVERSATIONS = {
+  'أ': {
+    word: 'أَنَا',
+    wordEn: 'I / me',
+    messages: [
+      { side: 'out', ar: 'أَنَا اسْمِي أَحْمَد، مَا اسْمُكَ أَنْتَ؟', en: 'My name is Ahmed. What is your name?' },
+      { side: 'in', ar: 'أَنَا اسْمِي جُون.', en: 'My name is John.' },
+    ]
+  },
+  'ب': {
+    word: 'أَنْتَ',
+    wordEn: 'You',
+    messages: [
+      { side: 'out', ar: 'مِنْ أَيْنَ أَنْتَ؟', en: 'Where are you from?' },
+      { side: 'in', ar: 'أَنَا مِنْ مِصْر، وَأَنْتَ؟', en: 'I am from Egypt, and you?' },
+    ]
+  },
+  'ت': {
+    word: 'أَنْتِ',
+    wordEn: 'You',
+    messages: [
+      { side: 'out', ar: 'كَيْفَ حَالُكِ أَنْتِ اليَوْم؟', en: 'How are you today?' },
+      { side: 'in', ar: 'بِخَيْر وَالحَمْدُ لله.', en: 'I am well, praise be to Allah.' },
+    ]
+  },
+  'ث': {
+    word: 'هُوَ',
+    wordEn: 'He',
+    messages: [
+      { side: 'out', ar: 'مَنْ هُوَ؟', en: 'Who is he?' },
+      { side: 'in', ar: 'هُوَ صَدِيقِي مِنْ إِسْبَانِيَا.', en: 'He is my friend from Spain.' },
+    ]
+  },
+  'ج': {
+    word: 'هِيَ',
+    wordEn: 'She',
+    messages: [
+      { side: 'out', ar: 'هَلْ هِيَ طَالِبَة هُنَا؟', en: 'Is she a student here?' },
+      { side: 'in', ar: 'نَعَمْ، هِيَ تَدْرُسُ العَرَبِيَّة.', en: 'Yes, she studies Arabic.' },
+    ]
+  },
+  'ح': {
+    word: 'نَحْنُ',
+    wordEn: 'We',
+    messages: [
+      { side: 'out', ar: 'مَاذَا نَفْعَل نَحْنُ؟', en: 'What are we doing?' },
+      { side: 'in', ar: 'نَحْنُ نَتَعَلَّمُ الآن.', en: 'We are learning now.' },
+    ]
+  },
+  'خ': {
+    word: 'هُمْ',
+    wordEn: 'They',
+    messages: [
+      { side: 'out', ar: 'هَلْ هُمْ أَصْدِقَاؤُكَ؟', en: 'Are they your friends?' },
+      { side: 'in', ar: 'نَعَمْ، هُمْ مَعِي.', en: 'Yes, they are with me.' },
+    ]
+  },
+  'د': {
+    word: 'هَذَا',
+    wordEn: 'This',
+    messages: [
+      { side: 'out', ar: 'بِكَمْ هَذَا الكِتَاب لَوْ سَمَحْت؟', en: 'How much is this book, please?' },
+      { side: 'in', ar: 'هَذَا بِعَشَرَةِ دُولَارَات.', en: 'This is ten dollars.' },
+    ]
+  },
+  'ذ': {
+    word: 'هَذِهِ',
+    wordEn: 'This',
+    messages: [
+      { side: 'out', ar: 'لِمَنْ هَذِهِ الحَقِيبَة؟', en: 'Whose bag is this?' },
+      { side: 'in', ar: 'هَذِهِ لِي، شُكْراً.', en: 'This is mine, thank you.' },
+    ]
+  },
+  'ر': {
+    word: 'مَنْ',
+    wordEn: 'Who',
+    messages: [
+      { side: 'out', ar: 'مَنْ هُنَاكَ؟', en: 'Who is there?' },
+      { side: 'in', ar: 'أَنَا أَحْمَد، اِفْتَحِ البَاب.', en: 'I am Ahmed, open the door.' },
+    ]
+  },
+  'ز': {
+    word: 'مَا / مَاذَا',
+    wordEn: 'What',
+    messages: [
+      { side: 'out', ar: 'مَاذَا تَعْمَل؟', en: 'What do you do?' },
+      { side: 'in', ar: 'أَنَا مُهَنْدِس.', en: 'I am an engineer.' },
+    ]
+  },
+  'س': {
+    word: 'أَيْنَ',
+    wordEn: 'Where',
+    messages: [
+      { side: 'out', ar: 'أَيْنَ المَحَطَّة مِنْ فَضْلِك؟', en: 'Where is the station, please?' },
+      { side: 'in', ar: 'المَحَطَّةُ قَرِيبَةٌ مِنْ هُنَا.', en: 'The station is close to here.' },
+    ]
+  },
+  'ش': {
+    word: 'مَتَى',
+    wordEn: 'When',
+    messages: [
+      { side: 'out', ar: 'مَتَى نَذْهَبُ إِلَى المَطْعَم؟', en: 'When do we go to the restaurant?' },
+      { side: 'in', ar: 'نَذْهَبُ مَسَاءَ اليَوْم.', en: 'We go this evening.' },
+    ]
+  },
+  'ص': {
+    word: 'كَيْفَ',
+    wordEn: 'How',
+    messages: [
+      { side: 'out', ar: 'كَيْفَ أَذْهَبُ إِلَى المَطَار؟', en: 'How do I go to the airport?' },
+      { side: 'in', ar: 'بِالتَّاكْسِي أَوْ بِالقِطَار.', en: 'By taxi or by train.' },
+    ]
+  },
+  'ض': {
+    word: 'هَلْ',
+    wordEn: 'Do / Is?',
+    messages: [
+      { side: 'out', ar: 'هَلْ تَتَكَلَّمُ الإِنْجِلِيزِيَّة؟', en: 'Do you speak English?' },
+      { side: 'in', ar: 'نَعَمْ، قَلِيلاً.', en: 'Yes, a little.' },
+    ]
+  },
+  'ط': {
+    word: 'فِي',
+    wordEn: 'In',
+    messages: [
+      { side: 'out', ar: 'أَيْنَ تَسْكُن؟', en: 'Where do you live?' },
+      { side: 'in', ar: 'أَسْكُنُ فِي القَاهِرَة.', en: 'I live in Cairo.' },
+    ]
+  },
+  'ظ': {
+    word: 'مِنْ',
+    wordEn: 'From',
+    messages: [
+      { side: 'out', ar: 'مِنْ أَيْنَ هَذِهِ القَهْوَة؟', en: 'Where is this coffee from?' },
+      { side: 'in', ar: 'هَذِهِ مِنَ البَرَازِيل.', en: 'This is from Brazil.' },
+    ]
+  },
+  'ع': {
+    word: 'إِلَى',
+    wordEn: 'To',
+    messages: [
+      { side: 'out', ar: 'إِلَى أَيْنَ أَنْتَ ذَاهِب؟', en: 'Where are you going?' },
+      { side: 'in', ar: 'إِلَى الجَامِعَة.', en: 'To the university.' },
+    ]
+  },
+  'غ': {
+    word: 'مَعَ',
+    wordEn: 'With',
+    messages: [
+      { side: 'out', ar: 'مَعَ مَنْ تُسَافِر؟', en: 'With whom are you traveling?' },
+      { side: 'in', ar: 'أُسَافِرُ مَعَ عَائِلَتِي.', en: 'I travel with my family.' },
+    ]
+  },
+  'ف': {
+    word: 'لِـ / لِي',
+    wordEn: 'For / for me',
+    messages: [
+      { side: 'out', ar: 'هَلْ هَذَا الكوب لِي؟', en: 'Is this cup for me?' },
+      { side: 'in', ar: 'نَعَمْ، هَذَا لَكَ.', en: 'Yes, this is for you.' },
+    ]
+  },
+  'ق': {
+    word: 'عِنْدَ',
+    wordEn: 'Have / at',
+    messages: [
+      { side: 'out', ar: 'هَلْ عِنْدَكَ وَقْت؟', en: 'Do you have time?' },
+      { side: 'in', ar: 'لَا، أَنَا مَشْغُولٌ جِدّاً.', en: 'No, I am very busy.' },
+    ]
+  },
+  'ك': {
+    word: 'بـِ',
+    wordEn: 'By / with',
+    messages: [
+      { side: 'out', ar: 'كَيْفَ تُسَافِر؟', en: 'How do you travel?' },
+      { side: 'in', ar: 'أُسَافِرُ بِـالقِطَار.', en: 'I travel by train.' },
+    ]
+  },
+  'ل': {
+    word: 'لِأَنَّ',
+    wordEn: 'Because',
+    messages: [
+      { side: 'out', ar: 'لِمَاذَا تَدْرُسُ العَرَبِيَّة؟', en: 'Why do you study Arabic?' },
+      { side: 'in', ar: 'لِأَنَّهَا مُهِمَّةٌ لِعَمَلِي.', en: 'Because it is important for my work.' },
+    ]
+  },
+  'م': {
+    word: 'لَكِنْ',
+    wordEn: 'But',
+    messages: [
+      { side: 'out', ar: 'هَلِ الجَوُّ بَارِد؟', en: 'Is the weather cold?' },
+      { side: 'in', ar: 'نَعَمْ، لَكِنَّ الشَّمْسَ مُشْرِقَة.', en: 'Yes, but the sun is shining.' },
+    ]
+  },
+  'ن': {
+    word: 'أَوْ',
+    wordEn: 'Or',
+    messages: [
+      { side: 'out', ar: 'تَشْرَبُ شَايَاً أَوْ قَهْوَة؟', en: 'Do you drink tea or coffee?' },
+      { side: 'in', ar: 'قَهْوَةً لَوْ سَمَحْت.', en: 'Coffee, please.' },
+    ]
+  },
+  'هـ': {
+    word: 'وَ',
+    wordEn: 'And',
+    messages: [
+      { side: 'out', ar: 'أَنَا وَأَنْتَ أَصْدِقَاء، صَحِيح؟', en: 'You and I are friends, right?' },
+      { side: 'in', ar: 'نَعَمْ، بِالتَّأْكِيد.', en: 'Yes, of course.' },
+    ]
+  },
+  'و': {
+    word: 'نَعَمْ',
+    wordEn: 'Yes',
+    messages: [
+      { side: 'out', ar: 'هَلْ أَنْتَ جَاهِز؟', en: 'Are you ready?' },
+      { side: 'in', ar: 'نَعَمْ، أَنَا جَاهِز.', en: 'Yes, I am ready.' },
+    ]
+  },
+  'ي': {
+    word: 'لَا',
+    wordEn: 'No',
+    messages: [
+      { side: 'out', ar: 'هَلْ فَهِمْتَ الدَّرْس؟', en: 'Did you understand the lesson?' },
+      { side: 'in', ar: 'لَا، أَحْتَاجُ إِلَى مُسَاعَدَة.', en: 'No, I need help.' },
+    ]
+  },
+};
+
+function _highlightTargetWord(text, target) {
+  if (!text || !target) return text || '';
+  const parts = String(target).split('/').map(part => part.trim()).filter(Boolean)
+    .sort((a, b) => b.length - a.length);
+  let output = String(text);
+  parts.forEach(part => {
+    const escaped = part.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    output = output.replace(new RegExp(escaped, 'g'), `<mark>${part}</mark>`);
+  });
+  return output;
+}
+
 function _patchAlefFinalPage(key) {
   // Remove any existing panel first
   const existing = document.getElementById('letter-final-panel');
   if (existing) existing.remove();
 
-  const entry = LETTER_FINAL_EXAMPLES[key];
+  const entry = LETTER_FINAL_CONVERSATIONS[key] || LETTER_FINAL_EXAMPLES[key];
   if (!entry) return;
+
+  if (entry.messages) {
+    const panel = document.createElement('div');
+    panel.id = 'letter-final-panel';
+    panel.className = 'step-section whatsapp-final-section';
+    panel.setAttribute('data-section', 'final');
+    panel.style.cssText = 'min-height:auto;margin-top:20px;';
+
+    panel.innerHTML = `
+      <div class="wa-chat-shell">
+        <div class="wa-chat-topbar">
+          <button class="wa-chat-back" type="button" aria-label="Back"><i class="fas fa-chevron-right"></i></button>
+          <div class="wa-chat-avatar">${entry.word.replace(/\s*\/.*$/, '').charAt(0)}</div>
+          <div class="wa-chat-contact">
+            <div class="wa-chat-name">${entry.word}</div>
+          </div>
+          <button class="wa-chat-icon" type="button" aria-label="Call"><i class="fas fa-phone"></i></button>
+          <button class="wa-chat-icon" type="button" aria-label="More"><i class="fas fa-ellipsis-vertical"></i></button>
+        </div>
+        <div class="wa-chat-topic">
+          <span>${entry.word}</span>
+        </div>
+        <div class="wa-chat-body">
+          ${entry.messages.map((msg, idx) => `
+            <button class="wa-bubble wa-bubble-${msg.side}" type="button" data-speak="${msg.ar}" onclick="if(typeof speakAr==='function') speakAr(this.dataset.speak)">
+              <span class="wa-msg-ar">${_highlightTargetWord(msg.ar, entry.word)}</span>
+              <span class="wa-msg-en">${msg.en}</span>
+              <span class="wa-msg-meta">${idx === 0 ? '09:41' : '09:42'} ${msg.side === 'out' ? '<i class="fas fa-check-double"></i>' : ''}</span>
+            </button>
+          `).join('')}
+        </div>
+        <div class="wa-chat-composer">
+          <span class="wa-compose-icon"><i class="far fa-face-smile"></i></span>
+          <span class="wa-compose-field">اضغط على أي رسالة للاستماع</span>
+          <span class="wa-send-icon"><i class="fas fa-microphone"></i></span>
+        </div>
+      </div>
+    `;
+
+    const layout = document.querySelector('#letter-screen .letter-layout');
+    if (layout) {
+      const allSections = layout.querySelectorAll('.step-section');
+      let nextBtnSection = null;
+      allSections.forEach(sec => {
+        if (sec.querySelector('.next-level-btn')) nextBtnSection = sec;
+      });
+      if (nextBtnSection) nextBtnSection.classList.add('next-letter-section');
+      if (nextBtnSection) layout.insertBefore(panel, nextBtnSection);
+      else layout.appendChild(panel);
+    }
+
+    setTimeout(() => {
+      if (typeof window._installFsButtons === 'function') {
+        window._installFsButtons();
+      }
+    }, 50);
+    return;
+  }
 
   const isReview = entry.pronoun && entry.pronoun.includes('مراجعة');
   const isFinale = entry.pronoun && entry.pronoun.includes('أتممتَ');
