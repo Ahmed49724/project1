@@ -5,12 +5,12 @@ export const ARABIC_LETTERS = [
     'ك','ل','م','ن','هـ','و','ي'
   ];
   export const LETTER_NAMES_EN = {
-    'أ':'Alif', 'ب':'Ba',   'ت':'Ta',    'ث':'Tha',   'ج':'Jeem',
-    'ح':'Ha',   'خ':'Kha',  'د':'Dal',   'ذ':'Thal',  'ر':'Ra',
-    'ز':'Zay',  'س':'Seen', 'ش':'Sheen', 'ص':'Sad',   'ض':'Dad',
-    'ط':'Ta',   'ظ':'Dha',  'ع':'Ain',   'غ':'Ghain', 'ف':'Fa',
+    'أ':'Alif', 'ب':'Ba',   'ت':'Ta (Light)',    'ث':'Tha',   'ج':'Jeem',
+    'ح':'Ha (Throaty)',   'خ':'Kha',  'د':'Dal',   'ذ':'Thal (Light)',  'ر':'Ra',
+    'ز':'Zay',  'س':'Seen (Light)', 'ش':'Sheen', 'ص':'Sad (Heavy)',   'ض':'Dad',
+    'ط':'Ta (Heavy)',   'ظ':'Dha (Heavy)',  'ع':'Ain',   'غ':'Ghain', 'ف':'Fa',
     'ق':'Qaf',  'ك':'Kaf',  'ل':'Lam',   'م':'Meem',  'ن':'Noon',
-    'هـ':'Ha',  'و':'Waw',  'ي':'Ya'
+    'هـ':'Ha (Light)',  'و':'Waw',  'ي':'Ya'
   };
   export const RAFISA   = ['أ','إ','آ','ا','د','ذ','ر','ز','و','ؤ'];
   export const UNLOCK_COST = 10;
@@ -71,9 +71,9 @@ export const ARABIC_LETTERS = [
     'ح': "﴿ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ ۝ الرَّحْمَٰنِ الرَّحِيمِ ۝ مَالِكِ يَوْمِ الدِّينِ ۝ إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ﴾",
     'خ': "﴿ قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ ۝ مِن شَرِّ مَا خَلَقَ ۝ وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ ﴾",
     'د': "﴿ قُلْ هُوَ اللَّهُ أَحَدٌ ۝ اللَّهُ الصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ ﴾",
-    'ذ': "﴿ إِذَا زُلْزِلَتِ الْأَرْضُ زِلْزَالَهَا ۝ وَأَخْرَجَتِ الْأَرْضُ أَثْقَالَهَا ۝ يَوْمَئِذٍ تُحَدِّثُ أَخْبَارَهَا ﴾",
+    'ذ': "﴿ وَالذَّارِيَاتِ ذَرْوًا ۝ فَالْحَامِلَاتِ وِقْرًا ۝ فَالْجَارِيَاتِ يُسْرًا ۝ فَالْمُقَسِّمَاتِ أَمْرًا ﴾",
     'ر': "﴿ إِنَّا أَعْطَيْنَاكَ الْكَوْثَرَ ۝ فَصَلِّ لِرَبِّكَ وَانْحَرْ ۝ إِنَّ شَانِئَكَ هُوَ الْأَبْتَرُ ﴾",
-    'ز': "﴿ وَالذَّارِيَاتِ ذَرْوًا ۝ فَالْحَامِلَاتِ وِقْرًا ۝ فَالْجَارِيَاتِ يُسْرًا ۝ فَالْمُقَسِّمَاتِ أَمْرًا ﴾",
+    'ز': "﴿ إِذَا زُلْزِلَتِ الْأَرْضُ زِلْزَالَهَا ۝ وَأَخْرَجَتِ الْأَرْضُ أَثْقَالَهَا ۝ يَوْمَئِذٍ تُحَدِّثُ أَخْبَارَهَا ﴾",
     'س': "﴿ قُلْ أَعُوذُ بِرَبِّ النَّاسِ ۝ مَلِكِ النَّاسِ ۝ إِلَٰهِ النَّاسِ ۝ مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ ﴾",
     'ش': "﴿ لِإِيلَافِ قُرَيْشٍ ۝ إِيلَافِهِمْ رِحْلَةَ الشِّتَاءِ وَالصَّيْفِ ۝ فَلْيَعْبُدُوا رَبَّ هَٰذَا الْبَيْتِ ﴾",
     'ص': "﴿ وَالْعَصْرِ ۝ إِنَّ الْإِنسَانَ لَفِي خُسْرٍ ۝ إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ وَتَوَاصَوْا بِالصَّبْرِ ﴾",
@@ -113,7 +113,7 @@ export const ARABIC_LETTERS = [
         { display: `بَ<span class="missing-gap"></span>َ`, correctShape: 1 },
         { display: `أَبَ<span class="missing-gap"></span>`, correctShape: 3 },
         { display: `بَأَ<span class="missing-gap"></span>`, correctShape: 3 },
-        { display: `أَ<span class="missing-gap"></span>َبَ`, correctShape: 1 },
+        { display: `أَ<span class="missing-gap"></span>َبَ`, correctShape: 0 },
         { display: `أَأَ<span class="missing-gap"></span>`, correctShape: 3 }
       ]
     },
@@ -129,10 +129,10 @@ export const ARABIC_LETTERS = [
       xoWords: ['أَبَ','بَأَ','بَبَ','أَبَ','بَأَ','أَبَ','بَبَ','أَبَ','بَأَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َأَبَ`, correctShape: 0 },
-        { display: `أَ<span class="missing-gap"></span>َأَ`, correctShape: 1 },
+        { display: `أَ<span class="missing-gap"></span>َأَ`, correctShape: 0 },
         { display: `أَبَ<span class="missing-gap"></span>َ`, correctShape: 2 },
         { display: `بَأَ<span class="missing-gap"></span>َ`, correctShape: 3 },
-        { display: `أَ<span class="missing-gap"></span>َبَ`, correctShape: 1 },
+        { display: `أَ<span class="missing-gap"></span>َبَ`, correctShape: 0 },
         { display: `أَأَ<span class="missing-gap"></span>َ`, correctShape: 3 }
       ]
     },
@@ -148,7 +148,7 @@ export const ARABIC_LETTERS = [
       xoWords: ['بَتَتَ','أَتَبَ','تَبَتَ','تَأَبَ','بَأَتَ','تَبَ','بَتَ','أَتَ','تَأَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َبَتَ`, correctShape: 0 },
-        { display: `أَ<span class="missing-gap"></span>َبَ`, correctShape: 1 },
+        { display: `أَ<span class="missing-gap"></span>َبَ`, correctShape: 0 },
         { display: `بَتَ<span class="missing-gap"></span>َ`, correctShape: 2 },
         { display: `بَأَ<span class="missing-gap"></span>َ`, correctShape: 3 },
         { display: `أَبَ<span class="missing-gap"></span>َ`, correctShape: 2 },
@@ -175,7 +175,7 @@ export const ARABIC_LETTERS = [
         { display: `بَ<span class="missing-gap"></span>َثَ`, correctShape: 1 },
         { display: `أَبَ<span class="missing-gap"></span>َ`, correctShape: 2 },
         { display: `تَأَ<span class="missing-gap"></span>َ`, correctShape: 3 },
-        { display: `أَ<span class="missing-gap"></span>َبَ`, correctShape: 1 },
+        { display: `أَ<span class="missing-gap"></span>َبَ`, correctShape: 0 },
         { display: `بَأَ<span class="missing-gap"></span>َ`, correctShape: 3 }
       ],
       detective: {
@@ -507,7 +507,7 @@ export const ARABIC_LETTERS = [
       xoWords: ['بَزَغَ','غَرَسَ','رَغِبَ','شَغَبَ','ضَغَطَ','غُلِبَ','شُغِفَ','فَرِغَ','صُبِغَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َرَسَ`, correctShape: 0 },
-        { display: `رَ<span class="missing-gap"></span>ِبَ`, correctShape: 1 },
+        { display: `رَ<span class="missing-gap"></span>ِبَ`, correctShape: 0 },
         { display: `صُبِ<span class="missing-gap"></span>َ`, correctShape: 2 },
         { display: `بَزَ<span class="missing-gap"></span>َ`, correctShape: 3 },
         { display: `ضَ<span class="missing-gap"></span>َطَ`, correctShape: 1 },
@@ -531,7 +531,7 @@ export const ARABIC_LETTERS = [
       xoWords: ['رَدَفَ','فَتَحَ','فَرِحَ','رَفَعَ','عَرَفَ','فُحِصَ','زُفِفَ','سَلَفَ','خَطِفَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َتَحَ`, correctShape: 0 },
-        { display: `رَ<span class="missing-gap"></span>َعَ`, correctShape: 1 },
+        { display: `رَ<span class="missing-gap"></span>َعَ`, correctShape: 0 },
         { display: `خَطِ<span class="missing-gap"></span>َ`, correctShape: 2 },
         { display: `رَدَ<span class="missing-gap"></span>َ`, correctShape: 3 },
         { display: `زُ<span class="missing-gap"></span>ِفَ`, correctShape: 1 },
@@ -660,7 +660,7 @@ export const ARABIC_LETTERS = [
       xoWords: ['رَدَهَ','هَرَبَ','ذَهَبَ','ظَهَرَ','شَهِدَ','هُدِمَ','فُهِمَ','نُهِرَ','بُهِتَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َرَبَ`, correctShape: 0 },
-        { display: `ذَ<span class="missing-gap"></span>َبَ`, correctShape: 1 },
+        { display: `ذَ<span class="missing-gap"></span>َبَ`, correctShape: 0 },
         { display: `شَهِ<span class="missing-gap"></span>َ`, correctShape: 2 },
         { display: `رَدَ<span class="missing-gap"></span>َ`, correctShape: 3 },
         { display: `ظَ<span class="missing-gap"></span>َرَ`, correctShape: 1 },
@@ -735,7 +735,9 @@ export const DETECTIVE_DATA = {
       { type: 'sound', target: 'ث', compareWith: 'س', weight: { light: 'ث', heavy: 'س' }, labels: { light: 'لثوي (ث)', heavy: 'صفير (س)' } },
       { type: 'sound', target: 'ث', compareWith: 'ذ', weight: { light: 'ث', heavy: 'ذ' }, labels: { light: 'مهموس (ث)', heavy: 'مجهور (ذ)' } }
   ],
-  'ج': { type: 'visual', target: 'ج', compareWith: 'خ', dots: { target: 'نقطة تحت', compare: 'نقطة فوق' } },
+  'ج': [
+      { type: 'visual', target: 'ج', compareWith: 'خ', dots: { target: 'نقطة تحت', compare: 'نقطة فوق' } }
+  ],
   'ح': [
       { type: 'sound', target: 'ح', compareWith: 'ع', weight: { light: 'ح', heavy: 'ع' }, labels: { light: 'مهموس (ح)', heavy: 'مجهور (ع)' } },
       { type: 'sound', target: 'ح', compareWith: 'هـ', weight: { light: 'ح', heavy: 'هـ' }, labels: { light: 'وسط الحلق (ح)', heavy: 'أقصى الحلق (هـ)' } }

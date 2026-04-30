@@ -179,11 +179,38 @@ export function LetterDetective({ letterId, letterData, onComplete }: SectionPro
 
     return (
       <div className="section-content" style={{ textAlign: "center" }}>
-        <div className="section-heading" style={{ marginBottom: "8px" }}>
-          <span className="section-badge">👁️</span> التمييز البصري — Visual Discrimination
+        <div className="section-heading" style={{ marginBottom: "12px" }}>
+          <span className="section-badge">💎</span> شكل التوائم — Visual Twins
         </div>
+        <div style={{ color: "var(--text-muted)", fontFamily: "sans-serif", fontSize: "0.9rem", marginBottom: "30px" }}>
+          Differences in dots and drawing — الفرق في النقاط والرسم
+        </div>
+
+        {/* 💎 Visual Twins Display with Neon Dots */}
+        <div className="visual-twins-box">
+          <div className={`twin-wrapper letter-${entry.target}`}>
+            <div className={`twin-char ${viAnswer ? "dimmed" : ""}`}>{entry.target}</div>
+            <div className={`glow-dots-container ${getDotClass(entry.dots?.target)} active`}>
+              <div className="g-dot" />
+              <div className="g-dot" />
+              <div className="g-dot" />
+            </div>
+          </div>
+          
+          <div style={{ fontSize: "2.5rem", color: "var(--border)", opacity: 0.5, fontWeight: 100 }}>|</div>
+
+          <div className={`twin-wrapper letter-${entry.compareWith}`}>
+            <div className={`twin-char ${viAnswer ? "dimmed" : ""}`}>{entry.compareWith}</div>
+            <div className={`glow-dots-container ${getDotClass(entry.dots?.compare)} active`}>
+              <div className="g-dot" />
+              <div className="g-dot" />
+              <div className="g-dot" />
+            </div>
+          </div>
+        </div>
+
         <div style={{ color: "var(--text-muted)", fontFamily: "sans-serif", fontSize: "0.85rem", marginBottom: "24px" }}>
-          Question {viIdx + 1} / {visualEntries.length} — أيهما هو الحرف <strong style={{ fontSize: "1.2rem" }}>{entry.target}</strong>؟
+          Question {viIdx + 1} / {visualEntries.length} — أيهما هو الحرف <strong style={{ fontSize: "1.2rem", color: "var(--primary)" }}>{entry.target}</strong>؟
         </div>
 
         {/* Progress */}
@@ -338,7 +365,7 @@ export function LetterDetective({ letterId, letterData, onComplete }: SectionPro
     return (
       <div className="section-content" style={{ textAlign: "center" }}>
         <div className="section-heading" style={{ marginBottom: "8px" }}>
-          <span className="section-badge">🔎</span> صيد الحروف — Letter Hunt
+          <span className="section-badge">🔎</span> صيد الحرف — Catch the Letter
         </div>
         <div style={{ color: "var(--text-muted)", fontFamily: "sans-serif", fontSize: "0.85rem", marginBottom: "8px" }}>
           اعثر على كل حرف <strong style={{ fontSize: "1.3rem", color: "var(--primary, #185FA5)" }}>{letterId}</strong> المختبئ!
@@ -450,6 +477,17 @@ export function LetterDetective({ letterId, letterData, onComplete }: SectionPro
     </div>
   );
 }
+
+// ── Helper to map dot text to CSS classes ──
+const getDotClass = (dotDesc: string | undefined) => {
+  if (!dotDesc) return "";
+  if (dotDesc.includes("نقطة") && dotDesc.includes("فوق")) return "pos-t1";
+  if (dotDesc.includes("نقطتان") && dotDesc.includes("فوق")) return "pos-t2";
+  if (dotDesc.includes("نقطتان") && dotDesc.includes("تحت")) return "pos-b2";
+  if (dotDesc.includes("نقطة") && dotDesc.includes("تحت")) return "pos-b1";
+  if (dotDesc.includes("٣") || dotDesc.includes("3") || dotDesc.includes("ثلاث")) return "pos-t3";
+  return "";
+};
 
 // ── Style helpers ──
 const infoBadge = (color: string): React.CSSProperties => ({

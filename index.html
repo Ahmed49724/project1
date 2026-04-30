@@ -510,7 +510,7 @@
       -->
 
 
-<div class="hero-box letter-hero animate-up" data-theme="vibrant">
+<div class="hero-box letter-hero animate-up" data-theme="vibrant" data-section="dna">
   <div class="hero-badge">🧬 VIBRANT DNA — جينات الحرف</div>
 
   <div class="hero-root" id="ui-hero-letter" onclick="playBeep();speakAr(this.textContent)">أ</div>
@@ -898,6 +898,27 @@
         <div class="nav-section-label" dir="ltr">Level 2: Sukoon — السكون</div>
       </div>
 
+      <!-- 🧬 DNA Hero — sukoon mark + sound card -->
+      <div class="hero-box advanced-hero sukoon-hero animate-up" data-section="sukoon-dna" data-theme="vibrant">
+        <div class="hero-badge">🧬 SUKOON DNA — جينات السكون</div>
+        <div class="hero-root advanced-hero-mark" id="ui-hero-sukoon" onclick="playBeep();speakAr('سُكُون')" role="button" tabindex="0" aria-label="Play sukoon sound">بْ</div>
+        <div class="hero-tap-hint">👆 Tap to listen — اضغط للاستماع</div>
+        <div class="sound-card" onclick="speakAr('بْ، تْ، ثْ - الحرف الساكن لا يُنطق وحده')" role="button" tabindex="0" aria-label="Play sukoon rule">
+          <div class="sound-card-head">
+            <span class="sound-card-icon">🔇</span>
+            <span class="sound-card-label">Silent · لا حركة</span>
+          </div>
+          <div class="sound-card-val">no fatha · no damma · no kasra</div>
+          <div class="sound-card-hint">يُنطق متصلاً بالحرف الذي قبله</div>
+        </div>
+      </div>
+
+      <!-- ⚙️ Motors — vowels vs sukoon -->
+      <div class="step-section" data-section="sukoon-motors">
+        <div class="section-heading"><span class="section-badge">⚙️</span> Discover the Marks — اكتشف الحركات</div>
+        <div class="adv-motors-box" id="ui-sukoon-motors"></div>
+      </div>
+
       <!-- Letter selectors (outside fullscreen sections so they persist across nav) -->
       <div class="step-section" data-section="sukoon-selectors" style="min-height:auto;">
         <div class="section-heading sukoon-section-title"><span class="section-badge">1</span> السكون — Sukoon</div>
@@ -1220,6 +1241,11 @@
         <div id="sukoon-det-container"></div>
       </div>
 
+      <div class="step-section" data-section="sukoon-questions">
+        <div class="section-heading"><span class="section-badge">❓</span> Question Tools — أدوات الاستفهام</div>
+        <div id="ui-sukoon-questions"></div>
+      </div>
+
       <div class="step-section" style="min-height:auto;padding-top:20px;border-bottom:none;"><button class="next-level-btn" onclick="goHome();playVictorySound();fireConfetti();" style="flex-direction:column;gap:5px;"><span>أحسنت! العودة للقائمة <i class="fas fa-home"></i></span><span style="font-size:1rem;font-weight:normal;letter-spacing:normal;">Great Job! Back to Menu</span></button></div>
     </div>
   </div>
@@ -1235,6 +1261,27 @@
           <i class="fas fa-arrow-right" aria-hidden="true"></i> رجوع
         </button>
         <div class="nav-section-label" dir="ltr">Level 3: Long Vowels — المد</div>
+      </div>
+
+      <!-- 🧬 DNA Hero — madd letters + sound card -->
+      <div class="hero-box advanced-hero madd-hero animate-up" data-section="madd-dna" data-theme="vibrant">
+        <div class="hero-badge">🧬 MADD DNA — جينات المد</div>
+        <div class="hero-root advanced-hero-mark" id="ui-hero-madd" onclick="playBeep();speakAr('مَد')" role="button" tabindex="0" aria-label="Play madd sound">ا · و · ي</div>
+        <div class="hero-tap-hint">👆 Tap to listen — اضغط للاستماع</div>
+        <div class="sound-card" onclick="speakAr('با، بو، بي - حروف المد تطيل الصوت')" role="button" tabindex="0" aria-label="Play madd rule">
+          <div class="sound-card-head">
+            <span class="sound-card-icon">🔊</span>
+            <span class="sound-card-label">Stretch · مَدّ الصوت</span>
+          </div>
+          <div class="sound-card-val">ا = aaa · و = ooo · ي = eee</div>
+          <div class="sound-card-hint">يُمدّ الصوت حركتين على الأقل</div>
+        </div>
+      </div>
+
+      <!-- ⚙️ Motors — short vowels meet long vowels -->
+      <div class="step-section" data-section="madd-motors">
+        <div class="section-heading"><span class="section-badge">⚙️</span> Discover the Long Vowels — اكتشف حروف المد</div>
+        <div class="adv-motors-box" id="ui-madd-motors"></div>
       </div>
 
       <!-- Letter selectors -->
@@ -1511,6 +1558,11 @@
       <!-- 🕌 Quran -->
       <div class="step-section" data-section="madd-quran"><div class="section-heading"><span class="section-badge">12</span> 🕌 Find the Long Vowel in the Quran — استخرج حرف المد</div><div class="mushaf-box"><div class="interactive-words" id="ui-madd-quran-text"></div><div class="hunt-progress" id="madd_quran-progress">Progress: 0 / 0</div></div></div>
 
+      <div class="step-section" data-section="madd-questions">
+        <div class="section-heading"><span class="section-badge">❓</span> Question Tools — أدوات الاستفهام</div>
+        <div id="ui-madd-questions"></div>
+      </div>
+
       <div class="step-section" style="min-height:auto;padding-top:20px;border-bottom:none;"><button class="next-level-btn" onclick="goHome();playVictorySound();fireConfetti();" style="flex-direction:column;gap:5px;"><span>أحسنت! العودة للقائمة <i class="fas fa-home"></i></span><span style="font-size:1rem;font-weight:normal;letter-spacing:normal;">Great Job! Back to Menu</span></button></div>
     </div>
   </div>
@@ -1526,6 +1578,27 @@
           <i class="fas fa-arrow-right" aria-hidden="true"></i> رجوع
         </button>
         <div class="nav-section-label" dir="ltr">Level 4: Shadda — الشدة</div>
+      </div>
+
+      <!-- 🧬 DNA Hero — shadda mark + sound card -->
+      <div class="hero-box advanced-hero shadda-hero animate-up" data-section="shadda-dna" data-theme="vibrant">
+        <div class="hero-badge">🧬 SHADDA DNA — جينات الشدة</div>
+        <div class="hero-root advanced-hero-mark" id="ui-hero-shadda" onclick="playBeep();speakAr('شَدَّة')" role="button" tabindex="0" aria-label="Play shadda sound">بّ</div>
+        <div class="hero-tap-hint">👆 Tap to listen — اضغط للاستماع</div>
+        <div class="sound-card" onclick="speakAr('بَبّ، حرفان في حرف واحد مشدد')" role="button" tabindex="0" aria-label="Play shadda rule">
+          <div class="sound-card-head">
+            <span class="sound-card-icon">💥</span>
+            <span class="sound-card-label">Doubled · حرفان في واحد</span>
+          </div>
+          <div class="sound-card-val">silent + voweled fused into one strong sound</div>
+          <div class="sound-card-hint">يُنطق الحرف بضغط وقوة</div>
+        </div>
+      </div>
+
+      <!-- ⚙️ Motors — vowel + shadda combinations -->
+      <div class="step-section" data-section="shadda-motors">
+        <div class="section-heading"><span class="section-badge">⚙️</span> Discover Shadda Marks — اكتشف حركات الشدة</div>
+        <div class="adv-motors-box" id="ui-shadda-motors"></div>
       </div>
 
       <!-- Letter selectors -->
@@ -1802,6 +1875,11 @@
       <!-- 🕌 Quran -->
       <div class="step-section" data-section="shadda-quran"><div class="section-heading"><span class="section-badge">12</span> 🕌 Find the Shadda in Quran</div><div class="mushaf-box"><div class="interactive-words" id="ui-shadda-quran-text"></div><div class="hunt-progress" id="shadda_quran-progress">Progress: 0 / 0</div></div></div>
 
+      <div class="step-section" data-section="shadda-questions">
+        <div class="section-heading"><span class="section-badge">❓</span> Question Tools — أدوات الاستفهام</div>
+        <div id="ui-shadda-questions"></div>
+      </div>
+
       <div class="step-section" style="min-height:auto;padding-top:20px;border-bottom:none;"><button class="next-level-btn" onclick="goHome();playVictorySound();fireConfetti();" style="flex-direction:column;gap:5px;"><span>أحسنت! العودة للقائمة <i class="fas fa-home"></i></span><span style="font-size:1rem;font-weight:normal;letter-spacing:normal;">Great Job! Back to Menu</span></button></div>
     </div>
   </div>
@@ -1817,6 +1895,27 @@
           <i class="fas fa-arrow-right" aria-hidden="true"></i> رجوع
         </button>
         <div class="nav-section-label" dir="ltr">Level 5: Tanween — التنوين</div>
+      </div>
+
+      <!-- 🧬 DNA Hero — tanween marks + sound card -->
+      <div class="hero-box advanced-hero tanween-hero animate-up" data-section="tanween-dna" data-theme="vibrant">
+        <div class="hero-badge">🧬 TANWEEN DNA — جينات التنوين</div>
+        <div class="hero-root advanced-hero-mark" id="ui-hero-tanween" onclick="playBeep();speakAr('تَنوِين')" role="button" tabindex="0" aria-label="Play tanween sound">ـً ـٌ ـٍ</div>
+        <div class="hero-tap-hint">👆 Tap to listen — اضغط للاستماع</div>
+        <div class="sound-card" onclick="speakAr('بَنْ، بُنْ، بِنْ - تنوين الفتح والضم والكسر')" role="button" tabindex="0" aria-label="Play tanween rule">
+          <div class="sound-card-head">
+            <span class="sound-card-icon">🔁</span>
+            <span class="sound-card-label">Hidden Noon · نون مخفية</span>
+          </div>
+          <div class="sound-card-val">ـً = an · ـٌ = un · ـٍ = in</div>
+          <div class="sound-card-hint">حركة مضاعفة = نون ساكنة في الآخر</div>
+        </div>
+      </div>
+
+      <!-- ⚙️ Motors — three tanween types -->
+      <div class="step-section" data-section="tanween-motors">
+        <div class="section-heading"><span class="section-badge">⚙️</span> Discover Tanween Types — اكتشف أنواع التنوين</div>
+        <div class="adv-motors-box" id="ui-tanween-motors"></div>
       </div>
 
       <!-- Letter selectors -->
@@ -2092,6 +2191,11 @@
 
       <!-- 🕌 Quran -->
       <div class="step-section" data-section="tanween-quran"><div class="section-heading"><span class="section-badge">12</span> 🕌 Find Tanween in Quran</div><div class="mushaf-box"><div class="interactive-words" id="ui-tanween-quran-text"></div><div class="hunt-progress" id="tanween_quran-progress">Progress: 0 / 0</div></div></div>
+
+      <div class="step-section" data-section="tanween-questions">
+        <div class="section-heading"><span class="section-badge">❓</span> Question Tools — أدوات الاستفهام</div>
+        <div id="ui-tanween-questions"></div>
+      </div>
 
       <div class="step-section" style="min-height:auto;padding-top:20px;border-bottom:none;"><button class="next-level-btn" onclick="goHome();playVictorySound();fireConfetti();" style="flex-direction:column;gap:5px;"><span>أحسنت! العودة للقائمة <i class="fas fa-home"></i></span><span style="font-size:1rem;font-weight:normal;letter-spacing:normal;">Great Job! Back to Menu</span></button></div>
     </div>

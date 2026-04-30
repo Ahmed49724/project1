@@ -10,6 +10,7 @@ import { MissingWordGame }  from "@/components/LetterSections/MissingWordGame";
 import { SpinWheelGame }    from "@/components/LetterSections/SpinWheelGame";
 import { MemoryGame }       from "@/components/LetterSections/MemoryGame";
 import { SpeedReadGame }    from "@/components/LetterSections/SpeedReadGame";
+import { LetterDetective }   from "@/components/LetterSections/LetterDetective";
 
 type LetterKey = keyof typeof FULL_DB;
 
@@ -17,6 +18,7 @@ const SECTIONS = [
   { id: "hero",    title: "الاستكشاف",     icon: "fa-eye"          },
   { id: "motors",  title: "الحركات",       icon: "fa-music"        },
   { id: "shapes",  title: "أشكال الحرف",   icon: "fa-shapes"       },
+  { id: "detective", title: "المحقق",      icon: "fa-search"       },
   { id: "xo2",     title: "المقاطع",       icon: "fa-puzzle-piece" },
   { id: "xo3",     title: "الكلمات",       icon: "fa-spell-check"  },
   { id: "missing", title: "الكلمة الناقصة", icon: "fa-question"    },
@@ -39,6 +41,18 @@ export default function LetterScreen() {
   const rule = letterData ? getLetterRule(letterId) : null;
 
   const [activeSection, setActiveSection] = useState(0);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  const toggleFullscreen = () => {
+    const next = !isFullscreen;
+    setIsFullscreen(next);
+    if (next) {
+      document.documentElement.classList.add("has-phaser-fs");
+    } else {
+      document.documentElement.classList.remove("has-phaser-fs");
+    }
+  };
+
 
   if (!letterData) {
     return (
@@ -91,18 +105,24 @@ export default function LetterScreen() {
 
         {/* ── Main ─────────────────────────────────── */}
         <div className="letter-main">
-          <div className="letter-top-bar">
-            <div className="lt-title">
-              رحلة الحرف: <span style={{ color: "var(--primary,#185FA5)", fontSize: "1.4em" }}>{letterId}</span>
-            </div>
-            <div className="lt-progress">
-              <div className="lt-progress-track">
-                <div className="lt-progress-fill" style={{ width: `${progress}%`, transition: "width 0.4s ease" }} />
+            <div className="letter-top-bar">
+              <div className="lt-title">
+                رحلة الحرف: <span style={{ color: "var(--primary,#185FA5)", fontSize: "1.4em" }}>{letterId}</span>
               </div>
+              <div className="lt-progress">
+                <div className="lt-progress-track">
+                  <div className="lt-progress-fill" style={{ width: `${progress}%`, transition: "width 0.4s ease" }} />
+                </div>
+              </div>
+              <button className="fs-toggle-btn" onClick={toggleFullscreen} title="Fullscreen Mode / وضع ملء الشاشة">
+                <i className="fas fa-expand-arrows-alt fs-icon-expand" />
+                <i className="fas fa-compress fs-icon-compress" />
+              </button>
             </div>
-          </div>
 
           <div className="letter-content-area">
+            <div className={`step-section ${isFullscreen ? "fs-section-active" : ""}`}>
+              <div className="fs-content-wrapper">
 
             {/* ══ 1: HERO ══ */}
             {activeSection === 0 && (
@@ -170,32 +190,35 @@ export default function LetterScreen() {
               </div>
             )}
 
-            {/* ══ 4: XO 2-letter (cardWords) ══ */}
-            {activeSection === 3 && (
-              <XOWordGame words={letterData.cardWords} title="المقاطع — Syllables XO" badge="4" onComplete={goNext} />
-            )}
+            {/* ══ 4: DETECTIVE ══ */}
+            {activeSection === 3 && <LetterDetective {...sectionProps} />}
 
-            {/* ══ 5: XO 3-letter (xoWords) ══ */}
+            {/* ══ 5: XO 2-letter (cardWords) ══ */}
             {activeSection === 4 && (
-              <XOWordGame words={letterData.xoWords} title="الكلمات — Words XO" badge="5" onComplete={goNext} />
+              <XOWordGame words={letterData.cardWords} title="المقاطع — Syllables XO" badge="5" onComplete={goNext} />
             )}
 
-            {/* ══ 6: MISSING WORD ══ */}
-            {activeSection === 5 && <MissingWordGame {...sectionProps} />}
+            {/* ══ 6: XO 3-letter (xoWords) ══ */}
+            {activeSection === 5 && (
+              <XOWordGame words={letterData.xoWords} title="الكلمات — Words XO" badge="6" onComplete={goNext} />
+            )}
 
-            {/* ══ 7: SPIN WHEEL ══ */}
-            {activeSection === 6 && <SpinWheelGame {...sectionProps} />}
+            {/* ══ 7: MISSING WORD ══ */}
+            {activeSection === 6 && <MissingWordGame {...sectionProps} />}
 
-            {/* ══ 8: MEMORY ══ */}
-            {activeSection === 7 && <MemoryGame {...sectionProps} />}
+            {/* ══ 8: SPIN WHEEL ══ */}
+            {activeSection === 7 && <SpinWheelGame {...sectionProps} />}
 
-            {/* ══ 9: SPEED READ ══ */}
-            {activeSection === 8 && <SpeedReadGame {...sectionProps} />}
+            {/* ══ 9: MEMORY ══ */}
+            {activeSection === 8 && <MemoryGame {...sectionProps} />}
 
-            {/* ══ 10: ARABIC STORY ══ */}
-            {activeSection === 9 && (
+            {/* ══ 10: SPEED READ ══ */}
+            {activeSection === 9 && <SpeedReadGame {...sectionProps} />}
+
+            {/* ══ 11: ARABIC STORY ══ */}
+            {activeSection === 10 && (
               <div className="section-content" style={{ textAlign: "center" }}>
-                <div className="section-heading" style={{ marginBottom: "24px" }}><span className="section-badge">10</span> قصة الحرف</div>
+                <div className="section-heading" style={{ marginBottom: "24px" }}><span className="section-badge">11</span> قصة الحرف</div>
                 <div style={{ fontSize: "5rem", marginBottom: "16px" }}>{letterData.storyIcon}</div>
                 <div style={{ fontFamily: "var(--font-noto-naskh),serif", fontSize: "1.8rem", lineHeight: 2, color: "var(--text,#1f2937)", maxWidth: "600px", margin: "0 auto 24px", background: "var(--surface2,#f0fdf4)", border: "2px solid var(--border,#e5e7eb)", borderRadius: "20px", padding: "28px", direction: "rtl" }}>
                   {letterData.storyText}
@@ -209,11 +232,12 @@ export default function LetterScreen() {
               </div>
             )}
 
-            {/* ══ 11: SPLIT WORDS XO ══ */}
-            {activeSection === 10 && (
-              <XOWordGame words={letterData.splitWords} title="التركيب — Connected Words XO" badge="11" onComplete={goNext} />
+            {/* ══ 12: SPLIT WORDS XO ══ */}
+            {activeSection === 11 && (
+              <XOWordGame words={letterData.splitWords} title="التركيب — Connected Words XO" badge="12" onComplete={goNext} />
             )}
 
+            </div>
           </div>
         </div>
       </div>

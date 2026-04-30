@@ -116,7 +116,7 @@
       xoWords: ['أَ','أَأَ','أَأَأَ','أَأَ','أَ','أَأَأَ','أَأَ','أَأَأَ','أَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َ`, correctShape: 0 },
-        { display: `أَ<span class="missing-gap"></span>َ`, correctShape: 2 },
+        { display: `أَ<span class="missing-gap"></span>َ`, correctShape: 3 },
         { display: `<span class="missing-gap"></span>َأَ`, correctShape: 0 },
         { display: `أَأَ<span class="missing-gap"></span>`, correctShape: 3 },
         { display: `أَ<span class="missing-gap"></span>َأَ`, correctShape: 0 },
@@ -874,10 +874,10 @@ const SHADDA_DATA = {
     {display:'رَب<span class="missing-gap"></span>',correct:0,opts:['َّ','ُّ','ِّ']},
     {display:'أُم<span class="missing-gap"></span>',correct:1,opts:['َّ','ُّ','ِّ']},
     {display:'حَق<span class="missing-gap"></span>',correct:2,opts:['َّ','ُّ','ِّ']},
-    {display:'قِط<span class="missing-gap"></span>ةٌ',correct:0,opts:['َّ','ُّ','ِّ']},
+    {display:'قِط<span class="missing-gap"></span>ةُ',correct:0,opts:['َّ','ُّ','ِّ']},
   ],
   xoWords:['رَبَّ','مَدَّ','شَدَّ','مَرَّ','حَقَّ','أُمُّ','جَدُّ','حَقِّ','سِرِّ'],
-  storyText:'رَبَّى مُعَلِّمٌ صغيرًا على القراءة. مَرَّ الولدُ بجانب قِطَّةٍ، ثم قال: أُمِّي تُحِبُّني، وجَدِّي يَقُصُّ حِكايةً فيها شَدَّةٌ واضِحَةٌ.',
+  storyText:'رَبَّى المُعَلِّمُ الصَّغِيرَ عَلَى القِرَاءَةِ. مَرَّ الوَلَدُ بِجَانِبِ القِطَّةِ، ثُمَّ قَالَ: أُمِّي تُحِبُّنِي، وَجَدِّي يَقُصُّ الحِكَايَةَ فِيهَا الشَّدَّةُ الوَاضِحَةُ.',
   quranText:'﴿ رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا ۝ وَهَبْ لَنَا مِن لَّدُنكَ رَحْمَةً ۝ إِنَّكَ أَنتَ الْوَهَّابُ ﴾'
 };
 
@@ -4440,9 +4440,133 @@ const SUKOON_DATA = {
   ],
   wordBank: ['بَيْتُ','مَكْتَبُ','شَمْسُ','فَصْلُ','نَمْلُ','ثَلْجُ','بَحْرُ','كَلْبُ','أَهْلُ','نَهْرُ','يَقْرَأُ','مَسْجِدُ','نَلْعَبُ','تَكْتُبُ','مَلْعَبُ'],
   xoWords:   ['يَقْرَأُ','مَكْتَبُ','مَسْجِدُ','يَذْهَبُ','أَحْمَدُ','فَصْلُ','نَلْعَبُ','تَكْتُبُ','مَلْعَبُ'],
-  storyText: 'ذَهَبَ أَحْمَدُ إِلَى مَكْتَبٍ قَرِيبٍ. رَأَى شَمْسًا، ثُمَّ جَلَسَ فِي فَصْلٍ هَادِئٍ، وَقَرَأَ كَلِمَاتٍ فِيهَا سُكُونٌ مِثْلُ بَيْتٍ وَنَهْرٍ وَقَلْبٍ وَشَمْسٍ وَمَكْتَبٍ.',
+  storyText: 'ذَهَبَ أَحْمَدُ إِلَى المَكْتَبِ القَرِيبِ. رَأَى الشَّمْسَ، ثُمَّ جَلَسَ فِي الفَصْلِ الهَادِئِ، وَقَرَأَ الكَلِمَاتِ فِيهَا السُّكُونُ مِثْلُ البَيْتِ وَالنَّهْرِ وَالقَلْبِ وَالشَّمْسِ وَالمَكْتَبِ.',
   quranText: '﴿ أَلَمْ نَشْرَحْ لَكَ صَدْرَكَ ۝ وَوَضَعْنَا عَنكَ وِزْرَكَ ۝ الَّذِي أَنقَضَ ظَهْرَكَ ﴾',
 };
+
+
+/* ════════════════════════════════════════════════════════════
+   ❓ QUESTION_TOOLS_DATA — أدوات الاستفهام
+   ════════════════════════════════════════════════════════════
+   Reusable section appearing at the end of every advanced stage
+   (sukoon, madd, shadda, tanween).
+   ════════════════════════════════════════════════════════════ */
+const QUESTION_TOOLS_DATA = [
+  { word: 'مَنْ',     en: 'Who',       asks: 'people',  icon: '👤', color: '#3b82f6',
+    example: 'مَنْ هَذَا؟',           exampleEn: 'Who is this?' },
+  { word: 'مَا',      en: 'What',      asks: 'things',  icon: '❓', color: '#8b5cf6',
+    example: 'مَا اسْمُكَ؟',          exampleEn: 'What is your name?' },
+  { word: 'مَاذَا',   en: 'What (verb)', asks: 'action', icon: '💭', color: '#a855f7',
+    example: 'مَاذَا تَفْعَلُ؟',      exampleEn: 'What are you doing?' },
+  { word: 'مَتَى',    en: 'When',      asks: 'time',    icon: '⏰', color: '#10b981',
+    example: 'مَتَى الدَّرْسُ؟',      exampleEn: 'When is the lesson?' },
+  { word: 'أَيْنَ',   en: 'Where',     asks: 'place',   icon: '📍', color: '#ef4444',
+    example: 'أَيْنَ الكِتَابُ؟',      exampleEn: 'Where is the book?' },
+  { word: 'كَيْفَ',   en: 'How',       asks: 'manner',  icon: '🛠️', color: '#f59e0b',
+    example: 'كَيْفَ حَالُكَ؟',        exampleEn: 'How are you?' },
+  { word: 'لِمَاذَا', en: 'Why',       asks: 'reason',  icon: '💡', color: '#eab308',
+    example: 'لِمَاذَا تَبْكِي؟',      exampleEn: 'Why are you crying?' },
+  { word: 'هَلْ',     en: 'Yes/No',    asks: 'yes / no', icon: '✅', color: '#14b8a6',
+    example: 'هَلْ أَنْتَ جَاهِزٌ؟',  exampleEn: 'Are you ready?' },
+  { word: 'أَيُّ',    en: 'Which',     asks: 'choice',  icon: '👉', color: '#ec4899',
+    example: 'أَيُّ لَوْنٍ تُحِبُّ؟',  exampleEn: 'Which color do you like?' },
+  { word: 'كَمْ',     en: 'How many',  asks: 'number',  icon: '🔢', color: '#0ea5e9',
+    example: 'كَمْ عُمْرُكَ؟',        exampleEn: 'How old are you?' }
+];
+
+/**
+ * renderQuestionTools — يبني قسم "أدوات الاستفهام" داخل أي حاوية
+ * @param {string} containerId  معرف الحاوية المستهدفة
+ */
+function renderQuestionTools(containerId) {
+  const host = document.getElementById(containerId);
+  if (!host) return;
+  const cards = QUESTION_TOOLS_DATA.map((q, idx) => `
+    <button type="button"
+      class="qtool-card"
+      style="--qcolor:${q.color};"
+      onclick="speakAr('${q.word}');playBeep();this.classList.add('qtool-pop');setTimeout(()=>this.classList.remove('qtool-pop'),320)"
+      aria-label="Question tool: ${q.en}">
+      <span class="qtool-icon" aria-hidden="true">${q.icon}</span>
+      <span class="qtool-word">${q.word}</span>
+      <span class="qtool-en">${q.en}</span>
+      <span class="qtool-asks">asks about ${q.asks}</span>
+      <span class="qtool-divider" aria-hidden="true"></span>
+      <span class="qtool-example" dir="rtl">${q.example}</span>
+      <span class="qtool-example-en">${q.exampleEn}</span>
+    </button>
+  `).join('');
+
+  host.innerHTML = `
+    <div class="qtool-intro">
+      <div class="qtool-intro-icon">❓</div>
+      <div class="qtool-intro-title">أدوات الاستفهام — Question Tools</div>
+      <div class="qtool-intro-sub">Tap each word to hear it. Use them to start questions in Arabic.</div>
+    </div>
+    <div class="qtool-grid">${cards}</div>
+    <div class="qtool-tip">
+      <i class="fas fa-lightbulb"></i>
+      <span><strong>Tip for the teacher:</strong> point at one tool, ask the student to read it,
+      then say the example aloud together.</span>
+    </div>
+  `;
+}
+window.renderQuestionTools = renderQuestionTools;
+
+
+/* ════════════════════════════════════════════════════════════
+   ⚙️ ADVANCED STAGE MOTORS — sukoon / madd / shadda / tanween
+   ════════════════════════════════════════════════════════════
+   Each stage gets its own "Discover the Marks" cards section,
+   mirroring the letter-stage Motors block.
+   ════════════════════════════════════════════════════════════ */
+const ADVANCED_MOTORS_DATA = {
+  sukoon: [
+    { mark: 'بَ', icon: '⬆️', name: 'Fatha — فتحة',  hint: 'A — open mouth',     color: '#e74c3c', say: 'بَ' },
+    { mark: 'بُ', icon: '⭕', name: 'Damma — ضمة',   hint: 'U — round lips',     color: '#27ae60', say: 'بُ' },
+    { mark: 'بِ', icon: '⬇️', name: 'Kasra — كسرة',  hint: 'I — drop jaw',       color: '#2980b9', say: 'بِ' },
+    { mark: 'بْ', icon: '🔇', name: 'Sukoon — سكون', hint: 'No vowel — silent',  color: '#7c3aed', say: 'بْ' },
+  ],
+  madd: [
+    { mark: 'بَا', icon: '🅰️', name: 'Madd Alif — مد بالألف',  hint: 'baa — fatha + ا',   color: '#dc2626', say: 'بَا' },
+    { mark: 'بُو', icon: '🅾️', name: 'Madd Waw — مد بالواو',   hint: 'boo — damma + و',  color: '#16a34a', say: 'بُو' },
+    { mark: 'بِي', icon: '🇮', name: 'Madd Yaa — مد بالياء',  hint: 'bee — kasra + ي',   color: '#2563eb', say: 'بِي' },
+  ],
+  shadda: [
+    { mark: 'بَّ', icon: '⬆️', name: 'Shadda + Fatha — شدة بفتحة',   hint: 'bba — strong open',   color: '#dc2626', say: 'بَّ' },
+    { mark: 'بُّ', icon: '⭕', name: 'Shadda + Damma — شدة بضمة',   hint: 'bbu — strong round',  color: '#16a34a', say: 'بُّ' },
+    { mark: 'بِّ', icon: '⬇️', name: 'Shadda + Kasra — شدة بكسرة',  hint: 'bbi — strong drop',   color: '#2563eb', say: 'بِّ' },
+  ],
+  tanween: [
+    { mark: 'بً', icon: '⬆️⬆️', name: 'Tanween Fath — تنوين فتح',  hint: 'ban — fatha doubled',  color: '#dc2626', say: 'بَنْ' },
+    { mark: 'بٌ', icon: '⭕⭕', name: 'Tanween Damm — تنوين ضم',   hint: 'bun — damma doubled',  color: '#16a34a', say: 'بُنْ' },
+    { mark: 'بٍ', icon: '⬇️⬇️', name: 'Tanween Kasr — تنوين كسر', hint: 'bin — kasra doubled',  color: '#2563eb', say: 'بِنْ' },
+  ],
+};
+
+/**
+ * renderAdvancedMotors — يبني بطاقات اكتشاف الحركات لمرحلة متقدمة
+ * @param {string} containerId  معرف الحاوية المستهدفة
+ * @param {string} stage        المرحلة: sukoon / madd / shadda / tanween
+ */
+function renderAdvancedMotors(containerId, stage) {
+  const host = document.getElementById(containerId);
+  if (!host) return;
+  const data = ADVANCED_MOTORS_DATA[stage] || [];
+  host.innerHTML = data.map(m => `
+    <button type="button"
+      class="adv-motor-card"
+      style="--mcolor:${m.color};"
+      onclick="speakAr('${m.say}');playBeep()"
+      aria-label="${m.name}">
+      <div class="adv-motor-icon" aria-hidden="true">${m.icon}</div>
+      <div class="adv-motor-mark">${m.mark}</div>
+      <div class="adv-motor-name">${m.name}</div>
+      <div class="adv-motor-hint">${m.hint}</div>
+    </button>
+  `).join('');
+}
+window.renderAdvancedMotors = renderAdvancedMotors;
 
 
 /* ════════════════════════════════════════════════════════════
@@ -4461,10 +4585,10 @@ const ADVANCED_LEVELS_DB = {
     words: ['بَيْتُ', 'مَكْتَبُ', 'شَمْسُ', 'فَصْلُ', 'نَمْلُ', 'ثَلْجُ', 'بَحْرُ', 'كَلْبُ', 'أَهْلُ', 'نَهْرُ'],
   },
   madd: {
-    words: ['بَابٌ', 'سُورٌ', 'تِينٌ', 'قَالَ', 'يَقُولُ', 'قِيلَ', 'دَارٌ', 'حُوتٌ', 'رِيحٌ', 'عِيدٌ'],
+    words: ['بَابُ', 'سُورُ', 'تِينُ', 'قَالَ', 'يَقُولُ', 'قِيلَ', 'دَارُ', 'حُوتُ', 'رِيحُ', 'عِيدُ'],
   },
   shadda: {
-    words: ['أُمُّ', 'جَدُّ', 'بَطَّةٌ', 'قِطَّةٌ', 'سُكَّرٌ', 'صَفَّ', 'رَبَّ', 'حَقُّ', 'مَدَّ', 'سِنٌّ'],
+    words: ['أُمُّ', 'جَدُّ', 'بَطَّةُ', 'قِطَّةُ', 'سُكَّرُ', 'صَفَّ', 'رَبَّ', 'حَقُّ', 'مَدَّ', 'سِنُّ'],
   },
   tanween: {
     words: ['بَيْتًا', 'قَلَمٌ', 'شَجَرَةٍ', 'مَاءً', 'كِتَابٌ', 'جَبَلٍ', 'نَهَارًا', 'نُورٌ', 'صُبْحًا', 'وَلَدٌ'],
@@ -4981,7 +5105,7 @@ function goNextLetter() {
 /* ============================================================
    Football Review — مراجعة بعد كل حرفين
 ============================================================ */
-const FOOTBALL_REVIEW_LETTERS = new Set(['ب','ث','ح','د','ر','س','ص','ط','ع','ف','ك','م','هـ','ي']);
+const FOOTBALL_REVIEW_LETTERS = new Set(ARABIC_LETTERS);
 const FOOTBALL_LEVELS = {
   easy: { key: 'easy', playersPerTeam: 4, passesToShoot: 2, ar: 'سهل', en: '4 ضد 4' },
   medium: { key: 'medium', playersPerTeam: 5, passesToShoot: 3, ar: 'متوسط', en: '5 ضد 5' },
@@ -5000,9 +5124,9 @@ const FOOTBALL_TEAMS = {
   teacher: { ar: 'المعلم', en: 'Teacher', icon: '🧑‍🏫', side: 'يمين الملعب' }
 };
 const FOOTBALL_LANES = [
-  { key: 'top', ar: 'فوق', y: 25 },
-  { key: 'middle', ar: 'وسط', y: 50 },
-  { key: 'bottom', ar: 'تحت', y: 75 }
+  { key: 'top', ar: 'فوق', en: 'Top', y: 25 },
+  { key: 'middle', ar: 'وسط', en: 'Middle', y: 50 },
+  { key: 'bottom', ar: 'تحت', en: 'Bottom', y: 75 }
 ];
 const _footballState = {
   key: null,
@@ -5353,28 +5477,36 @@ function _footballPrepareShot() {
   const defender = _footballOtherTeam(_footballState.possession);
   const lane = _footballLane(_footballState.shotLane);
   const attackingStudent = _footballState.possession === 'student';
-  if (prompt) prompt.innerHTML = `🔥 فرصة هدف لـ <b>${team.ar} | ${team.en}</b>: اقرأ كلمة التسديدة، ثم اختر كلمة العصا إلى <strong>${lane.ar}</strong> | Read the shot, then block`;
+  if (prompt) prompt.innerHTML = `🔥 فرصة هدف لـ <b>${team.ar} | ${team.en}</b>: اقرأ كلمة التسديدة، ثم اختر كلمة العصا إلى <strong>${lane.ar} | ${lane.en}</strong> | Read the shot, then block the <strong>${lane.en}</strong> lane`;
   if (feedback) feedback.textContent = 'الكلمة الكبيرة هي التسديدة. كلمات العصا تحرك الحارس. | Big word shoots, rod words move the keeper.';
   _setFootballBall(attackingStudent ? 76 : 24, lane.y);
   _setFootballKeeper(defender, 'middle');
-  _showFootballShot(attackingStudent ? 'right' : 'left', _footballState.shotWord, lane.ar);
+  _showFootballShot(attackingStudent ? 'right' : 'left', _footballState.shotWord, lane);
   _showFootballRodPanel(defender);
   _footballUpdateHud();
 }
 
-function _showFootballShot(side, word, laneLabel) {
+function _showFootballShot(side, word, lane) {
   const card = document.getElementById('football-shot-card');
+  const field = document.getElementById('football-field');
   const wordEl = document.getElementById('football-shot-word');
   const laneEl = document.getElementById('football-shot-lane');
   if (!card) return;
+  if (field) field.classList.add('football-shooting');
   card.classList.remove('left', 'right', 'show');
   card.classList.add(side, 'show');
   if (wordEl) wordEl.textContent = word;
-  if (laneEl) laneEl.textContent = `مسار الكرة | Lane: ${laneLabel}`;
+  if (laneEl) {
+    const laneText = lane && lane.en ? `${lane.en} lane · ${lane.ar}` : (lane || '');
+    laneEl.textContent = laneText;
+    laneEl.dataset.lane = (lane && lane.key) || '';
+  }
 }
 
 function _hideFootballShot() {
   const card = document.getElementById('football-shot-card');
+  const field = document.getElementById('football-field');
+  if (field) field.classList.remove('football-shooting');
   if (card) card.classList.remove('show', 'left', 'right');
 }
 
@@ -5415,7 +5547,7 @@ function _showFootballRodPanel(defendingTeam) {
     const lane = _footballLane(item.lane);
     return `
       <button type="button" class="football-rod-btn football-rod-${item.lane}" onclick="footballMoveRod('${item.lane}')">
-        <span>${lane.ar}</span>
+        <span class="football-rod-lane">${lane.en} <em>· ${lane.ar}</em></span>
         <b>${item.word}</b>
       </button>
     `;
@@ -5463,7 +5595,7 @@ function _footballResolveShot(blockLane) {
   }
   _footballState.goals[team] += 1;
   _hideFootballShot();
-  _setFootballBall(team === 'student' ? 97 : 3, shotLane.y);
+  _setFootballBall(team === 'student' ? 96 : 4, shotLane.y);
   _footballGoalFlash(team);
   if (feedback) feedback.textContent = `جوووون! ${FOOTBALL_TEAMS[team].ar} سجل بكلمة: ${_footballState.shotWord} | Goal!`;
   try { speakAr(_footballState.shotWord); playVictorySound(); } catch(e) {}
@@ -5594,6 +5726,12 @@ function openSukoonLevel(front = null, back = null) {
   try { renderSukoonSpot(); }                    catch (e) { console.warn('sukoonSpot:', e); }
   try { renderSukoonPatterns(); }                catch (e) { console.warn('sukoonPatterns:', e); }
   try { renderSukoonDetective(); }               catch (e) { console.warn('sukoonDetective:', e); }
+  try { renderAdvancedMotors('ui-sukoon-motors', 'sukoon'); } catch (e) { console.warn('motors(sukoon):', e); }
+  try { renderQuestionTools('ui-sukoon-questions'); } catch (e) { console.warn('questionTools(sukoon):', e); }
+  try {
+    const heroEl = document.getElementById('ui-hero-sukoon');
+    if (heroEl && currentSukoonBack) heroEl.textContent = currentSukoonBack + 'ْ';
+  } catch (e) { console.warn('hero(sukoon):', e); }
 
   // ── Phaser ────────────────────────────────────────────
   _launchPhaser('sukoon-game-container', [SukoonScene], 600);
@@ -6663,23 +6801,23 @@ function openMaddLevel(mod) {
   // ── لعبة المفقود ──────────────────────────────────────
   const maddMissingData = mod.id === 'madd_a'
     ? [
-        { display: 'بَـ<span class="missing-gap"></span>ب', char: 'ا' },
-        { display: 'تَـ<span class="missing-gap"></span>ج', char: 'ا' },
-        { display: 'دَ<span class="missing-gap"></span>ر',  char: 'ا' },
-        { display: 'نَـ<span class="missing-gap"></span>ر', char: 'ا' },
+        { display: 'بَـ<span class="missing-gap"></span>بُ', char: 'ا' },
+        { display: 'تَـ<span class="missing-gap"></span>جُ', char: 'ا' },
+        { display: 'دَ<span class="missing-gap"></span>رُ',  char: 'ا' },
+        { display: 'نَـ<span class="missing-gap"></span>رُ', char: 'ا' },
       ]
     : mod.id === 'madd_w'
     ? [
-        { display: 'تُـ<span class="missing-gap"></span>ت', char: 'و' },
-        { display: 'حُـ<span class="missing-gap"></span>ت', char: 'و' },
-        { display: 'نُـ<span class="missing-gap"></span>ر', char: 'و' },
-        { display: 'سُـ<span class="missing-gap"></span>ر', char: 'و' },
+        { display: 'تُـ<span class="missing-gap"></span>تُ', char: 'و' },
+        { display: 'حُـ<span class="missing-gap"></span>تُ', char: 'و' },
+        { display: 'نُـ<span class="missing-gap"></span>رُ', char: 'و' },
+        { display: 'سُـ<span class="missing-gap"></span>رُ', char: 'و' },
       ]
     : [
-        { display: 'تِـ<span class="missing-gap"></span>ن', char: 'ي' },
-        { display: 'فِـ<span class="missing-gap"></span>ل', char: 'ي' },
-        { display: 'طِـ<span class="missing-gap"></span>ن', char: 'ي' },
-        { display: 'دِ<span class="missing-gap"></span>ن',  char: 'ي' },
+        { display: 'تِـ<span class="missing-gap"></span>نُ', char: 'ي' },
+        { display: 'فِـ<span class="missing-gap"></span>لُ', char: 'ي' },
+        { display: 'طِـ<span class="missing-gap"></span>نُ', char: 'ي' },
+        { display: 'دِ<span class="missing-gap"></span>نُ',  char: 'ي' },
       ];
 
   const maddShapes    = ['ا', 'و', 'ي'];
@@ -6688,10 +6826,10 @@ function openMaddLevel(mod) {
 
   // ── لعبة XO ───────────────────────────────────────────
   const maddXOWords = mod.id === 'madd_a'
-    ? ['بَاب','تَاج','دَار','نَار','عَام','قَالَ','صَامَ','فَازَ','عَادَ']
+    ? ['بَابُ','تَاجُ','دَارُ','نَارُ','عَامُ','قَالَ','صَامَ','فَازَ','عَادَ']
     : mod.id === 'madd_w'
-    ? ['تُوت','حُوت','نُور','سُور','دُود','عُود','فُول','سُوق','رُوح']
-    : ['تِين','فِيل','طِين','دِين','سَرِير','كَبِير','عَصِير','سَمِير','أَمِير'];
+    ? ['تُوتُ','حُوتُ','نُورُ','سُورُ','دُودُ','عُودُ','فُولُ','سُوقُ','رُوحُ']
+    : ['تِينُ','فِيلُ','طِينُ','دِينُ','سَرِيرُ','كَبِيرُ','عَصِيرُ','سَمِيرُ','أَمِيرُ'];
   setAdvancedLevelWords('madd', maddXOWords);
   initMaddXO(maddXOWords);
 
@@ -6702,9 +6840,9 @@ function openMaddLevel(mod) {
     'ي': '﴿ إِنَّ الَّذِينَ آمَنُوا يَهْدِيهِمْ رَبُّهُم بِإِيمَانِهِمْ ﴾',
   };
   const maddStories = {
-    'ا': 'قَالَ سَامِي: هَذَا بَابٌ كَبِيرٌ، وَهُنَا دَارٌ وَنَارٌ. قَرَأَ كَلِمَاتِ المَدِّ بِالأَلِفِ بِصَوْتٍ طَوِيلٍ.',
-    'و': 'يَقُولُ نُورٌ: هَذَا حُوتٌ، وَذَلِكَ سُورٌ. رَأَى تُوتًا وَعُودًا، فَمَدَّ صَوْتَ الضَّمَّةِ مَعَ الوَاوِ.',
-    'ي': 'فِي يَوْمِ عِيدٍ قَرَأَ سَمِيرٌ: تِينٌ وَفِيلٌ وَعَصِيرٌ. مَدَّ صَوْتَ الكَسْرَةِ مَعَ اليَاءِ بِهُدُوءٍ.',
+    'ا': 'قَالَ سَامِي: هَذَا البَابُ الكَبِيرُ، وَهُنَا الدَّارُ وَالنَّارُ. قَرَأَ كَلِمَاتِ المَدِّ بِالأَلِفِ بِالصَّوْتِ الطَّوِيلِ.',
+    'و': 'يَقُولُ نُورُ: هَذَا الحُوتُ، وَذَلِكَ السُّورُ. رَأَى التُّوتَ وَالعُودَ، فَمَدَّ صَوْتَ الضَّمَّةِ مَعَ الوَاوِ.',
+    'ي': 'فِي يَوْمِ العِيدِ قَرَأَ سَمِيرُ: التِّينُ وَالفِيلُ وَالعَصِيرُ. مَدَّ صَوْتَ الكَسْرَةِ مَعَ اليَاءِ بِالهُدُوءِ.',
   };
   const storyIcon = document.getElementById('madd-story-icon');
   if (storyIcon) storyIcon.textContent = mod.char;
@@ -6722,6 +6860,12 @@ function openMaddLevel(mod) {
   try { initMemoryGame(null, 'madd'); }   catch (e) { console.warn('memory(madd):', e); }
   try { speedReadRestart('madd'); }       catch (e) { console.warn('speedRead(madd):', e); }
   try { trickyCupsRestart('madd'); }      catch (e) { console.warn('trickyCups(madd):', e); }
+  try { renderAdvancedMotors('ui-madd-motors', 'madd'); } catch (e) { console.warn('motors(madd):', e); }
+  try { renderQuestionTools('ui-madd-questions'); } catch (e) { console.warn('questionTools(madd):', e); }
+  try {
+    const heroEl = document.getElementById('ui-hero-madd');
+    if (heroEl) heroEl.textContent = mod.char === 'ا' ? 'بَا' : mod.char === 'و' ? 'بُو' : 'بِي';
+  } catch (e) { console.warn('hero(madd):', e); }
 
   // ── Phaser ────────────────────────────────────────────
   _launchPhaser('madd-game-container', [MaddScene], 600);
@@ -6806,6 +6950,7 @@ function openShaddaLevel(shaddaL = null, helperL = null) {
   try { initMemoryGame(null, 'shadda'); }   catch (e) { console.warn('memory(shadda):', e); }
   try { speedReadRestart('shadda'); }       catch (e) { console.warn('speedRead(shadda):', e); }
   try { trickyCupsRestart('shadda'); }      catch (e) { console.warn('trickyCups(shadda):', e); }
+  try { renderQuestionTools('ui-shadda-questions'); } catch (e) { console.warn('questionTools(shadda):', e); }
 
   // ── Phaser ────────────────────────────────────────────
   _launchPhaser('shadda-game-container', [ShaddaScene], 600);
@@ -6873,6 +7018,7 @@ function openTanweenLevel(letter = null) {
   try { initMemoryGame(null, 'tanween'); }   catch (e) { console.warn('memory(tanween):', e); }
   try { speedReadRestart('tanween'); }       catch (e) { console.warn('speedRead(tanween):', e); }
   try { trickyCupsRestart('tanween'); }      catch (e) { console.warn('trickyCups(tanween):', e); }
+  try { renderQuestionTools('ui-tanween-questions'); } catch (e) { console.warn('questionTools(tanween):', e); }
 
   // ── Phaser ────────────────────────────────────────────
   _launchPhaser('tanween-game-container', [TanweenScene], 600);
@@ -7473,13 +7619,12 @@ function initApp() {
    0. speakAr
 ---------------------------------------------------------- */
 function speakAr(text) {
-  if (!window.speechSynthesis) return;
-  window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text.replace(/[ًٌٍَُِّْ]/g,''));
-  u.lang='ar-SA'; u.rate=0.85;
-  window.speechSynthesis.speak(u);
-  try { playTone(500,'sine',0.1,0.05); } catch(e){}
+  try {
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+  } catch(e) {}
+  return;
 }
+window.WORD_READER_ENABLED = false;
 
 /* ----------------------------------------------------------
    1. buildMotorsHTML — حركات تدريجية
@@ -9476,6 +9621,7 @@ function _patchAlefFinalPage(key) {
     allSections.forEach(sec => {
       if (sec.querySelector('.next-level-btn')) nextBtnSection = sec;
     });
+    if (nextBtnSection) nextBtnSection.classList.add('next-letter-section');
     if (nextBtnSection) {
       layout.insertBefore(panel, nextBtnSection);
     } else {
@@ -11097,6 +11243,9 @@ function trickyCupsRestart(levelKey) {
    + Navigation arrows للتنقل بين الألعاب وإنت في fullscreen
 ============================================================ */
 (function initFullscreenButtons() {
+  // Superseded by initUnifiedFullscreen below. Keeping this no-op prevents
+  // older handlers from installing first and skipping the car/DNA sections.
+  return;
 
   let _currentFsSection = null;
 
@@ -11448,10 +11597,11 @@ function trickyCupsRestart(levelKey) {
   // القائمة المحدثة بتسلسل السكاشن للأسهم
   // letter-screen sections (default/classic)
   const GAME_SECTIONS_LETTER = [
+    'dna',
     '2-motors', // سكشن تعريف الموتورات الجديد
     '2',        // سكشن لعبة السيارة
     '3', '4', '5', '6', '6.5', '6.75', '6.89', '6.91', '7', '8', '9', '10',
-    'football-review', 'detective-twin-1', 'detective-twin-2'
+    'football-review', 'detective-twin-1', 'detective-twin-2', 'final'
   ];
   // advanced-level screens (Sukoon/Madd/Shadda/Tanween)
   // NOTE: currently only Sukoon has the full section set refactored.
@@ -11486,6 +11636,8 @@ function trickyCupsRestart(levelKey) {
     if (!section) return GAME_SECTIONS_LETTER;
     const screen = section.closest('#sukoon-screen, #madd-screen, #shadda-screen, #tanween-screen, #letter-screen');
     if (!screen) return GAME_SECTIONS_LETTER;
+    const liveSections = _liveSectionList(screen);
+    if (liveSections.length) return liveSections;
     if (screen.id === 'sukoon-screen')  return GAME_SECTIONS_ADVANCED.sukoon;
     if (screen.id === 'madd-screen')    return GAME_SECTIONS_ADVANCED.madd;
     if (screen.id === 'shadda-screen')  return GAME_SECTIONS_ADVANCED.shadda;
@@ -11493,33 +11645,38 @@ function trickyCupsRestart(levelKey) {
     return GAME_SECTIONS_LETTER;
   }
 
+  function _liveSectionList(screen) {
+    if (!screen) return [];
+    return Array.from(screen.querySelectorAll('.letter-hero[data-section], .step-section[data-section]'))
+      .filter(_isReachableFsSection)
+      .map(sec => sec.getAttribute('data-section'))
+      .filter(Boolean);
+  }
+
+  function _isReachableFsSection(section) {
+    if (!section) return false;
+    const secNum = section.getAttribute('data-section');
+    if (!secNum || secNum === '0' || secNum === '1' || secNum.endsWith('-selectors')) return false;
+    if (section.querySelector('.next-level-btn')) return false;
+    const style = window.getComputedStyle ? window.getComputedStyle(section) : null;
+    if (style && (style.display === 'none' || style.visibility === 'hidden')) return false;
+    return true;
+  }
+
   function _enterFullscreen(section) {
     if (_currentFsSection && _currentFsSection !== section) {
-      _exitFullscreen(_currentFsSection);
+      _exitFullscreen(_currentFsSection, /* keepFs */ true);
     }
     _currentFsSection = section;
 
-    // Check if we are in the Letter Journey screen
-    const journeyScreen = section.closest('#letter-screen');
-    if (journeyScreen) {
-        journeyScreen.classList.add('fs-journey-active');
-        document.documentElement.classList.add('has-fs-section');
-        document.body.style.overflow = 'hidden';
+    section.classList.add('fs-section-active');
+    document.documentElement.classList.add('has-fs-section');
+    document.body.style.overflow = 'hidden';
 
-        // Scroll to the specific section that triggered fullscreen
-        setTimeout(() => {
-            section.scrollIntoView({ behavior: 'auto', block: 'center' });
-        }, 100);
-    } else {
-        section.classList.add('fs-section-active');
-        document.documentElement.classList.add('has-fs-section');
-        document.body.style.overflow = 'hidden';
-
-        requestAnimationFrame(() => {
-            _applyZoom(section);
-            _ensureNavArrows(section);
-        });
-    }
+    requestAnimationFrame(() => {
+      _applyZoom(section);
+      _ensureNavArrows(section);
+    });
 
     window.addEventListener('resize', _onResize);
     try { playClickPro && playClickPro(); } catch (e) {}
@@ -11528,9 +11685,6 @@ function trickyCupsRestart(levelKey) {
 function _exitFullscreen(section, keepFs) {
     if (!section) return;
     section.classList.remove('fs-section-active');
-
-    const journeyScreen = section.closest('#letter-screen');
-    if (journeyScreen) journeyScreen.classList.remove('fs-journey-active');
 
     const wrapper = section.querySelector('.fs-content-wrapper');
     if (wrapper) {
@@ -11541,11 +11695,11 @@ function _exitFullscreen(section, keepFs) {
     const footballField = section.querySelector('.football-field');
     if (gameContainer || footballField) {
       const targetEl = gameContainer || footballField;
-      targetEl.style.width = '';
-      targetEl.style.height = '';
-      targetEl.style.maxWidth = '';
-      targetEl.style.margin = '';
-      targetEl.style.aspectRatio = '';
+      targetEl.style.removeProperty('width');
+      targetEl.style.removeProperty('height');
+      targetEl.style.removeProperty('max-width');
+      targetEl.style.removeProperty('margin');
+      targetEl.style.removeProperty('aspect-ratio');
     }
 
     section.querySelectorAll('.fs-nav-arrow').forEach(a => a.remove());
@@ -11591,8 +11745,10 @@ function _exitFullscreen(section, keepFs) {
 
       const topPadding = 20 + headingH + (motorsH ? motorsH + 10 : 0) + (teamsH ? teamsH + 8 : 0) + (hudH ? hudH + 8 : 0);
 
-      const availW = window.innerWidth - 10;
-      const fsAvailH = Math.max(200, window.innerHeight - topPadding - 10);
+      const horizontalGutter = window.innerWidth < 700 ? 32 : 190;
+      const verticalGutter = window.innerHeight < 700 ? 72 : 110;
+      const availW = Math.max(280, window.innerWidth - horizontalGutter);
+      const fsAvailH = Math.max(200, window.innerHeight - topPadding - verticalGutter);
       const aspect = footballField ? (16 / 9) : (1000 / 600);
 
       let w = availW;
@@ -11605,15 +11761,22 @@ function _exitFullscreen(section, keepFs) {
       const minW = footballField ? 300 : 400;
       if (w < minW) { w = minW; h = w / aspect; }
 
-      targetEl.style.width = w + 'px';
-      targetEl.style.height = h + 'px';
-      targetEl.style.maxWidth = 'none';
-      targetEl.style.margin = '0 auto';
+      targetEl.style.setProperty('width', w + 'px', 'important');
+      targetEl.style.setProperty('height', h + 'px', 'important');
+      targetEl.style.setProperty('max-width', 'none', 'important');
+      targetEl.style.setProperty('aspect-ratio', 'auto', 'important');
+      targetEl.style.setProperty('margin', '0 auto', 'important');
 
-      wrapper.style.display = 'block';
-      wrapper.style.maxWidth = '100vw';
-      wrapper.style.width = '100%';
-      wrapper.style.margin = '0 auto';
+      wrapper.style.setProperty('display', 'flex', 'important');
+      wrapper.style.setProperty('flex-direction', 'column', 'important');
+      wrapper.style.setProperty('align-items', 'center', 'important');
+      wrapper.style.setProperty('justify-content', 'center', 'important');
+      wrapper.style.setProperty('gap', '12px', 'important');
+      wrapper.style.setProperty('width', '100%', 'important');
+      wrapper.style.setProperty('max-width', '100vw', 'important');
+      wrapper.style.setProperty('height', '100%', 'important');
+      wrapper.style.setProperty('margin', '0 auto', 'important');
+      wrapper.style.setProperty('box-sizing', 'border-box', 'important');
 
       if (gameContainer) _refreshPhaser();
     } else {
@@ -11677,23 +11840,159 @@ function _exitFullscreen(section, keepFs) {
   function _navTo(idx, sectionList) {
     sectionList = sectionList || GAME_SECTIONS_LETTER;
     if (idx < 0 || idx >= sectionList.length) return;
+    const direction = idx > sectionList.indexOf((_currentFsSection && _currentFsSection.getAttribute('data-section')) || '') ? 1 : -1;
     const targetSec = sectionList[idx];
-    let targetEl = document.querySelector(`.step-section[data-section="${targetSec}"]`);
+    const scope = (_currentFsSection && _currentFsSection.closest('#sukoon-screen, #madd-screen, #shadda-screen, #tanween-screen, #letter-screen')) || document;
+    let targetEl = scope.querySelector(`[data-section="${targetSec}"]`);
     if (!targetEl && targetSec === '2') {
-        targetEl = document.querySelector('.step-section [id$="game-container"]').closest('.step-section');
+        targetEl = scope.querySelector('.step-section [id$="game-container"]')?.closest('.step-section');
+    }
+    if (targetEl && !_isReachableFsSection(targetEl)) targetEl = null;
+    if (!targetEl && direction !== 0) {
+      const nextIdx = idx + direction;
+      if (nextIdx >= 0 && nextIdx < sectionList.length) {
+        _navTo(nextIdx, sectionList);
+      }
+      return;
     }
     if (!targetEl) return;
     _enterFullscreen(targetEl);
   }
 
+  let _helpLang = 'ar';
+  let _activeHelpSection = null;
+
+  const HELP_COPY = {
+    dna: {
+      ar: { title: 'كيف تستخدم بطاقة الصوت؟', steps: ['اطلب من الطالب النظر إلى الحرف الكبير أولًا.', 'اضغط على الحرف أو بطاقة الصوت ليستمع الطالب.', 'اجعل الطالب يكرر الصوت بوضوح.', 'اربط الصوت بمثال قصير قبل الانتقال للنشاط التالي.'] },
+      en: { title: 'How to use the sound card', steps: ['Ask the student to look at the large letter first.', 'Tap the letter or sound card so the student can listen.', 'Have the student repeat the sound clearly.', 'Connect the sound to a short example before moving on.'] }
+    },
+    car: {
+      ar: { title: 'كيف تلعب لعبة السيارة؟', steps: ['اسأل الطالب عن الصوت الذي تحتاجه السيارة.', 'اسحب المحرك أو القطعة الصحيحة إلى مكانها.', 'استمعوا للكلمة النهائية واطلب منه تكرارها.', 'استخدم إعادة المحاولة لتثبيت الصوت.'] },
+      en: { title: 'How to play the car game', steps: ['Ask which sound the car needs.', 'Drag the correct motor or piece into place.', 'Listen to the final word and have the student repeat it.', 'Use retries to reinforce the sound.'] }
+    },
+    xo: {
+      ar: { title: 'كيف تلعب نشاط X/O؟', steps: ['اقرأ الاختيارات مع الطالب قبل الضغط.', 'اطلب منه اختيار القطعة التي تطابق الصوت أو الكلمة.', 'بعد كل اختيار، اجعله يقرأ بصوت مسموع.', 'الهدف هو القراءة الصحيحة مع تكوين خط للفريق.'] },
+      en: { title: 'How to play X/O', steps: ['Read the choices together before tapping.', 'Ask the student to choose the matching piece.', 'After each choice, have them read aloud.', 'The goal is correct reading while making a team line.'] }
+    },
+    wheel: {
+      ar: { title: 'كيف تلعب عجلة الكلمات؟', steps: ['اضغط لتدوير العجلة.', 'عندما تتوقف، اقرأ الكلمة مع الطالب.', 'اطلب منه تحديد الصوت المطلوب داخل الكلمة.', 'كرر الدوران لكلمات جديدة.'] },
+      en: { title: 'How to play the word wheel', steps: ['Tap to spin the wheel.', 'When it stops, read the selected word together.', 'Ask the student to identify the target sound.', 'Spin again for more practice.'] }
+    },
+    memory: {
+      ar: { title: 'كيف تلعب الذاكرة؟', steps: ['اقلب بطاقتين في كل مرة.', 'اقرأ كل بطاقة بصوت واضح.', 'لو تطابقت البطاقتان اتركهما مكشوفتين.', 'لو لم تتطابقا أعد المحاولة وتذكر مكانهما.'] },
+      en: { title: 'How to play memory', steps: ['Flip two cards at a time.', 'Read each card aloud.', 'If they match, keep them face up.', 'If they do not match, try again and remember their positions.'] }
+    },
+    cups: {
+      ar: { title: 'كيف تلعب لعبة الأكواب؟', steps: ['اقرأ الكلمة المستهدفة قبل الخلط.', 'راقبوا الكوب الذي يخفي الكلمة أثناء الحركة.', 'بعد توقف الأكواب، اطلب من الطالب اختيار الكوب الصحيح.', 'اقرأوا الكلمة مرة أخرى بعد الكشف.'] },
+      en: { title: 'How to play tricky cups', steps: ['Read the target word before the shuffle.', 'Watch the cup hiding the word as it moves.', 'When the cups stop, ask the student to pick the correct cup.', 'Read the word again after the reveal.'] }
+    },
+    default: {
+      ar: { title: 'كيف تلعب هذا النشاط؟', steps: ['اقرأ عنوان النشاط مع الطالب.', 'نفذوا خطوة واحدة في كل مرة.', 'اطلب من الطالب النطق أو الشرح قبل الضغط.', 'كرر الجزء الصعب بهدوء.'] },
+      en: { title: 'How to play this activity', steps: ['Read the activity title with the student.', 'Do one step at a time.', 'Ask the student to say or explain before tapping.', 'Repeat the difficult part calmly.'] }
+    }
+  };
+
+  function _helpKind(section) {
+    if (!section) return 'default';
+    const sec = (section.getAttribute('data-section') || '').toLowerCase();
+    if (section.classList.contains('letter-hero') || sec.includes('dna')) return 'dna';
+    if (sec === '2' || /-2$/.test(sec) || section.querySelector('[id$="game-container"]')) return 'car';
+    if (sec.includes('wheel') || section.querySelector('.wheel-stage, #wheel-svg')) return 'wheel';
+    if (sec.includes('memory') || section.querySelector('.memory-grid')) return 'memory';
+    if (sec.includes('cups') || section.querySelector('.tc-wrap')) return 'cups';
+    if (sec.includes('xo') || section.querySelector('.xo-board, .two-letter-grid, .cards-grid, .split-grid')) return 'xo';
+    return 'default';
+  }
+
+  function _ensureHelpModal() {
+    let overlay = document.getElementById('game-help-overlay');
+    if (overlay) return overlay;
+    overlay = document.createElement('div');
+    overlay.id = 'game-help-overlay';
+    overlay.className = 'game-help-overlay';
+    overlay.setAttribute('aria-hidden', 'true');
+    overlay.innerHTML = `
+      <div class="game-help-modal" role="dialog" aria-modal="true" aria-labelledby="game-help-title">
+        <div class="game-help-head">
+          <button type="button" class="game-help-lang" aria-label="Change language">EN</button>
+          <button type="button" class="game-help-close" aria-label="Close help">&times;</button>
+        </div>
+        <div class="game-help-mark">!</div>
+        <h2 id="game-help-title" class="game-help-title"></h2>
+        <ol class="game-help-steps"></ol>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+    overlay.addEventListener('click', event => {
+      if (event.target === overlay) _closeGameHelp();
+    });
+    overlay.querySelector('.game-help-close').addEventListener('click', _closeGameHelp);
+    overlay.querySelector('.game-help-lang').addEventListener('click', () => {
+      _helpLang = _helpLang === 'ar' ? 'en' : 'ar';
+      _renderGameHelp();
+    });
+    return overlay;
+  }
+
+  function _renderGameHelp() {
+    const overlay = _ensureHelpModal();
+    const copy = (HELP_COPY[_helpKind(_activeHelpSection)] || HELP_COPY.default)[_helpLang];
+    const modal = overlay.querySelector('.game-help-modal');
+    const langBtn = overlay.querySelector('.game-help-lang');
+    const title = overlay.querySelector('.game-help-title');
+    const list = overlay.querySelector('.game-help-steps');
+    modal.dir = _helpLang === 'ar' ? 'rtl' : 'ltr';
+    modal.lang = _helpLang;
+    langBtn.textContent = _helpLang === 'ar' ? 'EN' : 'AR';
+    title.textContent = copy.title;
+    list.innerHTML = '';
+    copy.steps.forEach(step => {
+      const li = document.createElement('li');
+      li.textContent = step;
+      list.appendChild(li);
+    });
+  }
+
+  function _openGameHelp(section) {
+    _activeHelpSection = section;
+    _helpLang = 'ar';
+    const overlay = _ensureHelpModal();
+    _renderGameHelp();
+    overlay.classList.add('show');
+    overlay.setAttribute('aria-hidden', 'false');
+  }
+
+  function _closeGameHelp() {
+    const overlay = document.getElementById('game-help-overlay');
+    if (!overlay) return;
+    overlay.classList.remove('show');
+    overlay.setAttribute('aria-hidden', 'true');
+  }
+
+  function _addGameHelpButton(section) {
+    if (section.querySelector('.game-help-btn')) return;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'game-help-btn';
+    btn.textContent = '!';
+    btn.setAttribute('aria-label', 'How to play');
+    btn.onclick = event => {
+      event.stopPropagation();
+      _openGameHelp(section);
+    };
+    section.appendChild(btn);
+  }
+
   function _addFsButton(section) {
-    if (section.querySelector('.fs-toggle-btn')) return;
     if (!section.querySelector('.fs-content-wrapper')) {
       const wrapper = document.createElement('div');
       wrapper.className = 'fs-content-wrapper';
       while (section.firstChild) wrapper.appendChild(section.firstChild);
       section.appendChild(wrapper);
     }
+    _addGameHelpButton(section);
+    if (section.querySelector('.fs-toggle-btn')) return;
     const btn = document.createElement('button');
     btn.className = 'fs-toggle-btn';
     btn.innerHTML = '<i class="fas fa-expand fs-icon-expand"></i><i class="fas fa-compress fs-icon-compress"></i>';
@@ -11722,6 +12021,9 @@ function _exitFullscreen(section, keepFs) {
   }
 
 function _installFsButtons() {
+    const hero = document.querySelector('#letter-screen .letter-hero');
+    if (hero) _addFsButton(hero);
+
     document.querySelectorAll('.step-section').forEach(sec => {
       const secNum = sec.getAttribute('data-section');
       const hasNextBtn = sec.querySelector('.next-level-btn'); // هل يحتوي على زر التالي؟
@@ -11738,7 +12040,29 @@ function _installFsButtons() {
     });
   }
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && _currentFsSection) _exitFullscreen(_currentFsSection);
+    const helpOverlay = document.getElementById('game-help-overlay');
+    if (e.key === 'Escape' && helpOverlay && helpOverlay.classList.contains('show')) {
+      _closeGameHelp();
+      return;
+    }
+    if (e.key === 'Escape' && _currentFsSection) {
+      _exitFullscreen(_currentFsSection);
+      return;
+    }
+    if (!_currentFsSection) return;
+
+    const currentSec = _currentFsSection.getAttribute('data-section');
+    const sectionList = _currentSectionList(_currentFsSection);
+    const idx = sectionList.indexOf(currentSec);
+    if (idx === -1) return;
+
+    if (e.key === 'ArrowRight' && idx < sectionList.length - 1) {
+      e.preventDefault();
+      _navTo(idx + 1, sectionList);
+    } else if (e.key === 'ArrowLeft' && idx > 0) {
+      e.preventDefault();
+      _navTo(idx - 1, sectionList);
+    }
   });
 
   // مزامنة حالة الخروج من الفولسكرين الحقيقي (Native FS) مع الكود بتاعنا
@@ -11760,6 +12084,9 @@ function _installFsButtons() {
   window._installFsButtons = _installFsButtons;
   window._enterFullscreen = _enterFullscreen;
   window._exitFullscreen = _exitFullscreen;
+  window._fsRescaleCurrent = function() {
+    if (_currentFsSection) _applyZoom(_currentFsSection);
+  };
 
   // حارس لحذف الزر الأخضر الداخلي
   new MutationObserver(() => {

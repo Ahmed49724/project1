@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAppContext } from "@/context/AppContext";
 import { ARABIC_LETTERS } from "@/data/db";
+import { STAGE_DATA } from "@/data/stageData";
 
 type MapNode = "alphabet" | "sukoon" | "madd" | "shadda" | "tanween";
 
@@ -111,7 +112,8 @@ export default function ArabicJourneyPage() {
           {activeNode === "sukoon" && (
             <div className="map-content-section" style={{ display: "block" }}>
               <div className="level-two-grid" style={{ direction: "ltr" }}>
-                <p>Level Sukoon Content Coming Soon...</p>
+                <p>{STAGE_DATA.sukoon.description}</p>
+                <button className="btn-primary" onClick={() => router.push("/journey/arabic/sukoon")}>ابدأ السكون</button>
               </div>
             </div>
           )}
@@ -119,7 +121,8 @@ export default function ArabicJourneyPage() {
           {activeNode === "madd" && (
             <div className="map-content-section" style={{ display: "block" }}>
               <div className="level-two-grid" style={{ direction: "ltr" }}>
-                <p>Level Madd Content Coming Soon...</p>
+                <p>{STAGE_DATA.madd.description}</p>
+                <button className="btn-primary" onClick={() => router.push("/journey/arabic/madd")}>ابدأ المدود</button>
               </div>
             </div>
           )}
@@ -127,7 +130,8 @@ export default function ArabicJourneyPage() {
           {activeNode === "shadda" && (
             <div className="map-content-section" style={{ display: "block" }}>
               <div className="level-two-grid" style={{ direction: "ltr" }}>
-                <p>Level Shadda Content Coming Soon...</p>
+                <p>{STAGE_DATA.shadda.description}</p>
+                <button className="btn-primary" onClick={() => router.push("/journey/arabic/shadda")}>ابدأ الشدة</button>
               </div>
             </div>
           )}
@@ -135,7 +139,8 @@ export default function ArabicJourneyPage() {
           {activeNode === "tanween" && (
             <div className="map-content-section" style={{ display: "block" }}>
               <div className="level-two-grid" style={{ direction: "ltr" }}>
-                <p>Level Tanween Content Coming Soon...</p>
+                <p>{STAGE_DATA.tanween.description}</p>
+                <button className="btn-primary" onClick={() => router.push("/journey/arabic/tanween")}>ابدأ التنوين</button>
               </div>
             </div>
           )}
