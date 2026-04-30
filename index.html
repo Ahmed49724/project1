@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
@@ -491,6 +491,7 @@
   <div id="letter-screen">
     <div class="letter-layout">
       <!-- شريط التنقل -->
+      <!--
       <div class="letter-nav" role="navigation" aria-label="Letter sections">
         <button class="back-btn" onclick="goHome()" aria-label="Back to map">
           <i class="fas fa-arrow-right" aria-hidden="true"></i> رجوع
@@ -506,36 +507,22 @@
           <i class="fas fa-chevron-left" aria-hidden="true"></i>
         </button>
       </div>
+      -->
 
 
-<div class="hero-box letter-hero animate-up">
-  <div class="hero-badge">🧬 جينات الحرف — Letter DNA</div>
+<div class="hero-box letter-hero animate-up" data-theme="vibrant">
+  <div class="hero-badge">🧬 VIBRANT DNA — جينات الحرف</div>
 
   <div class="hero-root" id="ui-hero-letter" onclick="playBeep();speakAr(this.textContent)">أ</div>
-  <div style="font-family: sans-serif; font-size: 1rem; opacity: 0.8; position: relative; z-index: 2; margin-bottom: 20px;">
-    Tap to listen 👆
-  </div>
+  <div class="hero-tap-hint">👆 Tap to listen</div>
 
-  <div class="dna-traits letter-traits">
-
-    <div class="trait-box sound-trait" onclick="playRawSound()" style="cursor: pointer;">
-      <div class="trait-box-icon">🔊</div>
-      <div class="trait-box-label">Sound / الصـوت</div>
-      <div class="trait-box-val" id="ui-jolly-sound">uh - uh - uh</div>
+  <div class="sound-card" onclick="playRawSound()" role="button" tabindex="0" aria-label="Play letter sound">
+    <div class="sound-card-head">
+      <span class="sound-card-icon">🔊</span>
+      <span class="sound-card-label">Sound · الـنُّـطْـق</span>
     </div>
-
-    <div class="trait-box action-trait">
-      <div class="trait-box-icon">🏃‍♂️</div>
-      <div class="trait-box-label">Action / الحـركة</div>
-      <div class="trait-box-val" id="ui-jolly-action">Lift your shoulders up quickly...</div>
-    </div>
-
-    <div class="trait-box story-trait" style="grid-column: 1 / -1;">
-      <div class="trait-box-icon" id="ui-jolly-icon1">📖</div>
-      <div class="trait-box-label">Story / القصـة</div>
-      <div class="trait-box-val" id="ui-jolly-story">A little boy drank his juice too fast and got the hiccups...</div>
-    </div>
-
+    <div class="sound-card-val" id="ui-jolly-sound">uh - uh - uh</div>
+    <div class="sound-card-hint">اضغط للاستماع</div>
   </div>
 </div>
 

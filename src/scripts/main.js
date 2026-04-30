@@ -4855,11 +4855,16 @@ function openLetter(key) {
 
   const storyEl  = document.getElementById('ui-jolly-story');
   const actionEl = document.getElementById('ui-jolly-action');
-  storyEl.innerHTML  = data.jollyStory;
-  actionEl.innerHTML = data.jollyAction;
-  storyEl.style.direction  = data.jollyArabic ? 'rtl' : 'ltr';
-  actionEl.style.direction = data.jollyArabic ? 'rtl' : 'ltr';
-  document.getElementById('ui-jolly-sound').innerHTML = data.jollyRawSound;
+  if (storyEl) {
+    storyEl.innerHTML = data.jollyStory;
+    storyEl.style.direction = data.jollyArabic ? 'rtl' : 'ltr';
+  }
+  if (actionEl) {
+    actionEl.innerHTML = data.jollyAction;
+    actionEl.style.direction = data.jollyArabic ? 'rtl' : 'ltr';
+  }
+  const soundEl = document.getElementById('ui-jolly-sound');
+  if (soundEl) soundEl.innerHTML = data.jollyRawSound;
 
   // ── قسم المحركات ──────────────────────────────────────
   // ✅ إصلاح: نعرض الحركات الثلاث دائماً لجميع الحروف
@@ -10269,7 +10274,6 @@ function _lsShowCompletion() {
   });
 })();
 
-
 /* ============================================================
    11. 👂 LISTEN & CHOOSE (اسمع واختر)
    ============================================================
@@ -11305,10 +11309,20 @@ function trickyCupsRestart(levelKey) {
   function _toggleFullscreen(btn) {
     const section = btn.closest('.step-section');
     if (!section) return;
+    const root = document.documentElement;
+
     if (section.classList.contains('fs-section-active')) {
       _exitFullscreen(section);
+      if (document.fullscreenElement || document.webkitFullscreenElement) {
+        if (document.exitFullscreen) document.exitFullscreen();
+        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+      }
     } else {
       _enterFullscreen(section);
+      try {
+        if (root.requestFullscreen) root.requestFullscreen();
+        else if (root.webkitRequestFullscreen) root.webkitRequestFullscreen();
+      } catch (e) {}
     }
   }
 
@@ -11484,14 +11498,29 @@ function trickyCupsRestart(levelKey) {
       _exitFullscreen(_currentFsSection);
     }
     _currentFsSection = section;
-    section.classList.add('fs-section-active');
-    document.documentElement.classList.add('has-fs-section');
-    document.body.style.overflow = 'hidden';
 
-    requestAnimationFrame(() => {
-        _applyZoom(section);
-        _ensureNavArrows(section);
-    });
+    // Check if we are in the Letter Journey screen
+    const journeyScreen = section.closest('#letter-screen');
+    if (journeyScreen) {
+        journeyScreen.classList.add('fs-journey-active');
+        document.documentElement.classList.add('has-fs-section');
+        document.body.style.overflow = 'hidden';
+
+        // Scroll to the specific section that triggered fullscreen
+        setTimeout(() => {
+            section.scrollIntoView({ behavior: 'auto', block: 'center' });
+        }, 100);
+    } else {
+        section.classList.add('fs-section-active');
+        document.documentElement.classList.add('has-fs-section');
+        document.body.style.overflow = 'hidden';
+
+        requestAnimationFrame(() => {
+            _applyZoom(section);
+            _ensureNavArrows(section);
+        });
+    }
+
     window.addEventListener('resize', _onResize);
     try { playClickPro && playClickPro(); } catch (e) {}
   }
@@ -11500,18 +11529,23 @@ function _exitFullscreen(section, keepFs) {
     if (!section) return;
     section.classList.remove('fs-section-active');
 
+    const journeyScreen = section.closest('#letter-screen');
+    if (journeyScreen) journeyScreen.classList.remove('fs-journey-active');
+
     const wrapper = section.querySelector('.fs-content-wrapper');
     if (wrapper) {
         wrapper.style.cssText = ''; // مسح كل التنسيقات المؤقتة
     }
 
     const gameContainer = section.querySelector('[id$="game-container"]');
-    if (gameContainer) {
-      gameContainer.style.width = '';
-      gameContainer.style.height = '';
-      gameContainer.style.maxWidth = '';
-      gameContainer.style.margin = '';
-      gameContainer.style.aspectRatio = '';
+    const footballField = section.querySelector('.football-field');
+    if (gameContainer || footballField) {
+      const targetEl = gameContainer || footballField;
+      targetEl.style.width = '';
+      targetEl.style.height = '';
+      targetEl.style.maxWidth = '';
+      targetEl.style.margin = '';
+      targetEl.style.aspectRatio = '';
     }
 
     section.querySelectorAll('.fs-nav-arrow').forEach(a => a.remove());
@@ -11540,19 +11574,26 @@ function _exitFullscreen(section, keepFs) {
     wrapper.style.cssText = '';
 
     const gameContainer = wrapper.querySelector('[id$="game-container"]');
+    const footballField = wrapper.querySelector('.football-field');
 
-    if (gameContainer) {
-      // 🚗 وضع لعبة السيارة - الآن ستأخذ الشاشة كاملة لأن السكشن مخصص لها فقط
+    if (gameContainer || footballField) {
+      // 🚗 وضع الألعاب التفاعلية الكبيرة (السيارة أو الكرة)
+      const targetEl = gameContainer || footballField;
       const motorsBox = wrapper.querySelector('.motors-box');
       const sectionHeading = wrapper.querySelector('.section-heading');
+      const footballHud = wrapper.querySelector('.football-hud');
+      const footballTeams = wrapper.querySelector('.football-teams-board');
+
       const motorsH = motorsBox ? motorsBox.offsetHeight : 0;
       const headingH = sectionHeading ? sectionHeading.offsetHeight : 0;
-      const topPadding = 40 + headingH + 14 + motorsH + 14;
+      const hudH = footballHud ? footballHud.offsetHeight : 0;
+      const teamsH = footballTeams ? footballTeams.offsetHeight : 0;
 
-      const availW = window.innerWidth - 100;
-      const fsAvailH = Math.max(240, window.innerHeight - topPadding - 60);
-      const availH = window.innerHeight - 120; // ترك مساحة للعنوان والأسهم
-      const aspect = 1000 / 600;
+      const topPadding = 20 + headingH + (motorsH ? motorsH + 10 : 0) + (teamsH ? teamsH + 8 : 0) + (hudH ? hudH + 8 : 0);
+
+      const availW = window.innerWidth - 10;
+      const fsAvailH = Math.max(200, window.innerHeight - topPadding - 10);
+      const aspect = footballField ? (16 / 9) : (1000 / 600);
 
       let w = availW;
       let h = w / aspect;
@@ -11560,19 +11601,21 @@ function _exitFullscreen(section, keepFs) {
         h = fsAvailH;
         w = h * aspect;
       }
-      if (w < 600) { w = 600; h = w / aspect; }
+      
+      const minW = footballField ? 300 : 400;
+      if (w < minW) { w = minW; h = w / aspect; }
 
-      gameContainer.style.width = w + 'px';
-      gameContainer.style.height = h + 'px';
-      gameContainer.style.maxWidth = 'none';
-      gameContainer.style.margin = '0 auto';
+      targetEl.style.width = w + 'px';
+      targetEl.style.height = h + 'px';
+      targetEl.style.maxWidth = 'none';
+      targetEl.style.margin = '0 auto';
 
       wrapper.style.display = 'block';
-      wrapper.style.maxWidth = w + 'px';
+      wrapper.style.maxWidth = '100vw';
       wrapper.style.width = '100%';
       wrapper.style.margin = '0 auto';
 
-      _refreshPhaser();
+      if (gameContainer) _refreshPhaser();
     } else {
       // 🧩 وضع الأقسام الأخرى (تعريف الموتور، XO، إلخ)
       const REF_WIDTH = 1200;
@@ -11656,8 +11699,24 @@ function _exitFullscreen(section, keepFs) {
     btn.innerHTML = '<i class="fas fa-expand fs-icon-expand"></i><i class="fas fa-compress fs-icon-compress"></i>';
     btn.onclick = (e) => {
         e.stopPropagation();
-        if (section.classList.contains('fs-section-active')) _exitFullscreen(section);
-        else _enterFullscreen(section);
+        const root = document.documentElement;
+        if (section.classList.contains('fs-section-active')) {
+            _exitFullscreen(section);
+            if (document.fullscreenElement || document.webkitFullscreenElement) {
+                if (document.exitFullscreen) document.exitFullscreen();
+                else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+            }
+        } else {
+            _enterFullscreen(section);
+            // تفعيل الفولسكرين الحقيقي للمتصفح بالكامل (زي F11)
+            try {
+                if (root.requestFullscreen) root.requestFullscreen();
+                else if (root.webkitRequestFullscreen) root.webkitRequestFullscreen();
+                else if (root.msRequestFullscreen) root.msRequestFullscreen();
+            } catch (err) {
+                console.warn('Native FS failed:', err);
+            }
+        }
     };
     section.appendChild(btn);
   }
@@ -11682,8 +11741,25 @@ function _installFsButtons() {
     if (e.key === 'Escape' && _currentFsSection) _exitFullscreen(_currentFsSection);
   });
 
+  // مزامنة حالة الخروج من الفولسكرين الحقيقي (Native FS) مع الكود بتاعنا
+  document.addEventListener('fullscreenchange', () => {
+    if (!document.fullscreenElement && _currentFsSection) {
+      _exitFullscreen(_currentFsSection);
+    }
+  });
+  document.addEventListener('webkitfullscreenchange', () => {
+    if (!document.webkitFullscreenElement && _currentFsSection) {
+      _exitFullscreen(_currentFsSection);
+    }
+  });
+
   document.addEventListener('DOMContentLoaded', () => setTimeout(_installFsButtons, 300));
   if (document.readyState === 'complete' || document.readyState === 'interactive') setTimeout(_installFsButtons, 500);
+
+  // Expose to window
+  window._installFsButtons = _installFsButtons;
+  window._enterFullscreen = _enterFullscreen;
+  window._exitFullscreen = _exitFullscreen;
 
   // حارس لحذف الزر الأخضر الداخلي
   new MutationObserver(() => {

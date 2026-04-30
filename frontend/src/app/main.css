@@ -380,13 +380,18 @@
    JAMEA DNA HERO BOX (Adapted from Verb Lab 2222)
 ============================================================ */
 .letter-hero {
-  background: radial-gradient(circle at top right, var(--green), transparent 70%),
-              linear-gradient(135deg, var(--green-dark) 0%, var(--green) 100%);
+  background:
+    radial-gradient(circle at 14% 8%, rgba(209, 250, 229, 0.92), transparent 54%),
+    radial-gradient(circle at 88% 88%, rgba(253, 230, 138, 0.62), transparent 56%),
+    linear-gradient(160deg, #fffdf5 0%, #ecfdf5 48%, #d1fae5 100%);
   padding: 4rem 2rem;
   text-align: center;
-  color: #fff;
+  color: #064e3b;
   border-radius: 30px;
-  box-shadow: var(--shadow-lg);
+  box-shadow:
+    0 20px 50px -15px rgba(4, 120, 87, 0.26),
+    0 6px 18px rgba(217, 119, 6, 0.12),
+    inset 0 0 0 1px rgba(4, 120, 87, 0.18);
   position: relative;
   overflow: hidden;
   margin: 0 auto 40px auto;
@@ -398,14 +403,14 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: url('data:image/svg+xml;utf8,<svg opacity="0.05" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="%23fff" stroke-width="2" stroke-dasharray="5 5"/></svg>') repeat;
+  background: url('data:image/svg+xml;utf8,<svg opacity="0.16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="%23047857" stroke-width="2" stroke-dasharray="5 5"/></svg>') repeat;
   background-size: 150px;
   pointer-events: none;
 }
 
 .letter-hero .hero-badge {
   display: inline-block;
-  background: rgba(255, 255, 255, 0.15);
+  background: linear-gradient(135deg, #ffffff, #f0fdf4);
   backdrop-filter: blur(5px);
   padding: 0.6rem 2rem;
   border-radius: 50px;
@@ -414,9 +419,11 @@
   margin-bottom: 2rem;
   font-size: 1.1rem;
   letter-spacing: 1px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1.5px solid rgba(4, 120, 87, 0.22);
   position: relative;
   z-index: 2;
+  color: #047857;
+  box-shadow: 0 4px 12px rgba(4, 120, 87, 0.12);
 }
 
 .letter-hero .hero-root {
@@ -428,7 +435,13 @@
   line-height: 1;
   position: relative;
   z-index: 2;
-  text-shadow: 0 15px 30px rgba(0,0,0,0.25);
+  background: linear-gradient(135deg, #047857 0%, #0f766e 48%, #d97706 100%);
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  filter: drop-shadow(0 8px 16px rgba(4, 120, 87, 0.28));
+  text-shadow: none;
   margin-bottom: 10px;
 }
 
@@ -451,11 +464,11 @@
 }
 
 .letter-hero .trait-box {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.78);
   backdrop-filter: blur(10px);
   border-radius: 20px;
   padding: 1.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1.5px solid rgba(4, 120, 87, 0.18);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -465,7 +478,7 @@
 
 .letter-hero .trait-box:hover {
   transform: translateY(-5px);
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(240, 253, 244, 0.92);
 }
 
 .letter-hero .trait-box-icon {
@@ -481,6 +494,7 @@
   letter-spacing: 1px;
   font-family: 'Tajawal', sans-serif;
   font-weight: 700;
+  color: #047857;
 }
 
 .letter-hero .trait-box-val {
@@ -489,6 +503,7 @@
   margin-top: 10px;
   font-family: sans-serif;
   line-height: 1.6;
+  color: #064e3b;
 }
 
 .letter-hero .sound-trait .trait-box-val {
@@ -4707,7 +4722,7 @@ body.nav-open {
   border-bottom: 1px solid var(--border);
   direction: rtl;
 }
-#section-nav.visible { display: flex; }
+#section-nav.visible { display: none !important; }
 .sec-label {
   flex: 1; text-align: center;
   font-family: 'Tajawal', sans-serif;
