@@ -10232,12 +10232,55 @@ function _hideLetterPhaseLottie() {
   _letterPhaseLottieTimer = null;
 }
 
+function _playLetterPhaseTone(frequency, type, delay, duration, volume) {
+  setTimeout(() => {
+    try {
+      if (typeof playToneEnhanced === 'function') {
+        playToneEnhanced(frequency, type, duration, volume);
+      } else if (typeof playTone === 'function') {
+        playTone(frequency, type, duration, volume);
+      }
+    } catch (e) {}
+  }, delay);
+}
+
+function _playLetterPhaseLottieSound(targetPhase) {
+  const phase = Math.max(1, Math.min(3, Number(targetPhase) || 1));
+  const sequences = {
+    1: [
+      [196, 'sine', 0, 0.12, 0.09],
+      [330, 'triangle', 90, 0.12, 0.08],
+      [523, 'sine', 190, 0.16, 0.08],
+      [1046, 'sine', 340, 0.08, 0.05],
+      [1318, 'sine', 430, 0.07, 0.04],
+    ],
+    2: [
+      [147, 'triangle', 0, 0.14, 0.09],
+      [392, 'sine', 110, 0.12, 0.08],
+      [659, 'triangle', 230, 0.14, 0.07],
+      [988, 'sine', 390, 0.09, 0.05],
+      [1567, 'sine', 520, 0.07, 0.04],
+    ],
+    3: [
+      [110, 'sawtooth', 0, 0.18, 0.08],
+      [262, 'triangle', 120, 0.12, 0.08],
+      [523, 'sine', 250, 0.13, 0.08],
+      [1046, 'sine', 410, 0.1, 0.05],
+      [2093, 'sine', 580, 0.08, 0.04],
+    ],
+  };
+
+  (sequences[phase] || sequences[1]).forEach(note => {
+    _playLetterPhaseTone(note[0], note[1], note[2], note[3], note[4]);
+  });
+}
+
 function _showLetterPhaseLottie(targetPhase) {
   const phase = Math.max(1, Math.min(3, Number(targetPhase) || 1));
   const src = LETTER_PHASE_LOTTIES[phase];
   const copy = LETTER_PHASE_COPY[phase] || LETTER_PHASE_COPY[1];
 
-  try { playVictorySound(); } catch (e) {}
+  _playLetterPhaseLottieSound(phase);
   try { fireConfetti(); } catch (e) {}
 
   if (!src || typeof lottie === 'undefined') {
@@ -10267,6 +10310,7 @@ function _showLetterPhaseLottie(targetPhase) {
   if (title) title.textContent = copy.title;
   if (sub) sub.textContent = copy.sub;
 
+  overlay.dataset.phase = String(phase);
   overlay.classList.add('is-visible');
   try {
     _letterPhaseLottieAnim = lottie.loadAnimation({
@@ -10276,6 +10320,9 @@ function _showLetterPhaseLottie(targetPhase) {
       autoplay: true,
       path: src,
     });
+    if (_letterPhaseLottieAnim && typeof _letterPhaseLottieAnim.setSpeed === 'function') {
+      _letterPhaseLottieAnim.setSpeed(1.08);
+    }
     if (_letterPhaseLottieAnim && typeof _letterPhaseLottieAnim.addEventListener === 'function') {
       _letterPhaseLottieAnim.addEventListener('complete', () => {
         clearTimeout(_letterPhaseLottieTimer);
