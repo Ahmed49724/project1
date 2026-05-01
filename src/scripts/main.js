@@ -10117,12 +10117,25 @@ function _puzzleXoClick(which, idx) {
 const LETTER_PHASE_STATE = {
   phase: 1,
   key: '',
+  openTimer: null,
 };
 const LETTER_PHASE_SECTIONS = {
   1: ['2-motors', '2', '3', '4', '5', '6'],
   2: ['6.5', '6.75', '6.89', '6.91'],
   3: ['7', '8', '9', '10', 'football-review', 'final'],
 };
+const LETTER_PHASE_LOTTIES = {
+  1: '/lottie/firework_12764474.json',
+  2: '/lottie/fireworks_18124602.json',
+  3: '/lottie/fireworks_14352381.json',
+};
+const LETTER_PHASE_COPY = {
+  1: { title: 'Stage 1 Open!', sub: 'Start the letter path' },
+  2: { title: 'Stage 2 Open!', sub: 'Spin & Read to Tricky Cups' },
+  3: { title: 'Stage 3 Open!', sub: 'Final games unlocked' },
+};
+let _letterPhaseLottieAnim = null;
+let _letterPhaseLottieTimer = null;
 
 function _getLetterLayout() {
   return document.querySelector('#letter-screen .letter-layout');
@@ -10184,6 +10197,101 @@ function _makeLetterLevelGate(targetPhase) {
     </div>
   `;
   return gate;
+}
+
+function _ensureLetterPhaseLottieOverlay() {
+  let overlay = document.getElementById('letter-phase-lottie-overlay');
+  if (overlay) return overlay;
+
+  overlay = document.createElement('div');
+  overlay.id = 'letter-phase-lottie-overlay';
+  overlay.className = 'letter-phase-lottie-overlay';
+  overlay.innerHTML = `
+    <div class="letter-phase-lottie-stage" aria-live="polite">
+      <div class="letter-phase-lottie-box"></div>
+      <div class="letter-phase-lottie-chip">
+        <div class="letter-phase-lottie-title"></div>
+        <div class="letter-phase-lottie-sub"></div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  return overlay;
+}
+
+function _hideLetterPhaseLottie() {
+  const overlay = document.getElementById('letter-phase-lottie-overlay');
+  if (overlay) overlay.classList.remove('is-visible');
+  if (_letterPhaseLottieAnim) {
+    try { _letterPhaseLottieAnim.destroy(); } catch (e) {}
+    _letterPhaseLottieAnim = null;
+  }
+  const box = overlay ? overlay.querySelector('.letter-phase-lottie-box') : null;
+  if (box) box.innerHTML = '';
+  clearTimeout(_letterPhaseLottieTimer);
+  _letterPhaseLottieTimer = null;
+}
+
+function _showLetterPhaseLottie(targetPhase) {
+  const phase = Math.max(1, Math.min(3, Number(targetPhase) || 1));
+  const src = LETTER_PHASE_LOTTIES[phase];
+  const copy = LETTER_PHASE_COPY[phase] || LETTER_PHASE_COPY[1];
+
+  try { playVictorySound(); } catch (e) {}
+  try { fireConfetti(); } catch (e) {}
+
+  if (!src || typeof lottie === 'undefined') {
+    if (typeof window._pomoShowFlash === 'function') {
+      window._pomoShowFlash(String(phase), copy.title, copy.sub);
+    }
+    return;
+  }
+
+  const overlay = _ensureLetterPhaseLottieOverlay();
+  const box = overlay.querySelector('.letter-phase-lottie-box');
+  const title = overlay.querySelector('.letter-phase-lottie-title');
+  const sub = overlay.querySelector('.letter-phase-lottie-sub');
+
+  if (!box) {
+    if (typeof window._pomoShowFlash === 'function') {
+      window._pomoShowFlash(String(phase), copy.title, copy.sub);
+    }
+    return;
+  }
+
+  if (_letterPhaseLottieAnim) {
+    try { _letterPhaseLottieAnim.destroy(); } catch (e) {}
+    _letterPhaseLottieAnim = null;
+  }
+  if (box) box.innerHTML = '';
+  if (title) title.textContent = copy.title;
+  if (sub) sub.textContent = copy.sub;
+
+  overlay.classList.add('is-visible');
+  try {
+    _letterPhaseLottieAnim = lottie.loadAnimation({
+      container: box,
+      renderer: 'svg',
+      loop: false,
+      autoplay: true,
+      path: src,
+    });
+    if (_letterPhaseLottieAnim && typeof _letterPhaseLottieAnim.addEventListener === 'function') {
+      _letterPhaseLottieAnim.addEventListener('complete', () => {
+        clearTimeout(_letterPhaseLottieTimer);
+        _letterPhaseLottieTimer = setTimeout(_hideLetterPhaseLottie, 650);
+      });
+    }
+  } catch (e) {
+    _hideLetterPhaseLottie();
+    if (typeof window._pomoShowFlash === 'function') {
+      window._pomoShowFlash(String(phase), copy.title, copy.sub);
+    }
+    return;
+  }
+
+  clearTimeout(_letterPhaseLottieTimer);
+  _letterPhaseLottieTimer = setTimeout(_hideLetterPhaseLottie, 3600);
 }
 
 function _ensureLetterLevelGates() {
@@ -10261,10 +10369,18 @@ function _applyLetterPhaseDemo() {
 function _initLetterPhaseDemo(key) {
   LETTER_PHASE_STATE.phase = 1;
   LETTER_PHASE_STATE.key = key || '';
+  clearTimeout(LETTER_PHASE_STATE.openTimer);
   setTimeout(_applyLetterPhaseDemo, 0);
+  LETTER_PHASE_STATE.openTimer = setTimeout(() => {
+    if (LETTER_PHASE_STATE.key === (key || '') && activeLetterKey === key) {
+      _letterPhaseCelebrate(1);
+    }
+  }, 520);
 }
 
 function _letterPhaseCelebrate(targetPhase) {
+  _showLetterPhaseLottie(targetPhase);
+  return;
   try { playVictorySound(); } catch (e) {}
   try { fireConfetti(); } catch (e) {}
   if (typeof window._pomoShowFlash === 'function') {

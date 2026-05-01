@@ -1692,6 +1692,93 @@
       letter-spacing: 1px;
     }
 
+    .letter-phase-lottie-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 510000;
+      display: grid;
+      place-items: center;
+      pointer-events: none;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.22s ease, visibility 0.22s ease;
+    }
+    .letter-phase-lottie-overlay.is-visible {
+      opacity: 1;
+      visibility: visible;
+    }
+    .letter-phase-lottie-stage {
+      width: min(560px, 92vw);
+      min-height: min(520px, 76vh);
+      display: grid;
+      place-items: center;
+      position: relative;
+      filter: drop-shadow(0 24px 55px rgba(2, 114, 78, 0.22));
+      transform: translateY(14px) scale(0.96);
+      transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .letter-phase-lottie-overlay.is-visible .letter-phase-lottie-stage {
+      transform: translateY(0) scale(1);
+    }
+    .letter-phase-lottie-box {
+      position: absolute;
+      inset: 0;
+    }
+    .letter-phase-lottie-box svg {
+      width: 100% !important;
+      height: 100% !important;
+      overflow: visible !important;
+    }
+    .letter-phase-lottie-chip {
+      align-self: end;
+      margin-bottom: 42px;
+      padding: 12px 22px 14px;
+      border-radius: 20px;
+      border: 2px solid rgba(245, 158, 11, 0.35);
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.18);
+      text-align: center;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .letter-phase-lottie-title {
+      font-family: 'Tajawal', sans-serif;
+      font-size: clamp(1.35rem, 5vw, 2.1rem);
+      font-weight: 900;
+      line-height: 1;
+      color: var(--green-dark);
+    }
+    .letter-phase-lottie-sub {
+      margin-top: 6px;
+      font-family: 'Tajawal', sans-serif;
+      font-size: clamp(0.82rem, 3vw, 1rem);
+      font-weight: 800;
+      color: var(--text-muted);
+    }
+    [data-theme="dark"] .letter-phase-lottie-chip,
+    .dark-mode .letter-phase-lottie-chip {
+      background: rgba(15, 23, 42, 0.88);
+      border-color: rgba(245, 158, 11, 0.45);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+    }
+    [data-theme="dark"] .letter-phase-lottie-title,
+    .dark-mode .letter-phase-lottie-title {
+      color: #d1fae5;
+    }
+    [data-theme="dark"] .letter-phase-lottie-sub,
+    .dark-mode .letter-phase-lottie-sub {
+      color: #cbd5e1;
+    }
+    @media (max-width: 600px) {
+      .letter-phase-lottie-stage {
+        width: 100vw;
+        min-height: 62vh;
+      }
+      .letter-phase-lottie-chip {
+        margin-bottom: 32px;
+      }
+    }
+
     /* ============================================================
        MADD SCREEN
     ============================================================ */
