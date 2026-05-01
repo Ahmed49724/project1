@@ -1734,6 +1734,30 @@ const WIN_PATTERNS = [
    ---------------------------------------------------------- */
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
+let _appAudioUnlocked = false;
+function unlockAppAudio() {
+  try {
+    if (!audioCtx) return;
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume().catch(() => {});
+    }
+
+    if (_appAudioUnlocked) return;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    gain.gain.setValueAtTime(0.00001, audioCtx.currentTime);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start(audioCtx.currentTime);
+    osc.stop(audioCtx.currentTime + 0.01);
+    _appAudioUnlocked = true;
+  } catch (e) {}
+}
+window.unlockAppAudio = unlockAppAudio;
+['pointerdown', 'touchstart', 'keydown'].forEach(evt => {
+  window.addEventListener(evt, unlockAppAudio, { passive: true, once: true });
+});
+
 /* ----------------------------------------------------------
    playTone — تشغيل نغمة مُخصَّصة
    @param {number} freq  - التردد بالهرتز (مثال: 440 = لا)
@@ -10233,19 +10257,24 @@ function _hideLetterPhaseLottie() {
 }
 
 function _playLetterPhaseTone(frequency, type, delay, duration, volume) {
-  setTimeout(() => {
+  const play = () => {
     try {
+      if (typeof window.unlockAppAudio === 'function') window.unlockAppAudio();
       if (typeof playToneEnhanced === 'function') {
         playToneEnhanced(frequency, type, duration, volume);
       } else if (typeof playTone === 'function') {
         playTone(frequency, type, duration, volume);
       }
     } catch (e) {}
-  }, delay);
+  };
+
+  if (delay > 0) setTimeout(play, delay);
+  else play();
 }
 
 function _playLetterPhaseLottieSound(targetPhase) {
   const phase = Math.max(1, Math.min(3, Number(targetPhase) || 1));
+  if (typeof window.unlockAppAudio === 'function') window.unlockAppAudio();
   const sequences = {
     1: [
       [196, 'sine', 0, 0.12, 0.09],
