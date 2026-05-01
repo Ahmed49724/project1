@@ -110,8 +110,8 @@ export const ARABIC_LETTERS = [
       xoWords: ['أَبَ','بَأَ','أَأَ','بَبَ','أَبَ','بَأَ','أَأَ','أَبَ','بَأَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َبَ`, correctShape: 0 },
-        { display: `بَ<span class="missing-gap"></span>َ`, correctShape: 2 },
-        { display: `أَبَ<span class="missing-gap"></span>`, correctShape: 2 },
+        { display: `بَ<span class="missing-gap"></span>َ`, correctShape: 1 },
+        { display: `أَبَ<span class="missing-gap"></span>`, correctShape: 3 },
         { display: `بَأَ<span class="missing-gap"></span>`, correctShape: 3 },
         { display: `أَ<span class="missing-gap"></span>َبَ`, correctShape: 0 },
         { display: `أَأَ<span class="missing-gap"></span>`, correctShape: 3 }
@@ -282,8 +282,8 @@ export const ARABIC_LETTERS = [
       xoWords: ['أَدَذَ','أَخَذَ','ذَبَحَ','جَذَبَ','بَأَذَ','خَذَلَ','ذَهَبَ','عَذَبَ','نَبَذَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َبَحَ`, correctShape: 0 },
-        { display: `أَخَ<span class="missing-gap"></span>َ`, correctShape: 2 },
-        { display: `جَذَ<span class="missing-gap"></span>َ`, correctShape: 3 },
+        { display: `أَخَ<span class="missing-gap"></span>َ`, correctShape: 1 },
+        { display: `جَذَ<span class="missing-gap"></span>َ`, correctShape: 2 },
         { display: `أَدَ<span class="missing-gap"></span>َ`, correctShape: 3 },
         { display: `جَ<span class="missing-gap"></span>َبَ`, correctShape: 1 },
         { display: `بَأَ<span class="missing-gap"></span>َ`, correctShape: 3 }
@@ -396,7 +396,7 @@ export const ARABIC_LETTERS = [
         { display: `فَحَ<span class="missing-gap"></span>َ`, correctShape: 2 },
         { display: `حَرَ<span class="missing-gap"></span>َ`, correctShape: 3 },
         { display: `حَ<span class="missing-gap"></span>َدَ`, correctShape: 1 },
-        { display: `رَصَ<span class="missing-gap"></span>َ`, correctShape: 2 }
+        { display: `رَصَ<span class="missing-gap"></span>َ`, correctShape: 3 }
       ],
       detective: {
         target: 'ص', compareWith: 'س', type: 'sound',
@@ -534,7 +534,7 @@ export const ARABIC_LETTERS = [
         { display: `رَ<span class="missing-gap"></span>َعَ`, correctShape: 0 },
         { display: `خَطِ<span class="missing-gap"></span>َ`, correctShape: 2 },
         { display: `رَدَ<span class="missing-gap"></span>َ`, correctShape: 3 },
-        { display: `زُ<span class="missing-gap"></span>ِفَ`, correctShape: 0 },
+        { display: `زُ<span class="missing-gap"></span>ِفَ`, correctShape: 1 },
         { display: `عَرَ<span class="missing-gap"></span>َ`, correctShape: 3 }
       ]
     },
@@ -621,7 +621,7 @@ export const ARABIC_LETTERS = [
         { display: `حَكَ<span class="missing-gap"></span>َ`, correctShape: 2 },
         { display: `رَدَ<span class="missing-gap"></span>َ`, correctShape: 3 },
         { display: `جَ<span class="missing-gap"></span>َعَ`, correctShape: 1 },
-        { display: `رَحِ<span class="missing-gap"></span>َ`, correctShape: 2 }
+        { display: `رَحِ<span class="missing-gap"></span>َ`, correctShape: 3 }
       ]
     },
     'ن': {
@@ -664,7 +664,7 @@ export const ARABIC_LETTERS = [
         { display: `شَهِ<span class="missing-gap"></span>َ`, correctShape: 2 },
         { display: `رَدَ<span class="missing-gap"></span>َ`, correctShape: 3 },
         { display: `ظَ<span class="missing-gap"></span>َرَ`, correctShape: 1 },
-        { display: `فُ<span class="missing-gap"></span>ِمَ`, correctShape: 1 }
+        { display: `فُ<span class="missing-gap"></span>ِمَ`, correctShape: 3 }
       ]
     },
     'و': {
@@ -698,7 +698,7 @@ export const ARABIC_LETTERS = [
       xoWords: ['رَدَيَ','يَئِسَ','يَبِسَ','يَقِظَ','يَنَعَ','يَسَرَ','يَفَعَ','بُغِيَ','نُسِيَ'],
       missingWords: [
         { display: `<span class="missing-gap"></span>َئِسَ`, correctShape: 0 },
-        { display: `يَبِ<span class="missing-gap"></span>َ`, correctShape: 2 },
+        { display: `يَبِ<span class="missing-gap"></span>َ`, correctShape: 1 },
         { display: `بُغِ<span class="missing-gap"></span>َ`, correctShape: 2 },
         { display: `رَدَ<span class="missing-gap"></span>َ`, correctShape: 3 },
         { display: `نُسِ<span class="missing-gap"></span>َ`, correctShape: 2 },

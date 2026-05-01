@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { speakAr } from "@/lib/speak";
+import { speakAr } from "@/lib/speech";
 import type { StageData } from "@/data/stageData";
 
 interface StageDetectiveSectionProps {

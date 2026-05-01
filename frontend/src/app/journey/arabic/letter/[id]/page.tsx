@@ -13,20 +13,22 @@ import { SpeedReadGame }    from "@/components/LetterSections/SpeedReadGame";
 import { LetterDetective }   from "@/components/LetterSections/LetterDetective";
 
 type LetterKey = keyof typeof FULL_DB;
+type StageType = 1 | 2 | 3;
 
 const SECTIONS = [
-  { id: "hero",    title: "الاستكشاف",     icon: "fa-eye"          },
-  { id: "motors",  title: "الحركات",       icon: "fa-music"        },
-  { id: "shapes",  title: "أشكال الحرف",   icon: "fa-shapes"       },
-  { id: "detective", title: "المحقق",      icon: "fa-search"       },
-  { id: "xo2",     title: "المقاطع",       icon: "fa-puzzle-piece" },
-  { id: "xo3",     title: "الكلمات",       icon: "fa-spell-check"  },
-  { id: "missing", title: "الكلمة الناقصة", icon: "fa-question"    },
-  { id: "spin",    title: "العجلة",        icon: "fa-rotate"       },
-  { id: "memory",  title: "الذاكرة",       icon: "fa-brain"        },
-  { id: "speed",   title: "السرعة",        icon: "fa-bolt"         },
-  { id: "story",   title: "قصة الحرف",     icon: "fa-book-open"    },
-  { id: "split",   title: "التركيب",       icon: "fa-link"         },
+  { id: "hero",    title: "الاستكشاف",     icon: "fa-eye",          stage: 1 as StageType },
+  { id: "motors",  title: "الحركات",       icon: "fa-music",        stage: 1 as StageType },
+  { id: "shapes",  title: "أشكال الحرف",   icon: "fa-shapes",       stage: 1 as StageType },
+  { id: "detective", title: "المحقق",      icon: "fa-search",       stage: 1 as StageType },
+  { id: "xo2",     title: "المقاطع",       icon: "fa-puzzle-piece", stage: 1 as StageType },
+  { id: "xo3",     title: "الكلمات",       icon: "fa-spell-check",  stage: 1 as StageType },
+  { id: "missing", title: "الكلمة الناقصة", icon: "fa-question",    stage: 1 as StageType },
+  { id: "split",   title: "التركيب",       icon: "fa-link",         stage: 1 as StageType },
+  { id: "spin",    title: "Spin & Read",   icon: "fa-rotate",       stage: 2 as StageType },
+  { id: "cups",    title: "Tricky Cups",   icon: "fa-cup",          stage: 2 as StageType },
+  { id: "memory",  title: "الذاكرة",       icon: "fa-brain",        stage: 3 as StageType },
+  { id: "speed",   title: "السرعة",        icon: "fa-bolt",         stage: 3 as StageType },
+  { id: "story",   title: "قصة الحرف",     icon: "fa-book-open",    stage: 1 as StageType },
 ];
 
 const SHAPE_LABELS = ["في البداية", "في الوسط", "في النهاية", "منفصل"];
@@ -41,7 +43,9 @@ export default function LetterScreen() {
   const rule = letterData ? getLetterRule(letterId) : null;
 
   const [activeSection, setActiveSection] = useState(0);
+  const [currentStage, setCurrentStage] = useState<StageType>(1);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [showCelebration, setShowCelebration] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   // Fullscreen Scaling Logic
@@ -96,19 +100,54 @@ export default function LetterScreen() {
 
   const goNext = () => {
     addStars(10);
-    if (activeSection < SECTIONS.length - 1) {
-      setActiveSection((p) => p + 1);
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    } else {
+    
+    const sectionsInCurrentStage = SECTIONS.filter(s => s.stage === currentStage);
+    const currentSectionIndex = SECTIONS.findIndex(s => s.id === SECTIONS[activeSection].id);
+    const isLastSectionInStage = activeSection === SECTIONS.length - 1 || 
+                                  SECTIONS[activeSection + 1]?.stage !== currentStage;
+
+    if (isLastSectionInStage && currentStage < 3) {
+      // Show level up celebration
+      setShowCelebration(true);
+      setTimeout(() => {
+        setShowCelebration(false);
+      }, 2000);
+    } else if (isLastSectionInStage && currentStage === 3) {
+      // Completed all stages
       alert("🎉 أحسنت! أتممت رحلة الحرف بنجاح!");
       router.push("/journey/arabic");
+    } else {
+      setActiveSection((p) => p + 1);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
-  const progress = (activeSection / SECTIONS.length) * 100;
+  const handleLevelUp = () => {
+    addStars(50);
+    if (currentStage < 3) {
+      setCurrentStage((p) => (p + 1) as StageType);
+      const nextStageFirstSection = SECTIONS.findIndex(s => s.stage === currentStage + 1);
+      setActiveSection(nextStageFirstSection);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  const filteredSections = SECTIONS.filter(s => s.stage <= currentStage);
+  const visibleSections = SECTIONS.filter(s => s.stage === currentStage);
+
+  const progress = (filteredSections.findIndex(s => s.id === SECTIONS[activeSection]?.id) + 1 / filteredSections.length) * 100;
 
   // Common props for all section components
   const sectionProps = { letterId, letterData: letterData as never, onComplete: goNext };
+
+  const currentSectionStage = SECTIONS[activeSection]?.stage || 1;
+  const isLastSectionInStage = currentSectionStage < 3 && 
+                               (activeSection === SECTIONS.length - 1 || 
+                                SECTIONS[activeSection + 1]?.stage !== currentSectionStage);
+
+  const stageTitle = currentStage === 1 ? "المرحلة الأولى" : 
+                     currentStage === 2 ? "المرحلة الثانية" : 
+                     "المرحلة الثالثة";
 
   return (
     <div id="letter-screen" style={{ display: "block" }}>
@@ -116,19 +155,22 @@ export default function LetterScreen() {
 
         {/* ── Sidebar ─────────────────────────────── */}
         <div className="letter-sidebar">
-          {SECTIONS.map((sec, idx) => (
-            <div key={sec.id}
-              className={`ls-nav-item ${activeSection === idx ? "active" : ""} ${activeSection > idx ? "completed" : ""}`}
-              onClick={() => { if (idx <= activeSection) setActiveSection(idx); }}
-              style={{ cursor: idx <= activeSection ? "pointer" : "default" }}>
-              <div className="ls-icon">
-                {activeSection > idx
-                  ? <i className="fas fa-check-circle" style={{ color: "#10b981" }} />
-                  : <i className={`fas ${sec.icon}`} />}
+          {SECTIONS.filter(s => s.stage <= currentStage).map((sec, idx) => {
+            const actualIndex = SECTIONS.findIndex(s => s.id === sec.id);
+            return (
+              <div key={sec.id}
+                className={`ls-nav-item ${activeSection === actualIndex ? "active" : ""} ${activeSection > actualIndex ? "completed" : ""}`}
+                onClick={() => { if (actualIndex <= activeSection) setActiveSection(actualIndex); }}
+                style={{ cursor: actualIndex <= activeSection ? "pointer" : "default" }}>
+                <div className="ls-icon">
+                  {activeSection > actualIndex
+                    ? <i className="fas fa-check-circle" style={{ color: "#10b981" }} />
+                    : <i className={`fas ${sec.icon}`} />}
+                </div>
+                <div className="ls-text">{sec.title}</div>
               </div>
-              <div className="ls-text">{sec.title}</div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* ── Main ─────────────────────────────────── */}
@@ -136,6 +178,7 @@ export default function LetterScreen() {
             <div className="letter-top-bar">
               <div className="lt-title">
                 رحلة الحرف: <span style={{ color: "var(--primary,#185FA5)", fontSize: "1.4em" }}>{letterId}</span>
+                <span style={{ fontSize: "0.85em", marginRight: "12px", opacity: 0.7 }}>({stageTitle})</span>
               </div>
               <div className="lt-progress">
                 <div className="lt-progress-track">
@@ -151,6 +194,52 @@ export default function LetterScreen() {
           <div className="letter-content-area">
             <div className={`step-section ${isFullscreen ? "fs-section-active" : ""}`}>
               <div className="fs-content-wrapper" ref={wrapperRef}>
+
+            {/* ══ CELEBRATION OVERLAY ══ */}
+            {showCelebration && (
+              <div style={{
+                position: "fixed",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background: "rgba(0, 0, 0, 0.7)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                zIndex: 9999,
+                animation: "fadeIn 0.3s ease"
+              }}>
+                <div style={{
+                  background: "white",
+                  borderRadius: "20px",
+                  padding: "40px",
+                  textAlign: "center",
+                  animation: "bounce 0.6s ease"
+                }}>
+                  <div style={{ fontSize: "5rem", marginBottom: "20px" }}>🎉</div>
+                  <h2 style={{ fontSize: "2rem", color: "#185FA5", marginBottom: "20px", fontFamily: "var(--font-tajawal)" }}>
+                    أحسنت! لقد أكملت المرحلة!
+                  </h2>
+                  <p style={{ fontSize: "1.2rem", color: "#666", marginBottom: "20px" }}>+50 نقطة!</p>
+                  <button 
+                    onClick={handleLevelUp}
+                    style={{
+                      background: "linear-gradient(135deg, #185FA5, #0e3a6f)",
+                      color: "white",
+                      border: "none",
+                      padding: "12px 32px",
+                      fontSize: "1.1rem",
+                      borderRadius: "12px",
+                      cursor: "pointer",
+                      fontFamily: "var(--font-tajawal)",
+                      fontWeight: "bold"
+                    }}>
+                    Level Up! ⬆️
+                  </button>
+                </div>
+              </div>
+            )}
 
             {/* ══ 1: HERO ══ */}
             {activeSection === 0 && (
@@ -234,19 +323,38 @@ export default function LetterScreen() {
             {/* ══ 7: MISSING WORD ══ */}
             {activeSection === 6 && <MissingWordGame {...sectionProps} />}
 
-            {/* ══ 8: SPIN WHEEL ══ */}
-            {activeSection === 7 && <SpinWheelGame {...sectionProps} />}
+            {/* ══ 8: SPLIT WORDS — Connected Words ══ */}
+            {activeSection === 7 && (
+              <XOWordGame words={letterData.splitWords} title="التركيب — Connected Words XO" badge="8" onComplete={goNext} />
+            )}
 
-            {/* ══ 9: MEMORY ══ */}
-            {activeSection === 8 && <MemoryGame {...sectionProps} />}
+            {/* ══ 9: SPIN WHEEL ══ */}
+            {activeSection === 8 && <SpinWheelGame {...sectionProps} />}
 
-            {/* ══ 10: SPEED READ ══ */}
-            {activeSection === 9 && <SpeedReadGame {...sectionProps} />}
-
-            {/* ══ 11: ARABIC STORY ══ */}
-            {activeSection === 10 && (
+            {/* ══ 9: TRICKY CUPS ══ */}
+            {activeSection === 9 && (
               <div className="section-content" style={{ textAlign: "center" }}>
-                <div className="section-heading" style={{ marginBottom: "24px" }}><span className="section-badge">11</span> قصة الحرف</div>
+                <div className="section-heading" style={{ marginBottom: "24px" }}>
+                  <span className="section-badge">9</span> Tricky Cups — اتبع الكلمة!
+                </div>
+                <div style={{ fontSize: "5rem", marginBottom: "24px" }}>🥤🥤🥤</div>
+                <p style={{ fontSize: "1.2rem", marginBottom: "32px", color: "var(--text-muted)" }}>
+                  قريباً: لعبة تتبع الكلمة المخفية تحت الأكواب!
+                </p>
+                <button className="btn-primary" onClick={goNext}>التالي <i className="fas fa-arrow-left" /></button>
+              </div>
+            )}
+
+            {/* ══ 10: MEMORY ══ */}
+            {activeSection === 10 && <MemoryGame {...sectionProps} />}
+
+            {/* ══ 11: SPEED READ ══ */}
+            {activeSection === 11 && <SpeedReadGame {...sectionProps} />}
+
+            {/* ══ 12: ARABIC STORY ══ */}
+            {activeSection === 12 && (
+              <div className="section-content" style={{ textAlign: "center" }}>
+                <div className="section-heading" style={{ marginBottom: "24px" }}><span className="section-badge">12</span> قصة الحرف</div>
                 <div style={{ fontSize: "5rem", marginBottom: "16px" }}>{letterData.storyIcon}</div>
                 <div style={{ fontFamily: "var(--font-noto-naskh),serif", fontSize: "1.8rem", lineHeight: 2, color: "var(--text,#1f2937)", maxWidth: "600px", margin: "0 auto 24px", background: "var(--surface2,#f0fdf4)", border: "2px solid var(--border,#e5e7eb)", borderRadius: "20px", padding: "28px", direction: "rtl" }}>
                   {letterData.storyText}
@@ -260,15 +368,11 @@ export default function LetterScreen() {
               </div>
             )}
 
-            {/* ══ 12: SPLIT WORDS XO ══ */}
-            {activeSection === 11 && (
-              <XOWordGame words={letterData.splitWords} title="التركيب — Connected Words XO" badge="12" onComplete={goNext} />
-            )}
-
             </div>
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }
