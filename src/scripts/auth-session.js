@@ -5,8 +5,9 @@
   const CHILDREN_KEY = 'jamea_child_profiles_v1';
   const SUPABASE_URL = 'https://oxknepxwnsgsphhklplm.supabase.co';
   const SUPABASE_ANON_KEY = 'sb_publishable_YYDRjNE2GUdRpQqFfA5LEg_eIVrx_0X';
-  const REMOTE_SUPABASE_ENABLED = false;
+  const REMOTE_SUPABASE_ENABLED = true;
   let currentMode = 'student';
+  let currentParentAuthMode = 'signin';
   let supabaseClient = null;
 
   function safeJsonParse(value, fallback) {
@@ -58,6 +59,56 @@
     });
     if (result.error) return { ok: false, error: result.error };
     return { ok: true };
+  }
+
+  async function signInParentWithPassword(email, password) {
+    const client = getSupabaseClient();
+    const parentEmail = normalizeEmail(email);
+    if (!client || !client.auth) throw new Error('Email login is not available right now.');
+    if (!isEmail(parentEmail)) throw new Error('Enter a valid parent email.');
+    if (!password || password.length < 8) throw new Error('Password must be at least 8 characters.');
+
+    const result = await client.auth.signInWithPassword({
+      email: parentEmail,
+      password,
+    });
+    if (result.error) throw result.error;
+
+    const user = result.data && result.data.user ? result.data.user : null;
+    const session = createParentSession(parentEmail, { profileId: user && user.id ? user.id : undefined });
+    await ensureRemoteParentProfile(session);
+    return session;
+  }
+
+  async function createParentAccount(email, password, displayName) {
+    const client = getSupabaseClient();
+    const parentEmail = normalizeEmail(email);
+    const cleanName = String(displayName || '').trim();
+    if (!client || !client.auth) throw new Error('Account creation is not available right now.');
+    if (cleanName.length < 2) throw new Error('Enter the parent name.');
+    if (!isEmail(parentEmail)) throw new Error('Enter a valid parent email.');
+    if (!password || password.length < 8) throw new Error('Password must be at least 8 characters.');
+
+    const result = await client.auth.signUp({
+      email: parentEmail,
+      password,
+      options: {
+        data: {
+          role: 'parent',
+          full_name: cleanName,
+        },
+        emailRedirectTo: window.location.origin + window.location.pathname,
+      },
+    });
+    if (result.error) throw result.error;
+
+    if (result.data && result.data.session && result.data.user) {
+      const session = createParentSession(parentEmail, { profileId: result.data.user.id });
+      await ensureRemoteParentProfile(session);
+      return { session, needsConfirmation: false };
+    }
+
+    return { session: null, needsConfirmation: true };
   }
 
   function normalizeEmail(value) {
@@ -324,7 +375,11 @@
       btn.setAttribute('aria-pressed', active ? 'true' : 'false');
     });
     const input = document.getElementById('studentCodeInput');
+    const studentFields = document.querySelector('[data-student-auth]');
+    const parentFields = document.querySelector('[data-parent-auth]');
     const action = document.getElementById('loginPrimaryAction');
+    if (studentFields) studentFields.hidden = currentMode !== 'student';
+    if (parentFields) parentFields.hidden = currentMode !== 'parent';
     if (input) {
       input.value = '';
       input.type = currentMode === 'parent' ? 'email' : 'text';
@@ -336,12 +391,36 @@
         ? 'Continue as Parent <i class="fas fa-shield-halved"></i>'
         : 'Start Learning <i class="fas fa-rocket"></i>';
     }
+    if (currentMode === 'parent') setParentAuthMode(currentParentAuthMode);
     const errorEl = document.getElementById('loginError');
     if (errorEl) errorEl.textContent = '';
   }
 
   function getMode() {
     return currentMode;
+  }
+
+  function setParentAuthMode(mode) {
+    currentParentAuthMode = mode === 'signup' ? 'signup' : 'signin';
+    document.querySelectorAll('[data-parent-auth-btn]').forEach(function(btn) {
+      const active = btn.getAttribute('data-parent-auth-btn') === currentParentAuthMode;
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+    const nameField = document.querySelector('[data-parent-name-field]');
+    if (nameField) nameField.hidden = currentParentAuthMode !== 'signup';
+    const action = document.getElementById('loginPrimaryAction');
+    if (action && currentMode === 'parent') {
+      action.innerHTML = currentParentAuthMode === 'signup'
+        ? 'Create Account <i class="fas fa-user-plus"></i>'
+        : 'Login <i class="fas fa-lock-open"></i>';
+    }
+    const errorEl = document.getElementById('loginError');
+    if (errorEl) errorEl.textContent = '';
+  }
+
+  function getParentAuthMode() {
+    return currentParentAuthMode;
   }
 
   window.JameaAuth = {
@@ -351,8 +430,12 @@
     getRemoteUser,
     getMode,
     setMode,
+    getParentAuthMode,
+    setParentAuthMode,
     isEmail,
     requestParentMagicLink,
+    signInParentWithPassword,
+    createParentAccount,
     normalizeSession,
     saveSession,
     loadSession,
@@ -368,9 +451,11 @@
   };
 
   window.selectLoginMode = setMode;
+  window.selectParentAuthMode = setParentAuthMode;
 
   document.addEventListener('DOMContentLoaded', function() {
     setMode(currentMode);
+    setParentAuthMode(currentParentAuthMode);
     loadSession();
   });
 })();

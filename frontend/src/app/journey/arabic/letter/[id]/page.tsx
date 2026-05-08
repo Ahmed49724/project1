@@ -2,6 +2,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { FULL_DB, getLetterRule } from "@/data/db";
+import { SECTIONS, SHAPE_LABELS, type StageType } from "@/data/letterSectionData";
+import type { LetterEntry, SectionProps } from "@/types/letter";
 import { useAppContext } from "@/context/AppContext";
 import { speakAr } from "@/lib/speech";
 import { MotorsSection }    from "@/components/LetterSections/MotorsSection";
@@ -11,27 +13,9 @@ import { SpinWheelGame }    from "@/components/LetterSections/SpinWheelGame";
 import { MemoryGame }       from "@/components/LetterSections/MemoryGame";
 import { SpeedReadGame }    from "@/components/LetterSections/SpeedReadGame";
 import { LetterDetective }   from "@/components/LetterSections/LetterDetective";
+import { ColorMixerGame }   from "@/components/Games/ColorMixerGame";
 
 type LetterKey = keyof typeof FULL_DB;
-type StageType = 1 | 2 | 3;
-
-const SECTIONS = [
-  { id: "hero",    title: "الاستكشاف",     icon: "fa-eye",          stage: 1 as StageType },
-  { id: "motors",  title: "الحركات",       icon: "fa-music",        stage: 1 as StageType },
-  { id: "shapes",  title: "أشكال الحرف",   icon: "fa-shapes",       stage: 1 as StageType },
-  { id: "detective", title: "المحقق",      icon: "fa-search",       stage: 1 as StageType },
-  { id: "xo2",     title: "المقاطع",       icon: "fa-puzzle-piece", stage: 1 as StageType },
-  { id: "xo3",     title: "الكلمات",       icon: "fa-spell-check",  stage: 1 as StageType },
-  { id: "missing", title: "الكلمة الناقصة", icon: "fa-question",    stage: 1 as StageType },
-  { id: "split",   title: "التركيب",       icon: "fa-link",         stage: 1 as StageType },
-  { id: "spin",    title: "Spin & Read",   icon: "fa-rotate",       stage: 2 as StageType },
-  { id: "cups",    title: "Tricky Cups",   icon: "fa-cup",          stage: 2 as StageType },
-  { id: "memory",  title: "الذاكرة",       icon: "fa-brain",        stage: 3 as StageType },
-  { id: "speed",   title: "السرعة",        icon: "fa-bolt",         stage: 3 as StageType },
-  { id: "story",   title: "قصة الحرف",     icon: "fa-book-open",    stage: 1 as StageType },
-];
-
-const SHAPE_LABELS = ["في البداية", "في الوسط", "في النهاية", "منفصل"];
 
 export default function LetterScreen() {
   const params = useParams();
@@ -85,6 +69,49 @@ export default function LetterScreen() {
     }
   };
 
+  const playTone = (frequency: number, type: OscillatorType, duration: number, volume: number) => {
+    if (typeof window === "undefined") return;
+
+    const AudioContextCtor =
+      window.AudioContext ||
+      (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+    if (!AudioContextCtor) return;
+
+    const ctx = new AudioContextCtor();
+    const oscillator = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    oscillator.type = type;
+    oscillator.frequency.value = frequency;
+    gain.gain.value = volume;
+
+    oscillator.connect(gain);
+    gain.connect(ctx.destination);
+    oscillator.start();
+    oscillator.stop(ctx.currentTime + duration);
+    oscillator.onended = () => ctx.close();
+  };
+
+  const playBeep = () => {
+    playTone(300, "square", 0.15, 0.1);
+  };
+
+  const playRawSound = () => {
+    playTone(350, "sawtooth", 0.2, 0.1);
+    window.setTimeout(() => playTone(350, "sawtooth", 0.2, 0.1), 300);
+    window.setTimeout(() => playTone(350, "sawtooth", 0.2, 0.1), 600);
+  };
+
+  const playHeroLetter = () => {
+    playBeep();
+    speakAr(letterId);
+  };
+
+  const handleSoundCardKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    event.preventDefault();
+    playRawSound();
+  };
 
   if (!letterData) {
     return (
@@ -138,7 +165,7 @@ export default function LetterScreen() {
   const progress = (filteredSections.findIndex(s => s.id === SECTIONS[activeSection]?.id) + 1 / filteredSections.length) * 100;
 
   // Common props for all section components
-  const sectionProps = { letterId, letterData: letterData as never, onComplete: goNext };
+  const sectionProps: SectionProps = { letterId, letterData: letterData as LetterEntry, onComplete: goNext };
 
   const currentSectionStage = SECTIONS[activeSection]?.stage || 1;
   const isLastSectionInStage = currentSectionStage < 3 && 
@@ -244,28 +271,28 @@ export default function LetterScreen() {
             {/* ══ 1: HERO ══ */}
             {activeSection === 0 && (
               <div className="section-content">
-                <div className="hero-box letter-hero animate-up">
-                  <div className="hero-badge">🧬 جينات الحرف — Letter DNA</div>
-                  <div className="hero-root" onClick={() => speakAr(letterId)} title="اضغط للاستماع" style={{ cursor: "pointer" }}>
+                <div className="hero-box letter-hero animate-up" data-theme="vibrant" data-section="dna">
+                  <div className="hero-badge">🧬 VIBRANT DNA — جينات الحرف</div>
+
+                  <div className="hero-root" id="ui-hero-letter" onClick={playHeroLetter}>
                     {letterId}
                   </div>
-                  <div style={{ fontFamily: "sans-serif", fontSize: "0.9rem", opacity: 0.7, marginBottom: "16px" }}>اضغط للاستماع 👆</div>
-                  <div className="dna-traits letter-traits">
-                    <div className="trait-box sound-trait" onClick={() => speakAr(letterId)} style={{ cursor: "pointer" }}>
-                      <div className="trait-box-icon">🔊</div>
-                      <div className="trait-box-label">Sound / الصوت</div>
-                      <div className="trait-box-val" dangerouslySetInnerHTML={{ __html: letterData.jollyRawSound }} />
+                  <div className="hero-tap-hint">👆 Tap to listen</div>
+
+                  <div
+                    className="sound-card"
+                    onClick={playRawSound}
+                    onKeyDown={handleSoundCardKeyDown}
+                    role="button"
+                    tabIndex={0}
+                    aria-label="Play letter sound"
+                  >
+                    <div className="sound-card-head">
+                      <span className="sound-card-icon">🔊</span>
+                      <span className="sound-card-label">Sound · الـنُّـطْـق</span>
                     </div>
-                    <div className="trait-box action-trait">
-                      <div className="trait-box-icon">🏃‍♂️</div>
-                      <div className="trait-box-label">Action / الحركة</div>
-                      <div className="trait-box-val">{letterData.jollyAction}</div>
-                    </div>
-                    <div className="trait-box story-trait" style={{ gridColumn: "1 / -1" }}>
-                      <div className="trait-box-icon">{letterData.storyIcon}</div>
-                      <div className="trait-box-label">Story / القصة</div>
-                      <div className="trait-box-val">{letterData.jollyStory}</div>
-                    </div>
+                    <div className="sound-card-val" id="ui-jolly-sound" dangerouslySetInnerHTML={{ __html: letterData.jollyRawSound }} />
+                    <div className="sound-card-hint">اضغط للاستماع</div>
                   </div>
                 </div>
                 {rule && (
@@ -331,11 +358,18 @@ export default function LetterScreen() {
             {/* ══ 9: SPIN WHEEL ══ */}
             {activeSection === 8 && <SpinWheelGame {...sectionProps} />}
 
-            {/* ══ 9: TRICKY CUPS ══ */}
+            {/* ══ 10: COLOR MIXER GAME ══ */}
             {activeSection === 9 && (
+              <div className="section-content">
+                <ColorMixerGame onComplete={goNext} />
+              </div>
+            )}
+
+            {/* ══ 11: TRICKY CUPS ══ */}
+            {activeSection === 10 && (
               <div className="section-content" style={{ textAlign: "center" }}>
                 <div className="section-heading" style={{ marginBottom: "24px" }}>
-                  <span className="section-badge">9</span> Tricky Cups — اتبع الكلمة!
+                  <span className="section-badge">🥤</span> Tricky Cups — اتبع الكلمة!
                 </div>
                 <div style={{ fontSize: "5rem", marginBottom: "24px" }}>🥤🥤🥤</div>
                 <p style={{ fontSize: "1.2rem", marginBottom: "32px", color: "var(--text-muted)" }}>
@@ -345,16 +379,16 @@ export default function LetterScreen() {
               </div>
             )}
 
-            {/* ══ 10: MEMORY ══ */}
-            {activeSection === 10 && <MemoryGame {...sectionProps} />}
+            {/* ══ 12: MEMORY ══ */}
+            {activeSection === 11 && <MemoryGame {...sectionProps} />}
 
-            {/* ══ 11: SPEED READ ══ */}
-            {activeSection === 11 && <SpeedReadGame {...sectionProps} />}
+            {/* ══ 13: SPEED READ ══ */}
+            {activeSection === 12 && <SpeedReadGame {...sectionProps} />}
 
-            {/* ══ 12: ARABIC STORY ══ */}
-            {activeSection === 12 && (
+            {/* ══ 14: ARABIC STORY ══ */}
+            {activeSection === 13 && (
               <div className="section-content" style={{ textAlign: "center" }}>
-                <div className="section-heading" style={{ marginBottom: "24px" }}><span className="section-badge">12</span> قصة الحرف</div>
+                <div className="section-heading" style={{ marginBottom: "24px" }}><span className="section-badge">📖</span> قصة الحرف</div>
                 <div style={{ fontSize: "5rem", marginBottom: "16px" }}>{letterData.storyIcon}</div>
                 <div style={{ fontFamily: "var(--font-noto-naskh),serif", fontSize: "1.8rem", lineHeight: 2, color: "var(--text,#1f2937)", maxWidth: "600px", margin: "0 auto 24px", background: "var(--surface2,#f0fdf4)", border: "2px solid var(--border,#e5e7eb)", borderRadius: "20px", padding: "28px", direction: "rtl" }}>
                   {letterData.storyText}

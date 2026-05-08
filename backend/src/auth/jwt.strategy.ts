@@ -2,21 +2,20 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
-import { SupabaseService } from '../supabase/supabase.service';
+import type { JameaRole } from '../common/decorators/roles.decorator';
 
 export interface JwtPayload {
-  sub: string;       // Supabase user ID
-  email?: string;
-  role?: string;     // 'parent' | 'student' | 'admin'
+  sub: string;
+  email?: string | null;
+  role?: JameaRole;
   studentCode?: string;
 }
 
+const VALID_ROLES: JameaRole[] = ['parent', 'student', 'teacher', 'admin'];
+
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
-  constructor(
-    private supabase: SupabaseService,
-    config: ConfigService,
-  ) {
+  constructor(config: ConfigService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
@@ -24,8 +23,10 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     });
   }
 
-  async validate(payload: JwtPayload) {
-    // payload is already decoded and verified by passport-jwt
+  async validate(payload: JwtPayload): Promise<JwtPayload> {
+    if (payload.role && !VALID_ROLES.includes(payload.role)) {
+      throw new UnauthorizedException('Invalid role claim in token');
+    }
     return payload;
   }
 }

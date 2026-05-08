@@ -1,0 +1,170 @@
+.page {
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: minmax(360px, 0.92fr) minmax(420px, 1fr);
+  background:
+    linear-gradient(90deg, rgba(247, 252, 249, 0) 0%, #f7fcf9 42%),
+    #0a4a38;
+  color: #ffffff;
+  font-family: var(--font-tajawal);
+}
+
+.brandPanel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100dvh;
+  padding: 42px;
+  background:
+    linear-gradient(rgba(255,255,255,0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.055) 1px, transparent 1px),
+    linear-gradient(150deg, #063f31 0%, #075f47 58%, #b7791f 140%);
+  background-size: 42px 42px, 42px 42px, auto;
+}
+
+.brandTop {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.brandTop img {
+  width: 58px;
+  height: 58px;
+  object-fit: contain;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.92);
+  padding: 5px;
+}
+
+.brandName {
+  display: grid;
+  gap: 2px;
+}
+
+.brandName strong {
+  font-size: 1.35rem;
+  letter-spacing: 0.04em;
+}
+
+.brandName span {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.brandCopy {
+  max-width: 520px;
+}
+
+.brandCopy h2 {
+  margin: 0;
+  font-size: clamp(2.4rem, 5vw, 4.6rem);
+  line-height: 1.04;
+  letter-spacing: 0;
+}
+
+.brandCopy p {
+  max-width: 440px;
+  margin-top: 18px;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 1.05rem;
+  line-height: 1.9;
+}
+
+.trustRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  max-width: 520px;
+}
+
+.trustItem {
+  min-height: 84px;
+  padding: 14px;
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.08);
+}
+
+.trustItem strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #f8e6a6;
+  font-size: 1.05rem;
+}
+
+.trustItem span {
+  color: rgba(255,255,255,0.72);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.formPanel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 36px 24px;
+  background: #f7fcf9;
+}
+
+.formStack {
+  width: min(100%, 460px);
+}
+
+.mobileBrand {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  color: #063f31;
+  font-weight: 900;
+}
+
+.mobileBrand img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+}
+
+.terms {
+  margin-top: 18px;
+  color: #6b7f77;
+  text-align: center;
+  font-size: 0.82rem;
+  line-height: 1.65;
+}
+
+.terms a {
+  color: #047857;
+  font-weight: 900;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 920px) {
+  .page {
+    grid-template-columns: 1fr;
+    background: #f7fcf9;
+  }
+
+  .brandPanel {
+    display: none;
+  }
+
+  .formPanel {
+    min-height: 100dvh;
+  }
+
+  .mobileBrand {
+    display: flex;
+  }
+}
+
+@media (max-width: 520px) {
+  .formPanel {
+    align-items: flex-start;
+    padding: 18px 14px 28px;
+  }
+}

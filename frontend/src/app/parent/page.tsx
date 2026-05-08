@@ -3,7 +3,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useAppContext } from "@/context/AppContext";
-import { supabase, isSupabaseConfigured } from "@/lib/supabase";
+import { isSupabaseConfigured } from "@/lib/supabase/client";
+import { createParentProfile, listMyChildren, createChildProfile } from "@/features/parent/api";
 
 interface ChildRecord {
   id: string;
@@ -62,29 +63,26 @@ export default function ParentPage() {
     async function bootstrap() {
       if (isSupabaseConfigured) {
         // Upsert parent profile
-        await supabase.rpc("create_parent_profile", {
-          parent_email: user!.email ?? "",
-          parent_display_name:
-            (user!.user_metadata?.full_name as string) ?? user!.email ?? "",
-        });
+        await createParentProfile(
+          user!.email ?? "",
+          (user!.user_metadata?.full_name as string) ?? user!.email ?? ""
+        );
         setProfileReady(true);
 
         // Load children from DB
-        const { data } = await supabase.rpc("list_my_children");
-        if (data && Array.isArray(data)) {
+        const rows = await listMyChildren();
+        if (rows.length > 0) {
           // Merge with locally stored codes (codes are not returned from DB for security)
           const local = loadLocalChildren();
-          const merged: ChildRecord[] = data.map(
-            (row: { child_profile_id: string; display_name: string; created_at: string }) => {
-              const localMatch = local.find((l) => l.id === row.child_profile_id);
-              return {
-                id: row.child_profile_id,
-                name: row.display_name,
-                code: localMatch?.code ?? "—",
-                createdAt: row.created_at,
-              };
-            }
-          );
+          const merged: ChildRecord[] = rows.map((row) => {
+            const localMatch = local.find((l) => l.id === row.child_profile_id);
+            return {
+              id: row.child_profile_id,
+              name: row.display_name,
+              code: localMatch?.code ?? "—",
+              createdAt: row.created_at,
+            };
+          });
           setChildren(merged);
         }
       } else {
@@ -108,14 +106,11 @@ export default function ParentPage() {
 
     try {
       if (isSupabaseConfigured) {
-        const { data, error } = await supabase.rpc("create_child_profile", {
-          child_display_name: name,
-          plain_code: code,
-        });
+        const { data, error } = await createChildProfile(name, code);
         if (error) { setAddError("حدث خطأ. حاول مرة أخرى."); setAdding(false); return; }
 
         const newChild: ChildRecord = {
-          id: data?.[0]?.child_profile_id ?? crypto.randomUUID(),
+          id: (data as Array<{ child_profile_id: string }>)?.[0]?.child_profile_id ?? crypto.randomUUID(),
           name,
           code,
           createdAt: new Date().toISOString(),

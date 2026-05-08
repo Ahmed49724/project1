@@ -2,7 +2,9 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import type { User, Session } from "@supabase/supabase-js";
-import { supabase, isSupabaseConfigured } from "@/lib/supabase";
+import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
+import { loginStudent } from "@/features/auth/api";
+import { useAuthStore } from "@/features/auth/store";
 
 export type ModalId = "quran" | "grammar" | "wordbuilder" | null;
 type Theme = "light" | "dark";
@@ -70,16 +72,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
 
     if (!isSupabaseConfigured) {
-      // Offline / demo mode — restore student-code session from localStorage
       const offlineName = localStorage.getItem("jamea_student_name");
-      if (offlineName && offlineName !== "—") {
-        setStudentNameState(offlineName);
-      }
+      if (offlineName && offlineName !== "—") setStudentNameState(offlineName);
       setIsAuthLoading(false);
       return;
     }
 
-    // Check existing Supabase session
+    const supabase = createClient();
+
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
@@ -91,7 +91,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       setIsAuthLoading(false);
     });
 
-    // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         setSession(session);
@@ -146,6 +145,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       alert("Supabase is not configured yet. Please add your keys to .env.local");
       return;
     }
+    const supabase = createClient();
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: { redirectTo: `${window.location.origin}/dashboard` },
@@ -157,23 +157,22 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (!trimmed) return false;
 
     if (!isSupabaseConfigured) {
-      // Offline mode: accept any non-empty code as student name
+      // Offline / demo mode — accept any non-empty code as student name
       setStudentName(trimmed);
       return true;
     }
 
-    // Query Supabase children table
-    const { data, error } = await supabase
-      .from("children")
-      .select("display_name, code")
-      .eq("code", trimmed)
-      .single();
-
-    if (error || !data) return false;
-
-    setStudentName(data.display_name ?? trimmed);
-    localStorage.setItem("jamea_student_code", trimmed);
-    return true;
+    try {
+      // Delegate to NestJS backend via features/auth/api.ts (V-FE-01)
+      const { user: authUser, token } = await loginStudent(trimmed);
+      useAuthStore.getState().setAuth(authUser, token);
+      const displayName = (authUser as { name?: string }).name ?? trimmed;
+      setStudentName(displayName);
+      localStorage.setItem("jamea_student_code", trimmed);
+      return true;
+    } catch {
+      return false;
+    }
   }, [setStudentName]);
 
   const signOut = useCallback(async () => {
@@ -182,7 +181,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     localStorage.removeItem("jamea_stars");
     setStudentNameState("—");
     setStarsCount(0);
+    useAuthStore.getState().clearAuth();
     if (isSupabaseConfigured) {
+      const supabase = createClient();
       await supabase.auth.signOut();
     }
     setUser(null);

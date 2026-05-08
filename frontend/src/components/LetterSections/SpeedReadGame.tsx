@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import type { SectionProps } from "@/types/letter";
+import type { WordGameProps } from "@/types/letter";
 import { speakAr } from "@/lib/speech";
 
 type Phase = "start" | "playing" | "results";
@@ -10,7 +10,7 @@ const LEVELS = [
   { label: "🚀 صعب", ms: 1500 },
 ];
 
-export function SpeedReadGame({ letterData, onComplete }: SectionProps) {
+export function SpeedReadGame({ letterData, onComplete }: WordGameProps) {
   const words = [...letterData.splitWords, ...letterData.xoWords].slice(0, 10);
   const [phase, setPhase] = useState<Phase>("start");
   const [wordIdx, setWordIdx] = useState(0);

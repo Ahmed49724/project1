@@ -1,11 +1,11 @@
-import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
-/** Protects a route — requires a valid Bearer JWT */
+/** Protects a route — requires a valid platform Bearer JWT */
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
-  handleRequest(err: Error, user: unknown) {
+  handleRequest<TUser = any>(err: any, user: any, _info: any): TUser {
     if (err || !user) throw new UnauthorizedException('Invalid or missing token');
-    return user;
+    return user as TUser;
   }
 }

@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useCallback } from "react";
-import type { SectionProps } from "@/types/letter";
+import type { WordGameProps } from "@/types/letter";
 import { speakAr } from "@/lib/speech";
 
 interface Card { id: number; word: string; pairId: number; flipped: boolean; matched: boolean; }
@@ -17,7 +17,7 @@ function createDeck(words: string[]): Card[] {
   return pairs.map((p, id) => ({ ...p, id, flipped: false, matched: false }));
 }
 
-export function MemoryGame({ letterData, onComplete }: SectionProps) {
+export function MemoryGame({ letterData, onComplete }: WordGameProps) {
   const words = letterData.xoWords.length >= 6 ? letterData.xoWords : letterData.cardWords;
   const [cards, setCards] = useState<Card[]>(() => createDeck(words));
   const [selected, setSelected] = useState<number[]>([]);

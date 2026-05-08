@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import StageHero from "@/components/StageSections/StageHero";
 import StageMotorsSection from "@/components/StageSections/StageMotorsSection";
 import StageDetectiveSection from "@/components/StageSections/StageDetectiveSection";
@@ -12,10 +11,12 @@ import { MemoryGame } from "@/components/LetterSections/MemoryGame";
 import { SpeedReadGame } from "@/components/LetterSections/SpeedReadGame";
 import { SpinWheelGame } from "@/components/LetterSections/SpinWheelGame";
 import { XOWordGame } from "@/components/LetterSections/XOWordGame";
+import { ColorMixerGame } from "@/components/Games/ColorMixerGame";
 import type { StageData } from "@/data/stageData";
 
 interface StageScreenProps {
   stageData: StageData;
+  onComplete?: () => void;
 }
 
 const SECTION_ORDER = [
@@ -28,6 +29,7 @@ const SECTION_ORDER = [
   { id: "review", label: "Review", icon: "🟦" },
   { id: "missing", label: "Missing", icon: "🧩" },
   { id: "spin", label: "Football", icon: "⚽" },
+  { id: "colors", label: "Colors", icon: "🎨" },
   { id: "memory", label: "Memory", icon: "🧠" },
   { id: "speed", label: "Speed", icon: "⏱️" },
   { id: "story", label: "Story", icon: "📖" },
@@ -35,8 +37,7 @@ const SECTION_ORDER = [
   { id: "bonus", label: "Bonus", icon: "🏅" },
 ];
 
-export default function StageScreen({ stageData }: StageScreenProps) {
-  const router = useRouter();
+export default function StageScreen({ stageData, onComplete }: StageScreenProps) {
   const [activeSection, setActiveSection] = useState(0);
   const sectionIndex = Math.min(activeSection, SECTION_ORDER.length - 1);
 
@@ -49,8 +50,7 @@ export default function StageScreen({ stageData }: StageScreenProps) {
       setActiveSection((prev) => prev + 1);
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
-      alert("🎉 أحسنت! أتممت رحلة المرحلة بنجاح!");
-      router.push("/journey/arabic");
+      onComplete?.();
     }
   };
 
@@ -111,7 +111,7 @@ export default function StageScreen({ stageData }: StageScreenProps) {
 
           <div className="stage-content-area">
             {activeSection === 0 && <StageHero stageData={stageData} onNext={goNext} />}
-            {activeSection === 1 && <StageMotorsSection stageData={stageData} />}
+            {activeSection === 1 && <StageMotorsSection stageData={stageData} onNext={goNext} />}
             {activeSection === 2 && (
               <section className="section-content">
                 <div className="section-heading">
@@ -163,21 +163,26 @@ export default function StageScreen({ stageData }: StageScreenProps) {
             )}
             {activeSection === 9 && (
               <section className="section-content">
-                <div className="section-heading">
-                  <span className="section-badge">🧠</span> لعبة الذاكرة
-                </div>
-                <MemoryGame letterData={stageData} onComplete={() => setActiveSection(10)} />
+                <ColorMixerGame onComplete={goNext} />
               </section>
             )}
             {activeSection === 10 && (
               <section className="section-content">
                 <div className="section-heading">
-                  <span className="section-badge">⏱️</span> قراءة سريعة
+                  <span className="section-badge">🧠</span> لعبة الذاكرة
                 </div>
-                <SpeedReadGame letterData={stageData} onComplete={() => setActiveSection(11)} />
+                <MemoryGame letterData={stageData} onComplete={() => setActiveSection(11)} />
               </section>
             )}
             {activeSection === 11 && (
+              <section className="section-content">
+                <div className="section-heading">
+                  <span className="section-badge">⏱️</span> قراءة سريعة
+                </div>
+                <SpeedReadGame letterData={stageData} onComplete={() => setActiveSection(12)} />
+              </section>
+            )}
+            {activeSection === 12 && (
               <section className="section-content">
                 <div className="section-heading">
                   <span className="section-badge">📖</span> قصة المرحلة
@@ -190,7 +195,7 @@ export default function StageScreen({ stageData }: StageScreenProps) {
                 </div>
               </section>
             )}
-            {activeSection === 12 && (
+            {activeSection === 13 && (
               <section className="section-content">
                 <div className="section-heading">
                   <span className="section-badge">🧱</span> تركيب الكلمات
@@ -209,7 +214,7 @@ export default function StageScreen({ stageData }: StageScreenProps) {
                 </div>
               </section>
             )}
-            {activeSection === 13 && (
+            {activeSection === 14 && (
               <section className="section-content">
                 <div className="section-heading">
                   <span className="section-badge">🏅</span> تحدي المرحلة

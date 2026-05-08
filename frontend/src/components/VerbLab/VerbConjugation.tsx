@@ -1,18 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import { VERB_CONJUGATIONS, type VerbEntry } from "@/data/verbLabData";
+import { VERB_CONJUGATIONS, TENSE_TABS, PRONOUN_LABELS, type VerbEntry } from "@/data/verbLabData";
 import { speakAr } from "@/lib/speech";
-
-const TENSE_TABS = [
-  { key: "present", label: "المضارع", labelEn: "Present", color: "#3b82f6" },
-  { key: "past", label: "الماضي", labelEn: "Past", color: "#10b981" },
-  { key: "command", label: "الأمر", labelEn: "Command", color: "#f59e0b" },
-] as const;
-
-const PRONOUN_LABELS: Record<string, string> = {
-  أنا: "I", هو: "He", هي: "She", نحن: "We", هم: "They",
-  "أنتَ": "You (m)", "أنتِ": "You (f)", أنتم: "You (pl)",
-};
 
 export function VerbConjugation() {
   const [verbIdx, setVerbIdx] = useState(0);

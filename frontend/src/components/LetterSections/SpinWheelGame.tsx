@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
-import type { SectionProps } from "@/types/letter";
+import type { WordGameProps } from "@/types/letter";
 import { speakAr } from "@/lib/speech";
 
 const COLORS = ["#ef4444","#f59e0b","#10b981","#3b82f6","#8b5cf6","#ec4899","#06b6d4","#84cc16"];
@@ -17,7 +17,7 @@ function slicePath(cx: number, cy: number, r: number, start: number, end: number
   return `M${cx},${cy} L${s.x},${s.y} A${r},${r},0,${large},1,${e.x},${e.y}Z`;
 }
 
-export function SpinWheelGame({ letterData, onComplete }: SectionProps) {
+export function SpinWheelGame({ letterData, onComplete }: WordGameProps) {
   const words = letterData.xoWords.slice(0, 8);
   const [rotation, setRotation] = useState(0);
   const [spinning, setSpinning] = useState(false);

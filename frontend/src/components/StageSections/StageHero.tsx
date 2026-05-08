@@ -50,7 +50,7 @@ function badgeStyle(color: string) {
     borderRadius: "16px",
     padding: "14px 18px",
     minWidth: "180px",
-    textAlign: "left",
+    textAlign: "left" as const,
     boxShadow: "0 18px 55px rgba(15,23,42,0.06)",
   };
 }

@@ -1150,8 +1150,8 @@ let activeLetterKey = ''; // الحرف المفتوح حالياً
 const SUPABASE_URL = 'https://oxknepxwnsgsphhklplm.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_YYDRjNE2GUdRpQqFfA5LEg_eIVrx_0X';
 const SUPABASE_PROGRESS_TABLE = 'student_progress';
-const GOOGLE_SIGN_IN_ENABLED = false;
-const REMOTE_SUPABASE_ENABLED = false;
+const GOOGLE_SIGN_IN_ENABLED = true;
+const REMOTE_SUPABASE_ENABLED = true;
 const DEFAULT_PLAYER_PROGRESS = { unlocked: ['أ'], stars: 0, completed: [] };
 const supabaseClient = REMOTE_SUPABASE_ENABLED && window.supabase
   ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
@@ -1628,6 +1628,79 @@ function updateGoogleSignInUi() {
   if (!GOOGLE_SIGN_IN_ENABLED && errorEl) errorEl.textContent = '';
 }
 
+function toggleLoginPassword() {
+  const input = document.getElementById('parentPasswordInput');
+  const icon = document.querySelector('.login-password-toggle i');
+  if (!input) return;
+  const visible = input.type === 'text';
+  input.type = visible ? 'password' : 'text';
+  if (icon) {
+    icon.classList.toggle('fa-eye', visible);
+    icon.classList.toggle('fa-eye-slash', !visible);
+  }
+}
+
+async function loginParentWithEmail() {
+  const auth = getJameaAuth();
+  const errorEl = document.getElementById('loginError');
+  const resultEl = document.getElementById('childCodeResult');
+  const nameInput = document.getElementById('parentNameInput');
+  const emailInput = document.getElementById('parentEmailInput');
+  const passwordInput = document.getElementById('parentPasswordInput');
+  const action = document.getElementById('loginPrimaryAction');
+
+  if (errorEl) errorEl.textContent = '';
+  if (resultEl) resultEl.textContent = '';
+
+  if (!auth) {
+    if (errorEl) errorEl.textContent = 'Account login is unavailable right now.';
+    return false;
+  }
+
+  const mode = auth.getParentAuthMode ? auth.getParentAuthMode() : 'signin';
+  const email = emailInput && emailInput.value ? emailInput.value.trim().toLowerCase() : '';
+  const password = passwordInput && passwordInput.value ? passwordInput.value : '';
+  const fullName = nameInput && nameInput.value ? nameInput.value.trim() : '';
+
+  try {
+    if (action) action.disabled = true;
+    if (errorEl) errorEl.textContent = mode === 'signup' ? 'Creating your account...' : 'Checking your account...';
+
+    if (mode === 'signup') {
+      const created = await auth.createParentAccount(email, password, fullName);
+      if (created && created.needsConfirmation) {
+        if (errorEl) errorEl.textContent = 'Account created. Please open your email and confirm the link to activate login.';
+        return true;
+      }
+      if (created && created.session) applyUnifiedSession(created.session);
+    } else {
+      const session = await auth.signInParentWithPassword(email, password);
+      applyUnifiedSession(session);
+    }
+
+    openMainDashboardAfterLogin();
+    renderParentPanel();
+    syncParentRemoteData(getCurrentJameaSession());
+    if (errorEl) errorEl.textContent = '';
+    return true;
+  } catch (e) {
+    if (errorEl) errorEl.textContent = e && e.message ? e.message : 'Could not complete login.';
+    return false;
+  } finally {
+    if (action) action.disabled = false;
+  }
+}
+
+function submitLogin() {
+  const auth = getJameaAuth();
+  const mode = auth ? auth.getMode() : 'student';
+  return mode === 'parent' ? loginParentWithEmail() : loginStudent();
+}
+
+window.toggleLoginPassword = toggleLoginPassword;
+window.loginParentWithEmail = loginParentWithEmail;
+window.submitLogin = submitLogin;
+
 async function restoreAuthSession() {
   const auth = getJameaAuth();
   const savedSession = auth ? auth.loadSession() : null;
@@ -2085,17 +2158,41 @@ function fireConfetti() {
 /**
  * toggleTheme — يبدّل بين الثيم الفاتح والداكن ويحفظ الاختيار
  */
+function _themeIconClass(theme) {
+  return theme === 'dark'  ? 'fas fa-sun'
+       : theme === 'space' ? 'fas fa-rocket'
+       :                     'fas fa-moon';
+}
+
+function _themeLabel(theme) {
+  return theme === 'dark'  ? 'الوضع الليلي'
+       : theme === 'space' ? 'وضع الفضاء'
+       :                     'الوضع الهادئ';
+}
+
+function _syncThemeControls(theme) {
+  document.querySelectorAll('#theme-icon, .fs-theme-icon').forEach(icon => {
+    const extraClass = icon.classList.contains('fs-theme-icon') ? ' fs-theme-icon' : '';
+    icon.className = _themeIconClass(theme) + extraClass;
+  });
+  document.querySelectorAll('.fs-theme-btn, .nav-icon-btn[onclick="toggleTheme()"]').forEach(btn => {
+    btn.setAttribute('aria-label', 'تبديل المظهر: ' + _themeLabel(theme));
+    btn.setAttribute('title', _themeLabel(theme));
+  });
+}
+
 function toggleTheme() {
-  const isDark = document.body.getAttribute('data-theme') === 'dark';
-  const newTheme = isDark ? 'light' : 'dark';
+  const current  = document.body.getAttribute('data-theme') || 'light';
+  // Cycle: light → dark → space → light
+  const cycle    = { light: 'dark', dark: 'space', space: 'light' };
+  const newTheme = cycle[current] || 'dark';
   document.body.setAttribute('data-theme', newTheme);
 
-  const icon = document.getElementById('theme-icon');
-  if (icon) icon.className = isDark ? 'fas fa-moon' : 'fas fa-sun';
+  _syncThemeControls(newTheme);
 
-  // حفظ تفضيل المستخدم
   try { localStorage.setItem('jami3_theme', newTheme); } catch (e) {}
   sendVerbLabSession();
+  if (window._fsRescaleCurrent) window._fsRescaleCurrent();
 }
 
 /**
@@ -2107,8 +2204,7 @@ function loadSavedTheme() {
     const saved = localStorage.getItem('jami3_theme');
     if (saved) {
       document.body.setAttribute('data-theme', saved);
-      const icon = document.getElementById('theme-icon');
-      if (icon) icon.className = saved === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+      _syncThemeControls(saved);
     }
   } catch (e) {}
 }
@@ -10146,7 +10242,7 @@ const LETTER_PHASE_STATE = {
 const LETTER_PHASE_SECTIONS = {
   1: ['2-motors', '2', '3', '4', '5', '6'],
   2: ['6.5', '6.75', '6.89', '6.91'],
-  3: ['7', '8', '9', '10', 'football-review', 'final'],
+  3: ['7', '8', '9', '10', 'football-review', 'colors', 'final'],
 };
 const LETTER_PHASE_LOTTIES = {
   1: '/lottie/firework_12764474.json',
@@ -13513,7 +13609,7 @@ function trickyCupsRestart(levelKey) {
     '2-motors', // سكشن تعريف الموتورات الجديد
     '2',        // سكشن لعبة السيارة
     '3', '4', '5', '6', '6.5', '6.75', '6.89', '6.91', '7', '8', '9', '10',
-    'football-review', 'detective-twin-1', 'detective-twin-2', 'final'
+    'football-review', 'colors', 'detective-twin-1', 'detective-twin-2', 'final'
   ];
   // advanced-level screens (Sukoon/Madd/Shadda/Tanween)
   // NOTE: currently only Sukoon has the full section set refactored.
@@ -13905,6 +14001,23 @@ function _exitFullscreen(section, keepFs) {
     section.appendChild(btn);
   }
 
+  function _addFsThemeButton(section) {
+    if (section.querySelector('.fs-theme-btn')) return;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'fs-theme-btn';
+    const icon = document.createElement('i');
+    icon.className = _themeIconClass(document.body.getAttribute('data-theme') || 'light') + ' fs-theme-icon';
+    icon.setAttribute('aria-hidden', 'true');
+    btn.onclick = event => {
+      event.stopPropagation();
+      toggleTheme();
+    };
+    btn.appendChild(icon);
+    section.appendChild(btn);
+    _syncThemeControls(document.body.getAttribute('data-theme') || 'light');
+  }
+
   function _addFsButton(section) {
     if (!section.querySelector('.fs-content-wrapper')) {
       const wrapper = document.createElement('div');
@@ -13913,6 +14026,7 @@ function _exitFullscreen(section, keepFs) {
       section.appendChild(wrapper);
     }
     _addGameHelpButton(section);
+    _addFsThemeButton(section);
     if (section.querySelector('.fs-toggle-btn')) return;
     const btn = document.createElement('button');
     btn.className = 'fs-toggle-btn';
@@ -14881,4 +14995,222 @@ window._tabMe = function() {
     setTimeout(() => overlay.classList.remove('is-visible'), 2400);
   }
   window._pomoShowFlash = showFlash;
+})();
+
+
+// ══════════════════════════════════════════════════════════════
+// 🎨  COLOR MIXER GAME — مزج الألوان
+// ══════════════════════════════════════════════════════════════
+
+const CM_COLOR_WORDS = [
+  { id: 'rose',    arabic: 'بَثَتَ', hex: '#fb7185' },
+  { id: 'violet',  arabic: 'كَتَبَ', hex: '#a78bfa' },
+  { id: 'fuchsia', arabic: 'ذَهَبَ', hex: '#e879f9' },
+  { id: 'teal',    arabic: 'سَمِعَ', hex: '#2dd4bf' },
+  { id: 'amber',   arabic: 'فَعَلَ', hex: '#fbbf24' },
+  { id: 'sky',     arabic: 'نَظَرَ', hex: '#38bdf8' },
+  { id: 'lime',    arabic: 'رَسَمَ', hex: '#a3e635' },
+  { id: 'pink',    arabic: 'لَعِبَ', hex: '#f472b6' },
+  { id: 'indigo',  arabic: 'قَرَأَ', hex: '#818cf8' },
+];
+
+const CM_LEVELS = [
+  { number: 1, labelAr: 'المستوى الأول',  required: 3, available: ['rose', 'violet', 'fuchsia', 'teal', 'amber'] },
+  { number: 2, labelAr: 'المستوى الثاني', required: 5, available: ['rose', 'violet', 'fuchsia', 'teal', 'amber', 'sky', 'lime'] },
+  { number: 3, labelAr: 'المستوى الثالث', required: 7, available: ['rose', 'violet', 'fuchsia', 'teal', 'amber', 'sky', 'lime', 'pink', 'indigo'] },
+];
+
+let cmState = { levelIndex: 0, targetIds: [], addedIds: [], status: 'playing' };
+
+function _cmPickTargets(available, count) {
+  return [...available].sort(() => Math.random() - 0.5).slice(0, count);
+}
+
+function _cmMixHex(hexList) {
+  if (!hexList.length) return '#fce7f3';
+  const p = (h, i) => parseInt(h.slice(i, i + 2), 16);
+  const a = (i) => Math.round(hexList.reduce((s, h) => s + p(h, i), 0) / hexList.length).toString(16).padStart(2, '0');
+  return `#${a(1)}${a(3)}${a(5)}`;
+}
+
+function initColorMixer(levelIndex) {
+  levelIndex = (typeof levelIndex === 'number') ? levelIndex : (cmState.levelIndex || 0);
+  const level = CM_LEVELS[levelIndex];
+  cmState = {
+    levelIndex,
+    targetIds: _cmPickTargets(level.available, level.required),
+    addedIds: [],
+    status: 'playing',
+  };
+  _cmRender();
+}
+
+function _cmRender() {
+  const level        = CM_LEVELS[cmState.levelIndex];
+  const words        = CM_COLOR_WORDS.filter(w => level.available.includes(w.id));
+  const targetColors = cmState.targetIds.map(id => CM_COLOR_WORDS.find(w => w.id === id));
+  const targetHex    = _cmMixHex(targetColors.map(c => c.hex));
+  const mixedHex     = _cmMixHex(cmState.addedIds.map(id => CM_COLOR_WORDS.find(w => w.id === id).hex));
+  const pct          = Math.min((cmState.addedIds.length / level.required) * 100, 100);
+
+  // ── Level tabs ────────────────────────────────────────────
+  const tabs = document.getElementById('cm-level-tabs');
+  if (tabs) {
+    tabs.innerHTML = CM_LEVELS.map((l, idx) => `
+      <button onclick="initColorMixer(${idx})" style="
+        padding:6px 18px;border-radius:999px;cursor:pointer;
+        border:2px solid ${idx === cmState.levelIndex ? '#e879f9' : '#e5e7eb'};
+        background:${idx === cmState.levelIndex ? 'linear-gradient(135deg,#e879f9,#a78bfa)' : '#fff'};
+        color:${idx === cmState.levelIndex ? '#fff' : '#a78bfa'};
+        font-weight:700;font-size:0.82rem;
+        box-shadow:${idx === cmState.levelIndex ? '0 4px 12px #e879f955' : 'none'};
+      ">${l.labelAr}</button>
+    `).join('');
+  }
+
+  // ── Pots ─────────────────────────────────────────────────
+  const tp = document.getElementById('cm-target-pot');
+  if (tp) { tp.style.background = targetHex; tp.style.boxShadow = `0 0 0 4px #ede9fe,0 8px 24px ${targetHex}55`; }
+
+  const td = document.getElementById('cm-target-dots');
+  if (td) td.innerHTML = targetColors.map(c =>
+    `<span style="width:13px;height:13px;border-radius:50%;background:${c.hex};border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.15);display:inline-block;"></span>`
+  ).join('');
+
+  const mp = document.getElementById('cm-mix-pot');
+  if (mp) {
+    mp.style.background  = cmState.addedIds.length ? mixedHex : '#fce7f3';
+    mp.style.boxShadow   = `0 0 0 4px #fce7f3,0 8px 24px ${cmState.addedIds.length ? mixedHex : '#fce7f3'}55`;
+  }
+
+  const md = document.getElementById('cm-mix-dots');
+  if (md) {
+    md.innerHTML = cmState.addedIds.length
+      ? cmState.addedIds.map(id => {
+          const c = CM_COLOR_WORDS.find(w => w.id === id);
+          return `<span style="width:13px;height:13px;border-radius:50%;background:${c.hex};border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.15);display:inline-block;"></span>`;
+        }).join('')
+      : '<span style="font-size:0.72rem;color:#f9a8d4;">فارغ</span>';
+  }
+
+  // ── Win / Lose card ───────────────────────────────────────
+  const card = document.getElementById('cm-status-card');
+  if (card) {
+    if (cmState.status === 'playing') {
+      card.style.display = 'none';
+    } else {
+      const isWin      = cmState.status === 'win';
+      const isLastLvl  = cmState.levelIndex >= CM_LEVELS.length - 1;
+      card.style.display    = 'block';
+      card.style.background = isWin ? 'linear-gradient(135deg,#ccfbf1,#fce7f3)' : 'linear-gradient(135deg,#fee2e2,#fce7f3)';
+      card.style.border     = isWin ? '2px solid #2dd4bf' : '2px solid #fb7185';
+      card.innerHTML = `
+        <div style="font-size:3.2rem;margin-bottom:10px;">${isWin ? '🌟' : '💔'}</div>
+        <div style="font-family:'Tajawal',sans-serif;font-weight:900;font-size:1.25rem;color:${isWin ? '#0d9488' : '#e11d48'};margin-bottom:6px;">
+          ${isWin ? 'أحسنتِ! ممتاز! 🎉' : 'حاولي مرة أخرى! 💪'}
+        </div>
+        <div style="font-size:0.88rem;color:#a78bfa;margin-bottom:22px;">
+          ${isWin ? 'مزجتِ الألوان الصحيحة تماماً' : 'الألوان لم تتطابق، لا تستسلمي!'}
+        </div>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+          <button class="btn-secondary" onclick="initColorMixer(${cmState.levelIndex})">
+            <i class="fas fa-rotate-right"></i> مرة أخرى
+          </button>
+          ${isWin ? `<button class="btn-primary" onclick="${isLastLvl ? '_navSection(1)' : `initColorMixer(${cmState.levelIndex + 1})`}">
+            ${isLastLvl ? 'التالي' : 'المستوى التالي ✨'} <i class="fas fa-arrow-left"></i>
+          </button>` : ''}
+        </div>
+      `;
+    }
+  }
+
+  // ── Progress ──────────────────────────────────────────────
+  const pw = document.getElementById('cm-progress-wrap');
+  const pl = document.getElementById('cm-progress-label');
+  const pb = document.getElementById('cm-progress-bar');
+  if (pw) pw.style.display = cmState.status === 'playing' ? 'block' : 'none';
+  if (pl) pl.textContent   = `${cmState.addedIds.length} / ${level.required} ألوان مضافة`;
+  if (pb) pb.style.width   = `${pct}%`;
+
+  // ── Word grid ─────────────────────────────────────────────
+  const grid = document.getElementById('cm-word-grid');
+  if (!grid) return;
+  if (cmState.status !== 'playing') { grid.style.display = 'none'; return; }
+  grid.style.display = 'flex';
+  grid.innerHTML = words.map(word => {
+    const used = cmState.addedIds.includes(word.id);
+    return `<button
+      onclick="cmClickWord('${word.id}')"
+      ${used ? 'disabled' : ''}
+      style="
+        position:relative;padding:14px 22px;border-radius:20px;cursor:${used ? 'default' : 'pointer'};
+        border:2px solid ${used ? '#e5e7eb' : word.hex};
+        background:${used ? '#f9f9fb' : word.hex + '18'};
+        color:${used ? '#c4b5fd' : word.hex};
+        font-size:1.6rem;font-weight:700;direction:rtl;
+        opacity:${used ? '0.45' : '1'};
+        box-shadow:${used ? 'none' : `0 6px 18px ${word.hex}33`};
+        transform:${used ? 'scale(0.94)' : 'scale(1)'};
+        transition:all 0.25s ease;
+      "
+    >${word.arabic}${used
+      ? '<span style="position:absolute;top:-5px;right:-5px;font-size:0.75rem;background:#10b981;color:#fff;border-radius:50%;width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;font-weight:900;">✓</span>'
+      : ''
+    }</button>`;
+  }).join('');
+}
+
+function cmClickWord(id) {
+  if (cmState.status !== 'playing') return;
+  if (cmState.addedIds.includes(id)) return;
+
+  const word = CM_COLOR_WORDS.find(w => w.id === id);
+  if (!word) return;
+
+  try { speakAr(word.arabic); } catch(e) {}
+
+  // Wrong word → immediate lose
+  if (!cmState.targetIds.includes(id)) {
+    cmState.status = 'lose';
+    _cmRender();
+    return;
+  }
+
+  // Correct word — add and bounce pot
+  cmState.addedIds.push(id);
+  const pot = document.getElementById('cm-mix-pot');
+  if (pot) {
+    pot.style.animation = 'none';
+    requestAnimationFrame(() => { pot.style.animation = 'bounce 0.4s ease'; });
+    setTimeout(() => { if (pot) pot.style.animation = 'none'; }, 500);
+  }
+
+  if (cmState.targetIds.every(tid => cmState.addedIds.includes(tid))) {
+    cmState.status = 'win';
+  }
+
+  _cmRender();
+}
+
+// Auto-init: watch for the colors section becoming visible (phase unlock or letter open)
+(function() {
+  function _cmTryInit() {
+    const section = document.querySelector('.step-section[data-section="colors"]');
+    if (!section || section.style.display === 'none') return;
+    const grid = document.getElementById('cm-word-grid');
+    if (grid && grid.children.length === 0) initColorMixer(0);
+  }
+  // Fire on any style/class mutation in the letter screen area
+  new MutationObserver(_cmTryInit)
+    .observe(document.body, { attributes: true, subtree: true, attributeFilter: ['style'] });
+  // Also reset on each new letter open so state is fresh
+  const _origOpenLetter = window.openLetter;
+  if (typeof _origOpenLetter === 'function') {
+    window.openLetter = function(key) {
+      cmState = { levelIndex: 0, targetIds: [], addedIds: [], status: 'playing' };
+      const grid = document.getElementById('cm-word-grid');
+      if (grid) grid.innerHTML = '';
+      return _origOpenLetter.apply(this, arguments);
+    };
+  }
 })();

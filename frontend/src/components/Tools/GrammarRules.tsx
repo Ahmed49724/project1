@@ -102,7 +102,33 @@ export function GrammarRules({ onClose }: { onClose: () => void }) {
         )}
 
         {tab === 4 && (
-          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+            {/* Visual engine metaphor card */}
+            <div style={{ border: "2px solid #f59e0b", borderRadius: "16px", padding: "20px" }}>
+              <div style={{ fontWeight: 900, color: "#f59e0b", fontFamily: "var(--font-tajawal), sans-serif", marginBottom: "14px", fontSize: "1.05rem" }}>
+                ⚡ Shadda &amp; Tanween Rule — قاعدة الشدة والتنوين
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+                <div style={{ background: "#fef3c7", borderRadius: "14px", padding: "16px", border: "2px solid #f59e0b", textAlign: "center" }}>
+                  <div style={{ fontSize: "2rem", marginBottom: "8px" }}>⚙️ ≠ ⚙️</div>
+                  <div style={{ fontFamily: "var(--font-noto-naskh), serif", fontSize: "2rem", fontWeight: 700, color: "#92400e", marginBottom: "6px" }}>بَّ = بْ + بَ</div>
+                  <div style={{ fontFamily: "var(--font-tajawal), sans-serif", fontWeight: 900, fontSize: "0.9rem", color: "#78350f" }}>
+                    موتوران مختلفان → شدة ّ<br />
+                    <em style={{ fontWeight: 400, fontSize: "0.8rem" }}>Different engines → Shadda</em>
+                  </div>
+                </div>
+                <div style={{ background: "#e0f2fe", borderRadius: "14px", padding: "16px", border: "2px solid #0ea5e9", textAlign: "center" }}>
+                  <div style={{ fontSize: "2rem", marginBottom: "8px" }}>⚙️ = ⚙️</div>
+                  <div style={{ fontFamily: "var(--font-noto-naskh), serif", fontSize: "2rem", fontWeight: 700, color: "#075985", marginBottom: "6px" }}>كِتَابٌ = كِتَابُ + نْ</div>
+                  <div style={{ fontFamily: "var(--font-tajawal), sans-serif", fontWeight: 900, fontSize: "0.9rem", color: "#0c4a6e" }}>
+                    موتوران متشابهان → تنوين ٌ<br />
+                    <em style={{ fontWeight: 400, fontSize: "0.8rem" }}>Same engines → Tanween</em>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Detailed rule cards with examples */}
             {[{
               title: "الشدة (Shadda) — ّ",
               desc: "When a consonant is doubled, we write it once with a shadda (ّ) above it.",

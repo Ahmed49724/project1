@@ -1,39 +1,8 @@
 "use client";
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { useRouter } from "next/navigation";
 import lottie, { type AnimationItem } from "lottie-web";
 import { speakAr } from "@/lib/speech";
-
-const PRONOUNS = [
-  { ar: "أَنَا",  en: "I",    icon: "🙋‍♂️" },
-  { ar: "هُوَ",  en: "He",   icon: "👨"   },
-  { ar: "هِيَ",  en: "She",  icon: "👩"   },
-  { ar: "نَحْنُ", en: "We",  icon: "👨‍👩‍👧‍👦" },
-  { ar: "هُمْ",  en: "They", icon: "👐"  },
-];
-
-const VERBS = [
-  { ar: "يَأْكُلُ",  en: "Eats",      lottie: "eating.json",   icon: "🍽" },
-  { ar: "يَشْرَبُ",  en: "Drinks",    lottie: "drinking.json", icon: "🥤" },
-  { ar: "يَذْهَبُ",  en: "Goes",      lottie: "going.json",    icon: "🚶" },
-  { ar: "يَجْلِسُ",  en: "Sits",      lottie: "sit.json",      icon: "🪑" },
-  { ar: "يَقْرَأُ",  en: "Reads",     lottie: "reading.json",  icon: "📖" },
-  { ar: "يَكْتُبُ",  en: "Writes",    lottie: "writing.json",  icon: "✏️" },
-  { ar: "يَسْمَعُ",  en: "Hears",     lottie: "hearing.json",  icon: "👂" },
-  { ar: "يَعْبُدُ",  en: "Worships",  lottie: "worship.json",  icon: "🤲" },
-  { ar: "يُفَكِّرُ", en: "Thinks",   lottie: "think.json",    icon: "💭" },
-  { ar: "يَعْرِفُ",  en: "Knows",     lottie: "knowing.json",  icon: "💡" },
-  { ar: "يُحِبُّ",   en: "Loves",    lottie: "love.json",     icon: "❤️" },
-  { ar: "يَخْلُقُ",  en: "Creates",   lottie: "create.json",   icon: "🌟" },
-  { ar: "يَنَامُ",   en: "Sleeps",   lottie: "sleep.json",    icon: "😴" },
-  { ar: "يَقِفُ",   en: "Stands",    lottie: "stand.json",    icon: "🧍" },
-  { ar: "يَقُولُ",  en: "Says",      lottie: "saying.json",   icon: "💬" },
-  { ar: "يَرَى",    en: "Sees",      lottie: "see.json",      icon: "👁" },
-  { ar: "يَأْتِي",  en: "Comes",     lottie: "come.json",     icon: "🤗" },
-  { ar: "يَخْرُجُ", en: "Goes out",  lottie: "go out.json",   icon: "🚪" },
-  { ar: "يَدْخُلُ", en: "Enters",    lottie: "get in.json",   icon: "🏠" },
-  { ar: "يَفْعَلُ", en: "Does",      lottie: "doing.json",    icon: "💪" },
-];
+import { PRONOUNS, VERB_CONJUGATIONS as VERBS } from "@/data/verbLabData";
 
 function LottiePlayer({ path, key: _key }: { path: string; key: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -59,7 +28,6 @@ function LottiePlayer({ path, key: _key }: { path: string; key: string }) {
 }
 
 export default function VerbLabPage() {
-  const router = useRouter();
   const [selectedPronoun, setSelectedPronoun] = useState(0);
   const [selectedVerb, setSelectedVerb] = useState<number | null>(null);
   const [lottieError, setLottieError] = useState<Record<number, boolean>>({});

@@ -6,6 +6,27 @@ export interface VerbEntry {
   command: Record<string, string>;
 }
 
+export interface PronounEntry { ar: string; en: string; icon: string }
+
+export const PRONOUNS: PronounEntry[] = [
+  { ar: 'أَنَا',  en: 'I',    icon: '🙋‍♂️' },
+  { ar: 'هُوَ',  en: 'He',   icon: '👨'   },
+  { ar: 'هِيَ',  en: 'She',  icon: '👩'   },
+  { ar: 'نَحْنُ', en: 'We',  icon: '👨‍👩‍👧‍👦' },
+  { ar: 'هُمْ',  en: 'They', icon: '👐'  },
+]
+
+export const TENSE_TABS = [
+  { key: 'present' as const, label: 'المضارع', labelEn: 'Present', color: '#3b82f6' },
+  { key: 'past'    as const, label: 'الماضي',  labelEn: 'Past',    color: '#10b981' },
+  { key: 'command' as const, label: 'الأمر',   labelEn: 'Command', color: '#f59e0b' },
+]
+
+export const PRONOUN_LABELS: Record<string, string> = {
+  أنا: 'I', هو: 'He', هي: 'She', نحن: 'We', هم: 'They',
+  'أنتَ': 'You (m)', 'أنتِ': 'You (f)', أنتم: 'You (pl)',
+}
+
 export const VERB_CONJUGATIONS: VerbEntry[] = [
   { ar:"يَأْكُلُ", en:"Eats", icon:"🍽", lottie:"eating.json",
     past:{أنا:"أَكَلْتُ",هو:"أَكَلَ",هي:"أَكَلَتْ",نحن:"أَكَلْنَا",هم:"أَكَلُوا"},

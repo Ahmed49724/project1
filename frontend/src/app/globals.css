@@ -1,6 +1,8 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --font-noto-naskh: "Noto Naskh Arabic", "Segoe UI", Tahoma, Arial, sans-serif;
+  --font-tajawal: Tajawal, "Segoe UI", Tahoma, Arial, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {

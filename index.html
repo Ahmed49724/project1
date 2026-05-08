@@ -26,9 +26,17 @@
 
 
 
+  <!-- ── Three.js (space background) ─────────────────────── -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.min.js"></script>
+
+  <!-- ── Space theme styles ───────────────────────────────── -->
+  <link rel="stylesheet" href="/src/styles/space-bg.css">
   <link rel="stylesheet" href="/src/styles/main.css">
 </head>
 <body>
+
+  <!-- ── Space background canvas (Three.js layer, z-index: -1) ── -->
+  <canvas id="space-canvas" aria-hidden="true"></canvas>
 
   <!-- ================================================================
        شريط التقدم العلوي (يظهر داخل شاشة الحرف فقط)
@@ -350,9 +358,33 @@
           <i class="fab fa-google"></i> Continue with Google
         </button>
         <div class="login-divider"><span>or</span></div>
-        <input type="text" id="studentCodeInput" name="studentCode" autocomplete="username" spellcheck="false" class="login-input" placeholder="البريد الإلكتروني أو كود الطالب" aria-label="Email or student code" data-i18n="student_code_placeholder"
-               onkeydown="if(event.key==='Enter') loginStudent()">
-        <button class="btn-primary" id="loginPrimaryAction" onclick="loginStudent()" data-i18n="start_learning">
+        <div class="student-auth-fields" data-student-auth>
+          <input type="text" id="studentCodeInput" name="studentCode" autocomplete="username" spellcheck="false" class="login-input" placeholder="كود الطالب" aria-label="Student code" data-i18n="student_code_placeholder"
+                 onkeydown="if(event.key==='Enter') submitLogin()">
+        </div>
+        <div class="parent-auth-fields" data-parent-auth hidden>
+          <div class="login-mode-toggle parent-auth-toggle" role="group" aria-label="Parent account action">
+            <button type="button" class="login-mode-btn active" data-parent-auth-btn="signin" onclick="selectParentAuthMode('signin')">
+              <i class="fas fa-lock-open"></i> Login
+            </button>
+            <button type="button" class="login-mode-btn" data-parent-auth-btn="signup" onclick="selectParentAuthMode('signup')">
+              <i class="fas fa-user-plus"></i> Create
+            </button>
+          </div>
+          <div data-parent-name-field hidden>
+            <input type="text" id="parentNameInput" name="parentName" autocomplete="name" class="login-input" placeholder="اسم ولي الأمر" aria-label="Parent name">
+          </div>
+          <input type="email" id="parentEmailInput" name="parentEmail" autocomplete="email" class="login-input" placeholder="parent@example.com" aria-label="Parent email" dir="ltr"
+                 onkeydown="if(event.key==='Enter') submitLogin()">
+          <div class="login-password-wrap">
+            <input type="password" id="parentPasswordInput" name="parentPassword" autocomplete="current-password" class="login-input" placeholder="Password" aria-label="Password" dir="ltr"
+                   onkeydown="if(event.key==='Enter') submitLogin()">
+            <button type="button" class="login-password-toggle" aria-label="Show password" onclick="toggleLoginPassword()">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+        </div>
+        <button class="btn-primary" id="loginPrimaryAction" onclick="submitLogin()" data-i18n="start_learning">
           <i class="fas fa-rocket"></i> ابدأ التعلم
         </button>
         <button class="btn-secondary login-lang-btn" onclick="toggleLanguage()" type="button">
@@ -875,10 +907,70 @@
 
       <div id="section-football-review"></div>
 
+      <!-- 🎨 Color Mixer Game — مزج الألوان -->
+      <div class="step-section" data-section="colors">
+        <div class="section-head-row">
+          <div class="section-heading" style="margin-bottom:0;">
+            <span class="section-badge">🎨</span> مزج الألوان — Color Mixer
+          </div>
+          <button class="btn-secondary" onclick="initColorMixer()">
+            <i class="fas fa-rotate-right"></i> إعادة
+          </button>
+        </div>
+        <div style="font-family:'Tajawal',sans-serif;font-size:0.95rem;color:var(--text-muted);text-align:center;margin-bottom:18px;">
+          اضغطي على الكلمات الصحيحة لمزج الألوان المطلوبة! — Click the right words to mix the target colors!
+        </div>
+
+        <div id="color-mixer-wrap" dir="rtl">
+
+          <!-- Level tabs -->
+          <div id="cm-level-tabs" style="display:flex;gap:8px;justify-content:center;margin-bottom:22px;flex-wrap:wrap;"></div>
+
+          <!-- Pots row -->
+          <div style="display:flex;align-items:center;justify-content:center;gap:36px;margin-bottom:26px;">
+
+            <!-- Target pot -->
+            <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+              <span style="font-size:0.78rem;font-weight:700;color:#a78bfa;">الهدف 🎯</span>
+              <div id="cm-target-pot" style="width:76px;height:76px;border-radius:50%;background:#fce7f3;box-shadow:0 0 0 4px #ede9fe,0 8px 24px rgba(167,139,250,0.35);transition:background 0.5s;"></div>
+              <div id="cm-target-dots" style="display:flex;gap:4px;flex-wrap:wrap;justify-content:center;max-width:88px;"></div>
+            </div>
+
+            <span style="font-size:2rem;">⚡</span>
+
+            <!-- Mixing pot -->
+            <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+              <span style="font-size:0.78rem;font-weight:700;color:#fb7185;">وعاء المزج 🪄</span>
+              <div id="cm-mix-pot" style="width:76px;height:76px;border-radius:50%;background:#fce7f3;box-shadow:0 0 0 4px #fce7f3,0 8px 24px rgba(251,113,133,0.25);transition:background 0.5s;"></div>
+              <div id="cm-mix-dots" style="display:flex;gap:4px;flex-wrap:wrap;justify-content:center;max-width:88px;">
+                <span style="font-size:0.72rem;color:#f9a8d4;">فارغ</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Win / Lose card -->
+          <div id="cm-status-card" style="display:none;margin:0 auto 20px;max-width:360px;border-radius:22px;padding:24px 20px;text-align:center;box-shadow:0 16px 40px rgba(15,23,42,0.12);"></div>
+
+          <!-- Progress bar -->
+          <div id="cm-progress-wrap" style="margin:0 auto 20px;max-width:320px;text-align:center;">
+            <div id="cm-progress-label" style="font-size:0.8rem;color:#a78bfa;margin-bottom:8px;font-weight:600;">0 / 0 ألوان مضافة</div>
+            <div style="height:10px;background:#f3e8ff;border-radius:999px;overflow:hidden;">
+              <div id="cm-progress-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#e879f9,#a78bfa);border-radius:999px;transition:width 0.5s ease;"></div>
+            </div>
+          </div>
+
+          <!-- Word buttons -->
+          <div id="cm-word-grid" style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;max-width:600px;margin:0 auto;"></div>
+
+        </div>
+      </div>
+
       <div id="section-detective" style="display:none;">
         <div id="det-dynamic-container"></div>
         <div id="ui-shapes-compare"></div>
       </div>
+      
       <!-- زر الحرف التالي -->
       <div class="step-section" style="min-height:auto;padding-top:20px;">
         <button class="next-level-btn" onclick="goNextLetter()">Next Letter <i class="fas fa-arrow-right"></i></button>
@@ -2231,5 +2323,6 @@ window.__BREAK_LOTTIES__ = {
   <script src="/src/scripts/i18n.js"></script>
   <script src="/src/scripts/auth-session.js"></script>
   <script src="/src/scripts/main.js"></script>
+  <script src="/src/scripts/space-bg.js"></script>
 </body>
 </html>

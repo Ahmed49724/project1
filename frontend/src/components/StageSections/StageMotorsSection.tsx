@@ -6,9 +6,10 @@ import type { StageData } from "@/data/stageData";
 
 interface StageMotorsSectionProps {
   stageData: StageData;
+  onNext?: () => void;
 }
 
-export default function StageMotorsSection({ stageData }: StageMotorsSectionProps) {
+export default function StageMotorsSection({ stageData, onNext }: StageMotorsSectionProps) {
   useEffect(() => {
     speakAr(stageData.symbol, 0.7);
   }, [stageData.symbol]);
@@ -35,11 +36,18 @@ export default function StageMotorsSection({ stageData }: StageMotorsSectionProp
             <strong style={{ display: "block", marginBottom: "6px" }}>قاعدة المرحلة</strong>
             <span>{stageData.rule}</span>
           </div>
-          <div style={infoBox("#94a3b8")}> 
+          <div style={infoBox("#94a3b8")}>
             <strong style={{ display: "block", marginBottom: "6px" }}>نصائح</strong>
             <span>رؤية الحرف بصرياً ثم سماعه يساعد على تثبيت القاعدة.</span>
           </div>
         </div>
+        {onNext && (
+          <div style={{ textAlign: "center", marginTop: "28px" }}>
+            <button className="btn-primary" onClick={onNext}>
+              التالي <i className="fas fa-arrow-left" />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -53,6 +61,6 @@ function infoBox(color: string) {
     padding: "16px 18px",
     minWidth: "240px",
     boxShadow: "0 12px 24px rgba(15,23,42,0.06)",
-    textAlign: "left",
+    textAlign: "left" as const,
   };
 }

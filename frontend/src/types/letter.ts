@@ -3,7 +3,14 @@ export interface MissingWord {
   correctShape: number;
 }
 
-export interface LetterEntry {
+// Minimal shape shared by LetterEntry and StageData — used by word games
+export interface WordGameData {
+  xoWords: string[];
+  cardWords: string[];
+  splitWords: string[];
+}
+
+export interface LetterEntry extends WordGameData {
   shapes: string[];
   jollyStory: string;
   jollyAction: string;
@@ -11,9 +18,6 @@ export interface LetterEntry {
   jollyArabic: boolean;
   storyIcon: string;
   storyText: string;
-  cardWords: string[];
-  splitWords: string[];
-  xoWords: string[];
   missingWords: MissingWord[];
   detective?: {
     target: string;
@@ -28,5 +32,11 @@ export interface LetterEntry {
 export interface SectionProps {
   letterId: string;
   letterData: LetterEntry;
+  onComplete: () => void;
+}
+
+// Prop type for word games that work with both LetterEntry and StageData
+export interface WordGameProps {
+  letterData: WordGameData;
   onComplete: () => void;
 }
